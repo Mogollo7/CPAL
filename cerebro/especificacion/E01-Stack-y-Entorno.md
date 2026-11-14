@@ -17,8 +17,8 @@ Volver a [[E00-Especificacion-Inicio]]. Concreta [[05-Arquitectura]].
 | Estilos | Tailwind CSS, configurado **solo** con los tokens de [[N10-Tokens-y-Figma]] | Se desactiva la paleta y la escala por defecto |
 | Base de datos | PostgreSQL | Con la extensión `btree_gist` (ver [[E02-Modelo-de-Datos]]) |
 | Acceso a datos | Prisma | Esquema + migraciones |
-| Sesiones | Auth.js, proveedor de credenciales, sesión en cookie firmada | |
-| Contraseñas | argon2id | |
+| Sesiones | **Sesión propia** en cookie firmada (HMAC-SHA256 con `AUTH_SECRET`), sin Auth.js | Decisión 14-nov-2026: Auth.js 5 solo existe en beta para Next 16 y limita el 2FA de admin, la caducidad por rol y el cierre global. Ver `servidor/cuentas/` |
+| Contraseñas | argon2id (`@node-rs/argon2`) | |
 | Validación | Zod | Mismos esquemas en navegador y servidor |
 | Correo | Resend + plantillas en React Email | |
 | Imágenes subidas | sharp | Recorte y reducción de fotos |

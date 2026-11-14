@@ -9,6 +9,7 @@ export const LIMITES = {
   solicitarEnlace: { max: 3, ventanaMs: HORA }, // por correo
   consultarCupos: { max: 60, ventanaMs: MIN }, // por dirección de red
   reenviarCodigo: { max: 3, ventanaMs: HORA }, // por usuario (S02)
+  ingreso: { max: 5, ventanaMs: 15 * MIN }, // FALLIDOS por correo + dirección (E03 §7)
 } as const;
 
 export type Accion = keyof typeof LIMITES;
@@ -39,5 +40,27 @@ export function limitar(
   registro.set(clave, recientes);
   return { permitido: true };
 }
+
+/** ¿Ya agotó el límite? No cuenta un intento nuevo (para límites que solo cuentan fallos, como el ingreso). */
+export function consultar(
+  accion: Accion,
+  quien: string,
+  ahora = Date.now(),
+): Veredicto {
+  const { max, ventanaMs } = LIMITES[accion];
+  const recientes = (registro.get(`${accion}:${quien}`) ?? []).filter(
+    (t) => t > ahora - ventanaMs,
+  );
+  return recientes.length >= max
+    ? {
+        permitido: false,
+        esperaSeg: Math.ceil((recientes[0] + ventanaMs - ahora) / 1000),
+      }
+    : { permitido: true };
+}
+
+/** Borra el contador (p. ej. tras un ingreso correcto). */
+export const olvidar = (accion: Accion, quien: string) =>
+  void registro.delete(`${accion}:${quien}`);
 
 export const _reiniciarLimites = () => registro.clear(); // solo para pruebas

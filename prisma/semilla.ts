@@ -1,11 +1,13 @@
 // Datos de EJEMPLO (E02 «Semilla»). Ningún dato real. En producción solo se crean configuración, servicios y admin inicial.
 import { PrismaPg } from "@prisma/adapter-pg";
+import { hashClave } from "../servidor/cuentas/clave";
 import { PrismaClient } from "../servidor/generado/client";
 
 const bd = new PrismaClient({
   adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
 });
 const produccion = process.env.ENTORNO === "produccion";
+export const CLAVE_DE_PRUEBA = "clave-de-prueba-capl"; // SOLO desarrollo; en producción las cuentas se crean por enlace
 
 const h = (dias: number, hora: number) => {
   const d = new Date();
@@ -15,6 +17,7 @@ const h = (dias: number, hora: number) => {
 };
 
 async function main() {
+  const claveLocal = produccion ? undefined : await hashClave(CLAVE_DE_PRUEBA);
   await bd.configuracion.upsert({
     where: { id: 1 },
     update: {},
@@ -71,13 +74,14 @@ async function main() {
         process.env.ADMIN_INICIAL_CORREO || "admin@ejemplo.test"
       ).toLowerCase(),
     },
-    update: {},
+    update: { claveHash: claveLocal },
     create: {
       correo: (
         process.env.ADMIN_INICIAL_CORREO || "admin@ejemplo.test"
       ).toLowerCase(),
       nombre: "Administración (ejemplo)",
       rol: "ADMIN",
+      claveHash: claveLocal,
     },
   });
   if (produccion) return;
@@ -95,12 +99,13 @@ async function main() {
     psis.push(
       await bd.usuario.upsert({
         where: { correo: `psicologo${i + 1}@ejemplo.test` },
-        update: {},
+        update: { claveHash: claveLocal },
         create: {
           correo: `psicologo${i + 1}@ejemplo.test`,
           nombre,
           rol: "PSICOLOGO",
           activo,
+          claveHash: claveLocal,
           perfil: {
             create: {
               area,
