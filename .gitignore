@@ -32,3 +32,6 @@ SKILL.md
 # Archivos de subida locales de prueba
 public/archivos/
 datos/archivos/
+
+*.tsbuildinfo
+next-env.d.ts

@@ -1,0 +1,38 @@
+{
+  "name": "capl",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint && prettier --check .",
+    "tipos": "tsc --noEmit",
+    "pruebas": "vitest run",
+    "correos": "echo 'pendiente: vista previa de plantillas'",
+    "bd:subir": "echo 'pendiente: PostgreSQL local (domingo)'",
+    "bd:migrar": "echo 'pendiente: prisma migrate'",
+    "bd:semilla": "echo 'pendiente: semilla'",
+    "bd:reiniciar": "echo 'pendiente'",
+    "pruebas:e2e": "echo 'pendiente: playwright'"
+  },
+  "dependencies": {
+    "next": "16.4.6",
+    "react": "19.3.0",
+    "react-dom": "19.3.0",
+    "resend": "^6.38.1",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@tailwindcss/turbopack": "4.3.3",
+    "@types/node": "^24.19.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.4.6",
+    "prettier": "^3.10.1",
+    "tailwindcss": "4.3.3",
+    "typescript": "^5",
+    "vitest": "^5.1.0"
+  }
+}
