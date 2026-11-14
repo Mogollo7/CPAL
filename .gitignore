@@ -1,0 +1,34 @@
+# Dependencias
+node_modules/
+.pnp
+.pnp.js
+
+# Build y salidas
+.next/
+out/
+build/
+dist/
+
+# Entorno y secretos (CERO SECRETOS)
+.env
+.env*.local
+*.pem
+
+# Registros y depuración
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Datos locales del sistema y Obsidian
+.DS_Store
+Thumbs.db
+cerebro/.obsidian/workspace.json
+cerebro/.obsidian/workspace-mobile.json
+.launcher/
+proyecto.json
+SKILL.md
+
+# Archivos de subida locales de prueba
+public/archivos/
+datos/archivos/
