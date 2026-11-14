@@ -29,6 +29,9 @@ Plataforma web del **Centro de Atención Psicológica Lasallista (CAPL)**: visib
 
 Normativa de diseño y de código, en la carpeta `normas/`. Entrada: [[N00-Normas-Inicio]].
 
+> 🎨 **Archivo oficial de diseño en Figma:**  
+> [https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1](https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1)
+
 | Nota | Define |
 |------|--------|
 | [[N01-Principios-de-Bienestar]] | Reglas para que la persona se sienta segura |

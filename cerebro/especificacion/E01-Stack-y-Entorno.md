@@ -17,8 +17,8 @@ Volver a [[E00-Especificacion-Inicio]]. Concreta [[05-Arquitectura]].
 | Estilos | Tailwind CSS, configurado **solo** con los tokens de [[N10-Tokens-y-Figma]] | Se desactiva la paleta y la escala por defecto |
 | Base de datos | PostgreSQL | Con la extensión `btree_gist` (ver [[E02-Modelo-de-Datos]]) |
 | Acceso a datos | Prisma | Esquema + migraciones |
-| Sesiones | Auth.js, proveedor de credenciales, sesión en cookie firmada | |
-| Contraseñas | argon2id | |
+| Sesiones | **Sesión propia** en cookie firmada (HMAC-SHA256 con `AUTH_SECRET`), sin Auth.js | Decisión 14-nov-2026: Auth.js 5 solo existe en beta para Next 16 y limita el 2FA de admin, la caducidad por rol y el cierre global. Ver `servidor/cuentas/` |
+| Contraseñas | argon2id (`@node-rs/argon2`) | |
 | Validación | Zod | Mismos esquemas en navegador y servidor |
 | Correo | Resend + plantillas en React Email | |
 | Imágenes subidas | sharp | Recorte y reducción de fotos |
@@ -90,7 +90,8 @@ Todas se listan en `.env.example` **sin valores**. Ninguna entra al repositorio.
 
 | Variable | Para qué | Ejemplo de forma |
 |----------|----------|------------------|
-| `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://usuario:clave@db:5432/capl` |
+| `DATABASE_URL` | Conexión de la **aplicación** a PostgreSQL, con el usuario `capl_app` (solo datos) | `postgresql://capl_app:clave@db:5432/capl` |
+| `DATABASE_URL_MIGRADOR` | Solo para `bd:migrar`: usuario `capl_migrador` (crea y altera tablas). Si falta, se usa `DATABASE_URL` | `postgresql://capl_migrador:clave@db:5432/capl` |
 | `AUTH_SECRET` | Firma de sesiones y de enlaces de cita | cadena aleatoria de 32 bytes |
 | `URL_SITIO` | Dirección pública; con ella se arman los enlaces de los correos | `https://pruebas.dominio` |
 | `RESEND_API_KEYS` | Envío de correo. Soporta una o varias llaves separadas por coma para rotación automática si se agota la cuota | `re_123,re_456` |

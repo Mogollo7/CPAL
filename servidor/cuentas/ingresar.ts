@@ -1,0 +1,87 @@
+// Ingreso con correo y contraseña (RF-AUT-01, E03 §7). No toca cookies: devuelve el token y la acción de servidor lo guarda.
+import { ingresoSchema } from "../../contratos/cuenta";
+import { fallo, ok, type Resultado } from "../../contratos/resultado";
+import { bd } from "../bd";
+import { consultar, limitar, olvidar } from "../limites";
+import type { Rol } from "../permisos";
+import { redTruncada, registrar } from "../registro";
+import { verificarClave, verificarContraRelleno } from "./clave";
+import { firmar, MAX_INACTIVIDAD_S, nuevaCarga } from "./sesion";
+
+const MENSAJE = "Correo o contraseña incorrectos"; // siempre el mismo, exista o no el correo
+
+export type SesionIniciada = {
+  token: string;
+  rol: Rol;
+  maxAgeS: number;
+  usuarioId: string;
+};
+
+export async function ingresar(
+  entrada: unknown,
+  red: string,
+): Promise<Resultado<SesionIniciada>> {
+  const datos = ingresoSchema.safeParse(entrada);
+  if (!datos.success) return fallo("CREDENCIALES", MENSAJE);
+  const { correo, clave } = datos.data;
+  const quien = `${correo}|${red}`; // 5 fallidos por correo y dirección de red
+
+  const espera = consultar("ingreso", quien);
+  if (!espera.permitido) {
+    registrar("cuenta.bloqueada", {
+      nivel: "aviso",
+      rol: "publico",
+      red: redTruncada(red),
+    });
+    return fallo(
+      "DEMASIADOS_INTENTOS",
+      `Demasiados intentos. Vuelve a intentarlo en ${Math.ceil(espera.esperaSeg / 60)} minutos.`,
+    );
+  }
+
+  const u = await bd.usuario.findUnique({ where: { correo } });
+  // Se verifica SIEMPRE (contra un hash de relleno si no hay cuenta) para no revelar qué correos existen por el tiempo de respuesta.
+  const claveOk = u?.claveHash
+    ? await verificarClave(u.claveHash, clave)
+    : await verificarContraRelleno(clave);
+
+  if (!u || !u.activo || !u.claveHash || !claveOk) {
+    limitar("ingreso", quien); // solo los fallos cuentan
+    registrar("cuenta.ingreso_fallido", {
+      nivel: "aviso",
+      rol: "publico",
+      red: redTruncada(red),
+      resultado: "CREDENCIALES",
+    });
+    return fallo("CREDENCIALES", MENSAJE);
+  }
+
+  // T-217: el administrador necesita segundo paso (código al correo) en dispositivos nuevos. Hasta que exista,
+  // un administrador NO abre sesión solo con la contraseña: es la cuenta más valiosa del sistema (S02).
+  if (u.rol === "ADMIN") {
+    registrar("cuenta.ingreso_fallido", {
+      rol: "admin",
+      actor: u.id,
+      red: redTruncada(red),
+      resultado: "CODIGO_REQUERIDO",
+    });
+    return fallo("CODIGO_REQUERIDO", "Falta el segundo paso de verificación.");
+  }
+
+  olvidar("ingreso", quien);
+  await bd.usuario.update({
+    where: { id: u.id },
+    data: { ultimoIngreso: new Date() },
+  });
+  registrar("cuenta.ingreso", {
+    rol: "psicologo",
+    actor: u.id,
+    resultado: "ok",
+  });
+  return ok({
+    token: firmar(nuevaCarga(u.id, u.rol)),
+    rol: u.rol,
+    maxAgeS: MAX_INACTIVIDAD_S[u.rol],
+    usuarioId: u.id,
+  });
+}

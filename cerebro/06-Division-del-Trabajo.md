@@ -20,6 +20,7 @@ Volver a [[00-Inicio]].
 
 ### 👑 1. SEBAS — Arquitectura, Diseño Total y Lógica Compleja (8.8 / 10)
 * **Stack:** Figma, TypeScript, Next.js (App Router), Prisma, PostgreSQL, Auth.js, Resend API, Zod, Caddy.
+* **Archivo oficial en Figma:** [https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1](https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1)
 * **Misión:** Diseñar todo el sistema visual en Figma y construir el núcleo backend más exigente.
 * **Lo que puede adelantar DE INMEDIATO (sin esperar a nadie):**
   1. Diseñar en Figma las pantallas base (Retícula 12/8/4, Escala 32/20/16/13, colores CAPL, Inicio, Emergencias y Paneles).

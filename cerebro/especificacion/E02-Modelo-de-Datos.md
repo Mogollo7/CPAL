@@ -258,7 +258,7 @@ Forma de la restricción 2:
 ALTER TABLE "Cita" ADD CONSTRAINT cita_sin_cruce
   EXCLUDE USING gist (
     "psicologoId" WITH =,
-    tstzrange("inicio", "fin", '[)') WITH &&
+    tsrange("inicio", "fin", '[)') WITH &&
   ) WHERE (estado IN ('PENDIENTE', 'AUTORIZADA'));
 ```
 

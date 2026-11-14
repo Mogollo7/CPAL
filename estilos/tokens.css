@@ -1,0 +1,136 @@
+/*
+ * Tokens del CAPL (N10). Fuente única para el código.
+ * Figma manda sobre el diseño; este archivo manda sobre el código.
+ * `--color-*: initial` etc. desactivan la paleta y escala por defecto de Tailwind:
+ * solo existen los tokens de abajo. Sin tildes ni ñ en los nombres.
+ */
+@theme {
+  --color-*: initial;
+  --text-*: initial;
+  --spacing: initial;
+  --radius-*: initial;
+  --font-*: initial;
+  --font-weight-*: initial;
+  --leading-*: initial;
+  --breakpoint-*: initial;
+  --shadow-*: initial;
+  --ease-*: initial;
+  --default-transition-duration: 260ms;
+
+  /* ── Color base (N02) ── */
+  --color-morado-900: #1b2c65;
+  --color-morado-700: #343ba0;
+  --color-morado-600: #4850c0;
+  --color-morado-500: #6067d6;
+  --color-morado-300: #a9aeeb;
+  --color-morado-100: #e6e8fa;
+  --color-morado-50: #f4f5fd;
+  --color-amarillo-700: #8a6100;
+  --color-amarillo-500: #ffcb05;
+  --color-amarillo-300: #ffe066;
+  --color-amarillo-100: #fff5cc;
+  --color-agua-700: #0a6e78;
+  --color-agua-500: #16becf;
+  --color-agua-300: #8fe0e8;
+  --color-agua-100: #d9f6f9;
+  --color-coral-700: #b23a2e;
+  --color-coral-100: #fdeae6;
+  --color-tinta: #0b1037;
+  --color-tinta-suave: #50557a;
+  --color-borde: #8286a8;
+  --color-crema: #fffbf5;
+  --color-blanco: #ffffff;
+
+  /* ── Color de rol (los componentes usan SOLO estos) ── */
+  --color-fondo-pagina: var(--color-crema);
+  --color-fondo-superficie: var(--color-blanco);
+  --color-fondo-suave: var(--color-morado-50);
+  --color-fondo-seccion: var(--color-morado-100);
+  --color-texto-principal: var(--color-tinta);
+  --color-texto-secundario: var(--color-tinta-suave);
+  --color-texto-titulo: var(--color-morado-900);
+  --color-texto-enlace: var(--color-morado-700);
+  --color-accion-fondo: var(--color-morado-600);
+  --color-accion-fondo-activo: var(--color-morado-700);
+  --color-accion-texto: var(--color-blanco);
+  --color-accion-suave-fondo: var(--color-morado-100);
+  --color-accion-suave-texto: var(--color-morado-700);
+  --color-ayuda-fondo: var(--color-amarillo-500);
+  --color-ayuda-texto: var(--color-tinta);
+  --color-aviso-fondo: var(--color-amarillo-100);
+  --color-aviso-texto: var(--color-tinta);
+  --color-exito-fondo: var(--color-agua-100);
+  --color-exito-texto: var(--color-agua-700);
+  --color-error-fondo: var(--color-coral-100);
+  --color-error-texto: var(--color-coral-700);
+  --color-borde-control: var(--color-borde);
+  --color-borde-suave: var(--color-morado-100);
+  --color-foco: var(--color-morado-600);
+
+  /* ── Tipografía: escala estándar de trabajo 32 · 20 · 16 · 13 (N03) ── */
+  --font-sans:
+    system-ui, sans-serif; /* se cambia al alojar la fuente (T-013) */
+  --text-h1: 2rem;
+  --text-h2: 1.25rem;
+  --text-p: 1rem;
+  --text-caption: 0.8125rem;
+  --font-weight-normal: 400;
+  --font-weight-medio: 600;
+  --font-weight-fuerte: 800;
+  --leading-texto: 1.618;
+  --leading-titulo: 1.272;
+
+  /* ── Espacio (N04): escala áurea desde 16 px ── */
+  --spacing-1: 4px;
+  --spacing-2: 6px;
+  --spacing-3: 10px;
+  --spacing-4: 16px;
+  --spacing-5: 26px;
+  --spacing-6: 42px;
+  --spacing-7: 68px;
+  --spacing-8: 110px;
+  --spacing-9: 178px;
+
+  /* ── Radios ── */
+  --radius-s: 10px;
+  --radius-m: 16px;
+  --radius-l: 26px;
+  --radius-xl: 42px;
+  --radius-pildora: 9999px;
+  --radius-circulo: 50%;
+
+  /* ── Sombra y movimiento (N07) ── */
+  --shadow-flotante: 0 10px 26px rgb(27 44 101 / 0.1);
+  --ease-entrada: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-salida: cubic-bezier(0.4, 0, 1, 1);
+  --mov-rapido: 160ms;
+  --mov-medio: 260ms;
+  --mov-lento: 420ms;
+
+  /* ── Quiebres: base 320 · sm 600 · md 900 · lg 1200. Retícula 4 / 8 / 12 columnas ── */
+  --breakpoint-sm: 600px;
+  --breakpoint-md: 900px;
+  --breakpoint-lg: 1200px;
+}
+
+body {
+  background: var(--color-fondo-pagina);
+  color: var(--color-texto-principal);
+  font-family: var(--font-sans);
+  font-size: var(--text-p);
+  line-height: var(--leading-texto);
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-foco);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 160ms !important;
+    animation: none !important;
+  }
+}
