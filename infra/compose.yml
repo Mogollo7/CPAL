@@ -15,5 +15,18 @@ services:
       test: ["CMD-SHELL", "pg_isready -U capl"]
       interval: 3s
       retries: 20
+  # Túnel de Cloudflare: muestra tu app local (puerto 3000) en una dirección pública, para probar y trabajar juntos.
+  # Solo arranca con `npm run tunel` (perfil "tunel"). El token va en .env (CLOUDFLARE_TUNNEL_TOKEN), nunca en git.
+  # En el panel de Cloudflare, el "Public hostname" del túnel debe apuntar a: http://host.docker.internal:3000
+  tunel:
+    profiles: ["tunel"]
+    image: cloudflare/cloudflared:latest
+    container_name: capl-tunel
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Falta CLOUDFLARE_TUNNEL_TOKEN en .env}
+    extra_hosts:
+      - "host.docker.internal:host-gateway" # en Linux; Docker Desktop (Windows/Mac) ya lo trae
+    restart: unless-stopped
 volumes:
   capl_datos:
