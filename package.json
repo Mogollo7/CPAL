@@ -18,7 +18,9 @@
     "postinstall": "prisma generate",
     "tunel": "docker compose --env-file .env -f infra/compose.yml --profile tunel up -d tunel",
     "tunel:parar": "docker compose --env-file .env -f infra/compose.yml --profile tunel stop tunel",
-    "tunel:logs": "docker logs --tail 30 capl-tunel"
+    "tunel:logs": "docker logs --tail 30 capl-tunel",
+    "guardar": "node scripts/guardar.mjs local",
+    "subir": "node scripts/guardar.mjs subir"
   },
   "dependencies": {
     "@node-rs/argon2": "2.2.2",

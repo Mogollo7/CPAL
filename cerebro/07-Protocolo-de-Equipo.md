@@ -47,6 +47,45 @@ vX.Y.Z tipo(ID): qué cambia
 
 Tipos permitidos: `feat`, `fix`, `docs`, `style`, `refactor`, `test`, `chore`.
 
+### 2.1 Protocolo anti-pérdida de trabajo (obligatorio)
+
+> Nació el 14-nov-2026: el trabajo se acumulaba en un solo commit grande por cada push y los commits locales (`Z`) no existían. Si el disco falla o un archivo se sobrescribe, lo que no está commiteado **no se recupera**; lo que no está subido, tampoco si se pierde el equipo.
+
+| Regla | Qué significa |
+|-------|---------------|
+| **Un commit local por unidad de trabajo** | Cada tarea terminada, cada archivo importante y cada vez que las pruebas pasan en verde. Nunca varias tareas en un commit |
+| **Tope de 30 minutos** | Si llevas 30 min sin commit local y hay cambios, guarda aunque esté a medias (el commit local no exige que esté perfecto) |
+| **Antes de levantarte** | Al cerrar el computador, cambiar de tarea o almorzar: `git status` limpio. Nada "para después" |
+| **Subir al terminar la sesión** | Todo lo commiteado se sube (`push`) al menos **una vez al final de cada sesión de trabajo y antes de dormir**. Lo que solo vive en tu PC no cuenta como guardado |
+| **Nunca trabajar en `main`** | Solo en tu rama `dev/…`; `main` recibe únicamente PR |
+| **Prohibido `git stash` como almacén, `reset --hard`, `checkout -- .` y `push --force`** | Son las formas de perder trabajo. Si dudas, commit local primero y pregunta |
+| **Antes de un comando destructivo** | Commit local de lo que tengas; así siempre hay a dónde volver (`git reflog`) |
+| **Las llaves nunca se commitean** | `.env` está ignorado; si una llave llegó a un commit, se rota de inmediato, no basta con borrarla |
+
+**Cómo se hace (el script calcula la versión; nadie la escribe a mano):**
+
+```bash
+# Commit LOCAL (Z+1). Rápido, sin comprobaciones. Úsalo muy seguido.
+npm run guardar -- feat T-201 "ingreso con bloqueo por intentos"
+```
+
+```bash
+# Commit + lint + tipos + pruebas + push (Y+1, Z=0). Para abrir o actualizar el PR.
+npm run subir -- feat T-201 "sesión lista para revisión"
+```
+
+- Si falla una comprobación en `subir`, **el commit local ya quedó guardado**; corriges y repites.
+- `guardar` y `subir` se niegan a trabajar en `main`.
+- `X` (merge en main) lo sube quien une el PR, con el mensaje del protocolo §2.
+- La numeración se calcula sobre el último commit **de tu rama**; cada rama lleva su propia secuencia.
+
+**Revisión rápida de que nada se perdió:**
+
+```bash
+git status --short            # debe estar vacío al terminar
+git log origin/dev/sebas..HEAD --oneline   # commits sin subir; debe estar vacío al terminar (cambia la rama por la tuya)
+```
+
 ## 3. Pull Request
 
 Antes de abrirlo:
