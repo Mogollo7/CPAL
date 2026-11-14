@@ -3,6 +3,7 @@
 // 429 / cuota diaria agotada, se marca agotada y se reintenta al instante con la siguiente.
 // Para añadir otra cuenta: agregar su llave al final de la lista en .env y reiniciar. Nada más.
 import { Resend } from "resend";
+import { registrar } from "../registro";
 
 export type Correo = {
   para: string;
@@ -56,7 +57,11 @@ export async function enviarCorreo(
 ): Promise<ResultadoEnvio> {
   const modo = process.env.CORREO_MODO ?? "consola";
   if (modo === "consola") {
-    console.log(`[CORREO:consola] para=${c.para} asunto="${c.asunto}"`); // sin contenido (S06)
+    registrar("externo.llamada", {
+      servicio: "correo-consola",
+      operacion: "enviar",
+      resultado: "ok",
+    }); // sin destinatario ni contenido (S06)
     return { ok: true, llaveUsada: -1 };
   }
   // En pruebas, nada real: se desvía o no se envía (E01).
@@ -72,13 +77,22 @@ export async function enviarCorreo(
 
   for (const [i, llave] of lista.entries()) {
     if ((agotadasHasta.get(llave) ?? 0) > ahora) continue;
+    const t0 = performance.now();
     const error = await enviar(llave, c);
+    registrar("externo.llamada", {
+      servicio: "resend",
+      operacion: "enviar",
+      ms: Math.round(performance.now() - t0),
+      resultado: error ? (error.name ?? String(error.statusCode)) : "ok",
+    });
     if (!error) return { ok: true, llaveUsada: i };
     if (esCuotaAgotada(error)) {
       agotadasHasta.set(llave, ahora + DIA_MS);
-      console.warn(
-        `[CORREO] Cuota agotada en cuenta Resend ${i + 1}. Rotando automáticamente a API key de respaldo`,
-      );
+      registrar("externo.respaldo_usado", {
+        nivel: "aviso",
+        servicio: "resend",
+        operacion: `cuota_agotada_cuenta_${i + 1}`,
+      });
       continue;
     }
     // 4xx de datos = permanente (no reintentar); lo demás es temporal (S04 regla 6).

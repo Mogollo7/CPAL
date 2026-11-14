@@ -1,9 +1,10 @@
-import { beforeEach, describe, expect, it } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { _reiniciarAgotadas, enviarCorreo } from "./resend";
 
 const c = { para: "a@b.co", asunto: "x", html: "<p>x</p>", texto: "x" };
 
 beforeEach(() => {
+  vi.spyOn(process.stdout, "write").mockImplementation(() => true); // sin ruido de registros
   _reiniciarAgotadas();
   process.env.CORREO_MODO = "resend";
   process.env.ENTORNO = "local";

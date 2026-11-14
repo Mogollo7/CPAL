@@ -7,5 +7,8 @@ try {
 export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: { path: "prisma/migrations", seed: "tsx prisma/semilla.ts" },
-  datasource: { url: process.env.DATABASE_URL ?? "" },
+  // Migraciones con capl_migrador (DATABASE_URL_MIGRADOR); la aplicación usa DATABASE_URL (capl_app). S03.
+  datasource: {
+    url: process.env.DATABASE_URL_MIGRADOR ?? process.env.DATABASE_URL ?? "",
+  },
 });

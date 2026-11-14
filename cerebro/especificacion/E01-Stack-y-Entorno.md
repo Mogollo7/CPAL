@@ -90,7 +90,8 @@ Todas se listan en `.env.example` **sin valores**. Ninguna entra al repositorio.
 
 | Variable | Para qué | Ejemplo de forma |
 |----------|----------|------------------|
-| `DATABASE_URL` | Conexión a PostgreSQL | `postgresql://usuario:clave@db:5432/capl` |
+| `DATABASE_URL` | Conexión de la **aplicación** a PostgreSQL, con el usuario `capl_app` (solo datos) | `postgresql://capl_app:clave@db:5432/capl` |
+| `DATABASE_URL_MIGRADOR` | Solo para `bd:migrar`: usuario `capl_migrador` (crea y altera tablas). Si falta, se usa `DATABASE_URL` | `postgresql://capl_migrador:clave@db:5432/capl` |
 | `AUTH_SECRET` | Firma de sesiones y de enlaces de cita | cadena aleatoria de 32 bytes |
 | `URL_SITIO` | Dirección pública; con ella se arman los enlaces de los correos | `https://pruebas.dominio` |
 | `RESEND_API_KEYS` | Envío de correo. Soporta una o varias llaves separadas por coma para rotación automática si se agota la cuota | `re_123,re_456` |
