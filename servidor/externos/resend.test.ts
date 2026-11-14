@@ -51,5 +51,12 @@ describe("rotación de llaves Resend", () => {
         name: "validation_error",
       })),
     ).toMatchObject({ ok: false, permanente: true });
+    // llave inválida o sin permiso (401/403) NO es permanente: se reintenta y se avisa
+    for (const statusCode of [401, 403, 500]) {
+      _reiniciarAgotadas();
+      expect(await enviarCorreo(c, async () => ({ statusCode }))).toMatchObject(
+        { ok: false, permanente: false },
+      );
+    }
   });
 });

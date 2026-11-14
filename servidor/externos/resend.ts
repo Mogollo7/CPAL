@@ -10,6 +10,7 @@ export type Correo = {
   asunto: string;
   html: string;
   texto: string;
+  llave?: string; // llave del trabajo: Resend la usa para no enviar dos veces el mismo correo (idempotencia)
 };
 export type ErrorEnvio = {
   statusCode?: number | null;
@@ -39,14 +40,17 @@ const llaves = () =>
     .filter(Boolean);
 
 const enviarConResend: Enviar = async (llave, c) => {
-  const { error } = await new Resend(llave).emails.send({
-    from: process.env.CORREO_REMITENTE || "CAPL <onboarding@resend.dev>",
-    replyTo: process.env.CORREO_RESPUESTA || undefined,
-    to: c.para,
-    subject: c.asunto,
-    html: c.html,
-    text: c.texto,
-  });
+  const { error } = await new Resend(llave).emails.send(
+    {
+      from: process.env.CORREO_REMITENTE || "CAPL <onboarding@resend.dev>",
+      replyTo: process.env.CORREO_RESPUESTA || undefined,
+      to: c.para,
+      subject: c.asunto,
+      html: c.html,
+      text: c.texto,
+    },
+    c.llave ? { idempotencyKey: c.llave } : undefined,
+  );
   return error;
 };
 
@@ -95,9 +99,9 @@ export async function enviarCorreo(
       });
       continue;
     }
-    // 4xx de datos = permanente (no reintentar); lo demás es temporal (S04 regla 6).
-    const permanente =
-      !!error.statusCode && error.statusCode >= 400 && error.statusCode < 500;
+    // Permanente SOLO si los datos del correo son inválidos (400/422): reintentar no lo arregla. Una llave inválida o
+    // sin permiso (401/403), un 5xx o un corte de red son temporales: el trabajo se reintenta y se avisa (S04 regla 6).
+    const permanente = error.statusCode === 400 || error.statusCode === 422;
     return { ok: false, permanente, error: error.name ?? "ERROR_RESEND" };
   }
   return { ok: false, permanente: false, error: "TODAS_LAS_LLAVES_AGOTADAS" };
