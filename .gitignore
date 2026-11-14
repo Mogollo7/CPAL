@@ -35,3 +35,6 @@ datos/archivos/
 
 *.tsbuildinfo
 next-env.d.ts
+
+# Cliente Prisma generado
+servidor/generado/

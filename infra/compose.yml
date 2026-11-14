@@ -1,0 +1,19 @@
+# PostgreSQL local para desarrollo (npm run bd:subir). Solo local: la clave de abajo no es de producción.
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: capl-db
+    environment:
+      POSTGRES_USER: capl
+      POSTGRES_PASSWORD: capl_local
+      POSTGRES_DB: capl
+    ports:
+      - "5433:5432"
+    volumes:
+      - capl_datos:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U capl"]
+      interval: 3s
+      retries: 20
+volumes:
+  capl_datos:
