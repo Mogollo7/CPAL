@@ -6,6 +6,9 @@ tags: [capl, normas, tokens, figma]
 
 Volver a [[N00-Normas-Inicio]]. Los **tokens** son los nombres compartidos de cada color, tamaño y espacio. Son el puente entre Figma (rol A) y el código (roles B y C): si el nombre es el mismo en los dos lados, el diseño pasa a código sin reinterpretarse.
 
+> 🎨 **Archivo oficial de diseño en Figma:**  
+> [https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1](https://www.figma.com/design/uTlCaNxTW25BblEcKFOOUF/psicologia?node-id=0-1)
+
 ## Regla de oro
 
 > **En una pantalla no existe ningún valor suelto.** Todo color, tamaño, espacio, radio y duración es un token. Si hace falta un valor nuevo, primero se crea el token (aquí y en Figma) y después se usa.
