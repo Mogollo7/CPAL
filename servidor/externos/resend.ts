@@ -39,7 +39,7 @@ const llaves = () =>
 
 const enviarConResend: Enviar = async (llave, c) => {
   const { error } = await new Resend(llave).emails.send({
-    from: process.env.CORREO_REMITENTE ?? "CAPL <onboarding@resend.dev>",
+    from: process.env.CORREO_REMITENTE || "CAPL <onboarding@resend.dev>",
     replyTo: process.env.CORREO_RESPUESTA || undefined,
     to: c.para,
     subject: c.asunto,
