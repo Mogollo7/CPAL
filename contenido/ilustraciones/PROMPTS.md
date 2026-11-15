@@ -19,8 +19,8 @@ El agente o la persona que genere las ilustraciones debe leer primero estas norm
 
 ```
 Ilustración vectorial plana editorial (flat editorial), baja fatiga visual, sensación de hogar y calma.
-Bloques de color planos y desaturados + líneas finas de acento en tinta morada oscura (#1B2C65), trazos con extremos redondeados.
-Paleta: lavandas suaves (#E6E8FA, #A9AEEB), aguamarina/salvia suave (#D9F6F9, #8FE0E8), amarillo miel (#FFF5CC, #FFE066, acento #FFCB05), fondo crema (#FFFBF5).
+Bloques de color planos con CUERPO (tonos medios y saturación media, no pastel pálido ni lavado), SIN contornos ni líneas duras (estilo flat illustration): los bordes los define solo el cambio de color; pliegues y rasgos con formas planas de un tono más oscuro del mismo color, nunca líneas negras ni de tinta.
+Paleta (usa los tonos medios para figuras, ropa y objetos; los claros solo para fondos): lavanda #A9AEEB y morado #4850C0, aguamarina #8FE0E8 y salvia #6FB89A, amarillo miel #FFE066 y #FFCB05; claros de fondo #E6E8FA, #D9F6F9, #FFF5CC, fondo crema (#FFFBF5).
 Proporción: 60 % aire/fondo crema, 30 % lavanda y aguamarina, 10 % miel y trazo.
 Personas: hombros relajados, ropa cómoda de casa, ojos en arco sereno, mejillas circulares, sombra limpia bajo el mentón, piel en gama cálida y diversa.
 Contención libre: sobre manchas orgánicas suaves, alfombra o sillón; sin marcos rígidos.
@@ -35,9 +35,24 @@ Fondo transparente o crema plano. Sin grano dentro del archivo (la textura de pa
 - Carpeta: `contenido/ilustraciones/` con el nombre exacto de la tabla.
 - Proporción: escena 1,618 : 1 (o 16 : 9) · viñeta 1 : 1.
 
+## Estilo de personajes y coloreado (referencia de estilo)
+
+Imagen de referencia: `contenido/ilustraciones/referencia-estilo-personajes.webp` (grupo con cámaras). Se toma **solo el estilo de dibujo de los personajes y el método de coloreado**; los colores, la paleta y las normas siguen siendo los del CAPL (N02, N05, N12).
+
+```
+Imagen de referencia de estilo adjunta: copia SOLO el estilo de dibujo de los personajes y el método
+de coloreado: figuras expresivas con proporciones naturales, rostros grandes con sonrisa abierta y
+cálida, mejillas rosadas suaves, cabello de formas planas con mechones, ropa con pliegues hechos
+con manchas planas de tono más oscuro (sin líneas de contorno), y color en bloques planos limpios
+(flat illustration, sin degradados). NO copies sus colores saturados ni sus objetos
+(cámaras, fondo blanco). Usa la paleta CAPL: lavandas (#E6E8FA, #A9AEEB), aguamarina/salvia
+(#D9F6F9, #8FE0E8), amarillo miel (#FFF5CC, #FFE066), crema (#FFFBF5), líneas en azul tinta (#1B2C65).
+Colores desaturados, nada neón, nada negro puro. Mantén composición por zonas del hero (centro libre).
+```
+
 ## Hero · las 3 diapositivas (ILU-01, ILU-02, ILU-03)
 
-La ilustración es el **fondo completo del hero** (1280 × 800 px en Figma), no una foto pequeña. Rodea el texto: lo importante del dibujo no puede quedar debajo del título, y lo secundario sí puede quedar bajo las tarjetas flotantes.
+La ilustración es el **fondo completo del hero** (1280 × 800 px en Figma), no una foto pequeña. Rodea el texto: lo importante del dibujo no puede quedar debajo del título, y lo secundario puede quedar cerca del texto.
 
 **Formato:** 1,6 : 1. Genera a **2560 × 1600 px** (se ve a 1280 × 800). SVG, o WebP/PNG de respaldo. Sin texto dentro. Bordes del lienzo que se disuelvan en crema/lavanda (el hero tiene esquinas de 42 px).
 
@@ -47,7 +62,7 @@ La ilustración es el **fondo completo del hero** (1280 × 800 px en Figma), no 
 | ------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | ZONA LIBRE de texto | x 28 %–72 %, y 28 %–72 % (título, subtítulo, botón) y franja inferior x 38 %–62 %, y 88 %–100 % (controles) | Solo fondo suave plano (crema/lavanda), sin personajes, sin detalles ni contraste fuerte. Se permite una alfombra, camino o pasto muy tenue. |
 | Zona PRIMARIA       | Franja izquierda x 0 %–28 %, y 38 %–100 %, y rincón inferior derecho x 72 %–100 %, y 66 %–100 %             | Personajes, mascota, casa: lo que cuenta la historia. No debe taparlo nada importante.                                                       |
-| Zona SECUNDARIA     | Esquinas superiores y borde derecho (donde van las tarjetas flotantes)                                      | Plantas, ventana, árboles, nubes, luz miel. Puede quedar tapada por tarjetas.                                                                |
+| Zona SECUNDARIA     | Esquinas superiores y borde derecho                                      | Plantas, ventana, árboles, nubes, luz miel. Puede quedar algo cerca del texto.                                                                |
 
 **Contexto para el agente** (pégalo junto con el bloque de estilo de arriba):
 
