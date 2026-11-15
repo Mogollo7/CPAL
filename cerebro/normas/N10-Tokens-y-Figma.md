@@ -79,15 +79,16 @@ Definidos en: color → [[N02-Color]] · tipografía → [[N03-Tipografia-y-Esca
 | 7 · Correos | Plantillas |
 | 8 · Archivo | Descartes y exploraciones |
 
-### Biblioteca de Componentes Mockup & Wireframe (Google Labs x CAPL)
+### Kit de Componentes Wireframe Atómico (Google Labs x CAPL)
 
-Disponible directamente en el archivo oficial de Figma para ensamblar pantallas de baja fatiga visual y alta fidelidad:
-- **Estructuras:** `Browser-Window-Bar`, `Mobile-Phone-Container` (390x844 con Dynamic Island y barra de estado), `Section-Container-Glassmorphic` (36px squircle).
-- **Hero & Banners:** `Hero-Section-Split-Glass` (con tarjeta flotante con efecto blur y badge de mascota de apoyo), `Hero-Banner-Centered-Labs` (con buscador central en píldora).
-- **Tarjetas Bento & Métricas:** `Card-Bento-Standard`, `Card-Glassmorphic-Blur` (`BACKGROUND_BLUR: 24px`, fondo al 70%), `Card-Metric-BarChart` (7 barras áureas), `Card-Horizontal-List-Row`.
-- **Controles & Píldoras:** `Button-Pill-Primary`, `Button-Pill-Secondary`, `Button-Pill-Glassmorphic`, `Search-Input-Pill`, `Segmented-Tabs-Pill`, `Floating-Dock-Nav`.
-- **Kit de Alambre:** `Placeholder-Image-16:9`, `Placeholder-Text-Block` (4 líneas armónicas), `Avatar-Group-Cluster`, `Calendar-Week-Selector`, `Badge-Tag-Pill-Set`.
-- **Distribución Demo:** Montada y lista en el marco `Wireframe - 1 (Distribución Demo Google Labs x CAPL)` para duplicar y adaptar.
+Disponible en el archivo oficial de Figma para que Sebas arme la distribución y arquitectura de pantallas antes del mockup final:
+1. **01 · Textos & Tipografía Wireframe:** Barras píldora `WF/Text/Title-H1-Bar` (32px), `Title-H2-Bar` (22px), `Subtitle-Bar` (16px), y bloques multilínea `Paragraph-2-Lines`, `Paragraph-3-Lines`, `Paragraph-4-Lines`.
+2. **02 · Botones & Acciones:** Píldoras `WF/Button/Primary-Pill`, `Secondary-Pill`, `Outline-Pill`, `Glassmorphic-Blur-Pill` (`BACKGROUND_BLUR: 20px`), botones circulares `Circle-Action-44` / `32` y badges de estado (`Tag-Dark`, `Tag-Lavender`, `Tag-Sage`, `Tag-Honey`).
+3. **03 · Inputs & Formularios:** `WF/Input/Search-Bar-Pill` con `⌘K`, `Text-Field-Standard`, `Toggle-Switch` y `Slider-Bar`.
+4. **04 · Medios & Placeholders:** `WF/Media/Placeholder-Image-16:9`, `Placeholder-Image-Square-1:1`, `Avatar-Individual-44`, `Avatar-Cluster-Group` y `Audio-Disc-Player-Widget`.
+5. **05 · Tarjetas & Contenedores:** `WF/Card/Container-Blank-Base` (340x320 con esquinas squircle 0.6 para armar dentro), `Container-Glassmorphic-Blur` (`BACKGROUND_BLUR: 24px`, fondo al 72%), `Bento-Vertical-Content` y `Horizontal-List-Row`.
+6. **06 · Navegación & Estructuras:** `WF/Shell/Browser-Window-Bar` (con controles `● ● ●` y URL pill), `Floating-Navbar-Web` (con logo y menú de píldoras), `Floating-Dock-Pill` y carcasa completa `Mobile-Device-Frame-390` (con Dynamic Island y barra de estado).
+7. **Lienzo de Trabajo:** El marco `Wireframe - 1 · Lienzo de Trabajo de Sebas` queda 100% limpio y despejado para copiar y pegar los componentes y ensamblar la distribución deseada.
 
 Normas:
 
