@@ -64,3 +64,31 @@ body {
     display: none;
   }
 }
+
+/* --------------------------------------------------------------------------
+   Pulso respiratorio neuro-relajante para esqueletos de carga y esperas
+   Ciclo de 3 segundos (0.33 Hz) con desaceleración senoidal suave.
+   -------------------------------------------------------------------------- */
+@keyframes caplPulsoRespiracion {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(0.998);
+  }
+  50% {
+    opacity: 0.95;
+    transform: scale(1);
+  }
+}
+
+.capl-pulso-respiracion {
+  animation: caplPulsoRespiracion 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  will-change: opacity, transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .capl-pulso-respiracion {
+    animation: none;
+    opacity: 0.75;
+  }
+}

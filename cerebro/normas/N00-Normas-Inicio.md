@@ -27,6 +27,7 @@ Volver a [[00-Inicio]]. Normativa básica de diseño y de construcción. **Aquí
 | N10 | [[N10-Tokens-y-Figma]] | Nombres de variables: lo que une Figma con el código |
 | N11 | [[N11-Normas-Tecnicas]] | Convenciones de código para B y C |
 | N12 | [[N12-Diseno-Confort-y-Neurobienestar]] | Marco maestro de confort, relax del usuario, textura táctil y neurobienestar (por Gemini y Sebas) |
+| N13 | [[N13-Investigacion-Animacion-Neurobienestar]] | Fundamentos neurocientíficos de animación, esqueletos de pulso respiratorio, Motion y Anime.js |
 
 ## Jerarquía cuando dos normas chocan
 
