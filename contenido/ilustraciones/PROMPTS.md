@@ -37,32 +37,42 @@ Fondo transparente o crema plano. Sin grano dentro del archivo (la textura de pa
 
 ## Hero · las 3 diapositivas (ILU-01, ILU-02, ILU-03)
 
-Hueco en Figma: componente `Hero carrusel` (32:2620), una imagen por diapositiva, ya incluida en `Diapositiva=1` (32:2464), `=2` (32:2516) y `=3` (32:2568).
+La ilustración es el **fondo completo del hero** (1280 × 800 px en Figma), no una foto pequeña. Rodea el texto: lo importante del dibujo no puede quedar debajo del título, y lo secundario sí puede quedar bajo las tarjetas flotantes.
 
-**Formato:** 1,6 : 1 (el hueco mide 285 × 178 px y se muestra rotado 3°, como las fotos de labs.google). Genera a **1140 × 712 px** (×4) y expórtala en SVG, o WebP de respaldo. Debe verse bien recortada con esquinas de 16 px y **sin texto adentro**. Composición centrada, con aire alrededor.
+**Formato:** 1,6 : 1. Genera a **2560 × 1600 px** (se ve a 1280 × 800). SVG, o WebP/PNG de respaldo. Sin texto dentro. Bordes del lienzo que se disuelvan en crema/lavanda (el hero tiene esquinas de 42 px).
+
+**Mapa de zonas** (porcentajes del lienzo; el equipo del hero lo pinta así en Figma):
+
+| Zona                | Posición                                                                                                    | Qué va                                                                                                                                       |
+| ------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| ZONA LIBRE de texto | x 28 %–72 %, y 28 %–72 % (título, subtítulo, botón) y franja inferior x 38 %–62 %, y 88 %–100 % (controles) | Solo fondo suave plano (crema/lavanda), sin personajes, sin detalles ni contraste fuerte. Se permite una alfombra, camino o pasto muy tenue. |
+| Zona PRIMARIA       | Franja izquierda x 0 %–28 %, y 38 %–100 %, y rincón inferior derecho x 72 %–100 %, y 66 %–100 %             | Personajes, mascota, casa: lo que cuenta la historia. No debe taparlo nada importante.                                                       |
+| Zona SECUNDARIA     | Esquinas superiores y borde derecho (donde van las tarjetas flotantes)                                      | Plantas, ventana, árboles, nubes, luz miel. Puede quedar tapada por tarjetas.                                                                |
 
 **Contexto para el agente** (pégalo junto con el bloque de estilo de arriba):
 
 ```
-Contexto: sitio web del CAPL (Centro de Atención Psicológica Lasallista), universidad.
-El hero tiene un título enorme en el centro y tarjetas flotantes alrededor; esta imagen es una
-foto-ilustración pequeña que va rotada 3° a la izquierda. Debe transmitir calma, hogar y
-"aquí te escuchamos", nunca urgencia ni clínica. Lee primero las normas:
+Contexto: fondo de pantalla completa del hero del sitio web del CAPL (Centro de Atención Psicológica
+Lasallista). Lienzo 1,6:1. En el centro va un título enorme, un subtítulo y un botón: deja ahí un
+amplio espacio vacío de color crema/lavanda plano, sin personajes ni detalles. Los personajes y
+objetos importantes van a los lados y abajo, rodeando ese espacio; los elementos decorativos
+(plantas, ventana, árboles) van en las esquinas superiores. Transmite calma, hogar y "aquí te
+escuchamos", nunca urgencia ni clínica. Lee primero las normas:
 N05 https://github.com/Mogollo7/CPAL/blob/dev/sebas/cerebro/normas/N05-Ilustracion.md
 N02 https://github.com/Mogollo7/CPAL/blob/dev/sebas/cerebro/normas/N02-Color.md
 N12 https://github.com/Mogollo7/CPAL/blob/dev/sebas/cerebro/normas/N12-Diseno-Confort-y-Neurobienestar.md
 Láminas: https://github.com/Mogollo7/CPAL/tree/dev/sebas/cerebro/normas/referencias-ilustracion
 ```
 
-| ID     | Archivo                         | Diapositiva                          | Título del hero            | Prompt                                                                                                                                                                                                                                                                                                                                                                                    |
-| ------ | ------------------------------- | ------------------------------------ | -------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ILU-01 | `ilu-escena-portada-sillon.svg` | 1 · Inicio (`/pedir-cita`)           | «Calma»                    | Escena horizontal 1,6:1. Persona joven sentada en un sillón redondo lavanda con una taza tibia entre las manos, hombros relajados, ojos en arco sereno. Un gato duerme enroscado en un cojín aguamarina. Ventana a la derecha con luz miel de atardecer y una planta de hojas redondas. Alfombra circular crema. Paleta lavanda, aguamarina y miel sobre crema; trazo fino morado oscuro. |
-| ILU-02 | `ilu-escena-camino-cita.svg`    | 2 · Cómo funciona (`/como-funciona`) | título de la diapositiva 2 | Escena horizontal 1,6:1. Dos personas caminan sin prisa por un sendero de hojas redondas salvia hacia una casa amarilla con una ventana iluminada y una puerta redonda. Cielo crema con una nube suave. Ambiente de llegada y bienvenida; nadie mira el reloj.                                                                                                                            |
-| ILU-03 | `ilu-escena-taller-grupo.svg`   | 3 · Eventos (`/eventos`)             | título de la diapositiva 3 | Escena horizontal 1,6:1. Grupo pequeño y diverso (5 personas) sentado en círculo sobre una alfombra tejida, con tazas tibias y una planta al centro. Posturas abiertas y relajadas, ropa cómoda de casa. Luz miel desde una ventana.                                                                                                                                                      |
+| ID     | Archivo                         | Diapositiva       | Prompt (compone según el mapa de zonas)                                                                                                                                                                                                                                                                                                                                                                       |
+| ------ | ------------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| ILU-01 | `ilu-escena-portada-sillon.svg` | 1 · Inicio        | Lienzo 1,6:1. **Abajo a la izquierda:** persona joven sentada en un sillón redondo lavanda con una taza tibia, ojos en arco sereno, y un gato dormido en un cojín aguamarina al pie del sillón. **Arriba a la derecha:** ventana con luz miel y un haz de luz suave. **Abajo a la derecha:** maceta con planta de hojas redondas. **Centro:** vacío, crema plano con una alfombra circular lavanda muy tenue. |
+| ILU-02 | `ilu-escena-camino-cita.svg`    | 2 · Cómo funciona | Lienzo 1,6:1. **Izquierda, abajo:** dos personas caminan sin prisa por un sendero. **Derecha, abajo:** la casa amarilla con ventana iluminada y puerta redonda, el sendero llega hasta ella. **Esquinas superiores:** árboles redondos salvia y una nube lavanda. **Centro:** cielo y pradera crema/lavanda planos y vacíos; el sendero se adelgaza y desvanece al cruzar el centro.                          |
+| ILU-03 | `ilu-escena-taller-grupo.svg`   | 3 · Eventos       | Lienzo 1,6:1. Grupo diverso de 5 personas sentadas en círculo sobre alfombra, con tazas tibias, **repartidas en forma de «U» abierta**: 2 a la izquierda, 1 abajo-izquierda, 2 a la derecha, dejando el centro libre (la planta, pequeña, queda en el centro-bajo). Luz miel desde la esquina superior derecha. Alfombra tejida muy tenue en el centro.                                                       |
 
-**Estado:** ILU-01, 02 y 03 ya generadas (PNG 1024 × 687) y guardadas como `ilu-escena-portada-sillon.png`, `ilu-escena-camino-cita.png` e `ilu-escena-taller-grupo.png`; ya están colocadas en el hero de Figma. Falta vectorizarlas a SVG.
+**Estado:** ILU-01, 02 y 03 ya generadas (PNG 1024 × 687) con composición centrada; sirven de borrador y están en Figma como fondo, pero los personajes quedan bajo el texto. **Hay que regenerarlas con los prompts de arriba** (composición por zonas, 1,6 : 1). Después, vectorizar a SVG.
 
-**Después de generarlas:** guarda cada SVG en `contenido/ilustraciones/` con el nombre exacto de la tabla. En Figma, en cada diapositiva, selecciona el hueco `Átomos/Ilustración (hueco con prompt)` (a la izquierda, 285 × 178) y reemplázalo por la imagen (relleno de imagen en un marco con esquinas de 16 px y rotación 3°), o pásame los archivos y lo hago yo.
+**En Figma:** cada diapositiva tiene un marco `ILU-0N · fondo hero` (1280 × 800, a toda la diapositiva, detrás del texto y de las tarjetas). Para reemplazar la imagen: selecciona ese marco y cambia su relleno de imagen.
 
 ## Catálogo
 
