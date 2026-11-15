@@ -78,17 +78,50 @@ Definidos en: color → [[N02-Color]] · tipografía → [[N03-Tipografia-y-Esca
 | 6 · Panel | Admin y psicólogo |
 | 7 · Correos | Plantillas |
 | 8 · Archivo | Descartes y exploraciones |
+| Biblioteca Wireframe | Kit de baja fidelidad para armar distribuciones (ver abajo) |
+| Biblioteca de imágenes | Imágenes de referencia con ID `IMG-NN` para los wireframes |
 
-### Kit de Componentes Wireframe Atómico (Google Labs x CAPL)
+### Biblioteca Wireframe CAPL (vigente)
 
-Disponible en el archivo oficial de Figma para que Sebas arme la distribución y arquitectura de pantallas antes del mockup final:
-1. **01 · Textos & Tipografía Wireframe:** Barras píldora `WF/Text/Title-H1-Bar` (32px), `Title-H2-Bar` (22px), `Subtitle-Bar` (16px), y bloques multilínea `Paragraph-2-Lines`, `Paragraph-3-Lines`, `Paragraph-4-Lines`.
-2. **02 · Botones & Acciones:** Píldoras `WF/Button/Primary-Pill`, `Secondary-Pill`, `Outline-Pill`, `Glassmorphic-Blur-Pill` (`BACKGROUND_BLUR: 20px`), botones circulares `Circle-Action-44` / `32` y badges de estado (`Tag-Dark`, `Tag-Lavender`, `Tag-Sage`, `Tag-Honey`).
-3. **03 · Inputs & Formularios:** `WF/Input/Search-Bar-Pill` con `⌘K`, `Text-Field-Standard`, `Toggle-Switch` y `Slider-Bar`.
-4. **04 · Medios & Placeholders:** `WF/Media/Placeholder-Image-16:9`, `Placeholder-Image-Square-1:1`, `Avatar-Individual-44`, `Avatar-Cluster-Group` y `Audio-Disc-Player-Widget`.
-5. **05 · Tarjetas & Contenedores:** `WF/Card/Container-Blank-Base` (340x320 con esquinas squircle 0.6 para armar dentro), `Container-Glassmorphic-Blur` (`BACKGROUND_BLUR: 24px`, fondo al 72%), `Bento-Vertical-Content` y `Horizontal-List-Row`.
-6. **06 · Navegación & Estructuras:** `WF/Shell/Browser-Window-Bar` (con controles `● ● ●` y URL pill), `Floating-Navbar-Web` (con logo y menú de píldoras), `Floating-Dock-Pill` y carcasa completa `Mobile-Device-Frame-390` (con Dynamic Island y barra de estado).
-7. **Lienzo de Trabajo:** El marco `Wireframe - 1 · Lienzo de Trabajo de Sebas` queda 100% limpio y despejado para copiar y pegar los componentes y ensamblar la distribución deseada.
+Página **Biblioteca Wireframe** del archivo de Figma: 100 componentes (más 37 variantes) en grises de baja fidelidad, con el prefijo `WF/` en el panel Assets. Los colores salen de la colección de variables `wireframe` (`wf-fondo`, `wf-superficie`, `wf-suave`, `wf-medio`, `wf-fuerte`, `wf-borde`, `wf-sobre-fuerte`, `wf-nota`, `wf-marcador`…), que tiene dos modos: **claro** y **oscuro**. Para pasar un marco a oscuro, cámbiale el modo de la colección `wireframe`.
+
+| Sección | Componentes |
+|---------|-------------|
+| 00 · Anotaciones | `Anotación/Nota`, `Marcador`, `Marcador-con-texto`, `Zona`, `Ref-imagen`, `Flecha`, `Estado` · ejemplo de uso anotado |
+| 01 · Marcos y plantillas | Plantillas para duplicar: Web 1440, Tableta 768, Móvil 390 · `Sistema/Barra-estado-móvil`, `Indicador-inicio`, `Barra-navegador` |
+| 02 · Navegación | Barra web, barra flotante, barra móvil, barra con volver, pestañas móviles, dock, pestañas de segmento y subrayadas, migas, paginación, pasos (web y móvil), menú lateral, menú desplegable, pie web y móvil, `Controles-carrusel`, `Redes-sociales` |
+| 03 · Texto | Títulos H1–H3, antetítulo, párrafos de 2, 3 y 5 líneas, párrafo centrado, listas de viñetas y de verificación, cita, bloque de título, `Título-real` y `Párrafo-real` (con el texto exacto) |
+| 04 · Botones | `Botón` (Primario, Secundario, Contorno y Fantasma, en L, M y S), botón con icono, `Botón-icono` (48, 40 y 32), enlace con flecha, grupo de botones, botón flotante, `Botón-emergencia` |
+| 05 · Formularios | Campo de texto (Normal, Foco, Error y Deshabilitado), área de texto, selector, buscador, casilla, radio, interruptor, deslizador, chip, `Selector-fecha`, `Franjas-horarias`, subir archivo, código de verificación |
+| 06 · Medios | Imágenes 16:9, 4:3, 1:1, 3:4, 9:16, 21:9 y circular, avatar (32–96), grupo de avatares, icono (16–32), video, reproductor de audio, logo, fila de logos, mapa, galería |
+| 07 · Tarjetas | Imagen arriba, horizontal, servicio, perfil, evento, testimonio, cifra, bento alta y ancha, vidrio, fila de lista, `Fila-cita`, `Imagen-con-texto` |
+| 08 · Avisos | Alerta (4 tipos), `Banner-emergencia`, toast, modal, modal de confirmación, hoja inferior, estado vacío, esqueleto, barra y círculo de progreso, tooltip, insignia |
+| 09 · Datos | Tabla, gráficos de barras, línea y dona, acordeón, `Agenda-semana`, línea de tiempo, lista dato–valor |
+| 10 · Secciones web | Bloques de 1200 px: 3 heroes, servicios, bento, pasos, CTA, FAQ, testimonios, equipo, cifras, eventos, formulario de contacto, mapa y contacto, encabezado de panel, panel de escritorio |
+| 11 · Secciones móviles | Bloques de 390 px: hero, carrusel, servicios, lista, formulario de cita, banner de emergencia, CTA, FAQ, perfil, lista de citas |
+| 12 · Privacidad y consentimiento | Patrones calmos sin sobrecarga: `WF/Privacidad/Aviso-Sereno-Cookies-Web`, `Aviso-Sereno-Cookies-Mobile`, `2FA-Recordar-Dispositivo`, `Consentimiento-Tratamiento-Datos-Cita`, `Micro-Informativo-Footer` |
+
+Los botones, campos, chips, notas y marcadores tienen texto editable desde el panel de propiedades de la instancia.
+
+#### Privacidad, Cookies y Consentimiento Calmo (Neurobienestar)
+
+En CAPL no se utilizan modales bloqueantes de cookies ni rastreadores de terceros (`RNF-PRI-08`, `S07 §2`). En `Page 1` (al lado de `Notas · Wireframe - 1`, en `x: 2000, y: 0`) se incorporó el tablero `❖ PRIVACIDAD, COOKIES & CONSENTIMIENTO CALMO` con los componentes atómicos:
+- **`WF/Privacidad/Aviso-Sereno-Cookies-Web`**: Píldora flotante inferior no bloqueante (680 px) con escudo sutil, texto que transmite tranquilidad, enlace a la política y botón píldora *"Entendido"*.
+- **`WF/Privacidad/Aviso-Sereno-Cookies-Mobile`**: Formato adaptado a 360 px para dispositivos móviles, flotante y sin obstruir el botón fijo de ayuda inmediata.
+- **`WF/Privacidad/2FA-Recordar-Dispositivo`**: Checkbox para el formulario de login `/ingresar` con explicación transparente sobre el almacenamiento de la cookie de confianza de 30 días para administradores.
+- **`WF/Privacidad/Consentimiento-Tratamiento-Datos-Cita`**: Bloque para el Paso 5 de `/pedir-cita` con autorización explícita para la gestión clínica (Ley 1581 / Habeas Data) sin cláusulas ocultas.
+- **`WF/Privacidad/Micro-Informativo-Footer`**: Barra discreta para el pie de página de todo el sitio web recordando que el entorno es 100% libre de rastreadores y analítica invasiva.
+
+#### Del wireframe al mockup
+
+Ejemplo armado: el marco `Wireframe - 1 · labs.google (prueba de biblioteca)` en Page 1 reproduce la portada de labs.google solo con piezas `WF/`, con sus notas al lado.
+
+
+1. **Armar:** duplica una plantilla de la sección 01 y apila dentro las secciones (10 u 11) o los componentes sueltos.
+2. **Numerar:** pon un `Anotación/Marcador` sobre cada zona que necesite explicación (1, 2, 3…).
+3. **Explicar:** junto al marco, una `Anotación/Nota` por número, con el título «NOTA n · zona» y, en el texto, el contenido exacto, el comportamiento o la idea.
+4. **Imágenes:** pega cada imagen de referencia en la página **Biblioteca de imágenes**, en una casilla renombrada `IMG-NN · descripción`. En el wireframe pon un `Anotación/Ref-imagen` con el mismo ID.
+5. **Entregar:** marca el marco con `Anotación/Estado` = «LISTO PARA MOCKUP» y pasa el enlace del marco a Claude. Con eso, Claude lee la distribución por los nombres `WF/…`, las notas por número y las imágenes por ID, y monta el mockup con los tokens de rol de esta nota.
 
 Normas:
 
