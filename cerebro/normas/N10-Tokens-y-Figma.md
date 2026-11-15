@@ -79,6 +79,16 @@ Definidos en: color → [[N02-Color]] · tipografía → [[N03-Tipografia-y-Esca
 | 7 · Correos | Plantillas |
 | 8 · Archivo | Descartes y exploraciones |
 
+### Biblioteca de Componentes Mockup & Wireframe (Google Labs x CAPL)
+
+Disponible directamente en el archivo oficial de Figma para ensamblar pantallas de baja fatiga visual y alta fidelidad:
+- **Estructuras:** `Browser-Window-Bar`, `Mobile-Phone-Container` (390x844 con Dynamic Island y barra de estado), `Section-Container-Glassmorphic` (36px squircle).
+- **Hero & Banners:** `Hero-Section-Split-Glass` (con tarjeta flotante con efecto blur y badge de mascota de apoyo), `Hero-Banner-Centered-Labs` (con buscador central en píldora).
+- **Tarjetas Bento & Métricas:** `Card-Bento-Standard`, `Card-Glassmorphic-Blur` (`BACKGROUND_BLUR: 24px`, fondo al 70%), `Card-Metric-BarChart` (7 barras áureas), `Card-Horizontal-List-Row`.
+- **Controles & Píldoras:** `Button-Pill-Primary`, `Button-Pill-Secondary`, `Button-Pill-Glassmorphic`, `Search-Input-Pill`, `Segmented-Tabs-Pill`, `Floating-Dock-Nav`.
+- **Kit de Alambre:** `Placeholder-Image-16:9`, `Placeholder-Text-Block` (4 líneas armónicas), `Avatar-Group-Cluster`, `Calendar-Week-Selector`, `Badge-Tag-Pill-Set`.
+- **Distribución Demo:** Montada y lista en el marco `Wireframe - 1 (Distribución Demo Google Labs x CAPL)` para duplicar y adaptar.
+
 Normas:
 
 1. **Variables de Figma** con los mismos nombres de esta nota, en dos colecciones: `base` y `rol`.
