@@ -80,24 +80,61 @@ Definidos en: color → [[N02-Color]] · tipografía → [[N03-Tipografia-y-Esca
 | 8 · Archivo | Descartes y exploraciones |
 | Biblioteca Wireframe | Kit de baja fidelidad para armar distribuciones (ver abajo) |
 | Biblioteca de imágenes | Imágenes de referencia con ID `IMG-NN` para los wireframes |
+| **CAPL · Diseño y prototipo** | **Vigente.** Biblioteca de alta fidelidad (atomic design), las 32 rutas de E04 y el prototipo navegable en una sola página |
+
+### CAPL · Diseño y prototipo (vigente)
+
+Todo vive en **una sola página** porque Figma solo enlaza prototipos dentro de la misma página (por eso no se separan en las páginas 1–7 de arriba). Está ordenada en secciones:
+
+| Sección | Contenido |
+|---------|-----------|
+| 0 · Biblioteca CAPL | Columnas **Átomos** (Botón 5 tipos × 4 estados, Ilustración con prompt, Píldora de estado, Píldora de hora, Avatar, Etiqueta, Casilla, Interruptor) → **Moléculas** (Campo de texto, Aviso, Opción en tarjeta, Indicador de pasos, Acordeón, tarjetas de paso, servicio, evento, psicólogo y flotante, Fila de cita, botón de ayuda) → **Organismos** (Encabezado público y móvil, Pie, Hero carrusel, Barra lateral del panel) → **Plantillas** (página pública, formulario de cita, panel) |
+| 1 · Sitio público | Inicio, Cómo funciona, Servicios, Equipo, Eventos, Detalle de evento, Ayuda inmediata, Preguntas frecuentes, Contacto + popups Cookies, Privacidad, Inscripción lista, Respiración |
+| 2 · Pedir cita y Mi cita | Pasos 1–5, Confirmación, `/cita/[token]`, cita cancelada + popup Cancelar cita |
+| 3 · Acceso y panel del psicólogo | Ingresar, Código de verificación, Recuperar y Crear contraseña, Mis citas, Mi horario, Mi perfil, Mi cuenta + popup Bloquear horario |
+| 4 · Panel de administración | Bandeja, Detalle de cita, Calendario, Psicólogos (lista, nuevo, detalle), Eventos (lista, editor), Fechas bloqueadas, Servicios, Configuración + popups Autorizar, Rechazar, Desactivar |
+| 5 · Estados | Sin conexión, 404, Eventos vacío, Algo falló |
+| 6 · Móvil 360 | Inicio, Ayuda inmediata, Pedir cita paso 1 + Menú móvil |
+
+**Tokens en Figma:** colección de variables `CAPL` con los grupos `base/`, `rol/` y `transparencia/`. Transparencias definidas:
+
+| Token | Valor | Uso |
+|-------|-------|-----|
+| `velo-modal` | `morado-900` al 40 % | Fondo de los popups (N06) |
+| `velo-encabezado` | `crema` al 92 % | Encabezado fijo al hacer scroll |
+| `superficie-tarjeta` | `blanco` al 80 % | Tarjetas sobre crema: suaviza el blanco puro (N12) |
+| `superficie-sobre-ilustracion` | `crema` al 88 % | Etiquetas y flechas sobre fondos de color |
+| `sombra-flotante` | `morado-900` al 10 % | Solo lo que flota (N04) |
+| `textura-papel` | `morado-900` al 3 % | Velo de papel (lo aplica el CSS, N12) |
+| `deshabilitado` | opacidad 45 % | Estado deshabilitado (N06) |
+
+**Medidas:** retícula de 12 columnas (gutter 26, margen 42) en escritorio y 4 en móvil; texto Nunito 110 (`display-hero`, solo el hero) · 68 (display) · 42 (h1) · 32 (h2) · 20 (h3) · 16 · 13; espacios de la escala φ.
+
+**Hero:** copia la distribución exacta del hero de labs.google (marco 23:24 de Page 1): título `display-hero` de 110 px y una o dos palabras, centrado a la misma altura que labs (y ≈ 270 de 800), bajada y un botón al centro, tarjetas flotantes inclinadas alrededor y controles ‹ barra · puntos › abajo. Adaptado: fondo `morado-100` (el pie es el único bloque oscuro), Nunito y contenido CAPL; sin autoplay.
+
+**Prototipo:** los enlaces salen del nombre de la capa: `→ /ruta` navega, `⧉ Nombre` abre un popup, `← …` vuelve atrás y `✕ cerrar` cierra el popup. Flujos de inicio: Sitio público, Pedir cita, Equipo, Administración y Móvil. Cada pantalla tiene al lado una nota amarilla **Interacción · motion** (duraciones, curvas y qué va con anime.js o Motion, según [[N07-Movimiento]]); cada componente lleva la suya en su descripción.
+
+**Ilustraciones:** cada hueco `ILU-NN` muestra ID, archivo y prompt corto; el prompt completo, el bloque de estilo y los enlaces de GitHub a la teoría están en `contenido/ilustraciones/PROMPTS.md`. Al generar una, se pega en el hueco o se reemplaza la instancia.
+
+Los números de las líneas de ayuda y los colores de los códigos de emergencia son **marcadores** hasta que el CAPL los confirme ([[12-Codigos-de-Emergencia-Borrador]]).
 
 ### Biblioteca Wireframe CAPL (vigente)
 
-Página **Biblioteca Wireframe** del archivo de Figma: 100 componentes (más 37 variantes) en grises de baja fidelidad, con el prefijo `WF/` en el panel Assets. Los colores salen de la colección de variables `wireframe` (`wf-fondo`, `wf-superficie`, `wf-suave`, `wf-medio`, `wf-fuerte`, `wf-borde`, `wf-sobre-fuerte`, `wf-nota`, `wf-marcador`…), que tiene dos modos: **claro** y **oscuro**. Para pasar un marco a oscuro, cámbiale el modo de la colección `wireframe`.
+Página **Biblioteca Wireframe** del archivo de Figma: 122 componentes (más 37 variantes) en grises de baja fidelidad, con el prefijo `WF/` en el panel Assets. Los colores salen de la colección de variables `wireframe` (`wf-fondo`, `wf-superficie`, `wf-suave`, `wf-medio`, `wf-fuerte`, `wf-borde`, `wf-sobre-fuerte`, `wf-nota`, `wf-marcador`…), que tiene dos modos: **claro** y **oscuro**. Para pasar un marco a oscuro, cámbiale el modo de la colección `wireframe`.
 
 | Sección | Componentes |
 |---------|-------------|
 | 00 · Anotaciones | `Anotación/Nota`, `Marcador`, `Marcador-con-texto`, `Zona`, `Ref-imagen`, `Flecha`, `Estado` · ejemplo de uso anotado |
 | 01 · Marcos y plantillas | Plantillas para duplicar: Web 1440, Tableta 768, Móvil 390 · `Sistema/Barra-estado-móvil`, `Indicador-inicio`, `Barra-navegador` |
-| 02 · Navegación | Barra web, barra flotante, barra móvil, barra con volver, pestañas móviles, dock, pestañas de segmento y subrayadas, migas, paginación, pasos (web y móvil), menú lateral, menú desplegable, pie web y móvil, `Controles-carrusel`, `Redes-sociales` |
+| 02 · Navegación | Barra web, barra flotante, barra móvil, barra con volver, pestañas móviles, dock, pestañas de segmento y subrayadas, migas, paginación, pasos (web y móvil), menú lateral, menú desplegable, pie web y móvil, `Controles-carrusel`, `Redes-sociales`, `Barra-web-con-menús`, `Barra-web-centrada`, `Tira-opciones` |
 | 03 · Texto | Títulos H1–H3, antetítulo, párrafos de 2, 3 y 5 líneas, párrafo centrado, listas de viñetas y de verificación, cita, bloque de título, `Título-real` y `Párrafo-real` (con el texto exacto) |
 | 04 · Botones | `Botón` (Primario, Secundario, Contorno y Fantasma, en L, M y S), botón con icono, `Botón-icono` (48, 40 y 32), enlace con flecha, grupo de botones, botón flotante, `Botón-emergencia` |
 | 05 · Formularios | Campo de texto (Normal, Foco, Error y Deshabilitado), área de texto, selector, buscador, casilla, radio, interruptor, deslizador, chip, `Selector-fecha`, `Franjas-horarias`, subir archivo, código de verificación |
-| 06 · Medios | Imágenes 16:9, 4:3, 1:1, 3:4, 9:16, 21:9 y circular, avatar (32–96), grupo de avatares, icono (16–32), video, reproductor de audio, logo, fila de logos, mapa, galería |
+| 06 · Medios | `Teléfono`, `Captura-escritorio`, `Mascota`, `Badges-tienda`, imágenes 16:9, 4:3, 1:1, 3:4, 9:16, 21:9 y circular, avatar (32–96), grupo de avatares, icono (16–32), video, reproductor de audio, logo, fila de logos, mapa, galería |
 | 07 · Tarjetas | Imagen arriba, horizontal, servicio, perfil, evento, testimonio, cifra, bento alta y ancha, vidrio, fila de lista, `Fila-cita`, `Imagen-con-texto` |
-| 08 · Avisos | Alerta (4 tipos), `Banner-emergencia`, toast, modal, modal de confirmación, hoja inferior, estado vacío, esqueleto, barra y círculo de progreso, tooltip, insignia |
+| 08 · Avisos | Alerta (4 tipos), `Banner-emergencia`, `Banner-promo`, `Cookies`, toast, modal, modal de confirmación, hoja inferior, estado vacío, esqueleto, barra y círculo de progreso, tooltip, insignia |
 | 09 · Datos | Tabla, gráficos de barras, línea y dona, acordeón, `Agenda-semana`, línea de tiempo, lista dato–valor |
-| 10 · Secciones web | Bloques de 1200 px: 3 heroes, servicios, bento, pasos, CTA, FAQ, testimonios, equipo, cifras, eventos, formulario de contacto, mapa y contacto, encabezado de panel, panel de escritorio |
+| 10 · Secciones web | Bloques de 1200 px: 3 heroes, servicios, bento, pasos, CTA, FAQ, testimonios, equipo, cifras, eventos, formulario de contacto, mapa y contacto, encabezado de panel, panel de escritorio, y los de las referencias: `Split-imagen-derecha/izquierda`, `Hero-solo-texto`, `Marquesina`, `Opciones-rápidas`, `Logos-confianza`, `Tarjetas-casos`, `Pestañas-y-tarjeta-grande`, `Cifras-banda`, `Newsletter`, `Premios`, `Galería-tarjetas-imagen`, `Productos-2-columnas` |
 | 11 · Secciones móviles | Bloques de 390 px: hero, carrusel, servicios, lista, formulario de cita, banner de emergencia, CTA, FAQ, perfil, lista de citas |
 | 12 · Privacidad y consentimiento | Patrones calmos sin sobrecarga: `WF/Privacidad/Aviso-Sereno-Cookies-Web`, `Aviso-Sereno-Cookies-Mobile`, `2FA-Recordar-Dispositivo`, `Consentimiento-Tratamiento-Datos-Cita`, `Micro-Informativo-Footer` |
 
@@ -111,6 +148,22 @@ En CAPL no se utilizan modales bloqueantes de cookies ni rastreadores de tercero
 - **`WF/Privacidad/2FA-Recordar-Dispositivo`**: Checkbox para el formulario de login `/ingresar` con explicación transparente sobre el almacenamiento de la cookie de confianza de 30 días para administradores.
 - **`WF/Privacidad/Consentimiento-Tratamiento-Datos-Cita`**: Bloque para el Paso 5 de `/pedir-cita` con autorización explícita para la gestión clínica (Ley 1581 / Habeas Data) sin cláusulas ocultas.
 - **`WF/Privacidad/Micro-Informativo-Footer`**: Barra discreta para el pie de página de todo el sitio web recordando que el entorno es 100% libre de rastreadores y analítica invasiva.
+
+#### Referencias de diseño (wireframes de práctica)
+
+Estas siete webs son las referencias del equipo para armar la web del CAPL. Cada una está reconstruida en Figma (Page 1) solo con piezas `WF/`, con sus notas numeradas a la derecha:
+
+| Referencia | Marco en Figma | Qué aporta al CAPL |
+|------------|----------------|--------------------|
+| [labs.google](https://labs.google/) | `Wireframe - 1 · labs.google` | Carrusel hero a sangre, titulares enormes, tarjetas inclinadas, wordmark gigante en el pie |
+| [Notion](https://www.notion.com/) | `Referencia · Notion` | Hero limpio con captura, tarjetas bento, testimonios con foto, cierre sencillo |
+| [Duolingo](https://es.duolingo.com/) | `Referencia · Duolingo` | Bloques ilustración–texto que alternan lado, mascota, tono lúdico |
+| [Wysa](https://www.wysa.com/) | `Referencia · Wysa` | Salud mental: anonimato, sellos clínicos, testimonios, cifras de impacto |
+| [Inflection](https://inflection.ai/) | `Referencia · Inflection` | Editorial calmado, serif grande, mucho aire, chat de ejemplo |
+| [Tiimo](https://www.tiimoapp.com/es) | `Referencia · Tiimo` | Planificador visual, neurodiversidad, FAQ, color lavanda suave |
+| [Headspace](https://www.headspace.com/) | `Referencia · Headspace` | «¿Qué buscas?» por intención, pestañas, mascota, biblioteca de contenidos |
+
+Son material de estudio de distribución, no de copia: del CAPL se toma el patrón (orden, ritmo, jerarquía), no marca, texto ni ilustraciones.
 
 #### Del wireframe al mockup
 
