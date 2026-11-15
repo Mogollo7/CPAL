@@ -13,6 +13,7 @@ Volver a [[00-Inicio]]. Reglas mínimas para **organizar, entregar y unificar** 
   - `dev/sebas`: Lógica central, diseño, contratos, BD, auth, Resend.
   - `dev/brand`: Frontend paneles (admin, psicólogo, login, 2FA, eventos).
   - `dev/cesar`: Frontend público (inicio, servicios, emergencias, formulario cita).
+  - `Gemini`: Colaborador IA transversal en diseño, neurobienestar y revisión técnica. Co-autor en commits mediante `Co-authored-by: Gemini <gemini@google.com>`.
 - De cada rama personal se pueden sacar ramas cortas de tarea puntual (`feat/ID-tarea`). Vida máxima: **1 día (24 h)**.
 
 ## 2. Protocolo de Commits y Versionado `v X.Y.Z` (De Derecha a Izquierda)

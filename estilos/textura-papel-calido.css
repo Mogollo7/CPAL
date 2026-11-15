@@ -1,0 +1,66 @@
+/* ==========================================================================
+   CAPL · Tokens Neuro-Relajantes y Micro-Textura de Papel Cálido (N02 y N05)
+   Diseñado para reducir fatiga ocular y sobrecarga sensorial en usuarios con
+   estrés o ansiedad (Regla 60 · 30 · 10 + Grano de papel al 3 %).
+   ========================================================================== */
+
+:root {
+  /* 60% · Superficies de Reposo y Aire Cálido (Cero blanco clínico #FFFFFF) */
+  --capl-crema-50: #faf7f2;
+  --capl-lino-100: #f3efe6;
+  --capl-lavanda-niebla-50: #f4f1f8;
+
+  /* 30% · Calma Biofílica y Contención Suave (Baja saturación) */
+  --capl-morado-100: #efebf5;
+  --capl-morado-200: #dcd3ea;
+  --capl-morado-300: #c5b9cd;
+  --capl-morado-400: #b8a9c9;
+  --capl-morado-500: #8d79a6;
+
+  --capl-aguamarina-100: #e6f3ee;
+  --capl-aguamarina-200: #d4ebe2;
+  --capl-aguamarina-300: #9dc8b8;
+  --capl-aguamarina-400: #8fc1b0;
+
+  /* 10% · Luz de Hogar (Amarillo Miel/Ámbar) y Tinta Ciruela (Cero negro puro) */
+  --capl-amarillo-100: #fdf3d7;
+  --capl-amarillo-200: #f9e6b3;
+  --capl-amarillo-300: #f3d186;
+  --capl-amarillo-400: #e6be68;
+
+  --capl-morado-900: #3b2848; /* Tinta principal para texto y trazos finos */
+
+  /* Parámetros del micro-grano táctil de papel (rango seguro: 0.02 a 0.035) */
+  --capl-grano-opacidad: 0.03;
+}
+
+body {
+  background-color: var(--capl-crema-50);
+  color: var(--capl-morado-900);
+  position: relative;
+}
+
+/* --------------------------------------------------------------------------
+   Velo global de micro-textura de papel algodón/lino
+   Envuelve el fondo y las ilustraciones SVG planas para dar calidez táctil
+   sin añadir peso a los archivos .svg ni ensuciar rostros o textos.
+   -------------------------------------------------------------------------- */
+.capl-textura-papel::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 40;
+  opacity: var(--capl-grano-opacidad);
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='caplPaperGrain'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 0.23  0 0 0 0 0.16  0 0 0 0 0.28  0 0 0 1 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23caplPaperGrain)'/%3E%3C/svg%3E");
+}
+
+/* Respeto a usuarios con sensibilidad extrema o preferencia de contraste */
+@media (prefers-contrast: more), (prefers-reduced-transparency: reduce) {
+  .capl-textura-papel::after {
+    display: none;
+  }
+}

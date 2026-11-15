@@ -4,7 +4,7 @@ tags: [capl, normas, color]
 
 # N02 · Color
 
-Volver a [[N00-Normas-Inicio]]. Paleta **alineada con la identidad oficial de Unilasallista** (ajuste del 13-nov-2026): morado y amarillo como principales; aguamarina en menor nivel.
+Volver a [[N00-Normas-Inicio]]. Ver también [[N02-Color-Propuesta-Psicologia]] y [[N12-Diseno-Confort-y-Neurobienestar]] para la normativa neuro-relajante (regla 60-30-10, tonos salvia/lavanda de baja saturación y micro-textura de papel táctil al 3%). Paleta **alineada con la identidad oficial de Unilasallista** (ajuste del 13-nov-2026): morado y amarillo como principales; aguamarina en menor nivel.
 
 ## De dónde sale cada color
 
