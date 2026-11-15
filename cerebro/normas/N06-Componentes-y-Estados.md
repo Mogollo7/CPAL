@@ -35,6 +35,12 @@ Toda pantalla se diseña además en: **con datos · vacía · cargando · con er
 
 Reglas: alto mínimo 48 px · relleno horizontal `espacio-5` · peso 600 · texto en frase ("Pedir mi cita", no "PEDIR CITA") · verbo + objeto · puede ocupar dos líneas · en móvil el principal ocupa todo el ancho.
 
+### Comportamiento cinético del Botón de Ayuda Flotante
+- **Carga inicial (0–4s):** Aparece desplegado en píldora completa («Necesito ayuda ahora» + icono de auxilio/salvavidas) para garantizar visibilidad instantánea en situaciones de crisis.
+- **Colapso automático (tras 4s):** Si no hay interacción tras 4000 ms, se contrae suavemente (`transition: 500ms ease-out`) a un botón circular de 68 px manteniendo el icono de rescate, liberando el viewport.
+- **Hover y Foco:** Al pasar el cursor (`:hover`) o enfocar por teclado (`:focus-visible`), se re-expande de inmediato a la píldora completa con micro-elevación de sombra.
+- **Accesibilidad y Neurobienestar:** Con `prefers-reduced-motion: reduce`, el cambio de ancho es instantáneo sin rebote ni animación continua. Mantiene `aria-label="Necesito ayuda ahora - Línea de emergencias psicológicas"`. Siempre enlaza directamente a `/ayuda-inmediata`.
+
 ## Campos de formulario
 
 - Etiqueta **siempre visible arriba** del campo; el texto de ejemplo dentro no la reemplaza.

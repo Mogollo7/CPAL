@@ -114,6 +114,13 @@ Todo vive en **una sola página** porque Figma solo enlaza prototipos dentro de 
 
 **Prototipo:** los enlaces salen del nombre de la capa: `→ /ruta` navega, `⧉ Nombre` abre un popup, `← …` vuelve atrás y `✕ cerrar` cierra el popup. Flujos de inicio: Sitio público, Pedir cita, Equipo, Administración y Móvil. Cada pantalla tiene al lado una nota amarilla **Interacción · motion** (duraciones, curvas y qué va con anime.js o Motion, según [[N07-Movimiento]]); cada componente lleva la suya en su descripción.
 
+**Botón flotante de ayuda interactivo (`Moléculas/Botón flotante de ayuda`):**
+Convertido en Component Set con 3 variantes interactivas conectadas en prototipo Figma:
+1. `Estado=Desplegado`: Píldora inicial (239×68 px) visible al cargar. Tras 4000 ms (`AFTER_TIMEOUT`), transiciona con Smart Animate (Ease out 500 ms) a `Estado=Colapsado`.
+2. `Estado=Colapsado`: Círculo de 68×68 px con icono centrado de salvavidas/auxilio. Al pasar el mouse (`ON_HOVER`), se expande con Smart Animate (Ease out 350 ms) a `Estado=Cursor encima`.
+3. `Estado=Cursor encima`: Píldora desplegada con micro-elevación de sombra.
+4. Nota técnica documentada en `Notas · Wireframe - 1` (NOTA 7) para su implementación con `motion/react`.
+
 **Ilustraciones:** cada hueco `ILU-NN` muestra ID, archivo y prompt corto; el prompt completo, el bloque de estilo y los enlaces de GitHub a la teoría están en `contenido/ilustraciones/PROMPTS.md`. Al generar una, se pega en el hueco o se reemplaza la instancia.
 
 Los números de las líneas de ayuda y los colores de los códigos de emergencia son **marcadores** hasta que el CAPL los confirme ([[12-Codigos-de-Emergencia-Borrador]]).
