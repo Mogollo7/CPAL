@@ -16,6 +16,15 @@ export type EntradaBase = {
   asunto: string; // se usa también como título
   parrafos: string[]; // texto plano; aquí se escapa
   boton?: { texto: string; ruta: string }; // ruta relativa: se arma con URL_SITIO (RES-TEC-05)
+  destacado?: string; // texto grande (p. ej. el código de ingreso)
+  enlaces?: { texto: string; url: string }[]; // enlaces de apoyo (calendarios), NO son botones
+};
+
+export type CorreoRender = {
+  asunto: string;
+  html: string;
+  texto: string;
+  adjuntos?: { nombre: string; contenido: string; tipo: string }[];
 };
 
 /** Escapa HTML: un nombre como `<script>` o `"><img…` llega como texto, no como código. */
@@ -29,11 +38,7 @@ export const esc = (s: string) =>
 
 const sitio = () => (process.env.URL_SITIO ?? "").replace(/\/$/, "");
 
-export function plantillaBase(e: EntradaBase): {
-  asunto: string;
-  html: string;
-  texto: string;
-} {
+export function plantillaBase(e: EntradaBase): CorreoRender {
   const ayuda = `${sitio()}/ayuda-inmediata`;
   const contacto = process.env.CORREO_RESPUESTA ?? "";
   const direccion = process.env.CAPL_DIRECCION ?? "";
@@ -47,6 +52,7 @@ export function plantillaBase(e: EntradaBase): {
 <tr><td style="background:${C.tarjeta};border-radius:26px;padding:26px">
 <h1 style="margin:0 0 16px;font-size:20px;line-height:1.272;color:${C.titulo}">${esc(e.asunto)}</h1>
 ${e.parrafos.map((p) => `<p style="margin:0 0 16px;font-size:16px">${esc(p)}</p>`).join("\n")}
+${e.destacado ? `<p style="margin:0 0 16px;font-size:34px;font-weight:800;letter-spacing:6px;color:${C.titulo}">${esc(e.destacado)}</p>` : ""}${(e.enlaces ?? []).map((l) => `<p style="margin:0 0 8px;font-size:15px"><a href="${esc(l.url)}" style="color:${C.boton}">${esc(l.texto)}</a></p>`).join("\n")}
 ${e.boton ? `<p style="margin:26px 0 0"><a href="${esc(url)}" style="display:inline-block;background:${C.boton};color:#FFFFFF;text-decoration:none;font-weight:600;border-radius:9999px;padding:14px 26px">${esc(e.boton.texto)}</a></p>` : ""}
 </td></tr>
 <tr><td style="padding:16px 8px;font-size:13px;color:${C.suave}">
@@ -58,6 +64,8 @@ ${direccion ? `<p style="margin:0 0 6px">${esc(direccion)}</p>` : ""}${contacto 
     e.asunto,
     "",
     ...e.parrafos,
+    ...(e.destacado ? ["", e.destacado] : []),
+    ...(e.enlaces ?? []).flatMap((l) => ["", `${l.texto}: ${l.url}`]),
     ...(e.boton ? ["", `${e.boton.texto}: ${url}`] : []),
     "",
     "—",

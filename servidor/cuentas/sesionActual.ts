@@ -1,7 +1,9 @@
 // Sesión de la petición en curso, para Server Components y acciones de servidor (no usar desde pruebas unitarias).
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { fallo, type Resultado } from "../../contratos/resultado";
 import { bd } from "../bd";
+import { COOKIE_CONFIRMACION, confirmacionVigente } from "./confirmacion";
 import { exigir, type Rol, type Sesion } from "../permisos";
 import { registrar } from "../registro";
 import { COOKIE_SESION, leer } from "./sesion";
@@ -32,4 +34,22 @@ export async function paginaProtegida(roles: Rol | Rol[]): Promise<Sesion> {
     resultado: r.codigo,
   });
   redirect("/panel?error=sin-permiso");
+}
+
+/** Para operaciones y route handlers: sesión del rol pedido o `NO_AUTENTICADO` / `SIN_PERMISO` (E05). */
+export async function sesionDeOperacion(
+  roles: Rol | Rol[],
+): Promise<Resultado<Sesion>> {
+  return exigir(await obtenerSesion(), roles);
+}
+
+/** Primera línea de toda acción SENSIBLE (S02), después de `exigir`: si pasaron más de 10 minutos desde que la persona
+ *  confirmó su contraseña devuelve `CONFIRMACION_REQUERIDA` y la pantalla debe pedirla (`confirmarClaveAccion`). */
+export async function exigirClaveReciente(
+  sesion: Sesion,
+): Promise<Resultado<Sesion>> {
+  const cookie = (await cookies()).get(COOKIE_CONFIRMACION)?.value;
+  return confirmacionVigente(cookie, sesion.usuarioId)
+    ? { ok: true, datos: sesion }
+    : fallo("CONFIRMACION_REQUERIDA", "Confirma tu contraseña para continuar.");
 }

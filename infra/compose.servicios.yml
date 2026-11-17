@@ -1,0 +1,39 @@
+# Fase 2 (E07): los servicios `tareas` y `respaldo` en Docker. Se suma al compose de producción:
+#   docker compose -f compose.yml -f compose.servicios.yml up -d
+# Reutilizan los mismos scripts que las unidades de systemd de la fase 1. NO probado: sin ejecutar contra nada real.
+services:
+  tareas:
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on: [app]
+    env_file: [.env]
+    environment:
+      APP_URL_INTERNA: http://app:3000
+    volumes:
+      - ./tareas.sh:/tareas.sh:ro
+    # Cada minuto. Si una vuelta falla, la siguiente se intenta igual (el candado lo pone la app).
+    command: sh -c "apk add --no-cache curl >/dev/null && while true; do sh /tareas.sh || true; sleep 60; done"
+    logging: { driver: json-file, options: { max-size: 10m, max-file: "3" } }
+    mem_limit: 64m
+  respaldo:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    depends_on: [db]
+    env_file: [.env.respaldo] # PG* con capl_migrador y RESPALDO_*; nunca en git
+    environment:
+      TZ: America/Bogota
+      DIR_RESPALDOS: /respaldos
+      RUTA_ARCHIVOS: /archivos
+    volumes:
+      - ./respaldo.sh:/respaldo.sh:ro
+      - respaldos:/respaldos
+      - archivos:/archivos:ro
+      - /etc/capl/clave-respaldo:/etc/capl/clave-respaldo:ro
+      - /etc/capl/ssh:/root/.ssh:ro
+    # Diario a las 2:00 con el cron de busybox.
+    command: sh -c "apk add --no-cache gnupg rsync openssh-client >/dev/null && echo '0 2 * * * sh /respaldo.sh diario' | crontab - && crond -f -l 8"
+    logging: { driver: json-file, options: { max-size: 10m, max-file: "3" } }
+    mem_limit: 256m
+volumes:
+  respaldos:
+  archivos:

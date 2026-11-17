@@ -35,3 +35,16 @@ describe("exigir(rol)", () => {
     });
   });
 });
+
+describe("guarda de rutas por rol (T-201)", () => {
+  it("psicólogo no entra a /panel/admin; admin no entra a /panel/psicologo; lo común es de ambos", async () => {
+    const { rutaPermitida } = await import("./permisos");
+    expect(rutaPermitida("/panel/admin/citas", "PSICOLOGO")).toBe(false);
+    expect(rutaPermitida("/panel/admin", "PSICOLOGO")).toBe(false);
+    expect(rutaPermitida("/panel/admin/citas", "ADMIN")).toBe(true);
+    expect(rutaPermitida("/panel/psicologo/citas", "ADMIN")).toBe(false);
+    expect(rutaPermitida("/panel/psicologo/citas", "PSICOLOGO")).toBe(true);
+    expect(rutaPermitida("/panel", "PSICOLOGO")).toBe(true);
+    expect(rutaPermitida("/panel/administracion", "PSICOLOGO")).toBe(true); // no es /panel/admin
+  });
+});

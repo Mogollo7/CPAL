@@ -4,6 +4,7 @@
 // Aquí NO se consulta la base de datos: que el usuario siga activo y su rol se comprueban en cada página con
 // `paginaProtegida()` / en cada operación con `exigir()`. Esta capa solo evita renderizar sin sesión.
 import { NextResponse, type NextRequest } from "next/server";
+import { rutaPermitida } from "./servidor/permisos";
 import {
   COOKIE_SESION,
   firmar,
@@ -21,6 +22,9 @@ export function proxy(req: NextRequest) {
     if (req.cookies.has(COOKIE_SESION)) res.cookies.delete(COOKIE_SESION); // vencida o alterada
     return res;
   }
+  // Rol que no corresponde a la ruta (p. ej. psicólogo en /panel/admin): SIN_PERMISO, igual que `paginaProtegida`.
+  if (!rutaPermitida(req.nextUrl.pathname, carga.r))
+    return NextResponse.redirect(new URL("/panel?error=sin-permiso", req.url));
   const res = NextResponse.next();
   const nueva = renovada(carga);
   if (nueva)

@@ -62,7 +62,7 @@ La ilustración es el **fondo completo del hero** (1280 × 800 px en Figma), no 
 | ------------------- | ----------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
 | ZONA LIBRE de texto | x 28 %–72 %, y 28 %–72 % (título, subtítulo, botón) y franja inferior x 38 %–62 %, y 88 %–100 % (controles) | Solo fondo suave plano (crema/lavanda), sin personajes, sin detalles ni contraste fuerte. Se permite una alfombra, camino o pasto muy tenue. |
 | Zona PRIMARIA       | Franja izquierda x 0 %–28 %, y 38 %–100 %, y rincón inferior derecho x 72 %–100 %, y 66 %–100 %             | Personajes, mascota, casa: lo que cuenta la historia. No debe taparlo nada importante.                                                       |
-| Zona SECUNDARIA     | Esquinas superiores y borde derecho                                      | Plantas, ventana, árboles, nubes, luz miel. Puede quedar algo cerca del texto.                                                                |
+| Zona SECUNDARIA     | Esquinas superiores y borde derecho                                                                         | Plantas, ventana, árboles, nubes, luz miel. Puede quedar algo cerca del texto.                                                               |
 
 **Contexto para el agente** (pégalo junto con el bloque de estilo de arriba):
 

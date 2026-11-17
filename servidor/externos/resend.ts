@@ -10,6 +10,8 @@ export type Correo = {
   asunto: string;
   html: string;
   texto: string;
+  adjuntos?: { nombre: string; contenido: string; tipo: string }[]; // contenido en texto (p. ej. .ics)
+  trabajoId?: string; // viaja como etiqueta: el aviso de entrega de Resend lo trae de vuelta (T-332)
   llave?: string; // llave del trabajo: Resend la usa para no enviar dos veces el mismo correo (idempotencia)
 };
 export type ErrorEnvio = {
@@ -48,6 +50,12 @@ const enviarConResend: Enviar = async (llave, c) => {
       subject: c.asunto,
       html: c.html,
       text: c.texto,
+      attachments: c.adjuntos?.map((a) => ({
+        filename: a.nombre,
+        content: Buffer.from(a.contenido),
+        contentType: a.tipo,
+      })),
+      tags: c.trabajoId ? [{ name: "trabajo", value: c.trabajoId }] : undefined,
     },
     c.llave ? { idempotencyKey: c.llave } : undefined,
   );

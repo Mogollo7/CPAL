@@ -5,7 +5,9 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import type { Rol } from "../permisos";
 
-export const COOKIE_SESION = "capl_sesion";
+// S01: en producción la cookie lleva el prefijo `__Host-` (el navegador exige Secure, path "/" y sin Domain). En local no hay HTTPS, así que sin prefijo.
+export const COOKIE_SESION =
+  process.env.ENTORNO === "local" ? "capl_sesion" : "__Host-capl_sesion";
 export const MAX_INACTIVIDAD_S: Record<Rol, number> = {
   ADMIN: 2 * 3600,
   PSICOLOGO: 8 * 3600,
@@ -80,3 +82,35 @@ export const opcionesCookie = (r: Rol) => ({
   path: "/",
   maxAge: MAX_INACTIVIDAD_S[r],
 });
+
+/** Datos firmados de uso corto (paso 2 del ingreso, confirmación de contraseña). Siempre llevan `exp` en segundos. */
+export function firmarDatos(
+  d: { exp: number; t: string; u: string },
+  clave = secreto(),
+) {
+  const cuerpo = b64(JSON.stringify(d));
+  return `${cuerpo}.${b64(firma(cuerpo, clave))}`;
+}
+
+/** Devuelve los datos si la firma es válida y no vencieron; si no, `null`. El llamador comprueba `t` (el tipo). */
+export function leerDatos<T extends { exp: number }>(
+  token: string | undefined,
+  clave = secreto(),
+  ahora = ahoraS(),
+): T | null {
+  const [cuerpo, f] = (token ?? "").split(".");
+  if (!cuerpo || !f) return null;
+  const esperada = firma(cuerpo, clave);
+  const recibida = Buffer.from(f, "base64url");
+  if (
+    recibida.length !== esperada.length ||
+    !timingSafeEqual(recibida, esperada)
+  )
+    return null;
+  try {
+    const d = JSON.parse(Buffer.from(cuerpo, "base64url").toString()) as T;
+    return Number.isFinite(d.exp) && d.exp > ahora ? d : null;
+  } catch {
+    return null;
+  }
+}

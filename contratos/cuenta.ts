@@ -18,3 +18,24 @@ export const crearClaveSchema = z
     message: "Las contraseñas no coinciden",
   });
 export type CrearClave = z.infer<typeof crearClaveSchema>;
+
+export const solicitarEnlaceSchema = z.object({
+  correo: z.string().trim().toLowerCase().max(120).pipe(z.email()),
+});
+
+export const cambiarClaveSchema = z.object({
+  claveActual: z.string().min(1).max(200),
+  claveNueva: z.string().min(10, "Mínimo 10 caracteres").max(200),
+});
+
+export const codigoSchema = z.object({
+  codigo: z
+    .string()
+    .trim()
+    .regex(/^\d{6}$/, "El código tiene 6 dígitos"),
+  recordarDispositivo: z.boolean().default(false),
+});
+
+export const confirmarClaveSchema = z.object({
+  clave: z.string().min(1).max(200),
+});

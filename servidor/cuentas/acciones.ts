@@ -1,18 +1,45 @@
 "use server";
-// Acciones de servidor de la sesión. Brand las conecta a los formularios de /ingresar y al botón "Cerrar sesión".
+// Acciones de servidor de cuenta. Brand las conecta a los formularios de /ingresar, /crear-clave, "Mi cuenta" y al botón "Cerrar sesión".
 import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Resultado } from "../../contratos/resultado";
 import { registrar } from "../registro";
+import { cambiarClave, crearClave, solicitarEnlace } from "./claves";
+import { COOKIE_CONFIRMACION, confirmarClave } from "./confirmacion";
 import { ingresar } from "./ingresar";
+import {
+  COOKIE_DISPOSITIVO,
+  COOKIE_PASO,
+  CODIGO_VIGENCIA_S,
+  reenviarCodigo,
+  verificarCodigo,
+} from "./segundoPaso";
 import { COOKIE_SESION, leer, opcionesCookie } from "./sesion";
+import { obtenerSesion } from "./sesionActual";
+import type { Rol } from "../permisos";
 
 const INICIO = {
   ADMIN: "/panel/admin/citas",
   PSICOLOGO: "/panel/psicologo/citas",
 } as const;
 
-/** Uso: `<form action={ingresarAccion}>` con campos `correo` y `clave`. Si falla devuelve el error; si entra, redirige. */
+const opcionesAuxiliar = (maxAge: number) => ({
+  httpOnly: true,
+  sameSite: "lax" as const,
+  secure: process.env.ENTORNO !== "local",
+  path: "/",
+  maxAge,
+});
+
+async function abrirSesion(token: string, rol: Rol): Promise<never> {
+  const jar = await cookies();
+  jar.set(COOKIE_SESION, token, opcionesCookie(rol));
+  jar.delete(COOKIE_PASO);
+  redirect(INICIO[rol]);
+}
+
+/** Uso: `<form action={ingresarAccion}>` con campos `correo` y `clave`. Si falla devuelve el error; si entra, redirige.
+ *  Administrador en dispositivo nuevo: devuelve `CODIGO_REQUERIDO` (ya dejó la cookie del paso 2): mostrar el campo del código. */
 export async function ingresarAccion(
   _previo: unknown,
   formData: FormData,
@@ -20,23 +47,106 @@ export async function ingresarAccion(
   const red =
     (await headers()).get("x-forwarded-for")?.split(",")[0].trim() ||
     "desconocida";
+  const jar = await cookies();
   const r = await ingresar(
     { correo: formData.get("correo"), clave: formData.get("clave") },
     red,
+    jar.get(COOKIE_DISPOSITIVO)?.value,
+  );
+  if (!r.ok) {
+    if (r.codigo === "CODIGO_REQUERIDO" && r.campos?.paso) {
+      jar.set(COOKIE_PASO, r.campos.paso, opcionesAuxiliar(CODIGO_VIGENCIA_S));
+      return { ...r, campos: undefined }; // la firma del paso no viaja al navegador por la respuesta
+    }
+    return r;
+  }
+  return abrirSesion(r.datos.token, r.datos.rol);
+}
+
+/** Campos `codigo` (6 dígitos) y `recordar` (casilla "recordar este dispositivo"). */
+export async function verificarCodigoAccion(
+  _previo: unknown,
+  formData: FormData,
+): Promise<Resultado<never>> {
+  const h = await headers();
+  const jar = await cookies();
+  const r = await verificarCodigo(
+    jar.get(COOKIE_PASO)?.value,
+    {
+      codigo: formData.get("codigo"),
+      recordarDispositivo: formData.has("recordar"),
+    },
+    h.get("user-agent") ?? undefined,
   );
   if (!r.ok) return r;
+  if (r.datos.dispositivo)
+    jar.set(
+      COOKIE_DISPOSITIVO,
+      r.datos.dispositivo.token,
+      opcionesAuxiliar(r.datos.dispositivo.maxAgeS),
+    );
+  return abrirSesion(r.datos.token, r.datos.rol);
+}
+
+export async function reenviarCodigoAccion(): Promise<Resultado<{ ok: true }>> {
+  return reenviarCodigo((await cookies()).get(COOKIE_PASO)?.value);
+}
+
+/** Campos `token` (de la URL), `clave` y `confirmacion`. Abre sesión y redirige. */
+export async function crearClaveAccion(
+  _previo: unknown,
+  formData: FormData,
+): Promise<Resultado<never>> {
+  const r = await crearClave({
+    token: formData.get("token"),
+    clave: formData.get("clave"),
+    confirmacion: formData.get("confirmacion"),
+  });
+  if (!r.ok) return r;
+  return abrirSesion(r.datos.token, r.datos.rol);
+}
+
+/** Campo `correo`. Responde igual exista o no la cuenta. */
+export async function solicitarEnlaceAccion(
+  _previo: unknown,
+  formData: FormData,
+): Promise<Resultado<{ ok: true }>> {
+  return solicitarEnlace({ correo: formData.get("correo") });
+}
+
+/** Campos `claveActual` y `claveNueva`. */
+export async function cambiarClaveAccion(
+  _previo: unknown,
+  formData: FormData,
+): Promise<Resultado<{ ok: true }>> {
+  return cambiarClave(await obtenerSesion(), {
+    claveActual: formData.get("claveActual"),
+    claveNueva: formData.get("claveNueva"),
+  });
+}
+
+/** Campo `clave`. Deja la cookie que `exigirClaveReciente` reconoce durante 10 minutos. */
+export async function confirmarClaveAccion(
+  _previo: unknown,
+  formData: FormData,
+): Promise<Resultado<{ ok: true }>> {
+  const r = await confirmarClave(await obtenerSesion(), {
+    clave: formData.get("clave"),
+  });
+  if (!r.ok) return r;
   (await cookies()).set(
-    COOKIE_SESION,
+    COOKIE_CONFIRMACION,
     r.datos.token,
-    opcionesCookie(r.datos.rol),
+    opcionesAuxiliar(r.datos.maxAgeS),
   );
-  redirect(INICIO[r.datos.rol]);
+  return { ok: true, datos: { ok: true } };
 }
 
 export async function cerrarSesionAccion(): Promise<void> {
   const jar = await cookies();
   const carga = leer(jar.get(COOKIE_SESION)?.value);
   jar.delete(COOKIE_SESION);
+  jar.delete(COOKIE_CONFIRMACION);
   registrar("cuenta.sesion_cerrada", {
     actor: carga?.u,
     rol: carga?.r === "ADMIN" ? "admin" : "psicologo",

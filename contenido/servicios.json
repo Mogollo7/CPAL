@@ -1,0 +1,67 @@
+{
+  "ultimaRevision": "2026-11-16",
+  "aprobadoPor": "Pendiente de validación del CAPL",
+  "porConfirmar": true,
+  "servicios": [
+    {
+      "slug": "atencion-psicologica-individual",
+      "nombre": "Atención psicológica individual",
+      "descripcion": "Espacio de escucha y acompañamiento con psicólogos en formación, supervisados por docentes.",
+      "paraQuien": "Personas que quieren hablar de lo que sienten o atraviesan una situación difícil.",
+      "area": "PSICOLOGIA",
+      "agendableEnLinea": true,
+      "orden": 1,
+      "porConfirmar": true
+    },
+    {
+      "slug": "evaluacion-neuropsicologica",
+      "nombre": "Evaluación neuropsicológica",
+      "descripcion": "Valoración de la atención, la memoria y otras funciones cognitivas, con neuropsicólogos del CES.",
+      "paraQuien": "Personas con dificultades de memoria, atención o aprendizaje.",
+      "area": "NEUROPSICOLOGIA",
+      "agendableEnLinea": true,
+      "orden": 2,
+      "porConfirmar": true
+    },
+    {
+      "slug": "orientacion-vocacional",
+      "nombre": "Orientación vocacional y proyecto de vida",
+      "descripcion": "Acompañamiento para decidir qué estudiar y definir metas personales.",
+      "paraQuien": "Estudiantes y jóvenes que están eligiendo su camino.",
+      "area": "PSICOLOGIA",
+      "agendableEnLinea": true,
+      "orden": 3,
+      "porConfirmar": true
+    },
+    {
+      "slug": "certificacion-mascotas-apoyo-emocional",
+      "nombre": "Certificación de mascotas de apoyo emocional",
+      "descripcion": "Proceso de evaluación para certificar una mascota de apoyo emocional.",
+      "paraQuien": "Personas que ya tienen una mascota y necesitan el proceso de certificación.",
+      "area": "PSICOLOGIA",
+      "agendableEnLinea": false,
+      "orden": 4,
+      "porConfirmar": true
+    },
+    {
+      "slug": "pruebas-psicometricas",
+      "nombre": "Pruebas psicométricas",
+      "descripcion": "Aplicación e interpretación de pruebas psicológicas estandarizadas.",
+      "paraQuien": "Personas que necesitan una evaluación psicológica formal.",
+      "area": "PSICOLOGIA",
+      "agendableEnLinea": false,
+      "orden": 5,
+      "porConfirmar": true
+    },
+    {
+      "slug": "charlas-empresariales-y-educativas",
+      "nombre": "Charlas empresariales y educativas",
+      "descripcion": "Charlas y talleres sobre bienestar y salud mental para grupos.",
+      "paraQuien": "Colegios, empresas y organizaciones que quieren una charla.",
+      "area": "PSICOLOGIA",
+      "agendableEnLinea": false,
+      "orden": 6,
+      "porConfirmar": true
+    }
+  ]
+}
