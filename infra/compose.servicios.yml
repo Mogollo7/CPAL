@@ -1,5 +1,5 @@
 # Fase 2 (E07): los servicios `tareas` y `respaldo` en Docker. Se suma al compose de producción:
-#   docker compose -f compose.yml -f compose.servicios.yml up -d
+#   docker compose -f compose.produccion.yml -f compose.servicios.yml up -d
 # Reutilizan los mismos scripts que las unidades de systemd de la fase 1. NO probado: sin ejecutar contra nada real.
 services:
   tareas:

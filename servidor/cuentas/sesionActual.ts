@@ -15,9 +15,15 @@ export async function obtenerSesion(): Promise<Sesion | null> {
   if (!carga) return null;
   const u = await bd.usuario.findUnique({
     where: { id: carga.u },
-    select: { id: true, rol: true, activo: true },
+    select: { id: true, rol: true, activo: true, sesionesDesde: true },
   });
   if (!u || !u.activo || u.rol !== carga.r) return null;
+  // "Cerrar mis sesiones": toda sesión iniciada antes de ese instante deja de valer (las antiguas sin `iat` también).
+  if (
+    u.sesionesDesde &&
+    (carga.iat ?? 0) < Math.floor(u.sesionesDesde.getTime() / 1000)
+  )
+    return null;
   return { usuarioId: u.id, rol: u.rol, activo: u.activo };
 }
 

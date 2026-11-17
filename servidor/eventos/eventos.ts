@@ -1,5 +1,6 @@
 // Cartelera de eventos (RF-EVE-01, 06). Informativa: SIN inscripciones ni cupos (RF-EVE-03/04/05 descartados).
 // Visible al público = `publicado` y `fin` (o `inicio` si no hay fin) en el futuro (E03 §10).
+import { borrarArchivo, guardarImagen } from "../archivos";
 import { z } from "zod";
 import { eventoSchema, type EventoDetalle } from "../../contratos/evento";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
@@ -138,6 +139,47 @@ export async function editarEvento(
     );
     return ok(aDetalle(fila));
   });
+}
+
+const MENSAJE_IMAGEN =
+  "Tamaño máximo: 6 MB. Formatos permitidos: JPG, PNG o WebP.";
+
+/** Imagen del evento: 1200 × 630 (proporción de tarjeta para redes), WebP, sin metadatos; borra la anterior. */
+export async function subirImagenEvento(
+  sesion: Sesion | null | undefined,
+  id: unknown,
+  archivo: Uint8Array,
+): Promise<Resultado<EventoDetalle>> {
+  const p = exigir(sesion, "ADMIN");
+  if (!p.ok) return p;
+  const vi = validar(idSchema, id);
+  if (!vi.ok) return vi;
+  const antes = await bd.evento.findUnique({
+    where: { id: vi.datos },
+    select: { imagenRuta: true },
+  });
+  if (!antes) return fallo("NO_ENCONTRADO", "No encontramos ese evento.");
+  const ruta = await guardarImagen(archivo, "eventos", {
+    ancho: 1200,
+    alto: 630,
+    maxBytes: 6 * 1024 * 1024,
+  });
+  if (!ruta)
+    return fallo("ARCHIVO_INVALIDO", MENSAJE_IMAGEN, {
+      imagen: MENSAJE_IMAGEN,
+    });
+  const fila = await bd.evento.update({
+    where: { id: vi.datos },
+    data: { imagenRuta: ruta },
+  });
+  await borrarArchivo(antes.imagenRuta);
+  await auditar({
+    usuarioId: p.datos.usuarioId,
+    accion: "EVENTO_EDITADO",
+    entidad: "Evento",
+    entidadId: fila.id,
+  });
+  return ok(aDetalle(fila));
 }
 
 /** Todos los eventos (publicados o no, pasados o futuros) para el panel; el más reciente primero. */

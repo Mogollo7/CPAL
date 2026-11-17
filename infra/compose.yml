@@ -25,7 +25,8 @@ services:
     container_name: capl-tunel
     command: tunnel --no-autoupdate run
     environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Falta CLOUDFLARE_TUNNEL_TOKEN en .env}
+      # Sin `:?`: esa comprobación hacía fallar también `npm run bd:subir` a quien no usa el túnel. Si falta, cloudflared avisa al arrancar.
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-}
     extra_hosts:
       - "host.docker.internal:host-gateway" # en Linux; Docker Desktop (Windows/Mac) ya lo trae
     restart: unless-stopped

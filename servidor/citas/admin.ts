@@ -1,5 +1,6 @@
 // Operaciones de administración de citas (RF-ADM-03, 04, 05, 10, 12, 14). Todas empiezan con `exigir(sesion, "ADMIN")`.
 // Los identificadores que llegan del navegador nunca se dan por buenos: cada operación vuelve a leer la cita.
+import { encolarPlantilla } from "../correo/enviar";
 import {
   asistenciaSchema,
   motivoAdminSchema,
@@ -335,9 +336,27 @@ export async function reasignarCita(
         },
         tx,
       );
+      // Aviso a la persona con los datos nuevos, y al psicólogo que ahora la atiende si ya estaba autorizada.
+      // La versión es el horario nuevo: cada cambio es un correo distinto.
+      // ponytail: el psicólogo anterior no recibe correo (la plantilla lee al psicólogo actual de la cita); lo ve en su agenda.
+      const version = inicio.getTime();
+      await encolarPlantilla(
+        "cita-reasignada",
+        { citaId: id },
+        { version },
+        tx,
+      );
+      if (c.estado === "AUTORIZADA" && psicologoId !== c.psicologoId)
+        await encolarPlantilla(
+          "cita-nueva-psicologo",
+          { citaId: id },
+          { version },
+          tx,
+        );
       return ok(null);
     });
     if (!r.ok) return r;
+    await despachar();
   } catch (e) {
     if (esCruce(e))
       return fallo(

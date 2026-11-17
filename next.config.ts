@@ -48,6 +48,8 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // Salida mínima para la imagen de Docker (la activa el Dockerfile); `npm start` en local sigue igual.
+  output: process.env.NEXT_OUTPUT === "standalone" ? "standalone" : undefined,
   async headers() {
     return [
       { source: "/:path*", headers: cabecerasSeguras },

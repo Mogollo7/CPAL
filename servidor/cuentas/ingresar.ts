@@ -10,6 +10,11 @@ import { dispositivoConfiable, enviarCodigo, firmarPaso } from "./segundoPaso";
 import { firmar, MAX_INACTIVIDAD_S, nuevaCarga } from "./sesion";
 
 const MENSAJE = "Correo o contraseña incorrectos"; // siempre el mismo, exista o no el correo
+// Igual exista o no la cuenta: el contador diario se lleva por correo, también para correos sin cuenta.
+const BLOQUEADA = fallo(
+  "DEMASIADOS_INTENTOS",
+  "Por seguridad, esta cuenta necesita una contraseña nueva. Usa «Olvidé mi contraseña».",
+);
 
 export type SesionIniciada = {
   token: string;
@@ -44,6 +49,16 @@ export async function ingresar(
   }
 
   const u = await bd.usuario.findUnique({ where: { correo } });
+  // 15 fallos en un día (S02): no se entra ni con la contraseña correcta hasta crear una nueva por enlace.
+  if (u?.bloqueadaEn || !consultar("ingresoDia", correo).permitido) {
+    registrar("cuenta.bloqueada", {
+      nivel: "aviso",
+      rol: "publico",
+      red: redTruncada(red),
+      resultado: "dia",
+    });
+    return BLOQUEADA;
+  }
   // Se verifica SIEMPRE (contra un hash de relleno si no hay cuenta) para no revelar qué correos existen por el tiempo de respuesta.
   const claveOk = u?.claveHash
     ? await verificarClave(u.claveHash, clave)
@@ -51,6 +66,12 @@ export async function ingresar(
 
   if (!u || !u.activo || !u.claveHash || !claveOk) {
     limitar("ingreso", quien); // solo los fallos cuentan
+    limitar("ingresoDia", correo);
+    if (u && !consultar("ingresoDia", correo).permitido)
+      await bd.usuario.update({
+        where: { id: u.id },
+        data: { bloqueadaEn: new Date() }, // sobrevive a un reinicio de la aplicación
+      });
     registrar("cuenta.ingreso_fallido", {
       nivel: "aviso",
       rol: "publico",
@@ -61,6 +82,7 @@ export async function ingresar(
   }
 
   olvidar("ingreso", quien);
+  olvidar("ingresoDia", correo);
   if (u.rol === "ADMIN" && !(await dispositivoConfiable(u.id, dispositivo))) {
     await enviarCodigo(u);
     return fallo("CODIGO_REQUERIDO", "Te enviamos un código a tu correo.", {

@@ -5,6 +5,7 @@ import { registrar } from "../registro";
 type Aviso = {
   type?: string;
   data?: {
+    to?: string[] | string;
     tags?: Record<string, string> | { name: string; value: string }[];
     bounce?: { type?: string };
   };
@@ -46,6 +47,15 @@ export async function procesarAviso(
             aviso.data?.bounce?.type !== "Transient")
         ? false // rebote permanente (o indeterminado) o marcado como no deseado
         : undefined;
+  // Marcó un correo del CAPL como no deseado: no se le vuelve a escribir (S04). `prepararCorreo` consulta esta lista.
+  if (aviso.type === "email.complained") {
+    const para = [aviso.data?.to ?? []].flat().map((c) => c.toLowerCase());
+    if (para.length)
+      await bd.correoSuprimido.createMany({
+        data: para.map((correo) => ({ correo, motivo: "no-deseado" })),
+        skipDuplicates: true,
+      });
+  }
   const trabajoId = etiquetaTrabajo(aviso);
   if (entregado === undefined || !trabajoId) return "ignorado";
 

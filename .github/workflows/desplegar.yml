@@ -1,136 +1,103 @@
 name: Desplegar a pruebas
 
-# Se dispara al unir cambios a la rama principal (main) tras la aprobación y éxito de la CI,
-# o de forma manual mediante workflow_dispatch.
+# E07: al unir a `main` y pasar la CI se construyen las imágenes, se publican en el registro de contenedores de
+# GitHub con el identificador del commit, y el servidor de pruebas las descarga y reinicia. También se puede lanzar a mano.
+# Secretos necesarios en GitHub: SSH_HOST, SSH_USER, SSH_KEY (llave de solo despliegue). Opcionales: SSH_PORT y
+# DIRECTORIO_DESPLIEGUE (por defecto /srv/capl-pruebas, con el repositorio clonado y su infra/.env).
 on:
   workflow_run:
     workflows: ["CI"]
     branches: ["main"]
-    types:
-      - completed
+    types: [completed]
   workflow_dispatch:
 
-# Permisos mínimos de seguridad para el runner de GitHub Actions
 permissions:
   contents: read
 
-# Control de concurrencia: evita que dos despliegues simultáneos se ejecuten a la vez.
-# cancel-in-progress es false para garantizar que no se cancelen migraciones de base de datos
-# ni procesos de docker compose a mitad de ejecución.
+# Dos despliegues nunca a la vez, y no se cancela uno en curso (podría cortar una migración).
 concurrency:
   group: despliegue-pruebas
   cancel-in-progress: false
 
+env:
+  IMAGEN: ghcr.io/mogollo7/cpal
+  VERSION: ${{ github.event.workflow_run.head_sha || github.sha }}
+
 jobs:
-  desplegar:
-    name: Despliegue en servidor de pruebas
+  imagen:
+    name: Construir y publicar imágenes
     runs-on: ubuntu-latest
-    # Solo ejecuta el despliegue si fue disparado manualmente o si el flujo previo de CI concluyó exitosamente
     if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+      packages: write
     steps:
-      # Conexión SSH al servidor utilizando el usuario de despliegue y secretos de GitHub
-      - name: Ejecutar despliegue vía SSH en el servidor
-        uses: appleboy/ssh-action@v1.2.1
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.VERSION }}
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Imagen de la aplicación
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: app
+          push: true
+          tags: |
+            ${{ env.IMAGEN }}:${{ env.VERSION }}
+            ${{ env.IMAGEN }}:pruebas
+      - name: Imagen de migraciones
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrador
+          push: true
+          tags: |
+            ${{ env.IMAGEN }}:${{ env.VERSION }}-migrador
+            ${{ env.IMAGEN }}:pruebas-migrador
+
+  desplegar:
+    name: Actualizar el servidor de pruebas
+    needs: imagen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v1.2.1
+        env:
+          VERSION: ${{ env.VERSION }}
         with:
           host: ${{ secrets.SSH_HOST }}
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_KEY }}
           port: ${{ secrets.SSH_PORT || '22' }}
-          timeout: 15m
-          script_stop: true
+          envs: VERSION
+          command_timeout: 15m
           script: |
             set -e
+            cd "${{ secrets.DIRECTORIO_DESPLIEGUE || '/srv/capl-pruebas' }}"
 
-            echo "=== Iniciando despliegue automático en entorno de pruebas (CAPL) ==="
+            # Los archivos de compose, el Caddyfile y los scripts salen del repositorio, en el mismo commit que la imagen.
+            # OJO: descarta cualquier cambio hecho a mano en el servidor (infra/.env no está en git y no se toca).
+            git fetch --quiet origin "$VERSION"
+            git reset --hard --quiet "$VERSION"
 
-            # 1. Acceder al directorio del proyecto en pruebas según E07 (/srv/capl-pruebas)
-            DIRECTORIO="${{ secrets.DIRECTORIO_DESPLIEGUE || '/srv/capl-pruebas' }}"
-            echo "Accediendo a: $DIRECTORIO"
-            cd "$DIRECTORIO"
+            cd infra
+            COMPOSE="docker compose -p capl-pruebas -f compose.produccion.yml -f compose.servicios.yml"
+            export VERSION
+            $COMPOSE pull --quiet
+            # `migrar` corre primero; si falla, `app` no se reemplaza y la versión anterior sigue sirviendo.
+            $COMPOSE up -d --remove-orphans
 
-            # Prevenir advertencias de propiedad de directorio en Git para el usuario de despliegue
-            git config --global --add safe.directory "$DIRECTORIO" 2>/dev/null || true
-
-            # 2. Actualizar el código fuente a la última versión de la rama principal
-            echo "Actualizando código desde origin/main..."
-            git fetch origin main
-            git reset --hard origin/main
-
-            # 3. Aplicar migraciones pendientes en PostgreSQL con Prisma
-            # Según S03 y E07, si la migración falla, el despliegue se detiene aquí y la versión previa sigue intacta.
-            echo "Aplicando migraciones con prisma migrate deploy..."
-            npx prisma migrate deploy
-
-            # 4. Reconstruir imágenes y reiniciar servicios con Docker Compose
-            echo "Reconstruyendo y reiniciando contenedores con Docker Compose..."
-            COMPOSE_CMD="docker compose"
-            COMPOSE_FLAGS=""
-
-            if [ -f "infra/compose.yml" ]; then
-              COMPOSE_FLAGS="-f infra/compose.yml"
-            elif [ -f "compose.yml" ]; then
-              COMPOSE_FLAGS="-f compose.yml"
-            fi
-
-            # Descargar imágenes base actualizadas si aplica (sin detener el flujo si no hay imágenes remotas)
-            $COMPOSE_CMD $COMPOSE_FLAGS pull --ignore-pull-failures 2>/dev/null || true
-
-            # Reconstruir contenedores modificados e iniciar en segundo plano
-            $COMPOSE_CMD $COMPOSE_FLAGS up -d --build --remove-orphans
-
-            # 5. Comprobar que el endpoint /api/salud responda adecuadamente (fallando si no responde)
-            echo "Comprobando disponibilidad del servicio (/api/salud)..."
-            URL_SALUD=""
-            if [ -f ".env" ]; then
-              URL_SITIO_ENV=$(grep -E '^URL_SITIO=' .env | cut -d '=' -f2- | tr -d '"' | tr -d "'" | tr -d '\r')
-              if [ -n "$URL_SITIO_ENV" ]; then
-                URL_SALUD="${URL_SITIO_ENV}/api/salud"
+            # La app debe responder en /api/salud (comprueba también la base de datos).
+            for intento in $(seq 1 20); do
+              if $COMPOSE exec -T app wget -qO- http://127.0.0.1:3000/api/salud >/dev/null 2>&1; then
+                echo "Sitio de pruebas actualizado a $VERSION"
+                exit 0
               fi
-            fi
-
-            EXITO=0
-            MAX_INTENTOS=15
-            PAUSA_SEGUNDOS=4
-
-            for i in $(seq 1 $MAX_INTENTOS); do
-              echo "Intento $i/$MAX_INTENTOS de verificación de salud..."
-
-              # Verificación a través del dominio o URL_SITIO configurada (proxy Caddy)
-              if [ -n "$URL_SALUD" ]; then
-                HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "$URL_SALUD" || true)
-                if [ "$HTTP_CODE" = "200" ]; then
-                  echo "Endpoint /api/salud respondió HTTP 200 en $URL_SALUD"
-                  EXITO=1
-                  break
-                fi
-              fi
-
-              # Verificación local directa en el servidor
-              HTTP_LOCAL=$(curl -s -o /dev/null -w "%{http_code}" --max-time 5 "http://127.0.0.1:3000/api/salud" || true)
-              if [ "$HTTP_LOCAL" = "200" ]; then
-                echo "Endpoint /api/salud respondió HTTP 200 en http://127.0.0.1:3000/api/salud"
-                EXITO=1
-                break
-              fi
-
-              # Verificación interna en el contenedor de aplicación Docker
-              if $COMPOSE_CMD $COMPOSE_FLAGS ps app 2>/dev/null | grep -q "Up"; then
-                if $COMPOSE_CMD $COMPOSE_FLAGS exec -T app wget -q -O - http://localhost:3000/api/salud > /dev/null 2>&1 || \
-                   $COMPOSE_CMD $COMPOSE_FLAGS exec -T app curl -s -f http://localhost:3000/api/salud > /dev/null 2>&1; then
-                  echo "Endpoint /api/salud verificado exitosamente dentro del contenedor app"
-                  EXITO=1
-                  break
-                fi
-              fi
-
-              sleep $PAUSA_SEGUNDOS
+              sleep 5
             done
-
-            if [ $EXITO -ne 1 ]; then
-              echo "ERROR CRÍTICO: El endpoint /api/salud no respondió satisfactoriamente tras $MAX_INTENTOS intentos."
-              echo "=== Últimos registros del contenedor app ==="
-              $COMPOSE_CMD $COMPOSE_FLAGS logs --tail=50 app 2>/dev/null || true
-              exit 1
-            fi
-
-            echo "=== Despliegue automático finalizado exitosamente ==="
+            echo "La aplicación no respondió en /api/salud tras el despliegue"
+            $COMPOSE logs --tail=50 app migrar
+            exit 1

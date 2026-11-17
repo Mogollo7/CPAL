@@ -254,26 +254,7 @@ export async function crearCita(
       : fallo("FUERA_DE_RANGO", "Ese horario no está disponible. Elige otro.");
   }
 
-  // 5. Límite de citas activas por persona (mismo correo o mismo documento)
-  // ponytail: comprobar y luego insertar no es atómico; dos envíos simultáneos de la misma persona podrían pasar.
   const documento = d.pacienteDocumento;
-  const activas = await bd.cita.count({
-    where: {
-      estado: { in: ["PENDIENTE", "AUTORIZADA"] },
-      inicio: { gt: ahora },
-      OR: [
-        { solicitanteCorreo: d.solicitanteCorreo },
-        ...(documento ? [{ pacienteDocumento: documento }] : []),
-      ],
-    },
-  });
-  if (activas >= config.maxCitasActivas) {
-    registrar("cita.limite_alcanzado", { nivel: "aviso" });
-    return fallo(
-      "LIMITE_CITAS",
-      "Ya tienes una cita pendiente o autorizada. Puedes cambiarla o cancelarla desde el enlace de tu correo.",
-    );
-  }
 
   // 6. Inserción
   const fin = new Date(inicio.getTime() + servicio.duracionMin * 60_000);
@@ -296,6 +277,25 @@ export async function crearCita(
     consentimientoVersion: config.versionPolitica,
   };
   const creada = await bd.$transaction(async (tx) => {
+    // 5. Límite de citas activas por persona (mismo correo o mismo documento). El candado por persona dura lo que
+    //    la transacción: dos envíos simultáneos de la misma persona se atienden uno tras otro y el segundo ya ve la
+    //    cita del primero. En orden fijo para que dos transacciones no se bloqueen entre sí.
+    const personas = [d.solicitanteCorreo, documento]
+      .filter((x): x is string => !!x)
+      .sort();
+    for (const persona of personas)
+      await tx.$executeRaw`SELECT pg_advisory_xact_lock(hashtext(${"cita-persona:" + persona}))`;
+    const activas = await tx.cita.count({
+      where: {
+        estado: { in: ["PENDIENTE", "AUTORIZADA"] },
+        inicio: { gt: ahora },
+        OR: [
+          { solicitanteCorreo: d.solicitanteCorreo },
+          ...(documento ? [{ pacienteDocumento: documento }] : []),
+        ],
+      },
+    });
+    if (activas >= config.maxCitasActivas) return "LIMITE" as const;
     const c = await insertarCita(
       tx,
       cupo.psicologoIds,
@@ -308,6 +308,13 @@ export async function crearCita(
     if (c) await registrarCreacion(tx, { id: c.id, estado }, false);
     return c;
   });
+  if (creada === "LIMITE") {
+    registrar("cita.limite_alcanzado", { nivel: "aviso" });
+    return fallo(
+      "LIMITE_CITAS",
+      "Ya tienes una cita pendiente o autorizada. Puedes cambiarla o cancelarla desde el enlace de tu correo.",
+    );
+  }
   if (!creada) {
     registrar("cita.cupo_ocupado", { nivel: "aviso" });
     return fallo(

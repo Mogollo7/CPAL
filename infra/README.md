@@ -84,3 +84,21 @@ Prueba de alerta (obligatoria antes del lanzamiento): detener `capl-app` (o `doc
 **Actualizaciones automáticas del sistema**: copiar `infra/sistema/20auto-upgrades` y `infra/sistema/52capl-unattended-upgrades` a `/etc/apt/apt.conf.d/` (`sudo apt install unattended-upgrades`). Solo parches de seguridad y **sin reinicio automático**. Comprobar: `sudo unattended-upgrade --dry-run -d | tail` y `systemctl status apt-daily-upgrade.timer`. Reinicio pendiente: `[ -f /var/run/reboot-required ] && echo pendiente` (se revisa en la lista del semestre; Docker o systemd levantan todo solos).
 
 Otros documentos de operación: `cerebro/operacion/` (manual, inventario de secretos, bitácora, lista de seguridad).
+
+## Despliegue con Docker (fase 2 de E07)
+
+Archivos: `../Dockerfile` (imágenes `app` y `migrador`), `compose.produccion.yml` (base, migraciones, aplicación y proxy Caddy), `compose.servicios.yml` (tareas y respaldo), `Caddyfile`. El flujo `.github/workflows/desplegar.yml` publica las imágenes en `ghcr.io/mogollo7/cpal` y actualiza el servidor por SSH.
+
+**Estado:** la imagen `app` se construye en local; el compose y el flujo **no se han ejecutado en un servidor**. Revisar en el primer despliegue.
+
+Primera vez en el servidor:
+
+1. Instalar Docker, crear el usuario de despliegue (grupo `docker`) y clonar el repositorio en `/srv/capl-pruebas`.
+2. Crear `infra/.env` a partir de `.env.example` con `ENTORNO=pruebas`, `DOMINIO`, `POSTGRES_PASSWORD`, `AUTH_SECRET`, `CLAVE_CIFRADO`, `CRON_SECRET`, las llaves de Resend y las dos URL de base de datos apuntando a `db:5432`.
+3. Si el paquete de GitHub es privado: `docker login ghcr.io` con un token de solo lectura de paquetes.
+4. `docker compose -p capl-pruebas -f compose.produccion.yml up -d db` y **cambiar las claves de desarrollo** de los roles:
+   `docker compose -p capl-pruebas -f compose.produccion.yml exec db psql -U capl -c "ALTER ROLE capl_app PASSWORD '…'; ALTER ROLE capl_migrador PASSWORD '…';"` (las mismas que en las URL de `infra/.env`).
+5. En GitHub, crear los secretos `SSH_HOST`, `SSH_USER` y `SSH_KEY`, y lanzar el flujo «Desplegar a pruebas».
+6. Apuntar el DNS de `DOMINIO` al servidor: Caddy pide el certificado solo.
+
+Producción es otro proyecto de Compose (`-p capl`) en otra carpeta, con su propio `infra/.env` y `ENTORNO=produccion`.

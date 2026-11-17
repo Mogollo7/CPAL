@@ -56,10 +56,9 @@ export async function crearAdminEmergencia(
 
   const otros = await bd.usuario.findMany({
     where: { rol: "ADMIN", activo: true, id: { not: u.id } },
-    select: { id: true, correo: true },
+    select: { id: true },
   });
-  for (const a of otros)
-    await correoDeAvisoEmergencia(a.id, a.correo, enlace.id);
+  for (const a of otros) await correoDeAvisoEmergencia(a.id, u.id);
 
   await auditar({
     usuarioId: null, // Operación: quien tiene la consola del servidor, sin cuenta en la aplicación

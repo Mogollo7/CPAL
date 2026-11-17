@@ -1,8 +1,5 @@
 // Operaciones del propio psicólogo: perfil, foto, horario semanal y ausencias (RF-PSI-01, 02, 03, 07).
 // "Propio" siempre sale de la sesión, nunca de un dato enviado por el navegador (S02).
-import { randomUUID } from "node:crypto";
-import { mkdir, rm, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { z } from "zod";
 import { bloqueoSchema, type BloqueoGuardado } from "../../contratos/bloqueo";
 import { horarioSchema } from "../../contratos/horario";
@@ -15,15 +12,18 @@ import {
 } from "../../contratos/psicologo";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import { bd } from "../bd";
+import {
+  borrarArchivo,
+  esImagenPermitida,
+  guardarImagen,
+  urlArchivo,
+} from "../archivos";
 import { aBloqueoGuardado } from "../centro/bloqueos";
 import { validar } from "../centro/validar";
 import { diaSemana, minutosDelDia } from "../fechas";
 import { exigir, type Sesion } from "../permisos";
 
-// SUPUESTO: carpeta local por defecto; en el servidor la fija RUTA_ARCHIVOS (E01). La URL pública /archivos/… la
-// sirve la ruta de archivos que aún no existe.
-const carpetaArchivos = () => process.env.RUTA_ARCHIVOS ?? "./archivos";
-const urlFoto = (ruta: string | null) => (ruta ? `/archivos/${ruta}` : null);
+const urlFoto = urlArchivo;
 
 const soloPsicologo = (s: Sesion | null | undefined) => exigir(s, "PSICOLOGO");
 
@@ -109,18 +109,6 @@ export async function actualizarPerfil(
 
 // --- Foto ---------------------------------------------------------------------------------------------------
 
-/** Verifica por cabecera binaria (no por extensión) que sea JPG, PNG o WebP (E03 §11). */
-export function esImagenPermitida(b: Uint8Array): boolean {
-  const jpg = b[0] === 0xff && b[1] === 0xd8 && b[2] === 0xff;
-  const png = [0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a].every(
-    (x, i) => b[i] === x,
-  );
-  const webp =
-    String.fromCharCode(...b.slice(0, 4)) === "RIFF" &&
-    String.fromCharCode(...b.slice(8, 12)) === "WEBP";
-  return jpg || png || webp;
-}
-
 const MENSAJE_FOTO =
   "Tamaño máximo: 6 MB. Formatos permitidos: JPG, PNG o WebP.";
 
@@ -131,29 +119,13 @@ export async function subirFoto(
 ): Promise<Resultado<{ fotoUrl: string }>> {
   const p = soloPsicologo(sesion);
   if (!p.ok) return p;
-  if (
-    !archivo?.byteLength ||
-    archivo.byteLength > FOTO_MAX_BYTES ||
-    !esImagenPermitida(archivo)
-  )
+  const ruta = await guardarImagen(archivo, "fotos", {
+    ancho: FOTO_LADO_PX,
+    alto: FOTO_LADO_PX,
+    maxBytes: FOTO_MAX_BYTES,
+  });
+  if (!ruta)
     return fallo("ARCHIVO_INVALIDO", MENSAJE_FOTO, { foto: MENSAJE_FOTO });
-
-  let salida: Buffer;
-  try {
-    const sharp = (await import("sharp")).default;
-    // `rotate()` aplica la orientación EXIF; sharp quita los metadatos al reprocesar.
-    salida = await sharp(archivo)
-      .rotate()
-      .resize(FOTO_LADO_PX, FOTO_LADO_PX, { fit: "cover" })
-      .webp({ quality: 82 })
-      .toBuffer();
-  } catch {
-    return fallo("ARCHIVO_INVALIDO", MENSAJE_FOTO, { foto: MENSAJE_FOTO }); // cabecera válida pero imagen corrupta
-  }
-
-  const ruta = `fotos/${randomUUID()}.webp`;
-  await mkdir(join(carpetaArchivos(), "fotos"), { recursive: true });
-  await writeFile(join(carpetaArchivos(), ruta), salida);
   const antes = await bd.perfilPsicologo.findUnique({
     where: { usuarioId: p.datos.usuarioId },
     select: { fotoRuta: true },
@@ -162,8 +134,7 @@ export async function subirFoto(
     where: { usuarioId: p.datos.usuarioId },
     data: { fotoRuta: ruta },
   });
-  if (antes?.fotoRuta)
-    await rm(join(carpetaArchivos(), antes.fotoRuta), { force: true });
+  await borrarArchivo(antes?.fotoRuta);
   return ok({ fotoUrl: `/archivos/${ruta}` });
 }
 
@@ -253,3 +224,5 @@ export async function eliminarBloqueo(
     ? ok({ ok: true as const })
     : fallo("NO_ENCONTRADO", "No encontramos esa ausencia.");
 }
+
+export { esImagenPermitida };

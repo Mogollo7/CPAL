@@ -35,11 +35,13 @@ El código del servidor se completó el 16-nov-2026 **sin esperar** las respuest
 
 ## Deuda conocida (marcada `ponytail:` en el código)
 
-- El límite de citas activas por persona no es atómico: dos envíos simultáneos de la misma persona podrían pasar.
-- «Cerrar mis sesiones» olvida los dispositivos de confianza pero no invalida cookies ya emitidas (haría falta `Usuario.sesionesDesde`).
-- No hay lista de supresión para quien marca un correo como no deseado, ni bloqueo de cuenta tras 15 fallos en un día.
-- No existe plantilla de correo para el aviso de acceso de emergencia ni para «cita reasignada».
-- Ninguna operación sube la imagen de un evento; falta la ruta que sirve `/archivos/…` y la de exportar CSV (`exportarCitas()` ya devuelve el texto).
-- `exigirClaveReciente()` existe pero se llama desde las acciones de servidor, que se escriben junto con las pantallas.
-- La política de contenido permite scripts en línea hasta que `proxy.ts` emita un nonce.
-- `.github/workflows/desplegar.yml` asume un servicio de aplicación en `infra/compose.yml`, que hoy solo tiene la base de datos y el túnel.
+Resuelto el 16-nov-2026: límite de citas por persona atómico, «cerrar mis sesiones» que invalida las sesiones ya iniciadas, bloqueo de la cuenta tras 15 ingresos fallidos en un día, lista de supresión para quien marca un correo como no deseado, plantillas `cita-reasignada` y `aviso-acceso-emergencia`, subida de imagen de evento, ruta `/archivos/…`, descarga de CSV y acciones de servidor (`servidor/acciones.ts`, ver [[E10-Guia-de-Operaciones]]).
+
+Sigue pendiente:
+
+- La política de contenido permite scripts en línea. Quitarlo exige generar un identificador de un solo uso en `proxy.ts` para **todas** las páginas, lo que las vuelve dinámicas y les quita la caché: se decide cuando existan las pantallas y se pueda medir el costo.
+- Al reasignar una cita, el psicólogo anterior no recibe correo (lo ve en su agenda).
+- El bloqueo por 15 fallos se cuenta en memoria del proceso (el bloqueo en sí queda en la base): con más de una instancia de la aplicación habría que llevar el contador a la base.
+- La lista de contraseñas comunes es corta y local (`servidor/cuentas/politicaClave.ts`).
+- El despliegue con Docker (`Dockerfile`, `infra/compose.produccion.yml`, `.github/workflows/desplegar.yml`) y los scripts de copia y restauración no se han ejecutado en un servidor.
+- En producción las claves de `capl_app` y `capl_migrador` nacen con el valor de desarrollo de `infra/bd/init.sql`: hay que cambiarlas en el primer arranque (pasos en `infra/README.md`).

@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { NOMBRES, esPlantilla, plantillas, renderizar } from "./indice";
 
-// Los 14 identificadores de E06. Otros módulos encolan con estos nombres exactos.
+// Los 14 identificadores de E06 y los 2 añadidos después. Otros módulos encolan con estos nombres exactos.
 const E06 = [
   "solicitud-recibida",
   "nueva-solicitud",
@@ -17,6 +17,8 @@ const E06 = [
   "inscripcion-evento",
   "codigo-ingreso",
   "aviso-ingreso",
+  "aviso-acceso-emergencia",
+  "cita-reasignada",
 ];
 
 beforeEach(() => {
@@ -25,7 +27,7 @@ beforeEach(() => {
 });
 
 describe("registro de plantillas (E06)", () => {
-  it("tiene exactamente las 14 plantillas de E06", () => {
+  it("tiene exactamente las plantillas de E06 más las dos añadidas", () => {
     expect([...NOMBRES].sort()).toEqual([...E06].sort());
     expect(esPlantilla("recordatorio")).toBe(true);
     expect(esPlantilla("otra")).toBe(false);

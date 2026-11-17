@@ -124,6 +124,16 @@ describe.skipIf(!process.env.DATABASE_URL)("crearCita (T-303)", () => {
     ).toBe(1);
   });
 
+  it("dos envíos simultáneos de la misma persona a cupos distintos: solo entra uno (LIMITE_CITAS)", async () => {
+    const rs = await Promise.all(
+      [17, 19].map((i) =>
+        crearCita(e.solicitud(cupo(i), e.correo("misma")), { ip: ip() }),
+      ),
+    );
+    expect(rs.filter((r) => r.ok)).toHaveLength(1);
+    expect(rs.find((r) => !r.ok)).toMatchObject({ codigo: "LIMITE_CITAS" });
+  });
+
   it("varios envíos simultáneos con «cualquiera»: se reparten entre psicólogos y el que sobra recibe CUPO_OCUPADO", async () => {
     const inicio = cupo(12);
     const rs = await Promise.all(

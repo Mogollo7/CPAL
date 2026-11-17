@@ -4,7 +4,12 @@ import { cookies, headers } from "next/headers";
 import { redirect } from "next/navigation";
 import type { Resultado } from "../../contratos/resultado";
 import { registrar } from "../registro";
-import { cambiarClave, crearClave, solicitarEnlace } from "./claves";
+import {
+  cambiarClave,
+  cerrarSesiones,
+  crearClave,
+  solicitarEnlace,
+} from "./claves";
 import { COOKIE_CONFIRMACION, confirmarClave } from "./confirmacion";
 import { ingresar } from "./ingresar";
 import {
@@ -151,5 +156,17 @@ export async function cerrarSesionAccion(): Promise<void> {
     actor: carga?.u,
     rol: carga?.r === "ADMIN" ? "admin" : "psicologo",
   });
+  redirect("/ingresar");
+}
+
+/** "Cerrar mis sesiones" en Mi cuenta (y el botón del correo `aviso-ingreso`): cierra TODAS, también la de este
+ *  navegador, y olvida los dispositivos de confianza. Redirige a /ingresar. */
+export async function cerrarMisSesionesAccion(): Promise<void> {
+  const sesion = await obtenerSesion();
+  if (sesion) await cerrarSesiones(sesion.usuarioId);
+  const jar = await cookies();
+  jar.delete(COOKIE_SESION);
+  jar.delete(COOKIE_CONFIRMACION);
+  jar.delete(COOKIE_DISPOSITIVO);
   redirect("/ingresar");
 }

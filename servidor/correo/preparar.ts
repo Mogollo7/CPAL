@@ -28,6 +28,8 @@ export type Payloads = {
   "inscripcion-evento": { inscripcionId: string };
   "codigo-ingreso": { usuarioId: string; codigo: string };
   "aviso-ingreso": { usuarioId: string; navegador: string; cuando?: string };
+  "aviso-acceso-emergencia": { usuarioId: string; nuevoAdminId: string };
+  "cita-reasignada": { citaId: string };
 };
 
 type Cargado = { para: string; datos: unknown } | null;
@@ -237,6 +239,39 @@ const cargadores: {
         }
       : null;
   },
+  "aviso-acceso-emergencia": async (p) => {
+    const [u, nuevo] = await Promise.all(
+      [p.usuarioId, p.nuevoAdminId].map((id) =>
+        bd.usuario.findUnique({ where: { id } }),
+      ),
+    );
+    if (!u?.activo || !nuevo) return null;
+    return {
+      para: u.correo,
+      datos: {
+        nombre: u.nombre,
+        nuevoNombre: nuevo.nombre,
+        cuando: nuevo.creadoEn,
+      },
+    };
+  },
+  "cita-reasignada": (p) =>
+    conCita(p, (c) => {
+      const s = delSolicitante(c);
+      if (!s || (c.estado !== "PENDIENTE" && c.estado !== "AUTORIZADA"))
+        return null;
+      return {
+        para: s.para,
+        datos: {
+          nombre: s.nombre,
+          inicio: c.inicio,
+          fin: c.fin,
+          psicologo: c.psicologo.nombre,
+          rutaGestion: rutaCita(c.id),
+          autorizada: c.estado === "AUTORIZADA",
+        },
+      };
+    }),
 };
 
 /** Invitación y recuperación: el token en claro viaja en el trabajo (en BD solo está su hash); `datos` se vacía al terminar. */
@@ -271,6 +306,13 @@ export async function prepararCorreo<N extends NombrePlantilla>(
     cargadores[plantilla] as (p: Payloads[N]) => Promise<Cargado>
   )(payload);
   if (!cargado) return null;
+  // Lista de supresión (S04): a quien marcó un correo como no deseado no se le vuelve a escribir.
+  if (
+    await bd.correoSuprimido.findUnique({
+      where: { correo: cargado.para.toLowerCase() },
+    })
+  )
+    return null;
   const { asunto, html, texto, adjuntos } = renderizar(
     plantilla,
     cargado.datos,

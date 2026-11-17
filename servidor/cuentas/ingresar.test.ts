@@ -52,6 +52,32 @@ describe.skipIf(!process.env.DATABASE_URL)("ingresar (T-201)", () => {
     await bd.$disconnect();
   });
 
+  it("15 fallos en un día: la cuenta exige recuperar la contraseña, aun con la clave correcta y tras un reinicio", async () => {
+    const c = correo("bloqueo");
+    await bd.usuario.create({
+      data: {
+        correo: c,
+        nombre: "Bloqueo",
+        rol: "PSICOLOGO",
+        claveHash: (
+          await bd.usuario.findUniqueOrThrow({
+            where: { correo: correo("psi") },
+          })
+        ).claveHash,
+      },
+    });
+    for (let i = 0; i < 15; i++)
+      await ingresar({ correo: c, clave: "clave-equivocada" }, `9.9.9.${i}`); // redes distintas: no actúa el límite por red
+    const bloqueada = { ok: false, codigo: "DEMASIADOS_INTENTOS" };
+    expect(
+      await ingresar({ correo: c, clave: CLAVE }, "8.8.8.8"),
+    ).toMatchObject(bloqueada);
+    limites._reiniciarLimites(); // como si la aplicación se reiniciara: el bloqueo está en la base
+    expect(
+      await ingresar({ correo: c, clave: CLAVE }, "8.8.8.9"),
+    ).toMatchObject(bloqueada);
+  }, 30_000);
+
   it("psicólogo con la clave correcta: sesión de 8 h con su id y rol", async () => {
     const r = await ingresar(
       { correo: ` ${correo("psi").toUpperCase()} `, clave: CLAVE },

@@ -1,6 +1,5 @@
 // Correos de cuentas. Las plantillas son de `correos/` y la carga de datos de `servidor/correo/` (otro dueño):
 // aquí solo se decide cuál se manda y con qué ids. El token y el código en claro viajan en el trabajo y nunca en la BD de cuentas.
-import { encolarCorreo } from "../cola";
 import { encolarPlantilla, enviarYa } from "../correo/enviar";
 
 /** `invitacion` (cuenta sin contraseña) o `recuperar-clave`. Una llave por enlace emitido (`tokenId`). */
@@ -31,22 +30,13 @@ export const correoDeAvisoIngreso = (
     { entidad: usuarioId, version: codigoId },
   );
 
-// PENDIENTE(correos): E06 no tiene plantilla para avisar a los demás administradores del acceso de emergencia (S02).
-// Mientras tanto va como texto mínimo ya renderizado; cuando exista `aviso-acceso-emergencia` en `correos/`, pasarlo a `encolarPlantilla`.
+/** Aviso a otro administrador de que se creó una cuenta por el acceso de emergencia (S02). Una llave por cuenta creada. */
 export const correoDeAvisoEmergencia = (
   adminId: string,
-  correo: string,
-  version: string,
+  nuevoAdminId: string,
 ) =>
-  encolarCorreo({
-    plantilla: "aviso-acceso-emergencia",
-    entidad: adminId,
-    version,
-    correo: {
-      para: correo,
-      asunto: "Se creó un administrador por acceso de emergencia",
-      texto:
-        "Se creó un administrador del CAPL mediante el acceso de emergencia en el servidor. Si no lo esperabas, revisa la auditoría.",
-      html: "<p>Se creó un administrador del CAPL mediante el acceso de emergencia en el servidor. Si no lo esperabas, revisa la auditoría.</p>",
-    },
-  });
+  encolarPlantilla(
+    "aviso-acceso-emergencia",
+    { usuarioId: adminId, nuevoAdminId },
+    { entidad: adminId, version: nuevoAdminId },
+  );

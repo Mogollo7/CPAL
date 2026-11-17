@@ -63,6 +63,8 @@ model Usuario {
   claveHash     String? // vacío hasta que crea su contraseña
   activo        Boolean   @default(true)
   ultimoIngreso DateTime?
+  sesionesDesde DateTime? // las sesiones emitidas antes de este instante ya no valen ("cerrar mis sesiones")
+  bloqueadaEn   DateTime? // 15 ingresos fallidos en un día: exige recuperar la contraseña (S02)
   creadoEn      DateTime  @default(now())
 
   perfil           PerfilPsicologo?
@@ -275,4 +277,11 @@ model DispositivoConfiable {
   creadoEn  DateTime @default(now())
 
   @@index([usuarioId])
+}
+
+/// Direcciones a las que no se vuelve a escribir: marcaron un correo del CAPL como no deseado (S04).
+model CorreoSuprimido {
+  correo   String   @id
+  motivo   String
+  creadoEn DateTime @default(now())
 }

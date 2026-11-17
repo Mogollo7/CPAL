@@ -14,6 +14,8 @@ import * as recuperarClave from "./recuperar-clave";
 import * as inscripcionEvento from "./inscripcion-evento";
 import * as codigoIngreso from "./codigo-ingreso";
 import * as avisoIngreso from "./aviso-ingreso";
+import * as avisoAccesoEmergencia from "./aviso-acceso-emergencia";
+import * as citaReasignada from "./cita-reasignada";
 
 export const plantillas = {
   "solicitud-recibida": solicitudRecibida,
@@ -30,6 +32,9 @@ export const plantillas = {
   "inscripcion-evento": inscripcionEvento,
   "codigo-ingreso": codigoIngreso,
   "aviso-ingreso": avisoIngreso,
+  // Fuera de E06 (añadidas después):
+  "aviso-acceso-emergencia": avisoAccesoEmergencia,
+  "cita-reasignada": citaReasignada,
 };
 
 export type NombrePlantilla = keyof typeof plantillas;

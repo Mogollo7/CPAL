@@ -150,3 +150,31 @@ describe.skipIf(!process.env.DATABASE_URL)("avisos de entrega (T-332)", () => {
     await bd.auditoria.deleteMany({ where: { entidadId: t.id } });
   });
 });
+
+describe.skipIf(!process.env.DATABASE_URL)("lista de supresión (S04)", () => {
+  const correo = "t332-queja@ejemplo.test";
+  it("quien marca un correo como no deseado queda en la lista y no se le prepara ningún correo más", async () => {
+    const { bd } = await import("./../bd");
+    const { procesarAviso } = await import("./webhook");
+    const { prepararCorreo } = await import("./preparar");
+    const u = await bd.usuario.create({
+      data: { correo, nombre: "Queja", rol: "PSICOLOGO" },
+    });
+    try {
+      const aviso = { usuarioId: u.id, navegador: "Chrome" };
+      expect(await prepararCorreo("aviso-ingreso", aviso)).toMatchObject({
+        para: correo,
+      });
+      await procesarAviso("t332-queja", {
+        type: "email.complained",
+        data: { to: [correo.toUpperCase()] },
+      });
+      expect(await bd.correoSuprimido.count({ where: { correo } })).toBe(1);
+      expect(await prepararCorreo("aviso-ingreso", aviso)).toBeNull();
+    } finally {
+      await bd.correoSuprimido.deleteMany({ where: { correo } });
+      await bd.trabajo.deleteMany({ where: { llave: "webhook:t332-queja" } });
+      await bd.usuario.delete({ where: { id: u.id } });
+    }
+  });
+});

@@ -7,7 +7,7 @@ import {
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import { auditar } from "../auditoria";
 import { bd } from "../bd";
-import { limitar } from "../limites";
+import { limitar, olvidar } from "../limites";
 import { exigir, type Sesion } from "../permisos";
 import { registrar } from "../registro";
 import { hashClave, verificarClave } from "./clave";
@@ -51,11 +51,12 @@ export async function crearClave(
     await tx.dispositivoConfiable.deleteMany({ where: { usuarioId: u.id } });
     await tx.usuario.update({
       where: { id: u.id },
-      data: { claveHash, ultimoIngreso: ahora },
+      data: { claveHash, ultimoIngreso: ahora, bloqueadaEn: null },
     });
     return true;
   });
   if (!hecho) return fallo("ENLACE_INVALIDO", "Este enlace no es válido.");
+  olvidar("ingresoDia", u.correo); // contraseña nueva: se levanta el bloqueo por fallos del día
 
   registrar("cuenta.clave_creada", {
     rol: u.rol === "ADMIN" ? "admin" : "psicologo",
@@ -153,4 +154,17 @@ export async function cambiarClave(
       );
   });
   return ok({ ok: true });
+}
+
+/** "Cerrar mis sesiones" (S02): invalida toda sesión ya iniciada de esa persona, en cualquier dispositivo, y olvida
+ *  sus dispositivos de confianza. La acción de servidor borra además las cookies de este navegador. */
+export async function cerrarSesiones(usuarioId: string, ahora = new Date()) {
+  await bd.$transaction([
+    bd.usuario.update({
+      where: { id: usuarioId },
+      data: { sesionesDesde: ahora },
+    }),
+    bd.dispositivoConfiable.deleteMany({ where: { usuarioId } }),
+  ]);
+  registrar("cuenta.sesion_cerrada", { actor: usuarioId, resultado: "todas" });
 }
