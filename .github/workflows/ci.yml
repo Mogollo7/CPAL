@@ -3,17 +3,57 @@ on:
   pull_request:
   push:
     branches: [main]
+
+permissions:
+  contents: read
+
 jobs:
   verificar:
     runs-on: ubuntu-latest
+    # Base de datos real para las pruebas de servidor (cupos, concurrencia, cola, permisos del usuario de la app).
+    services:
+      db:
+        image: postgres:17-alpine
+        env:
+          POSTGRES_USER: capl
+          POSTGRES_PASSWORD: capl_local
+          POSTGRES_DB: capl
+        ports:
+          - 5433:5432
+        options: >-
+          --health-cmd "pg_isready -U capl"
+          --health-interval 3s
+          --health-retries 20
+    env:
+      # Valores de desarrollo, los mismos de .env.example: no son secretos.
+      DATABASE_URL: postgresql://capl_app:app_local@localhost:5433/capl
+      DATABASE_URL_MIGRADOR: postgresql://capl_migrador:migrador_local@localhost:5433/capl
+      AUTH_SECRET: solo-para-la-ci-no-es-un-secreto-real-0123456789
+      URL_SITIO: http://localhost:3000
+      CORREO_MODO: consola
+      CORREO_RESPUESTA: citas@ejemplo.test
+      ENTORNO: local
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # el escaneo de secretos revisa los commits del PR
+      - name: Escaneo de secretos
+        uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - uses: actions/setup-node@v4
         with:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
+      - name: Dependencias sin vulnerabilidades graves
+        run: npm audit --audit-level=high
       - run: npm run lint
       - run: npm run tipos
+      - name: Preparar la base de datos (roles, migraciones, semilla)
+        run: |
+          PGPASSWORD=capl_local psql -h localhost -p 5433 -U capl -d capl -v ON_ERROR_STOP=1 -f infra/bd/init.sql
+          npm run bd:migrar
+          npm run bd:semilla
       - run: npm run pruebas
       - run: npm run build

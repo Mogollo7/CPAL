@@ -38,3 +38,7 @@ next-env.d.ts
 
 # Cliente Prisma generado
 servidor/generado/
+
+# Herramientas locales de agentes
+.playwright-mcp/
+results.sarif

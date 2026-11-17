@@ -10,6 +10,7 @@ export const LIMITES = {
   consultarCupos: { max: 60, ventanaMs: MIN }, // por dirección de red
   reenviarCodigo: { max: 3, ventanaMs: HORA }, // por usuario (S02)
   ingreso: { max: 5, ventanaMs: 15 * MIN }, // FALLIDOS por correo + dirección (E03 §7)
+  ingresoDia: { max: 15, ventanaMs: 24 * HORA }, // FALLIDOS por correo: la cuenta exige recuperar contraseña (S02)
 } as const;
 
 export type Accion = keyof typeof LIMITES;

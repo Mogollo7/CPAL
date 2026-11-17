@@ -4,7 +4,15 @@ tags: [capl, normas, movimiento]
 
 # N07 · Movimiento
 
-Volver a [[N00-Normas-Inicio]]. El movimiento **acompaña**, no entretiene. Si se quita toda la animación, el sitio debe funcionar igual.
+Volver a [[N00-Normas-Inicio]]. Ver investigación científica completa en [[N13-Investigacion-Animacion-Neurobienestar]]. El movimiento **acompaña**, no entretiene. Si se quita toda la animación, el sitio debe funcionar igual.
+
+## Stack Técnico Oficial de Animación y Esqueletos
+
+| Herramienta | Rol en el Proyecto | Implementación Base |
+|---|---|---|
+| **Motion** (`motion/react`) | Transición de páginas, modales y entradas suaves | `<TransicionSuave>` en `componentes/ui/transicion-suave.tsx` |
+| **Anime.js** (`animejs`) | Micro-movimientos biofílicos en bucle ($\ge 6\text{ s}$) y trazos SVG | `<IlustracionBiofilica>` en `componentes/ui/animacion-biofilica.tsx` |
+| **Esqueleto Calmo** | Carga sin sobresaltos (pulso senoidal de 3.0s a 0.33 Hz) | `<EsqueletoCalmo>` en `componentes/ui/esqueleto-calmo.tsx` |
 
 ## Carácter
 

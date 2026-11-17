@@ -46,6 +46,7 @@ Base **1 rem = 16 px**. Razón **φ = 1,618**; se usa su raíz (**√φ = 1,272*
 | 4 | 2,618 | 41,9 | × φ² |
 | 5 | 3,330 | 53,3 | × φ²·√φ |
 | 6 | 4,236 | 67,8 | × φ³ |
+| 8 | 6,854 | 109,7 | × φ⁴ — **solo `display-hero`** |
 
 No existe ningún tamaño fuera de esta tabla.
 
@@ -66,6 +67,7 @@ Cada rol crece de forma continua entre 360 px y 1280 px de ancho. Se escriben en
 
 - **Interlineado:** 1,618 (φ) en párrafos; 1,272 (√φ) en títulos.
 - `display` se usa **una vez** por página, y solo en portadas.
+- `display-hero` (110 px escritorio · 42 px móvil, peso 800, interlineado 1,18) existe **solo** para el título del hero carrusel de Inicio, que copia la distribución de labs.google. El título debe ser de una o dos palabras («Respira», «Tu cita», «En grupo») para caber entre las tarjetas flotantes.
 - `nota` solo para etiquetas y pies; nunca para información que la persona necesita leer (horarios, líneas de ayuda, instrucciones).
 - El texto de lectura **nunca** baja de 1 rem.
 

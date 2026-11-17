@@ -1,0 +1,10 @@
+[Unit]
+Description=CAPL · tarea programada (POST /api/tareas)
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=capl
+EnvironmentFile=/etc/capl/capl.env
+ExecStart=/srv/capl/infra/tareas.sh
+TimeoutStartSec=60

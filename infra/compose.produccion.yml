@@ -1,0 +1,64 @@
+# Entorno de pruebas y de producción (E07). Cada entorno es un proyecto de Compose aparte, con su propio infra/.env:
+#   VERSION=<commit> docker compose -p capl-pruebas -f compose.produccion.yml -f compose.servicios.yml up -d
+# El flujo .github/workflows/desplegar.yml publica las imágenes y ejecuta ese comando por SSH.
+# Variables que debe tener infra/.env además de las de .env.example:
+#   DOMINIO, POSTGRES_PASSWORD, y DATABASE_URL / DATABASE_URL_MIGRADOR apuntando a `db:5432`.
+# NO probado en un servidor real: revisar en el primer despliegue (ver infra/README.md).
+services:
+  db:
+    image: postgres:17-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: capl
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en infra/.env}
+      POSTGRES_DB: capl
+    volumes:
+      - datos_db:/var/lib/postgresql/data
+      # Crea capl_app y capl_migrador con claves de desarrollo: CAMBIARLAS tras el primer arranque (infra/README.md).
+      - ./bd/init.sql:/docker-entrypoint-initdb.d/00-roles.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U capl"]
+      interval: 5s
+      retries: 20
+    logging: { driver: json-file, options: { max-size: 10m, max-file: "3" } }
+
+  # Aplica las migraciones pendientes y termina. Si falla, la app nueva no arranca y la anterior sigue sirviendo.
+  migrar:
+    image: ghcr.io/mogollo7/cpal:${VERSION:-pruebas}-migrador
+    restart: "no"
+    depends_on:
+      db: { condition: service_healthy }
+    env_file: [.env]
+
+  app:
+    image: ghcr.io/mogollo7/cpal:${VERSION:-pruebas}
+    restart: always
+    depends_on:
+      db: { condition: service_healthy }
+      migrar: { condition: service_completed_successfully }
+    env_file: [.env]
+    environment:
+      RUTA_ARCHIVOS: /archivos
+    volumes:
+      - archivos:/archivos
+    logging: { driver: json-file, options: { max-size: 10m, max-file: "5" } }
+    mem_limit: 768m
+
+  proxy:
+    image: caddy:2-alpine
+    restart: always
+    depends_on: [app]
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMINIO: ${DOMINIO:?Falta DOMINIO en infra/.env}
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_datos:/data
+    logging: { driver: json-file, options: { max-size: 10m, max-file: "3" } }
+
+volumes:
+  datos_db:
+  archivos:
+  caddy_datos:

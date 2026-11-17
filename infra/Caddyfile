@@ -1,0 +1,13 @@
+# Proxy de entrada (E07): HTTPS automático, redirige HTTP y comprime. Un bloque por entorno.
+# DOMINIO sale del .env de infra (por ejemplo pruebas.ejemplo.edu.co). Las cabeceras de seguridad las pone la
+# aplicación (next.config.ts), no el proxy, para que sean las mismas en local y en el servidor.
+{$DOMINIO} {
+	encode zstd gzip
+	reverse_proxy app:3000
+
+	# Las imágenes subidas las sirve la aplicación en /archivos/… con tipo fijo y sin ejecución (app/archivos).
+	log {
+		output stdout
+		format json
+	}
+}

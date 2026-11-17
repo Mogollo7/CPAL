@@ -82,13 +82,71 @@ export const citaPublicaSchema = z.object({
 });
 export type CitaPublica = z.infer<typeof citaPublicaSchema>;
 
-export const filtrosCitaSchema = z.object({
-  estado: z.enum(ESTADOS_CITA).optional(),
-  desde: z.iso.datetime({ offset: true }).optional(),
-  hasta: z.iso.datetime({ offset: true }).optional(),
-  psicologoId: z.string().optional(),
-  servicioId: z.string().optional(),
-  busqueda: z.string().max(80).optional(),
-  pagina: z.number().int().min(1).default(1),
+export const ESTADOS_ACTIVOS = ["PENDIENTE", "AUTORIZADA"] as const; // los que ocupan cupo
+export const ESTADOS_FINALES = [
+  "RECHAZADA",
+  "VENCIDA",
+  "CANCELADA",
+  "ATENDIDA",
+  "NO_ASISTIO",
+] as const;
+
+// Operaciones de administración (E05): motivo obligatorio al rechazar y al cancelar.
+export const motivoAdminSchema = z.object({
+  id: z.string().min(1),
+  motivo: texto(3, 300),
 });
-export type FiltrosCita = z.infer<typeof filtrosCitaSchema>;
+export const reasignarSchema = z.object({
+  id: z.string().min(1),
+  psicologoId: z.string().min(1),
+  inicio: z.iso.datetime({ offset: true }),
+});
+export const asistenciaSchema = z.object({
+  id: z.string().min(1),
+  resultado: z.enum(["ATENDIDA", "NO_ASISTIO"]),
+});
+export const reprogramarSchema = z.object({
+  token: z.string().min(1),
+  inicio: z.iso.datetime({ offset: true }),
+  psicologoId: z.string().optional(), // vacío = cualquiera disponible
+});
+
+// Fila de la bandeja. Incluye contacto (la ve administración y el psicólogo dueño) pero NUNCA el motivo de consulta.
+export type CitaLista = {
+  id: string;
+  codigo: string;
+  estado: EstadoCita;
+  inicio: string;
+  fin: string;
+  servicio: string;
+  psicologoId: string;
+  psicologoNombre: string;
+  paraQuien: (typeof PARA_QUIEN)[number];
+  solicitanteNombre: string | null;
+  solicitanteCorreo: string | null;
+  solicitanteTelefono: string | null;
+  pacienteNombre: string | null;
+  pacienteDocumento: string | null;
+  venceEn: string | null;
+  creadaEn: string;
+};
+export type PaginaCitas = {
+  citas: CitaLista[];
+  total: number;
+  pagina: number;
+  porPagina: number;
+};
+// Detalle de administración: todo lo de la fila + motivo ya descifrado + historial y correos de la cita.
+export type CitaDetalle = CitaLista & {
+  pacienteEdad: number | null;
+  acudienteNombre: string | null;
+  acudienteDocumento: string | null;
+  motivo: string | null;
+  motivoRechazo: string | null;
+  reprogramaciones: number;
+  reprogramadaDeId: string | null;
+  consentimientoEn: string;
+  consentimientoVersion: string;
+  historial: { accion: string; usuarioId: string | null; creadaEn: string }[];
+  correos: { llave: string; estado: string; entregado: boolean | null }[];
+};

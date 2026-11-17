@@ -25,4 +25,11 @@ El administrador (`admin@ejemplo.test`, o el de `ADMIN_INICIAL_CORREO`) pide seg
 
 ## Carpetas y dueños
 
-`servidor/`, `contratos/`, `prisma/`, `correos/`, `infra/`, `estilos/`: Sebas · `app/(panel)/`, `componentes/panel/`: Brand · `app/(publico)/`, `componentes/ui/`, `contenido/`: César.
+`servidor/`, `contratos/`, `prisma/`, `correos/`, `infra/`, `estilos/`: Sebas · `app/(panel)/`, `componentes/panel/`: Brand · `app/(publico)/`, `componentes/ui/`, `contenido/`: César · `cerebro/normas/`, neurodiseño de confort y relax: Sebas & Gemini (Colaborador IA).
+
+## Equipo y Colaboradores
+
+- **Sebas**: Líder técnico & diseño UI/UX completo en Figma (`dev/sebas`).
+- **Brand**: Frontend de paneles y gestión administrativa (`dev/brand`).
+- **César**: Frontend de sitio público y emergencias (`dev/cesar`).
+- **Gemini**: Colaborador IA — neurodiseño de confort, relax del usuario, textura táctil y aseguramiento técnico.

@@ -3,6 +3,8 @@
 import { bd } from "./bd";
 import { enviarCorreo, type Correo } from "./externos/resend";
 import { registrar } from "./registro";
+import { esPlantilla } from "../correos/indice";
+import { prepararCorreo } from "./correo/preparar";
 import type { TipoTrabajo } from "./generado/enums";
 
 type Json = Record<string, unknown>;
@@ -19,7 +21,7 @@ const MIN = 60_000;
 export const ESPERAS_MS = [1 * MIN, 5 * MIN, 30 * MIN, 120 * MIN, 720 * MIN];
 const RESCATE_MS = 5 * MIN;
 
-export type DatosCorreo = Omit<Correo, "llave">;
+export type DatosCorreo = Omit<Correo, "llave" | "trabajoId">;
 
 /** Encola un trabajo. Si ya existe uno con la misma `llave`, NO crea otro (idempotencia). `cliente`: la transacción
  *  del hecho que lo origina, para que se guarden juntos o ninguno. */
@@ -81,7 +83,15 @@ export const encolarCorreo = (
   );
 
 const ejecutorCorreo: Ejecutor = async (t) => {
-  const r = await enviarCorreo({ ...(t.datos as DatosCorreo), llave: t.llave });
+  const d = t.datos as { plantilla?: string };
+  let c: DatosCorreo | null;
+  if (d.plantilla === undefined)
+    c = d as DatosCorreo; // correo ya renderizado al encolar
+  else if (!esPlantilla(d.plantilla))
+    return { ok: false, permanente: true, error: "PLANTILLA_DESCONOCIDA" };
+  else c = await prepararCorreo(d.plantilla, t.datos as never); // plantilla + ids: se carga y renderiza al enviar
+  if (!c) return { ok: true }; // nada que enviar (cita anonimizada, enlace ya usado…)
+  const r = await enviarCorreo({ ...c, llave: t.llave, trabajoId: t.id });
   return r.ok ? { ok: true } : r;
 };
 

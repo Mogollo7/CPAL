@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "skills": {
+    "atomic-design": {
+      "source": "jwilger/agent-skills",
+      "sourceType": "github",
+      "skillPath": "skills/atomic-design/SKILL.md",
+      "computedHash": "6087c7d758b85b39eab1449eb53c6e45c55704997a0020a277d952fd1d10aff8"
+    }
+  }
+}

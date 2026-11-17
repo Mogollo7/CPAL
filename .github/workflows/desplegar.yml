@@ -1,0 +1,103 @@
+name: Desplegar a pruebas
+
+# E07: al unir a `main` y pasar la CI se construyen las imágenes, se publican en el registro de contenedores de
+# GitHub con el identificador del commit, y el servidor de pruebas las descarga y reinicia. También se puede lanzar a mano.
+# Secretos necesarios en GitHub: SSH_HOST, SSH_USER, SSH_KEY (llave de solo despliegue). Opcionales: SSH_PORT y
+# DIRECTORIO_DESPLIEGUE (por defecto /srv/capl-pruebas, con el repositorio clonado y su infra/.env).
+on:
+  workflow_run:
+    workflows: ["CI"]
+    branches: ["main"]
+    types: [completed]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Dos despliegues nunca a la vez, y no se cancela uno en curso (podría cortar una migración).
+concurrency:
+  group: despliegue-pruebas
+  cancel-in-progress: false
+
+env:
+  IMAGEN: ghcr.io/mogollo7/cpal
+  VERSION: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+jobs:
+  imagen:
+    name: Construir y publicar imágenes
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success' }}
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ env.VERSION }}
+      - uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Imagen de la aplicación
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: app
+          push: true
+          tags: |
+            ${{ env.IMAGEN }}:${{ env.VERSION }}
+            ${{ env.IMAGEN }}:pruebas
+      - name: Imagen de migraciones
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          target: migrador
+          push: true
+          tags: |
+            ${{ env.IMAGEN }}:${{ env.VERSION }}-migrador
+            ${{ env.IMAGEN }}:pruebas-migrador
+
+  desplegar:
+    name: Actualizar el servidor de pruebas
+    needs: imagen
+    runs-on: ubuntu-latest
+    steps:
+      - uses: appleboy/ssh-action@v1.2.1
+        env:
+          VERSION: ${{ env.VERSION }}
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || '22' }}
+          envs: VERSION
+          command_timeout: 15m
+          script: |
+            set -e
+            cd "${{ secrets.DIRECTORIO_DESPLIEGUE || '/srv/capl-pruebas' }}"
+
+            # Los archivos de compose, el Caddyfile y los scripts salen del repositorio, en el mismo commit que la imagen.
+            # OJO: descarta cualquier cambio hecho a mano en el servidor (infra/.env no está en git y no se toca).
+            git fetch --quiet origin "$VERSION"
+            git reset --hard --quiet "$VERSION"
+
+            cd infra
+            COMPOSE="docker compose -p capl-pruebas -f compose.produccion.yml -f compose.servicios.yml"
+            export VERSION
+            $COMPOSE pull --quiet
+            # `migrar` corre primero; si falla, `app` no se reemplaza y la versión anterior sigue sirviendo.
+            $COMPOSE up -d --remove-orphans
+
+            # La app debe responder en /api/salud (comprueba también la base de datos).
+            for intento in $(seq 1 20); do
+              if $COMPOSE exec -T app wget -qO- http://127.0.0.1:3000/api/salud >/dev/null 2>&1; then
+                echo "Sitio de pruebas actualizado a $VERSION"
+                exit 0
+              fi
+              sleep 5
+            done
+            echo "La aplicación no respondió en /api/salud tras el despliegue"
+            $COMPOSE logs --tail=50 app migrar
+            exit 1

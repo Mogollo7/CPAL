@@ -1,0 +1,187 @@
+{
+  "ultimaRevision": "2026-11-16",
+  "aprobadoPor": "Pendiente de aprobación del CAPL",
+  "porConfirmar": true,
+  "codigos": [
+    {
+      "id": "dorado",
+      "nombre": "Código Dorado",
+      "color": "Dorado",
+      "situacion": "Alguien piensa en hacerse daño, en quitarse la vida o ya intentó hacerlo.",
+      "senales": [
+        "Habla de querer morir, desaparecer o ser una carga para los demás",
+        "Se despide o regala sus cosas de forma inusual",
+        "Se siente sin salida o sin esperanza",
+        "Se aísla o cambia de repente su comportamiento"
+      ],
+      "queHacer": [
+        "Quédate con la persona y escúchala con calma, sin juzgar.",
+        "Llama de inmediato a la línea de emergencias o a la línea de salud mental.",
+        "Acompáñala hasta que llegue ayuda profesional."
+      ],
+      "queNoHacer": [
+        "No la dejes sola.",
+        "No le digas que lo que siente no es importante ni la presiones a calmarse.",
+        "No guardes el secreto: pedir ayuda no es traicionar."
+      ],
+      "lineas": [
+        {
+          "nombre": "Línea de emergencias",
+          "telefono": "123",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        },
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true,
+      "nota": "Cerebro/12: ruta de MinSalud para conducta suicida. El CAPL confirma color, texto y líneas (P-03, P-04)."
+    },
+    {
+      "id": "fucsia",
+      "nombre": "Código Fucsia",
+      "color": "Fucsia",
+      "situacion": "Alguien sufrió violencia sexual y necesita atención y acompañamiento.",
+      "senales": [
+        "La persona cuenta que fue agredida, tocada o forzada sin su consentimiento",
+        "Presenta miedo, vergüenza o llanto intenso al hablar de lo ocurrido",
+        "Tiene lesiones visibles o dolor que no explica",
+        "Evita a una persona o un lugar concreto"
+      ],
+      "queHacer": [
+        "Créele, dile que no tiene la culpa y ofrécele un lugar seguro.",
+        "Llama a la línea de emergencias o a la línea de violencia.",
+        "Acompáñala a un servicio de salud cuanto antes: la atención es gratuita y debe ser inmediata."
+      ],
+      "queNoHacer": [
+        "No la presiones para contar los detalles.",
+        "No la culpes ni cuestiones lo que hizo o vestía.",
+        "No la bañes ni cambies su ropa antes de la atención en salud, si es posible."
+      ],
+      "lineas": [
+        {
+          "nombre": "Línea de emergencias",
+          "telefono": "123",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        },
+        {
+          "nombre": "Línea de violencia",
+          "telefono": "155",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true,
+      "nota": "Cerebro/12: nombre muy usado en Antioquia (Resolución 459 de 2012). El CAPL confirma."
+    },
+    {
+      "id": "blanco",
+      "nombre": "Código Blanco",
+      "color": "Blanco",
+      "situacion": "Otro nombre con el que algunas instituciones llaman a la ruta de atención por violencia sexual.",
+      "senales": [
+        "La persona cuenta que fue agredida sexualmente",
+        "Muestra miedo, bloqueo o confusión sobre lo ocurrido",
+        "Necesita atención médica o protección inmediata"
+      ],
+      "queHacer": [
+        "Escúchala con respeto y asegúrate de que esté en un lugar seguro.",
+        "Llama a la línea de emergencias o a la línea de violencia.",
+        "Acompáñala a un servicio de salud para recibir atención inmediata."
+      ],
+      "queNoHacer": [
+        "No la dejes sola ni la obligues a repetir su historia.",
+        "No la culpes por lo que pasó."
+      ],
+      "lineas": [
+        {
+          "nombre": "Línea de emergencias",
+          "telefono": "123",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        },
+        {
+          "nombre": "Línea de violencia",
+          "telefono": "155",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true,
+      "nota": "Cerebro/12: confianza media; el nombre cambia según la institución (p. ej. Sanidad de la Policía). Preguntar al CAPL si lo usa o lo une al Fucsia."
+    },
+    {
+      "id": "rosa",
+      "nombre": "Código Rosa",
+      "color": "Rosa",
+      "situacion": "Un bebé o un niño fue robado, desapareció o está en peligro.",
+      "senales": [
+        "No se encuentra a un bebé o niño que estaba bajo cuidado",
+        "Una persona desconocida se lo llevó o intentó llevárselo",
+        "Hay temor por su seguridad inmediata"
+      ],
+      "queHacer": [
+        "Avisa de inmediato al personal de seguridad o a quien esté a cargo del lugar.",
+        "Llama a la línea de emergencias y a la línea de protección a la infancia.",
+        "Da la descripción del niño y de la última vez que se le vio."
+      ],
+      "queNoHacer": [
+        "No esperes para avisar: cada minuto cuenta.",
+        "No busques a solas sin avisar a nadie."
+      ],
+      "lineas": [
+        {
+          "nombre": "Línea de emergencias",
+          "telefono": "123",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        },
+        {
+          "nombre": "Línea de protección a la infancia",
+          "telefono": "141",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true,
+      "nota": "Cerebro/12: en hospitales es robo o desaparición de un bebé o niño. Confianza baja: el CAPL podría usar el Rosa con otro sentido; confirmar o retirar."
+    }
+  ],
+  "directorio": [
+    {
+      "nombre": "Línea de emergencias",
+      "telefono": "123",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    },
+    {
+      "nombre": "Línea de salud mental",
+      "telefono": "106",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    },
+    {
+      "nombre": "Línea local (nombre por confirmar)",
+      "telefono": "444 44 48",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    },
+    {
+      "nombre": "Línea de violencia",
+      "telefono": "155",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    },
+    {
+      "nombre": "Línea de protección a la infancia",
+      "telefono": "141",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    }
+  ]
+}

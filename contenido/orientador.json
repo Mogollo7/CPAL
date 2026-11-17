@@ -1,0 +1,555 @@
+{
+  "ultimaRevision": "2026-11-16",
+  "aprobadoPor": "Pendiente de validación del CAPL",
+  "porConfirmar": true,
+  "preguntaInicialId": "p1-situacion",
+  "lineaGlobal": {
+    "nombre": "Línea de emergencias",
+    "telefono": "123",
+    "horario": "Por confirmar",
+    "porConfirmar": true
+  },
+  "preguntas": [
+    {
+      "id": "p1-situacion",
+      "enunciado": "¿Qué describe mejor lo que sientes o la situación que estás presenciando?",
+      "ayuda": "Esta guía te orienta en momentos difíciles sin juzgarte y no realiza diagnósticos clínicos.",
+      "opciones": [
+        {
+          "id": "op-suicidio",
+          "texto": "Pensamientos de hacerme daño, de desaparecer o no querer continuar viviendo",
+          "siguientePreguntaId": "p2-suicidio-riesgo"
+        },
+        {
+          "id": "op-violencia",
+          "texto": "Una situación de agresión, abuso, acoso o violencia reciente",
+          "siguientePreguntaId": "p2-violencia-tipo"
+        },
+        {
+          "id": "op-ansiedad",
+          "texto": "Sensación de pánico, falta de aire, taquicardia o angustia que me desborda",
+          "siguientePreguntaId": "p2-ansiedad-tipo"
+        },
+        {
+          "id": "op-malestar",
+          "texto": "Tristeza profunda, confusión o problemas emocionales que no representan peligro inmediato",
+          "siguientePreguntaId": "p2-malestar-tiempo"
+        }
+      ]
+    },
+    {
+      "id": "p2-suicidio-riesgo",
+      "enunciado": "¿Sientes que estás en peligro inmediato o tienes un plan para hacerte daño?",
+      "ayuda": "Tu vida es valiosa y hay personas dispuestas a escucharte en este momento.",
+      "opciones": [
+        {
+          "id": "op-suicidio-urgente",
+          "texto": "Sí, siento que no puedo controlarme o el peligro es inmediato",
+          "siguientePreguntaId": "p3-suicidio-compania"
+        },
+        {
+          "id": "op-suicidio-latente",
+          "texto": "No en este instante, pero las ideas son continuas y me generan mucho temor",
+          "siguientePreguntaId": "p3-suicidio-compania"
+        }
+      ]
+    },
+    {
+      "id": "p3-suicidio-compania",
+      "enunciado": "¿Te encuentras en compañía de alguien de tu confianza en este momento?",
+      "ayuda": "El acompañamiento es fundamental para tu seguridad.",
+      "opciones": [
+        {
+          "id": "op-suicidio-acompanado",
+          "texto": "Sí, estoy con un familiar, amigo o persona cercana",
+          "recomendacionId": "rec-dorado-acompanado"
+        },
+        {
+          "id": "op-suicidio-solo",
+          "texto": "No, estoy a solas en este momento",
+          "recomendacionId": "rec-dorado-solo"
+        }
+      ]
+    },
+    {
+      "id": "p2-violencia-tipo",
+      "enunciado": "¿Quién se encuentra afectado por la situación de violencia o agresión?",
+      "ayuda": "Cuentas con rutas de protección y atención médica inmediata garantizadas por ley.",
+      "opciones": [
+        {
+          "id": "op-violencia-sexual",
+          "texto": "Yo o una persona adulta que sufrió agresión o violencia sexual",
+          "siguientePreguntaId": "p3-violencia-tiempo"
+        },
+        {
+          "id": "op-violencia-menor",
+          "texto": "Un niño, niña o adolescente que está en riesgo, desprotegido o desaparecido",
+          "recomendacionId": "rec-rosa-infancia"
+        },
+        {
+          "id": "op-violencia-genero",
+          "texto": "Una situación de violencia intrafamiliar, agresión de pareja o amenazas",
+          "recomendacionId": "rec-fucsia-genero"
+        }
+      ]
+    },
+    {
+      "id": "p3-violencia-tiempo",
+      "enunciado": "¿La agresión ocurrió recientemente (en las últimas 72 horas) o persiste el riesgo?",
+      "ayuda": "La atención médica en las primeras 72 horas es crucial para proteger tu salud.",
+      "opciones": [
+        {
+          "id": "op-violencia-urgente",
+          "texto": "Sí, ocurrió recientemente o el agresor se encuentra cerca",
+          "recomendacionId": "rec-fucsia-urgente"
+        },
+        {
+          "id": "op-violencia-pasada",
+          "texto": "Ocurrió hace algún tiempo, pero necesito atención médica, apoyo y protección",
+          "recomendacionId": "rec-blanco-apoyo"
+        }
+      ]
+    },
+    {
+      "id": "p2-ansiedad-tipo",
+      "enunciado": "¿Presentas síntomas físicos severos como dolor en el pecho o dudas de si es una urgencia médica?",
+      "ayuda": "Si sientes que tu salud física puede estar en riesgo, la prioridad es descartar una urgencia.",
+      "opciones": [
+        {
+          "id": "op-ansiedad-medica",
+          "texto": "Sí, siento opresión en el pecho, mareo intenso o no sé si es un problema físico",
+          "recomendacionId": "rec-urgencia-medica"
+        },
+        {
+          "id": "op-ansiedad-emocional",
+          "texto": "Sé que es una crisis de ansiedad o pánico y me cuesta regular mi respiración",
+          "siguientePreguntaId": "p3-ansiedad-apoyo"
+        }
+      ]
+    },
+    {
+      "id": "p3-ansiedad-apoyo",
+      "enunciado": "¿Deseas intentar una técnica guiada para calmarte o prefieres hablar por teléfono ahora?",
+      "ayuda": "Ambas opciones son válidas y te ayudan a recuperar la calma paso a paso.",
+      "opciones": [
+        {
+          "id": "op-ansiedad-probar-anclaje",
+          "texto": "Quiero probar el ejercicio guiado de respiración y conexión 5-4-3-2-1",
+          "recomendacionId": "rec-ansiedad-anclaje"
+        },
+        {
+          "id": "op-ansiedad-hablar-linea",
+          "texto": "Prefiero comunicarme de inmediato con un profesional que me escuche",
+          "recomendacionId": "rec-ansiedad-linea"
+        }
+      ]
+    },
+    {
+      "id": "p2-malestar-tiempo",
+      "enunciado": "¿Sientes que necesitas hablar con alguien hoy mismo para desahogarte y recibir orientación?",
+      "ayuda": "El CAPL atiende con cita previa; si requieres escucha hoy, las líneas de apoyo están disponibles.",
+      "opciones": [
+        {
+          "id": "op-malestar-hoy",
+          "texto": "Sí, siento mucha sobrecarga y necesito orientación hoy mismo",
+          "recomendacionId": "rec-salud-mental-escucha"
+        },
+        {
+          "id": "op-malestar-proceso",
+          "texto": "No es una crisis de hoy; deseo iniciar un proceso de acompañamiento psicológico",
+          "siguientePreguntaId": "p3-malestar-servicio"
+        }
+      ]
+    },
+    {
+      "id": "p3-malestar-servicio",
+      "enunciado": "¿Qué tipo de acompañamiento se ajusta mejor a lo que estás buscando?",
+      "ayuda": "Nuestros servicios son gratuitos y atendidos por profesionales en formación supervisados.",
+      "opciones": [
+        {
+          "id": "op-servicio-individual",
+          "texto": "Atención psicológica individual o evaluación de bienestar",
+          "recomendacionId": "rec-capl-cita-individual"
+        },
+        {
+          "id": "op-servicio-vocacional",
+          "texto": "Orientación vocacional para elegir carrera o definir metas personales",
+          "recomendacionId": "rec-capl-cita-vocacional"
+        }
+      ]
+    }
+  ],
+  "recomendaciones": [
+    {
+      "id": "rec-dorado-acompanado",
+      "titulo": "Atención prioritaria · Código Dorado",
+      "situacion": "Presentas pensamientos de hacerte daño o conducta suicida y cuentas con una persona cercana a tu lado.",
+      "codigoId": "dorado",
+      "queHacer": [
+        "Pídele a la persona que está contigo que permanezca a tu lado y no te deje a solas.",
+        "Llama de inmediato a la Línea 123 o a la Línea de salud mental (106).",
+        "Acudan juntos al centro de salud o servicio de urgencias más cercano."
+      ],
+      "queNoHacer": [
+        "No te quedes a solas ni guardes lo que sientes.",
+        "No sientas vergüenza: pedir ayuda en momentos difíciles es un acto de valentía."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-dorado-solo",
+      "titulo": "Atención inmediata · Código Dorado",
+      "situacion": "Presentas pensamientos de hacerte daño o atentar contra tu vida y te encuentras a solas.",
+      "codigoId": "dorado",
+      "queHacer": [
+        "Llama ya mismo a la Línea de emergencias (123) o a la Línea 106.",
+        "Comunícate con una persona de tu confianza y dile cómo te sientes para que te acompañe.",
+        "Dirígete al servicio de urgencias de salud más próximo."
+      ],
+      "queNoHacer": [
+        "No te aísles ni tomes decisiones apresuradas.",
+        "No minimices tu dolor: hay profesionales listos para escucharte las 24 horas."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-fucsia-urgente",
+      "titulo": "Ruta de atención prioritaria · Código Fucsia",
+      "situacion": "Situación reciente de violencia sexual o agresión con riesgo para tu integridad.",
+      "codigoId": "fucsia",
+      "queHacer": [
+        "Busca un lugar seguro y comunícate con la Línea 123 o la Línea 155 de atención a violencias.",
+        "Acude a un centro de salud de inmediato: la atención médica es gratuita, prioritaria y de urgencia.",
+        "Si es posible, acude antes de 72 horas sin bañarte ni cambiarte de ropa para preservar evidencia médica."
+      ],
+      "queNoHacer": [
+        "No te culpes por lo ocurrido: la responsabilidad es únicamente de quien agredió.",
+        "No te quedes a solas si sientes temor por tu seguridad."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de violencia",
+          "telefono": "155",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-fucsia-genero",
+      "titulo": "Orientación y protección · Violencia de género",
+      "situacion": "Situación de violencia física, psicológica, de pareja o intrafamiliar.",
+      "codigoId": "fucsia",
+      "queHacer": [
+        "Comunícate con la Línea 155 (orientación a mujeres víctimas de violencias) o al 123.",
+        "Si estás en peligro físico inmediato, sal del lugar hacia un sitio concurrido o con personas conocidas.",
+        "Consulta las rutas de medidas de protección ante comisaría de familia o fiscalía."
+      ],
+      "queNoHacer": [
+        "No normalices las agresiones ni justifiques comportamientos violentos.",
+        "No dudes en solicitar acompañamiento institucional."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de violencia",
+          "telefono": "155",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-blanco-apoyo",
+      "titulo": "Acompañamiento integral · Código Blanco",
+      "situacion": "Hechos de violencia sexual o abuso que requieren atención en salud, orientación psicológica y jurídica.",
+      "codigoId": "blanco",
+      "queHacer": [
+        "Comunícate con la Línea 155 o al 123 para activar la ruta de salud integral.",
+        "Agenda una cita de apoyo psicosocial y valoración médica en tu EPS o centro de salud.",
+        "Recuerda que tienes derecho a acompañamiento psicológico continuo y confidencial."
+      ],
+      "queNoHacer": [
+        "No te guardes la situación en soledad: mereces un espacio de escucha respetuoso.",
+        "No te presiones a contar detalles si no te sientes en disposición de hacerlo."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de violencia",
+          "telefono": "155",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-rosa-infancia",
+      "titulo": "Protección a menores · Código Rosa",
+      "situacion": "Un niño, niña o adolescente está desaparecido, en riesgo o bajo sospecha de agresión.",
+      "codigoId": "rosa",
+      "queHacer": [
+        "Llama de inmediato a la Línea 141 del Instituto Colombiano de Bienestar Familiar (ICBF) o al 123.",
+        "Informa a las autoridades policiales o de seguridad más cercanas.",
+        "Proporciona la descripción detallada del menor y el último lugar donde fue visto."
+      ],
+      "queNoHacer": [
+        "No esperes tiempo para dar aviso: en situaciones con menores cada minuto cuenta.",
+        "No intentes resolver la situación a solas sin el apoyo de las autoridades."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de protección a la infancia",
+          "telefono": "141",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-urgencia-medica",
+      "titulo": "Descartar urgencia médica prioritaria",
+      "situacion": "Presentas dolor en el pecho, falta severa de aire o síntomas físicos que requieren evaluación médica.",
+      "queHacer": [
+        "Comunícate de inmediato con la Línea de emergencias 123 para solicitar orientación o ambulancia.",
+        "Acude al servicio de urgencias médicas u hospital más cercano para ser evaluado por personal de salud.",
+        "Pide a alguien cercano que te acompañe y permanezca a tu lado."
+      ],
+      "queNoHacer": [
+        "No conduzcas vehículos si sientes mareo o debilidad.",
+        "No asumas que solo es estrés sin una valoración médica previa."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-ansiedad-anclaje",
+      "titulo": "Manejo de ansiedad · Ejercicio 5-4-3-2-1",
+      "situacion": "Atraviesas una crisis de ansiedad o pánico y deseas recuperar la calma a través de una técnica guiada.",
+      "sugiereAnclaje": true,
+      "queHacer": [
+        "Realiza el ejercicio guiado de anclaje sensorial 5-4-3-2-1 que tenemos preparado para ti.",
+        "Respira lentamente inhalando en 4 tiempos y exhalando suavemente en 6.",
+        "Si la angustia no cede o sientes que empeora, comunícate con la Línea 106 o 123."
+      ],
+      "queNoHacer": [
+        "No intentes controlar tus pensamientos a la fuerza: enfócate en tus cinco sentidos.",
+        "No respires de forma rápida o agitada."
+      ],
+      "enlaceAccion": {
+        "texto": "Comenzar ejercicio de anclaje",
+        "url": "/ayuda-inmediata#anclaje"
+      },
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-ansiedad-linea",
+      "titulo": "Apoyo telefónico en ansiedad · Línea 106",
+      "situacion": "Crisis de angustia o desbordamiento emocional donde necesitas escuchar una voz profesional.",
+      "queHacer": [
+        "Llama a la Línea de salud mental (106) para recibir orientación psicológica gratuita e inmediata.",
+        "Encuentra un lugar cómodo y ventilado donde sentarte mientras conversas.",
+        "Recuerda que la Línea de emergencias 123 también está disponible en todo momento."
+      ],
+      "queNoHacer": [
+        "No te quedes a solas sufriendo en silencio: hablar de lo que sientes ayuda a procesarlo.",
+        "No te exijas resolver todo hoy: atiende este momento paso a paso."
+      ],
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-salud-mental-escucha",
+      "titulo": "Escucha y contención hoy · Línea 106",
+      "situacion": "Sientes sobrecarga, profunda tristeza o confusión y necesitas desahogarte hoy mismo.",
+      "queHacer": [
+        "Comunícate con la Línea de salud mental (106) para conversar con un profesional hoy.",
+        "Date un momento de pausa y busca una actividad que te brinde descanso.",
+        "Recuerda que también puedes pedir cita previa en el CAPL para un proceso continuo."
+      ],
+      "queNoHacer": [
+        "No te juzgues por sentir cansancio o tristeza.",
+        "No dudes en acudir al 123 si en algún momento sientes que la situación se agrava."
+      ],
+      "enlaceAccion": {
+        "texto": "Pedir mi cita en el CAPL",
+        "url": "/pedir-cita"
+      },
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-capl-cita-individual",
+      "titulo": "Acompañamiento psicológico · Cita en el CAPL",
+      "situacion": "Deseas iniciar un proceso de atención psicológica individual o valoración con el equipo del CAPL.",
+      "queHacer": [
+        "Solicita tu cita gratuita a través de nuestro sitio web eligiendo el horario y profesional de tu preferencia.",
+        "Recibirás un correo electrónico de confirmación con los detalles y la preparación para tu cita.",
+        "Si en algún momento tu estado de ánimo empeora, recuerda que la Línea 123 y la 106 están activas 24/7."
+      ],
+      "queNoHacer": [
+        "No olvides cancelar con anticipación si se te presenta un imprevisto para liberar el cupo.",
+        "No postergues tu bienestar emocional: iniciar este proceso es cuidar de ti."
+      ],
+      "enlaceAccion": {
+        "texto": "Pedir mi cita individual",
+        "url": "/pedir-cita?servicio=atencion-psicologica-individual"
+      },
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    },
+    {
+      "id": "rec-capl-cita-vocacional",
+      "titulo": "Orientación vocacional · Cita en el CAPL",
+      "situacion": "Buscas orientación para elegir tu carrera, tomar decisiones académicas o definir tu proyecto de vida.",
+      "queHacer": [
+        "Agenda tu cita para el servicio de orientación vocacional a través de nuestra plataforma web.",
+        "Ven con disposición de reflexionar sobre tus intereses, habilidades y metas futuras.",
+        "Si necesitas ayuda urgente por otro motivo, cuentas siempre con la Línea de emergencias 123."
+      ],
+      "queNoHacer": [
+        "No te sientas presionado a tener todas las respuestas claras desde el primer día.",
+        "No olvides avisar si necesitas reprogramar tu horario."
+      ],
+      "enlaceAccion": {
+        "texto": "Pedir mi cita de orientación",
+        "url": "/pedir-cita?servicio=orientacion-vocacional"
+      },
+      "lineaPrincipal": {
+        "nombre": "Línea de emergencias",
+        "telefono": "123",
+        "horario": "Por confirmar",
+        "porConfirmar": true
+      },
+      "lineasSecundarias": [
+        {
+          "nombre": "Línea de salud mental",
+          "telefono": "106",
+          "horario": "Por confirmar",
+          "porConfirmar": true
+        }
+      ],
+      "porConfirmar": true
+    }
+  ]
+}

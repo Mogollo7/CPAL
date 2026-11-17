@@ -4,7 +4,7 @@ tags: [capl, normas, color]
 
 # N02 · Color
 
-Volver a [[N00-Normas-Inicio]]. Paleta **alineada con la identidad oficial de Unilasallista** (ajuste del 13-nov-2026): morado y amarillo como principales; aguamarina en menor nivel.
+Volver a [[N00-Normas-Inicio]]. Ver también [[N02-Color-Propuesta-Psicologia]] y [[N12-Diseno-Confort-y-Neurobienestar]] para la normativa neuro-relajante (regla 60-30-10, tonos salvia/lavanda de baja saturación y micro-textura de papel táctil al 3%). Paleta **alineada con la identidad oficial de Unilasallista** (ajuste del 13-nov-2026): morado y amarillo como principales; aguamarina en menor nivel.
 
 ## De dónde sale cada color
 
@@ -130,6 +130,7 @@ Todos calculados con la fórmula WCAG 2.x. Mínimos: **4,5 : 1** texto, **3 : 1*
 6. **Sin sombras negras.** Si hace falta profundidad: sombra `morado-900` al 8–12 % de opacidad, muy difusa.
 7. **Códigos de emergencia** (dorado, fucsia, blanco…): su color va en una **etiqueta pequeña** dentro de la tarjeta, no como fondo de toda la tarjeta. Los tonos exactos se definen cuando el CAPL confirme los códigos ([[12-Codigos-de-Emergencia-Borrador]]).
 8. **Logo de la universidad:** se usa tal cual lo entregue la universidad, sin recolorear, con su zona de respeto.
+9. **Logo CAPL (estrella + «CAPL / Unilasallista»):** conserva sus colores propios, que no son tokens de interfaz: `marca-azul` `#1D236D` y `marca-estrella` `#FFB600`. No se recolorea a `morado-900` ni a `amarillo-500`. Dos versiones: sobre fondo oscuro, texto blanco; sobre crema, texto `marca-azul`. La estrella nunca cambia. Original en `contenido/marca/logo-capl-original.png`; falta el SVG oficial.
 
 ## Estados de la cita
 

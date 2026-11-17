@@ -1,0 +1,111 @@
+{
+  "ultimaRevision": "2026-11-16",
+  "aprobadoPor": "Pendiente de validación del CAPL",
+  "porConfirmar": true,
+  "preguntas": [
+    {
+      "id": "faq-que-es-capl",
+      "categoria": "Sobre el centro",
+      "pregunta": "¿Qué es el CAPL y dónde está ubicado?",
+      "respuesta": "El Centro de Atención Psicológica Lasallista (CAPL) es un centro docente-asistencial de Unilasallista Corporación Universitaria, habilitado por la Secretaría de Salud (MinSalud n.º DHS803177). Prestamos servicios de atención psicológica y neuropsicológica a la comunidad. Nuestra sede física está en la 'casa amarilla' de Unilasallista, ubicada en la Carrera 51 # 118 Sur – 57, en Caldas (Antioquia).",
+      "enlace": {
+        "texto": "Ver ubicación y canales de contacto",
+        "url": "/contacto"
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-gratuidad",
+      "categoria": "Costos y atención",
+      "pregunta": "¿Los servicios de atención tienen algún costo?",
+      "respuesta": "No. Todos los servicios de atención psicológica, evaluación y orientación que brinda el CAPL son completamente gratuitos para la comunidad universitaria y el público general.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-quienes-atienden",
+      "categoria": "Sobre el centro",
+      "pregunta": "¿Quiénes realizan las sesiones de atención?",
+      "respuesta": "La atención la brindan psicólogos en formación de los últimos semestres de Unilasallista y neuropsicólogos del CES. Todos los casos y sesiones cuentan con el acompañamiento y la supervisión permanente de docentes y psicólogos profesionales debidamente habilitados.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-urgencias",
+      "categoria": "Emergencias",
+      "pregunta": "¿El CAPL atiende urgencias o emergencias en salud mental?",
+      "respuesta": "No. El CAPL atiende exclusivamente con cita previa y no cuenta con servicio de urgencias médicas ni de internación. Si tú o una persona cercana está en peligro inmediato, tiene pensamientos de autolesión o atraviesa una crisis grave, consulta nuestra sección de Ayuda Inmediata o llama de inmediato a la Línea 123 o a la Línea 106 de salud mental.",
+      "enlace": {
+        "texto": "Ver guía de ayuda inmediata",
+        "url": "/ayuda-inmediata"
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-como-pedir-cita",
+      "categoria": "Citas y agendamiento",
+      "pregunta": "¿Cómo puedo pedir una cita?",
+      "respuesta": "Puedes solicitar tu cita en nuestra página web a través del botón 'Pedir mi cita'. Solo debes elegir el servicio que necesitas, indicar para quién es la atención, escoger el horario y profesional de tu preferencia, y completar tus datos de contacto básicos. No necesitas crear una cuenta ni recordar contraseñas.",
+      "enlace": {
+        "texto": "Pedir mi cita",
+        "url": "/pedir-cita"
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-elegir-psicologo",
+      "categoria": "Citas y agendamiento",
+      "pregunta": "¿Puedo elegir con qué profesional atenderme?",
+      "respuesta": "Sí. Al momento de elegir el horario podrás ver los perfiles de los psicólogos en formación disponibles y seleccionar con quién deseas tu cita. Si lo prefieres, también puedes elegir la opción 'Cualquiera disponible' para encontrar un cupo más pronto.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-cita-menor",
+      "categoria": "Citas y agendamiento",
+      "pregunta": "¿Puedo pedir una cita para otra persona o para un menor de edad?",
+      "respuesta": "Sí. En el formulario puedes indicar si la cita es para ti, para otra persona o para un menor de edad. En caso de menores de 18 años, la legislación colombiana exige registrar los datos y la autorización del padre, madre o acudiente responsable, quien deberá acompañar al menor a la sesión.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-cancelar-reprogramar",
+      "categoria": "Citas y agendamiento",
+      "pregunta": "¿Qué hago si no puedo asistir a mi cita?",
+      "respuesta": "En el correo electrónico de confirmación que recibes al autorizarse tu cita, encontrarás un enlace personal para cancelar o reprogramar tu horario. Te pedimos hacerlo con al menos 12 horas de anticipación para que otra persona que lo necesite pueda tomar ese espacio.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-servicios-disponibles",
+      "categoria": "Servicios",
+      "pregunta": "¿Qué servicios se pueden agendar a través del sitio web?",
+      "respuesta": "Puedes agendar en línea atención psicológica individual, evaluación neuropsicológica y orientación vocacional. Otros servicios como certificación de mascotas de apoyo emocional, pruebas psicométricas y charlas empresariales se gestionan mediante nuestro formulario de contacto.",
+      "enlace": {
+        "texto": "Ver catálogo de servicios",
+        "url": "/servicios"
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-privacidad-datos",
+      "categoria": "Privacidad y confidencialidad",
+      "pregunta": "¿Qué hacen con los datos que entrego en el formulario?",
+      "respuesta": "Tus datos personales se tratan de acuerdo con la Ley 1581 de 2012 de Colombia y se usan exclusivamente para coordinar tu cita. Nuestra plataforma web no guarda historias clínicas ni notas terapéuticas; el motivo de consulta que ingresas es opcional, se guarda cifrado y solo lo conoce el profesional asignado.",
+      "enlace": {
+        "texto": "Consultar política de privacidad",
+        "url": "/privacidad"
+      },
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-horarios-centro",
+      "categoria": "Sobre el centro",
+      "pregunta": "¿En qué horarios funciona el centro?",
+      "respuesta": "El CAPL atiende en días hábiles de lunes a viernes (no atendemos fines de semana ni festivos). Los horarios de psicología son lunes, martes y viernes en la mañana, y martes en la tarde; neuropsicología atiende miércoles, jueves y viernes en la tarde, y jueves en la mañana.",
+      "porConfirmar": true
+    },
+    {
+      "id": "faq-primera-cita-preparacion",
+      "categoria": "Citas y agendamiento",
+      "pregunta": "¿Qué debo llevar a mi primera cita y con cuánta anticipación debo llegar?",
+      "respuesta": "Te sugerimos llegar entre 10 y 15 minutos antes de la hora acordada a nuestra sede en la casa amarilla de Unilasallista. Lleva tu documento de identidad original y, si eres menor de edad, asiste en compañía de tu acudiente.",
+      "porConfirmar": true
+    }
+  ]
+}

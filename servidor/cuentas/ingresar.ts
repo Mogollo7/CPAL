@@ -6,9 +6,15 @@ import { consultar, limitar, olvidar } from "../limites";
 import type { Rol } from "../permisos";
 import { redTruncada, registrar } from "../registro";
 import { verificarClave, verificarContraRelleno } from "./clave";
+import { dispositivoConfiable, enviarCodigo, firmarPaso } from "./segundoPaso";
 import { firmar, MAX_INACTIVIDAD_S, nuevaCarga } from "./sesion";
 
 const MENSAJE = "Correo o contraseña incorrectos"; // siempre el mismo, exista o no el correo
+// Igual exista o no la cuenta: el contador diario se lleva por correo, también para correos sin cuenta.
+const BLOQUEADA = fallo(
+  "DEMASIADOS_INTENTOS",
+  "Por seguridad, esta cuenta necesita una contraseña nueva. Usa «Olvidé mi contraseña».",
+);
 
 export type SesionIniciada = {
   token: string;
@@ -17,9 +23,12 @@ export type SesionIniciada = {
   usuarioId: string;
 };
 
+/** `dispositivo`: valor de la cookie `capl_dispositivo`. Un administrador sin dispositivo de confianza recibe
+ *  `CODIGO_REQUERIDO` con `campos.paso` = valor para la cookie `capl_paso` (T-217). */
 export async function ingresar(
   entrada: unknown,
   red: string,
+  dispositivo?: string,
 ): Promise<Resultado<SesionIniciada>> {
   const datos = ingresoSchema.safeParse(entrada);
   if (!datos.success) return fallo("CREDENCIALES", MENSAJE);
@@ -40,6 +49,16 @@ export async function ingresar(
   }
 
   const u = await bd.usuario.findUnique({ where: { correo } });
+  // 15 fallos en un día (S02): no se entra ni con la contraseña correcta hasta crear una nueva por enlace.
+  if (u?.bloqueadaEn || !consultar("ingresoDia", correo).permitido) {
+    registrar("cuenta.bloqueada", {
+      nivel: "aviso",
+      rol: "publico",
+      red: redTruncada(red),
+      resultado: "dia",
+    });
+    return BLOQUEADA;
+  }
   // Se verifica SIEMPRE (contra un hash de relleno si no hay cuenta) para no revelar qué correos existen por el tiempo de respuesta.
   const claveOk = u?.claveHash
     ? await verificarClave(u.claveHash, clave)
@@ -47,6 +66,12 @@ export async function ingresar(
 
   if (!u || !u.activo || !u.claveHash || !claveOk) {
     limitar("ingreso", quien); // solo los fallos cuentan
+    limitar("ingresoDia", correo);
+    if (u && !consultar("ingresoDia", correo).permitido)
+      await bd.usuario.update({
+        where: { id: u.id },
+        data: { bloqueadaEn: new Date() }, // sobrevive a un reinicio de la aplicación
+      });
     registrar("cuenta.ingreso_fallido", {
       nivel: "aviso",
       rol: "publico",
@@ -56,25 +81,20 @@ export async function ingresar(
     return fallo("CREDENCIALES", MENSAJE);
   }
 
-  // T-217: el administrador necesita segundo paso (código al correo) en dispositivos nuevos. Hasta que exista,
-  // un administrador NO abre sesión solo con la contraseña: es la cuenta más valiosa del sistema (S02).
-  if (u.rol === "ADMIN") {
-    registrar("cuenta.ingreso_fallido", {
-      rol: "admin",
-      actor: u.id,
-      red: redTruncada(red),
-      resultado: "CODIGO_REQUERIDO",
-    });
-    return fallo("CODIGO_REQUERIDO", "Falta el segundo paso de verificación.");
-  }
-
   olvidar("ingreso", quien);
+  olvidar("ingresoDia", correo);
+  if (u.rol === "ADMIN" && !(await dispositivoConfiable(u.id, dispositivo))) {
+    await enviarCodigo(u);
+    return fallo("CODIGO_REQUERIDO", "Te enviamos un código a tu correo.", {
+      paso: firmarPaso(u.id),
+    });
+  }
   await bd.usuario.update({
     where: { id: u.id },
     data: { ultimoIngreso: new Date() },
   });
   registrar("cuenta.ingreso", {
-    rol: "psicologo",
+    rol: u.rol === "ADMIN" ? "admin" : "psicologo",
     actor: u.id,
     resultado: "ok",
   });

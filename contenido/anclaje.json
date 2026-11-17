@@ -1,0 +1,70 @@
+{
+  "ultimaRevision": "2026-11-16",
+  "aprobadoPor": "Pendiente de validación del CAPL",
+  "porConfirmar": true,
+  "titulo": "Técnica de anclaje sensorial 5-4-3-2-1",
+  "subtitulo": "Conéctate con el presente a través de tus sentidos",
+  "introduccion": "Este ejercicio guiado de conexión a tierra te ayuda a regresar al momento presente cuando sientas ansiedad intensa, pánico, mareo o pensamientos abrumadores. No hay prisa: tómate todo el tiempo que necesites en cada paso.",
+  "respiracionInicial": {
+    "titulo": "Paso previo: respira con calma",
+    "instruccion": "Siéntate en una posición cómoda con los pies apoyados en el suelo. Inhala lentamente por la nariz contando hasta 4, sostén el aire suavemente por 2 segundos y exhala despacio por la boca contando hasta 6. Repite este ciclo dos o tres veces antes de comenzar."
+  },
+  "pasos": [
+    {
+      "numero": 5,
+      "sentido": "Vista",
+      "titulo": "5 cosas que puedas ver a tu alrededor",
+      "instruccion": "Mira a tu alrededor detenidamente y nombra cinco cosas que veas en este instante. Puede ser el reflejo de la luz en una ventana, una planta, un libro, un color particular en una pared o la forma de un objeto cercano."
+    },
+    {
+      "numero": 4,
+      "sentido": "Tacto",
+      "titulo": "4 cosas que puedas tocar o sentir físicamente",
+      "instruccion": "Nota cuatro sensaciones físicas en tu cuerpo: la textura de la tela de tu ropa, la firmeza y temperatura del suelo bajo tus pies, el contacto de tus manos sobre tus piernas o la brisa del aire en tu piel."
+    },
+    {
+      "numero": 3,
+      "sentido": "Oído",
+      "titulo": "3 sonidos que puedas escuchar",
+      "instruccion": "Cierra los ojos un instante o fija la mirada en un punto suave. Presta atención a tres sonidos en tu entorno: el murmullo distante de la calle, el sonido de tu propia respiración, el canto de un ave o el suave zumbido de un aparato eléctrico."
+    },
+    {
+      "numero": 2,
+      "sentido": "Olfato",
+      "titulo": "2 aromas que puedas oler",
+      "instruccion": "Inhala despacio e intenta percibir dos olores diferentes en el ambiente: el aroma a café, jabón, ropa limpia, madera o perfume. Si no distingues ningún olor en este lugar, imagina dos aromas que te transmitan paz y seguridad."
+    },
+    {
+      "numero": 1,
+      "sentido": "Gusto",
+      "titulo": "1 sabor que puedas saborear",
+      "instruccion": "Concéntrate en un sabor en tu boca: el sabor de un caramelo, un sorbo de agua fresca, el sabor residual de una infusión o simplemente la sensación de frescura en tu lengua."
+    }
+  ],
+  "cierre": {
+    "titulo": "Regreso al presente",
+    "mensaje": "Respira hondo y despacio una vez más. Nota cómo tu respiración se ha vuelto más serena y tus pies sienten la estabilidad del suelo. Recuerda que este momento de angustia es temporal, va a pasar y estás en un lugar seguro.",
+    "lineaEmergencia": {
+      "nombre": "Línea de emergencias",
+      "telefono": "123",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    },
+    "lineaSaludMental": {
+      "nombre": "Línea de salud mental",
+      "telefono": "106",
+      "horario": "Por confirmar",
+      "porConfirmar": true
+    }
+  },
+  "guiaAcompanante": {
+    "titulo": "Si estás acompañando a una persona en crisis",
+    "pautas": [
+      "Mantén la serenidad en todo momento: tu tono de voz pausado y tranquilo le transmite seguridad.",
+      "No le pidas que se calme ni le digas que 'no pasa nada'; dile con amabilidad: 'Estoy aquí contigo, te acompaño y estás a salvo'.",
+      "Guíala en voz alta por cada uno de los 5 pasos del ejercicio, dándole tiempo suficiente para observar y sentir cada elemento sin presionarla.",
+      "Pregúntale con respeto si desea que le tomes la mano o si prefiere que mantengas cierta distancia física.",
+      "Si la crisis de angustia persiste, se intensifica o la persona expresa ideas de atentar contra su vida, comunícate de inmediato con la Línea 123 o con la Línea 106 de salud mental."
+    ]
+  }
+}

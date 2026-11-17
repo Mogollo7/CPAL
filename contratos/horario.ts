@@ -30,15 +30,5 @@ export const horarioSchema = z
   });
 export type Horario = z.infer<typeof horarioSchema>;
 
-export const bloqueoSchema = z
-  .object({
-    desde: z.iso.datetime({ offset: true }),
-    hasta: z.iso.datetime({ offset: true }),
-    motivo: z.string().max(200).optional(),
-    psicologoId: z.string().optional(), // vacío = todo el centro
-  })
-  .refine((b) => Date.parse(b.hasta) > Date.parse(b.desde), {
-    path: ["hasta"],
-    message: "hasta debe ser posterior a desde",
-  });
-export type Bloqueo = z.infer<typeof bloqueoSchema>;
+// El bloqueo vive en `bloqueo.ts`; se reexporta para no romper importaciones anteriores.
+export { bloqueoSchema, type Bloqueo } from "./bloqueo";

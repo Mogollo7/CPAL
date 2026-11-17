@@ -1,0 +1,59 @@
+{
+  "fuente": "cerebro/01-Contexto.md (sitio anterior del CAPL). Nada de esto está validado por el CAPL todavía.",
+  "servicios": [
+    {
+      "slug": "psicologia-individual",
+      "nombre": "Atención psicológica individual",
+      "descripcion": "Espacio de escucha y acompañamiento psicológico individual, gratuito y con cita previa.",
+      "area": "PSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": true,
+      "porConfirmar": true
+    },
+    {
+      "slug": "evaluacion-neuropsicologica",
+      "nombre": "Evaluación neuropsicológica",
+      "descripcion": "Evaluación de funciones como atención, memoria y aprendizaje, realizada por neuropsicólogos supervisados.",
+      "area": "NEUROPSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": true,
+      "porConfirmar": true
+    },
+    {
+      "slug": "orientacion-vocacional",
+      "nombre": "Orientación vocacional y proyecto de vida",
+      "descripcion": "Acompañamiento para explorar intereses y tomar decisiones sobre el proyecto de vida.",
+      "area": "PSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": true,
+      "porConfirmar": true
+    },
+    {
+      "slug": "certificacion-apoyo-emocional",
+      "nombre": "Certificación de mascotas de apoyo emocional",
+      "descripcion": "Proceso para certificar una mascota de apoyo emocional. Se solicita por el formulario de contacto.",
+      "area": "PSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": false,
+      "porConfirmar": true
+    },
+    {
+      "slug": "pruebas-psicometricas",
+      "nombre": "Pruebas psicométricas",
+      "descripcion": "Aplicación de pruebas psicométricas. Se solicita por el formulario de contacto.",
+      "area": "PSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": false,
+      "porConfirmar": true
+    },
+    {
+      "slug": "charlas-empresariales-educativas",
+      "nombre": "Charlas empresariales y educativas",
+      "descripcion": "Charlas para instituciones y empresas. Se solicita por el formulario de contacto.",
+      "area": "PSICOLOGIA",
+      "duracionMin": 60,
+      "agendableEnLinea": false,
+      "porConfirmar": true
+    }
+  ]
+}

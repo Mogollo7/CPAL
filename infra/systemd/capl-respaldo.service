@@ -1,0 +1,9 @@
+[Unit]
+Description=CAPL · copia de seguridad diaria
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=capl
+EnvironmentFile=/etc/capl/respaldo.env
+ExecStart=/srv/capl/infra/respaldo.sh diario

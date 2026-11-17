@@ -25,3 +25,12 @@ export const cupoSchema = z.object({
   psicologoIds: z.array(z.string()),
 });
 export type Cupo = z.infer<typeof cupoSchema>;
+
+// Respuesta de `listarPsicologosDeServicio` (solo activos y con horario).
+export const psicologoDeServicioSchema = z.object({
+  id: z.string(),
+  nombre: z.string(),
+  fotoUrl: z.string().nullable(),
+  presentacion: z.string(),
+});
+export type PsicologoDeServicio = z.infer<typeof psicologoDeServicioSchema>;
