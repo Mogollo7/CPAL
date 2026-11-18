@@ -1,0 +1,4 @@
+// Copiar a /etc/apt/apt.conf.d/20auto-upgrades (E07 · Vulnerabilidades del sistema; RNF-REN-09).
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+APT::Periodic::AutocleanInterval "7";

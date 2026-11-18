@@ -1,0 +1,64 @@
+/* La imagen conserva su archivo original: el tratamiento es solo visual. */
+.capl-imagen-taller {
+  --tinte-taller: var(--color-morado-600);
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background: var(--tinte-taller);
+}
+
+.capl-imagen-taller[data-tinte="agua"] {
+  --tinte-taller: var(--color-agua-500);
+}
+
+.capl-imagen-taller[data-tinte="amarillo"] {
+  --tinte-taller: var(--color-amarillo-500);
+}
+
+.capl-imagen-taller > img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(1);
+}
+
+.capl-imagen-taller::before,
+.capl-imagen-taller::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.capl-imagen-taller::before {
+  background: var(--tinte-taller);
+  opacity: 0.86;
+  mix-blend-mode: multiply;
+}
+
+.capl-imagen-taller::after {
+  background: linear-gradient(
+    to bottom,
+    rgb(11 16 55 / 0.08),
+    rgb(11 16 55 / 0.25) 55%,
+    rgb(11 16 55 / 0.95)
+  );
+}
+
+.capl-imagen-taller > :not(img) {
+  position: relative;
+  z-index: 1;
+}
+
+@media (forced-colors: active) {
+  .capl-imagen-taller::before,
+  .capl-imagen-taller::after {
+    display: none;
+  }
+
+  .capl-imagen-taller > img {
+    display: none;
+  }
+}

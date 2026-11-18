@@ -1,0 +1,9 @@
+[Unit]
+Description=CAPL · copia de seguridad diaria, 2:00 a. m.
+
+[Timer]
+OnCalendar=*-*-* 02:00:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

@@ -1,0 +1,7 @@
+.next
+node_modules
+cerebro
+package-lock.json
+
+# Informe que deja el escaneo de secretos en la CI
+results.sarif

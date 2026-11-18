@@ -1,0 +1,17 @@
+# Nada de esto entra a la imagen: secretos, datos locales, dependencias y documentación.
+.git
+.github
+.env
+.env.*
+!.env.example
+node_modules
+.next
+datos
+archivos
+resultados
+cerebro
+pruebas
+infra
+.playwright-mcp
+*.tsbuildinfo
+**/*.test.ts
