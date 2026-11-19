@@ -51,6 +51,8 @@ export const obtenerCuposAccion = async (entrada: unknown) =>
   obtenerCupos(entrada, { ip: await ip() });
 export const listarPsicologosDeServicioAccion = async (servicioId: string) =>
   listarPsicologosDeServicio(servicioId);
+export const listarServiciosAgendablesAccion = async () =>
+  centroServicios.listarServiciosAgendables();
 /** `token` es el tramo final del enlace `/cita/{token}` que llega por correo. */
 export const verCitaAccion = async (token: string) =>
   citasGestion.verCita(token);

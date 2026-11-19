@@ -1,8 +1,13 @@
-import React, { Suspense } from "react";
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FormularioCita } from "@/componentes/publico/formulario-cita";
+import { connection } from "next/server";
+import { FormularioCita } from "@/componentes/publico/pedir-cita/formulario-cita";
 import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
+import contenidoServicios from "@/contenido/servicios.json";
+import type { Servicios } from "@/contratos/servicio-contenido";
+import { listarServiciosAgendablesAccion } from "@/servidor/acciones";
+import { datosDePagina } from "@/servidor/pagina";
 
 export const metadata: Metadata = {
   title: "Pedir Cita en Línea · Atención Psicológica Gratuita · CAPL",
@@ -24,6 +29,19 @@ function CargandoFormulario() {
       />
     </div>
   );
+}
+
+/** Los servicios salen de la BD (activos y agendables); el texto «para quién» de contenido/servicios.json. */
+async function FormularioConServicios() {
+  await connection();
+  const textos = (contenidoServicios as Servicios).servicios;
+  const servicios = datosDePagina(await listarServiciosAgendablesAccion()).map(
+    (s) => ({
+      ...s,
+      paraQuien: textos.find((t) => t.slug === s.slug)?.paraQuien,
+    }),
+  );
+  return <FormularioCita servicios={servicios} />;
 }
 
 export default function PedirCitaPage() {
@@ -52,9 +70,8 @@ export default function PedirCitaPage() {
         </p>
       </div>
 
-      {/* Envuelto en Suspense para soporte óptimo de useSearchParams en Next.js App Router */}
       <Suspense fallback={<CargandoFormulario />}>
-        <FormularioCita />
+        <FormularioConServicios />
       </Suspense>
     </div>
   );

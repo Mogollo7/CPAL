@@ -153,7 +153,7 @@ export function PiePublico() {
             className="flex items-center gap-4 flex-wrap justify-center"
           >
             <Link
-              href="/politica-datos"
+              href="/privacidad"
               className="hover:text-amarillo-300 underline decoration-1 underline-offset-2 inline-flex items-center gap-1 focus-visible:outline-2 focus-visible:outline-amarillo-500 rounded-s"
             >
               <ShieldCheck className="w-4 h-4" aria-hidden="true" />

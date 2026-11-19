@@ -3,6 +3,7 @@ import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import {
   servicioSchema,
   type ServicioGuardado,
+  type ServicioPublico,
 } from "../../contratos/servicio";
 import { auditar } from "../auditoria";
 import { bd } from "../bd";
@@ -29,6 +30,25 @@ export async function listarServicios(
   return ok(
     await bd.servicio.findMany({
       select: SEL,
+      orderBy: [{ orden: "asc" }, { nombre: "asc" }],
+    }),
+  );
+}
+
+/** Paso 1 de /pedir-cita: los que el público puede pedir en línea ahora mismo. Sin sesión. */
+export async function listarServiciosAgendables(): Promise<
+  Resultado<ServicioPublico[]>
+> {
+  return ok(
+    await bd.servicio.findMany({
+      where: { activo: true, agendableEnLinea: true },
+      select: {
+        id: true,
+        slug: true,
+        nombre: true,
+        descripcion: true,
+        area: true,
+      },
       orderBy: [{ orden: "asc" }, { nombre: "asc" }],
     }),
   );
