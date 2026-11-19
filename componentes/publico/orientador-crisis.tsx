@@ -10,15 +10,15 @@ import {
   ShieldAlert,
   ArrowDown,
 } from "lucide-react";
-import { TransicionSuave } from "./transicion-suave";
-import { BotonLlamar } from "./BotonLlamar";
-import { cn } from "./cn";
-import orientadorData from "../../contenido/orientador.json";
+import { TransicionSuave } from "@/componentes/ui/transicion-suave";
+import { BotonLlamar } from "@/componentes/ui/boton-llamar";
+import { cn } from "@/componentes/ui/cn";
+import orientadorData from "@/contenido/orientador.json";
 import type {
   OrientadorContenido,
   PreguntaOrientador,
   RecomendacionOrientador,
-} from "../../contratos/orientador";
+} from "@/contratos/orientador";
 
 export interface OrientadorCrisisProps {
   className?: string;

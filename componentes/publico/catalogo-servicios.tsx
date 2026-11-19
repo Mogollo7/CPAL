@@ -10,7 +10,7 @@ import {
   Clock,
   Mail,
 } from "lucide-react";
-import { cn } from "./cn";
+import { cn } from "@/componentes/ui/cn";
 import type { Servicios } from "@/contratos/servicio-contenido";
 
 export type ServicioContenido = Servicios["servicios"][number];

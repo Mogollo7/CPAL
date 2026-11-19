@@ -15,11 +15,11 @@ import {
   HeartHandshake,
   ChevronDown,
 } from "lucide-react";
-import { TransicionSuave } from "./transicion-suave";
-import { BotonLlamar } from "./BotonLlamar";
-import { cn } from "./cn";
-import anclajeData from "../../contenido/anclaje.json";
-import type { AnclajeContenido } from "../../contratos/orientador";
+import { TransicionSuave } from "@/componentes/ui/transicion-suave";
+import { BotonLlamar } from "@/componentes/ui/boton-llamar";
+import { cn } from "@/componentes/ui/cn";
+import anclajeData from "@/contenido/anclaje.json";
+import type { AnclajeContenido } from "@/contratos/orientador";
 
 export interface EjercicioAnclajeProps {
   className?: string;

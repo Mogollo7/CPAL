@@ -5,8 +5,8 @@ import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { Menu, X, AlertCircle, CalendarPlus } from "lucide-react";
-import { cn } from "./cn";
-import logoCapl from "../../contenido/marca/logo-capl-original.png";
+import { cn } from "@/componentes/ui/cn";
+import logoCapl from "@/contenido/marca/logo-capl-original.png";
 
 export interface EnlaceNavegacion {
   nombre: string;

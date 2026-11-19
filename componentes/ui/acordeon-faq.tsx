@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ChevronDown, ArrowRight, HelpCircle } from "lucide-react";
 import { cn } from "./cn";
-import type { PreguntaFaq } from "../../contratos/faq";
+import type { PreguntaFaq } from "@/contratos/faq";
 
 export interface AcordeonFaqProps {
   preguntas: PreguntaFaq[];

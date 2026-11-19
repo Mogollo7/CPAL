@@ -17,11 +17,11 @@ import {
   AlertTriangle,
   Home,
 } from "lucide-react";
-import { TransicionSuave } from "./transicion-suave";
-import { cn } from "./cn";
-import serviciosData from "../../contenido/servicios.json";
-import citasSimuladas from "../../contenido/citas-simuladas.json";
-import type { Servicios } from "../../contratos/servicio-contenido";
+import { TransicionSuave } from "@/componentes/ui/transicion-suave";
+import { cn } from "@/componentes/ui/cn";
+import serviciosData from "@/contenido/servicios.json";
+import citasSimuladas from "@/contenido/citas-simuladas.json";
+import type { Servicios } from "@/contratos/servicio-contenido";
 
 const datosServicios = serviciosData as Servicios;
 

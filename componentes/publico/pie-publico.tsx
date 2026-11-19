@@ -10,7 +10,7 @@ import {
   FileText,
   LifeBuoy,
 } from "lucide-react";
-import logoUnilasallistaBlanco from "../../contenido/marca/logo-unilasallista-blanco.png";
+import logoUnilasallistaBlanco from "@/contenido/marca/logo-unilasallista-blanco.png";
 
 export function PiePublico() {
   return (

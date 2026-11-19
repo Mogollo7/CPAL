@@ -1,7 +1,7 @@
 import React from "react";
-import { EncabezadoPublico } from "@/componentes/ui/EncabezadoPublico";
-import { PiePublico } from "@/componentes/ui/PiePublico";
-import { BotonAyudaAhora } from "@/componentes/ui/BotonAyudaAhora";
+import { EncabezadoPublico } from "@/componentes/publico/encabezado-publico";
+import { PiePublico } from "@/componentes/publico/pie-publico";
+import { BotonAyudaAhora } from "@/componentes/publico/boton-ayuda-ahora";
 
 export default function PublicoLayout({
   children,

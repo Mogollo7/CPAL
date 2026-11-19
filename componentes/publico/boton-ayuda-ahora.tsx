@@ -4,7 +4,7 @@ import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LifeBuoy } from "lucide-react";
-import { cn } from "./cn";
+import { cn } from "@/componentes/ui/cn";
 
 export interface BotonAyudaAhoraProps {
   /** Clases CSS opcionales */

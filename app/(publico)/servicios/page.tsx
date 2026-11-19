@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Sparkles, ShieldCheck, Heart, Users } from "lucide-react";
-import { CatalogoServicios } from "@/componentes/ui/CatalogoServicios";
+import { CatalogoServicios } from "@/componentes/publico/catalogo-servicios";
 import serviciosData from "@/contenido/servicios.json";
 import type { Servicios } from "@/contratos/servicio-contenido";
 

@@ -1,7 +1,7 @@
 import React, { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
-import { FormularioCita } from "@/componentes/ui/FormularioCita";
+import { FormularioCita } from "@/componentes/publico/formulario-cita";
 import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
 
 export const metadata: Metadata = {

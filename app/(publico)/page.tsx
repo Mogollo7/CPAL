@@ -10,12 +10,12 @@ import {
   Sparkles,
   Users,
 } from "lucide-react";
-import { AcordeonFaq } from "@/componentes/ui/AcordeonFaq";
-import serviciosData from "../../contenido/servicios.json";
-import faqData from "../../contenido/faq.json";
-import type { Servicios } from "../../contratos/servicio-contenido";
-import type { Faq } from "../../contratos/faq";
-import ilustracionHero from "../../contenido/ilustraciones/ilu-escena-portada-sillon.png";
+import { AcordeonFaq } from "@/componentes/ui/acordeon-faq";
+import serviciosData from "@/contenido/servicios.json";
+import faqData from "@/contenido/faq.json";
+import type { Servicios } from "@/contratos/servicio-contenido";
+import type { Faq } from "@/contratos/faq";
+import ilustracionHero from "@/contenido/ilustraciones/ilu-escena-portada-sillon.png";
 
 export const metadata: Metadata = {
   title: "CAPL · Centro de Atención Psicológica Lasallista",

@@ -1,7 +1,7 @@
 // GET /api/cupos?servicioId=…&psicologoId=…&desde=…&hasta=… (E05). Pública, con límite de consultas por dirección de red.
-import type { CodigoError } from "../../../contratos/resultado";
-import { obtenerCupos } from "../../../servidor/citas/cupos";
-import { conRegistro } from "../../../servidor/registro";
+import type { CodigoError } from "@/contratos/resultado";
+import { obtenerCupos } from "@/servidor/citas/cupos";
+import { conRegistro } from "@/servidor/registro";
 
 const ESTADO: Partial<Record<CodigoError, number>> = {
   VALIDACION: 400,
