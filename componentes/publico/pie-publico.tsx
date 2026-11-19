@@ -12,7 +12,13 @@ import {
 } from "lucide-react";
 import logoUnilasallistaBlanco from "@/contenido/marca/logo-unilasallista-blanco.png";
 
-export function PiePublico() {
+// Con cacheComponents, `new Date()` en el render rompe el prerender; el año se guarda en caché.
+async function anioActual() {
+  "use cache";
+  return new Date().getFullYear();
+}
+
+export async function PiePublico() {
   return (
     <footer className="w-full bg-morado-900 text-blanco border-t border-morado-700">
       <div className="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8 py-12 lg:py-16">
@@ -144,7 +150,7 @@ export function PiePublico() {
         {/* Barra inferior: Términos, Política de datos y Derechos */}
         <div className="mt-12 pt-8 border-t border-morado-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-caption text-morado-100">
           <p className="text-center sm:text-left">
-            © {new Date().getFullYear()} Centro de Atención Psicológica
+            © {await anioActual()} Centro de Atención Psicológica
             Lasallista (CAPL). Todos los derechos reservados.
           </p>
 
