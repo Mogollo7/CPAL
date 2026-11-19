@@ -52,7 +52,8 @@ export default async function PaginaAdminEventos() {
           Cartelera de Eventos y Talleres
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Publica conferencias, talleres grupales y actividades comunitarias visibles en el portal público.
+          Publica conferencias, talleres grupales y actividades comunitarias
+          visibles en el portal público.
         </p>
       </div>
 

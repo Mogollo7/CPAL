@@ -32,7 +32,8 @@ export default async function PaginaPsicologoPerfil() {
           Mi Perfil Profesional
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Personaliza tu fotografía, tu biografía clínica y los servicios que ofreces a los consultantes.
+          Personaliza tu fotografía, tu biografía clínica y los servicios que
+          ofreces a los consultantes.
         </p>
       </div>
 

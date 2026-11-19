@@ -1,11 +1,14 @@
 "use client";
 
-import { useState, useTransition, type FormEvent, type ChangeEvent } from "react";
 import {
-  Sparkles,
+  useState,
+  useTransition,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
+import {
   Plus,
   Calendar,
-  Clock,
   MapPin,
   ExternalLink,
   Edit2,
@@ -13,7 +16,6 @@ import {
   AlertCircle,
   X,
   Upload,
-  Globe,
 } from "lucide-react";
 import type { EventoDetalle } from "@/contratos/evento";
 import {
@@ -42,7 +44,9 @@ function formatearFechaBogota(isoString: string): string {
 export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
   const [eventos, setEventos] = useState<EventoDetalle[]>(eventosIniciales);
   const [modalCrear, setModalCrear] = useState(false);
-  const [eventoAEditar, setEventoAEditar] = useState<EventoDetalle | null>(null);
+  const [eventoAEditar, setEventoAEditar] = useState<EventoDetalle | null>(
+    null,
+  );
 
   // Formulario de creación / edición
   const [titulo, setTitulo] = useState("");
@@ -53,7 +57,10 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
   const [enlace, setEnlace] = useState("");
   const [publicado, setPublicado] = useState(true);
 
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [pendiente, iniciarTransicion] = useTransition();
 
   // Abrir creación
@@ -104,18 +111,30 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
               prev.map((ev) => (ev.id === eventoAEditar.id ? res.datos : ev)),
             );
             setEventoAEditar(null);
-            setMensaje({ tipo: "exito", texto: "Evento actualizado correctamente." });
+            setMensaje({
+              tipo: "exito",
+              texto: "Evento actualizado correctamente.",
+            });
           } else {
-            setMensaje({ tipo: "error", texto: res.mensaje || "Error al actualizar evento." });
+            setMensaje({
+              tipo: "error",
+              texto: res.mensaje || "Error al actualizar evento.",
+            });
           }
         } else {
           const res = await crearEventoAccion(payload);
           if (res.ok) {
             setEventos((prev) => [res.datos, ...prev]);
             setModalCrear(false);
-            setMensaje({ tipo: "exito", texto: "Evento creado y publicado en la cartelera." });
+            setMensaje({
+              tipo: "exito",
+              texto: "Evento creado y publicado en la cartelera.",
+            });
           } else {
-            setMensaje({ tipo: "error", texto: res.mensaje || "Error al crear evento." });
+            setMensaje({
+              tipo: "error",
+              texto: res.mensaje || "Error al crear evento.",
+            });
           }
         }
       } catch {
@@ -134,7 +153,10 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
             ),
           );
           setEventoAEditar(null);
-          setMensaje({ tipo: "exito", texto: "Evento actualizado (modo simulado)." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Evento actualizado (modo simulado).",
+          });
         } else {
           const nuevoSimulado: EventoDetalle = {
             id: `ev-${Date.now()}`,
@@ -150,14 +172,20 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           };
           setEventos((prev) => [nuevoSimulado, ...prev]);
           setModalCrear(false);
-          setMensaje({ tipo: "exito", texto: "Evento creado (modo simulado)." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Evento creado (modo simulado).",
+          });
         }
       }
     });
   };
 
   // Subir imagen / afiche de evento
-  const manejarSubirImagen = (eventoId: string, e: ChangeEvent<HTMLInputElement>) => {
+  const manejarSubirImagen = (
+    eventoId: string,
+    e: ChangeEvent<HTMLInputElement>,
+  ) => {
     const file = e.target.files?.[0];
     if (!file) return;
 
@@ -171,16 +199,27 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           setEventos((prev) =>
             prev.map((ev) => (ev.id === eventoId ? res.datos : ev)),
           );
-          setMensaje({ tipo: "exito", texto: "Imagen del evento actualizada." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Imagen del evento actualizada.",
+          });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al subir imagen." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al subir imagen.",
+          });
         }
       } catch {
         const urlLocal = URL.createObjectURL(file);
         setEventos((prev) =>
-          prev.map((ev) => (ev.id === eventoId ? { ...ev, imagenUrl: urlLocal } : ev)),
+          prev.map((ev) =>
+            ev.id === eventoId ? { ...ev, imagenUrl: urlLocal } : ev,
+          ),
         );
-        setMensaje({ tipo: "exito", texto: "Imagen actualizada (modo simulado)." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Imagen actualizada (modo simulado).",
+        });
       }
     });
   };

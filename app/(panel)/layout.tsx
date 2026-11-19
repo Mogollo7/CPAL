@@ -1,14 +1,18 @@
 import type { ReactNode } from "react";
 import { redirect } from "next/navigation";
+import { connection } from "next/server";
 import { BarraLateral, type RolPanel } from "@/componentes/panel/barra-lateral";
 import { CabeceraPanel } from "@/componentes/panel/cabecera-panel";
 import { obtenerSesion } from "@/servidor/cuentas/sesionActual";
+
+export const instant = false;
 
 export default async function LayoutPanel({
   children,
 }: {
   children: ReactNode;
 }) {
+  await connection();
   // Obtenemos la sesión real desde la cookie/servidor
   const sesionReal = await obtenerSesion();
 

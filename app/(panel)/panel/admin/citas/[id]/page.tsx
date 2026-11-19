@@ -34,8 +34,8 @@ export default async function PaginaDetalleCita({
         : id.includes("004")
           ? "RECHAZADA"
           : "PENDIENTE",
-      inicio: new Date(Date.now() + 86400000 * 2).toISOString(),
-      fin: new Date(Date.now() + 86400000 * 2 + 3600000).toISOString(),
+      inicio: "2026-11-20T14:00:00.000Z",
+      fin: "2026-11-20T15:00:00.000Z",
       servicio: "Atención psicológica individual",
       psicologoId: "psi-1",
       psicologoNombre: "Dra. Sofía Martínez",
@@ -55,15 +55,15 @@ export default async function PaginaDetalleCita({
         : null,
       reprogramaciones: 0,
       reprogramadaDeId: null,
-      venceEn: new Date(Date.now() + 86400000).toISOString(),
-      creadaEn: new Date(Date.now() - 3600000 * 4).toISOString(),
-      consentimientoEn: new Date(Date.now() - 3600000 * 4).toISOString(),
+      venceEn: "2026-11-19T23:59:59.000Z",
+      creadaEn: "2026-11-18T10:00:00.000Z",
+      consentimientoEn: "2026-11-18T10:00:00.000Z",
       consentimientoVersion: "v1.0",
       historial: [
         {
           accion: "Solicitud de cita recibida por la plataforma",
           usuarioId: null,
-          creadaEn: new Date(Date.now() - 3600000 * 4).toISOString(),
+          creadaEn: "2026-11-18T10:00:00.000Z",
         },
       ],
       correos: [
@@ -86,7 +86,8 @@ export default async function PaginaDetalleCita({
           Cita no encontrada
         </h2>
         <p className="text-caption text-texto-secundario">
-          El identificador de cita solicitado no existe o no tienes permisos para visualizarlo.
+          El identificador de cita solicitado no existe o no tienes permisos
+          para visualizarlo.
         </p>
         <Link
           href="/panel/admin/citas"

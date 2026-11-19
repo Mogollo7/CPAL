@@ -2,14 +2,10 @@
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
-  Settings,
   Save,
   CheckCircle2,
   AlertCircle,
-  ShieldAlert,
-  Clock,
   Calendar,
-  Lock,
   Mail,
   Sliders,
 } from "lucide-react";
@@ -27,7 +23,10 @@ export function FormularioConfiguracion({
   const [dominiosTexto, setDominiosTexto] = useState(
     configuracionInicial.dominiosPermitidos.join(", "),
   );
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [guardando, iniciarTransicion] = useTransition();
 
   const manejarCambio = (
@@ -59,7 +58,8 @@ export function FormularioConfiguracion({
           setConfig(res.datos);
           setMensaje({
             tipo: "exito",
-            texto: "Configuración y reglas operativas actualizadas correctamente.",
+            texto:
+              "Configuración y reglas operativas actualizadas correctamente.",
           });
         } else {
           setMensaje({
@@ -126,17 +126,23 @@ export function FormularioConfiguracion({
                     : "bg-aviso-fondo text-amarillo-700 border border-amarillo-500/30"
                 }`}
               >
-                {config.autoAutorizar ? "Auto-aprobación activa" : "Requiere visto bueno manual"}
+                {config.autoAutorizar
+                  ? "Auto-aprobación activa"
+                  : "Requiere visto bueno manual"}
               </span>
             </div>
             <p className="text-caption text-texto-secundario mt-1 max-w-xl text-xs leading-relaxed">
-              Si está activo, las citas solicitadas pasan de inmediato a estado AUTORIZADA y se encola la confirmación al paciente sin que el administrador deba aprobarlas una por una.
+              Si está activo, las citas solicitadas pasan de inmediato a estado
+              AUTORIZADA y se encola la confirmación al paciente sin que el
+              administrador deba aprobarlas una por una.
             </p>
           </div>
 
           <button
             type="button"
-            onClick={() => manejarCambio("autoAutorizar", !config.autoAutorizar)}
+            onClick={() =>
+              manejarCambio("autoAutorizar", !config.autoAutorizar)
+            }
             className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-pildora border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-morado-600 ${
               config.autoAutorizar ? "bg-accion-fondo" : "bg-borde-suave"
             }`}
@@ -163,11 +169,14 @@ export function FormularioConfiguracion({
               max={168}
               required
               value={config.anticipacionMinHoras}
-              onChange={(e) => manejarCambio("anticipacionMinHoras", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("anticipacionMinHoras", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Tiempo mínimo que debe haber entre el momento del agendamiento y el turno (ej. 24 h).
+              Tiempo mínimo que debe haber entre el momento del agendamiento y
+              el turno (ej. 24 h).
             </span>
           </div>
 
@@ -181,11 +190,14 @@ export function FormularioConfiguracion({
               max={180}
               required
               value={config.anticipacionMaxDias}
-              onChange={(e) => manejarCambio("anticipacionMaxDias", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("anticipacionMaxDias", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Horizonte de días a futuro visibles en el calendario (ej. 30 días).
+              Horizonte de días a futuro visibles en el calendario (ej. 30
+              días).
             </span>
           </div>
 
@@ -199,11 +211,14 @@ export function FormularioConfiguracion({
               max={168}
               required
               value={config.cancelacionMinHoras}
-              onChange={(e) => manejarCambio("cancelacionMinHoras", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("cancelacionMinHoras", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Plazo límite antes de la cita para que el paciente pueda cancelar en línea (ej. 12 h).
+              Plazo límite antes de la cita para que el paciente pueda cancelar
+              en línea (ej. 12 h).
             </span>
           </div>
 
@@ -217,11 +232,17 @@ export function FormularioConfiguracion({
               max={336}
               required
               value={config.vencimientoPendienteHoras}
-              onChange={(e) => manejarCambio("vencimientoPendienteHoras", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio(
+                  "vencimientoPendienteHoras",
+                  Number(e.target.value),
+                )
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Tiempo para que administración autorice antes de que el cupo se libere (ej. 48 h).
+              Tiempo para que administración autorice antes de que el cupo se
+              libere (ej. 48 h).
             </span>
           </div>
         </div>
@@ -252,11 +273,14 @@ export function FormularioConfiguracion({
               max={10}
               required
               value={config.maxCitasActivas}
-              onChange={(e) => manejarCambio("maxCitasActivas", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("maxCitasActivas", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Máximo de citas simultáneas pendientes/autorizadas por paciente (ej. 1).
+              Máximo de citas simultáneas pendientes/autorizadas por paciente
+              (ej. 1).
             </span>
           </div>
 
@@ -270,7 +294,9 @@ export function FormularioConfiguracion({
               max={10}
               required
               value={config.maxReprogramaciones}
-              onChange={(e) => manejarCambio("maxReprogramaciones", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("maxReprogramaciones", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
@@ -288,7 +314,9 @@ export function FormularioConfiguracion({
               max={48}
               required
               value={config.duracionEnlaceHoras}
-              onChange={(e) => manejarCambio("duracionEnlaceHoras", Number(e.target.value))}
+              onChange={(e) =>
+                manejarCambio("duracionEnlaceHoras", Number(e.target.value))
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
@@ -307,7 +335,8 @@ export function FormularioConfiguracion({
               Canales y Dominios Institucionales
             </h3>
             <p className="text-caption text-texto-secundario mt-0.5">
-              Restricciones de seguridad para creación de cuentas y buzón central.
+              Restricciones de seguridad para creación de cuentas y buzón
+              central.
             </p>
           </div>
         </div>
@@ -321,11 +350,14 @@ export function FormularioConfiguracion({
               type="email"
               required
               value={config.correoAdministracion}
-              onChange={(e) => manejarCambio("correoAdministracion", e.target.value)}
+              onChange={(e) =>
+                manejarCambio("correoAdministracion", e.target.value)
+              }
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Correo que recibe avisos de nuevas solicitudes de citas y reportes de atención.
+              Correo que recibe avisos de nuevas solicitudes de citas y reportes
+              de atención.
             </span>
           </div>
 
@@ -342,7 +374,8 @@ export function FormularioConfiguracion({
               className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 font-mono text-xs"
             />
             <span className="block text-[11px] text-texto-secundario mt-1">
-              Separados por coma. Solo se permite invitar psicólogos con estos dominios oficiales.
+              Separados por coma. Solo se permite invitar psicólogos con estos
+              dominios oficiales.
             </span>
           </div>
         </div>
@@ -356,7 +389,9 @@ export function FormularioConfiguracion({
           className="inline-flex items-center gap-2 px-6 py-3 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
         >
           <Save className="w-4 h-4" />
-          <span>{guardando ? "Guardando políticas..." : "Guardar configuración"}</span>
+          <span>
+            {guardando ? "Guardando políticas..." : "Guardar configuración"}
+          </span>
         </button>
       </div>
     </form>

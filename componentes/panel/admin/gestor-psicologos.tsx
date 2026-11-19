@@ -2,19 +2,19 @@
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
-  Users,
   UserPlus,
-  Mail,
   Send,
   CheckCircle2,
   AlertCircle,
   Edit2,
   Power,
-  Shield,
   X,
-  Clock,
 } from "lucide-react";
-import type { Area, EstadoPsicologo, UsuarioResumen } from "@/contratos/psicologo";
+import type {
+  Area,
+  EstadoPsicologo,
+  UsuarioResumen,
+} from "@/contratos/psicologo";
 import {
   crearPsicologoAccion,
   actualizarPsicologoAccion,
@@ -26,10 +26,14 @@ interface GestorPsicologosProps {
   psicologosIniciales: UsuarioResumen[];
 }
 
-export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps) {
-  const [psicologos, setPsicologos] = useState<UsuarioResumen[]>(psicologosIniciales);
+export function GestorPsicologos({
+  psicologosIniciales,
+}: GestorPsicologosProps) {
+  const [psicologos, setPsicologos] =
+    useState<UsuarioResumen[]>(psicologosIniciales);
   const [modalCrear, setModalCrear] = useState(false);
-  const [psicologoAEditar, setPsicologoAEditar] = useState<UsuarioResumen | null>(null);
+  const [psicologoAEditar, setPsicologoAEditar] =
+    useState<UsuarioResumen | null>(null);
 
   // Campos formulario creación
   const [nuevoNombre, setNuevoNombre] = useState("");
@@ -40,7 +44,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
   const [editNombre, setEditNombre] = useState("");
   const [editArea, setEditArea] = useState<Area>("PSICOLOGIA");
 
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [pendiente, iniciarTransicion] = useTransition();
 
   // Abrir modal edición
@@ -73,7 +80,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
             texto: `Psicólogo invitado con éxito. Se envió el correo de activación a ${nuevoCorreo}.`,
           });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al invitar psicólogo." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al invitar psicólogo.",
+          });
         }
       } catch {
         const nuevoSimulado: UsuarioResumen = {
@@ -120,9 +130,15 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
             ),
           );
           setPsicologoAEditar(null);
-          setMensaje({ tipo: "exito", texto: "Datos actualizados correctamente." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Datos actualizados correctamente.",
+          });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al actualizar." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al actualizar.",
+          });
         }
       } catch {
         setPsicologos((prev) =>
@@ -133,7 +149,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
           ),
         );
         setPsicologoAEditar(null);
-        setMensaje({ tipo: "exito", texto: "Actualizado (modo simulado local)." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Actualizado (modo simulado local).",
+        });
       }
     });
   };
@@ -144,12 +163,21 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
     try {
       const res = await reenviarInvitacionAccion(id);
       if (res.ok) {
-        setMensaje({ tipo: "exito", texto: `Invitación reenviada a ${correo}.` });
+        setMensaje({
+          tipo: "exito",
+          texto: `Invitación reenviada a ${correo}.`,
+        });
       } else {
-        setMensaje({ tipo: "error", texto: res.mensaje || "Error al reenviar." });
+        setMensaje({
+          tipo: "error",
+          texto: res.mensaje || "Error al reenviar.",
+        });
       }
     } catch {
-      setMensaje({ tipo: "exito", texto: `Invitación reenviada a ${correo} (modo simulado).` });
+      setMensaje({
+        tipo: "exito",
+        texto: `Invitación reenviada a ${correo} (modo simulado).`,
+      });
     }
   };
 
@@ -169,7 +197,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
           texto: `Psicólogo ${activoActual ? "desactivado" : "reactivado"} con éxito.`,
         });
       } else {
-        setMensaje({ tipo: "error", texto: res.mensaje || "Error al cambiar estado." });
+        setMensaje({
+          tipo: "error",
+          texto: res.mensaje || "Error al cambiar estado.",
+        });
       }
     } catch {
       setPsicologos((prev) =>
@@ -230,7 +261,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
             </thead>
             <tbody className="divide-y divide-borde-suave text-texto-principal">
               {psicologos.map((p) => (
-                <tr key={p.id} className="hover:bg-fondo-suave/50 transition-colors">
+                <tr
+                  key={p.id}
+                  className="hover:bg-fondo-suave/50 transition-colors"
+                >
                   <td className="py-3.5 px-4 font-weight-fuerte text-texto-titulo">
                     {p.nombre}
                   </td>
@@ -290,13 +324,19 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
                       {p.estado !== "INVITADO" && (
                         <button
                           type="button"
-                          onClick={() => manejarCambiarActivo(p.id, p.estado === "ACTIVO")}
+                          onClick={() =>
+                            manejarCambiarActivo(p.id, p.estado === "ACTIVO")
+                          }
                           className={`p-1.5 rounded-s transition-colors ${
                             p.estado === "ACTIVO"
                               ? "text-coral-700 hover:bg-error-fondo/60"
                               : "text-agua-700 hover:bg-exito-fondo/60"
                           }`}
-                          title={p.estado === "ACTIVO" ? "Desactivar terapeuta" : "Reactivar terapeuta"}
+                          title={
+                            p.estado === "ACTIVO"
+                              ? "Desactivar terapeuta"
+                              : "Reactivar terapeuta"
+                          }
                         >
                           <Power className="w-3.5 h-3.5" />
                         </button>
@@ -330,7 +370,8 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
               Invitar Terapeuta
             </h3>
             <p className="text-caption text-texto-secundario mb-4 text-xs">
-              Se enviará una invitación a su correo institucional con enlace de 24–48 h para crear su clave.
+              Se enviará una invitación a su correo institucional con enlace de
+              24–48 h para crear su clave.
             </p>
 
             <form onSubmit={manejarCrear} className="space-y-4 text-caption">
@@ -417,7 +458,10 @@ export function GestorPsicologos({ psicologosIniciales }: GestorPsicologosProps)
               Editar Datos del Terapeuta
             </h3>
 
-            <form onSubmit={manejarActualizar} className="space-y-4 text-caption">
+            <form
+              onSubmit={manejarActualizar}
+              className="space-y-4 text-caption"
+            >
               <div>
                 <label className="block font-weight-medio text-texto-principal mb-1">
                   Nombre completo

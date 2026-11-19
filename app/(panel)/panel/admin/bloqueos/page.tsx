@@ -10,7 +10,7 @@ import {
 import { GestorBloqueos } from "@/componentes/panel/admin/gestor-bloqueos";
 
 export default async function PaginaAdminBloqueos() {
-  const anio = new Date().getFullYear();
+  const anio = 2026;
   let bloqueos: BloqueoGuardado[] = [];
   let festivos: Festivo[] = [];
 
@@ -39,14 +39,12 @@ export default async function PaginaAdminBloqueos() {
           Fechas Bloqueadas y Festivos
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Administración de días inhábiles para todo el centro y consulta del calendario festivo oficial colombiano.
+          Administración de días inhábiles para todo el centro y consulta del
+          calendario festivo oficial colombiano.
         </p>
       </div>
 
-      <GestorBloqueos
-        bloqueosIniciales={bloqueos}
-        festivos={festivos}
-      />
+      <GestorBloqueos bloqueosIniciales={bloqueos} festivos={festivos} />
     </div>
   );
 }

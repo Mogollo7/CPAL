@@ -48,7 +48,9 @@ export default function PaginaIngresar() {
     iniciarTransicion(async () => {
       const res = await verificarCodigoAccion(null, formData);
       if (!res.ok) {
-        setError(res.mensaje || "El código ingresado no es válido o ya venció.");
+        setError(
+          res.mensaje || "El código ingresado no es válido o ya venció.",
+        );
       }
     });
   };
@@ -60,9 +62,13 @@ export default function PaginaIngresar() {
     iniciarTransicion(async () => {
       const res = await reenviarCodigoAccion();
       if (res.ok) {
-        setMensajeReenvio("Se ha enviado un nuevo código a tu correo institucional.");
+        setMensajeReenvio(
+          "Se ha enviado un nuevo código a tu correo institucional.",
+        );
       } else {
-        setError(res.mensaje || "No se pudo reenviar el código. Inténtalo de nuevo.");
+        setError(
+          res.mensaje || "No se pudo reenviar el código. Inténtalo de nuevo.",
+        );
       }
     });
   };
@@ -170,7 +176,9 @@ export default function PaginaIngresar() {
                 type="button"
                 onClick={() => setMostrarClave(!mostrarClave)}
                 className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal p-0.5 rounded-s"
-                aria-label={mostrarClave ? "Ocultar contraseña" : "Ver contraseña"}
+                aria-label={
+                  mostrarClave ? "Ocultar contraseña" : "Ver contraseña"
+                }
               >
                 {mostrarClave ? (
                   <EyeOff className="w-4 h-4" />
@@ -236,7 +244,9 @@ export default function PaginaIngresar() {
             disabled={pendiente}
             className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-p hover:bg-accion-fondo-activo transition-all shadow-xs disabled:opacity-50 cursor-pointer"
           >
-            <span>{pendiente ? "Confirmando código..." : "Verificar y entrar"}</span>
+            <span>
+              {pendiente ? "Confirmando código..." : "Verificar y entrar"}
+            </span>
             <ArrowRight className="w-4 h-4" />
           </button>
 

@@ -26,7 +26,10 @@ interface BarraLateralProps {
   usuarioNombre?: string;
 }
 
-export function BarraLateral({ rol, usuarioNombre = "Usuario" }: BarraLateralProps) {
+export function BarraLateral({
+  rol,
+  usuarioNombre = "Usuario",
+}: BarraLateralProps) {
   const [abiertoMovil, setAbiertoMovil] = useState(false);
 
   const enlacesAdmin = [
@@ -34,12 +37,24 @@ export function BarraLateral({ rol, usuarioNombre = "Usuario" }: BarraLateralPro
     { href: "/panel/admin/calendario", label: "Calendario", icono: Calendar },
     { href: "/panel/admin/psicologos", label: "Psicólogos", icono: Users },
     { href: "/panel/admin/eventos", label: "Eventos", icono: Sparkles },
-    { href: "/panel/admin/bloqueos", label: "Fechas bloqueadas", icono: CalendarOff },
-    { href: "/panel/admin/configuracion", label: "Configuración", icono: Settings },
+    {
+      href: "/panel/admin/bloqueos",
+      label: "Fechas bloqueadas",
+      icono: CalendarOff,
+    },
+    {
+      href: "/panel/admin/configuracion",
+      label: "Configuración",
+      icono: Settings,
+    },
   ];
 
   const enlacesPsicologo = [
-    { href: "/panel/psicologo/citas", label: "Mis citas", icono: CalendarCheck },
+    {
+      href: "/panel/psicologo/citas",
+      label: "Mis citas",
+      icono: CalendarCheck,
+    },
     { href: "/panel/psicologo/horario", label: "Mi horario", icono: Clock },
     { href: "/panel/psicologo/perfil", label: "Mi perfil", icono: User },
     { href: "/panel/psicologo/cuenta", label: "Mi cuenta", icono: KeyRound },
@@ -55,10 +70,16 @@ export function BarraLateral({ rol, usuarioNombre = "Usuario" }: BarraLateralPro
           type="button"
           onClick={() => setAbiertoMovil(!abiertoMovil)}
           className="p-2 rounded-m bg-fondo-superficie border border-borde-suave text-texto-principal shadow-flotante hover:bg-fondo-suave focus-visible:outline-2 focus-visible:outline-morado-600"
-          aria-label={abiertoMovil ? "Cerrar menú lateral" : "Abrir menú lateral"}
+          aria-label={
+            abiertoMovil ? "Cerrar menú lateral" : "Abrir menú lateral"
+          }
           aria-expanded={abiertoMovil}
         >
-          {abiertoMovil ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          {abiertoMovil ? (
+            <X className="w-6 h-6" />
+          ) : (
+            <Menu className="w-6 h-6" />
+          )}
         </button>
       </div>
 
@@ -102,19 +123,26 @@ export function BarraLateral({ rol, usuarioNombre = "Usuario" }: BarraLateralPro
               {rol === "ADMIN" ? (
                 <>
                   <ShieldCheck className="w-4 h-4 text-morado-600" />
-                  <span className="font-weight-medio text-texto-titulo">Administración</span>
+                  <span className="font-weight-medio text-texto-titulo">
+                    Administración
+                  </span>
                 </>
               ) : (
                 <>
                   <HeartHandshake className="w-4 h-4 text-agua-700" />
-                  <span className="font-weight-medio text-texto-titulo">Psicólogo(a)</span>
+                  <span className="font-weight-medio text-texto-titulo">
+                    Psicólogo(a)
+                  </span>
                 </>
               )}
             </div>
           </div>
 
           {/* Navegación */}
-          <nav className="mt-5 flex-1 space-y-1.5" aria-label="Navegación del panel">
+          <nav
+            className="mt-5 flex-1 space-y-1.5"
+            aria-label="Navegación del panel"
+          >
             <div className="px-3 pb-2 text-caption font-weight-medio uppercase tracking-wider text-texto-secundario/70">
               {rol === "ADMIN" ? "Gestión del Centro" : "Mi Espacio"}
             </div>

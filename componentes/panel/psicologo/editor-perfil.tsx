@@ -1,18 +1,12 @@
 "use client";
 
-import { useState, useTransition, type FormEvent, type ChangeEvent } from "react";
-import Image from "next/image";
 import {
-  User,
-  Camera,
-  Save,
-  CheckCircle2,
-  AlertCircle,
-  Eye,
-  EyeOff,
-  Briefcase,
-  Sparkles,
-} from "lucide-react";
+  useState,
+  useTransition,
+  type FormEvent,
+  type ChangeEvent,
+} from "react";
+import { Camera, Save, CheckCircle2, AlertCircle } from "lucide-react";
 import type { PerfilPropio } from "@/contratos/psicologo";
 import { actualizarPerfilAccion, subirFotoAccion } from "@/servidor/acciones";
 
@@ -35,7 +29,9 @@ interface EditorPerfilProps {
 export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
   const [nombre] = useState(perfilInicial.nombre);
   const [area] = useState(perfilInicial.area);
-  const [presentacion, setPresentacion] = useState(perfilInicial.presentacion || "");
+  const [presentacion, setPresentacion] = useState(
+    perfilInicial.presentacion || "",
+  );
   const [visible, setVisible] = useState(perfilInicial.visible);
   const [servicioIds, setServicioIds] = useState<string[]>(
     perfilInicial.servicioIds && perfilInicial.servicioIds.length > 0
@@ -44,9 +40,14 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
   );
 
   const [fotoUrl, setFotoUrl] = useState<string | null>(perfilInicial.fotoUrl);
-  const [previsualizacionFoto, setPrevisualizacionFoto] = useState<string | null>(null);
+  const [previsualizacionFoto, setPrevisualizacionFoto] = useState<
+    string | null
+  >(null);
 
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [guardandoPerfil, iniciarTransicionPerfil] = useTransition();
   const [subiendoFoto, iniciarTransicionFoto] = useTransition();
 
@@ -63,7 +64,10 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
     if (!file) return;
 
     if (file.size > 6 * 1024 * 1024) {
-      setMensaje({ tipo: "error", texto: "La foto supera el límite permitido de 6 MB." });
+      setMensaje({
+        tipo: "error",
+        texto: "La foto supera el límite permitido de 6 MB.",
+      });
       return;
     }
 
@@ -79,14 +83,23 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
         const res = await subirFotoAccion(formData);
         if (res.ok) {
           setFotoUrl(res.datos.fotoUrl);
-          setMensaje({ tipo: "exito", texto: "Foto de perfil actualizada correctamente." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Foto de perfil actualizada correctamente.",
+          });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al subir la imagen." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al subir la imagen.",
+          });
         }
       } catch {
         // En simulación local
         setFotoUrl(urlLocal);
-        setMensaje({ tipo: "exito", texto: "Foto actualizada (modo simulado local)." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Foto actualizada (modo simulado local).",
+        });
       }
     });
   };
@@ -105,12 +118,21 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
         });
 
         if (res.ok) {
-          setMensaje({ tipo: "exito", texto: "Perfil profesional actualizado con éxito." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Perfil profesional actualizado con éxito.",
+          });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al actualizar perfil." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al actualizar perfil.",
+          });
         }
       } catch {
-        setMensaje({ tipo: "exito", texto: "Perfil guardado (modo simulado local)." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Perfil guardado (modo simulado local).",
+        });
       }
     });
   };
@@ -142,6 +164,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
         <div className="relative group shrink-0">
           <div className="w-28 h-28 rounded-circulo overflow-hidden bg-fondo-suave border-2 border-morado-300 flex items-center justify-center text-morado-700 font-weight-fuerte text-h1 shadow-sm">
             {previsualizacionFoto || fotoUrl ? (
+              /* eslint-disable-next-line @next/next/no-img-element */
               <img
                 src={previsualizacionFoto || fotoUrl || ""}
                 alt={nombre}
@@ -181,11 +204,13 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
           </div>
 
           <p className="text-caption text-texto-secundario">
-            Psicólogo(a) en formación clínica · Centro de Atención Psicológica Lasallista
+            Psicólogo(a) en formación clínica · Centro de Atención Psicológica
+            Lasallista
           </p>
 
           <p className="text-[11px] text-texto-secundario/70 pt-1">
-            Formatos admitidos: JPG, PNG o WebP (máx. 6 MB). Se ajusta automáticamente a 400 × 400 px.
+            Formatos admitidos: JPG, PNG o WebP (máx. 6 MB). Se ajusta
+            automáticamente a 400 × 400 px.
           </p>
         </div>
       </div>
@@ -217,7 +242,8 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
               className="w-full p-3.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors resize-none leading-relaxed"
             />
             <p className="text-[11px] text-texto-secundario mt-1">
-              Este texto será visible para los consultantes cuando busquen terapeutas en el directorio del CAPL.
+              Este texto será visible para los consultantes cuando busquen
+              terapeutas en el directorio del CAPL.
             </p>
           </div>
 
@@ -266,7 +292,8 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
                 Visible en el directorio público
               </span>
               <span className="text-xs text-texto-secundario">
-                Permite que tu perfil y foto aparezcan listados en la página pública de terapeutas del centro.
+                Permite que tu perfil y foto aparezcan listados en la página
+                pública de terapeutas del centro.
               </span>
             </div>
 
@@ -295,7 +322,9 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
               className="inline-flex items-center gap-2 px-6 py-2.5 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
             >
               <Save className="w-4 h-4" />
-              <span>{guardandoPerfil ? "Guardando..." : "Guardar cambios de perfil"}</span>
+              <span>
+                {guardandoPerfil ? "Guardando..." : "Guardar cambios de perfil"}
+              </span>
             </button>
           </div>
         </div>

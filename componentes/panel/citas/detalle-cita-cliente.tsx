@@ -14,7 +14,6 @@ import {
   Mail,
   Phone,
   FileText,
-  ShieldAlert,
   History,
   Send,
   Check,
@@ -59,7 +58,9 @@ function formatearHora(isoString: string): string {
   }
 }
 
-export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProps) {
+export function DetalleCitaCliente({
+  cita: citaInicial,
+}: DetalleCitaClienteProps) {
   const router = useRouter();
   const [cita, setCita] = useState(citaInicial);
   const [modalAutorizar, setModalAutorizar] = useState(false);
@@ -73,7 +74,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
       const res = await autorizarCitaAccion(cita.id);
       if (res.ok) {
         setCita((prev) => ({ ...prev, estado: "AUTORIZADA" }));
-        setMensajeExito("Cita autorizada con éxito. Se ha encolado el correo de confirmación al paciente.");
+        setMensajeExito(
+          "Cita autorizada con éxito. Se ha encolado el correo de confirmación al paciente.",
+        );
         router.refresh();
         return { ok: true };
       }
@@ -115,7 +118,10 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
   // Manejador Cancelar
   const ejecutarCancelar = async (motivo?: string) => {
     try {
-      const res = await cancelarCitaAdminAccion({ id: cita.id, motivo: motivo! });
+      const res = await cancelarCitaAdminAccion({
+        id: cita.id,
+        motivo: motivo!,
+      });
       if (res.ok) {
         setCita((prev) => ({ ...prev, estado: "CANCELADA" }));
         setMensajeExito("Cita cancelada correctamente.");
@@ -272,17 +278,23 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
 
           <div className="space-y-3 text-caption">
             <div>
-              <span className="block text-texto-secundario text-xs">Servicio clínico:</span>
+              <span className="block text-texto-secundario text-xs">
+                Servicio clínico:
+              </span>
               <span className="font-weight-fuerte text-p text-texto-principal">
                 {cita.servicio}
               </span>
             </div>
 
             <div>
-              <span className="block text-texto-secundario text-xs">Fecha y horario:</span>
+              <span className="block text-texto-secundario text-xs">
+                Fecha y horario:
+              </span>
               <div className="flex items-center gap-2 font-weight-medio text-texto-principal mt-0.5">
                 <Clock className="w-4 h-4 text-morado-600" />
-                <span className="capitalize">{formatearFechaLarga(cita.inicio)}</span>
+                <span className="capitalize">
+                  {formatearFechaLarga(cita.inicio)}
+                </span>
                 <span className="text-texto-secundario">
                   (hasta {formatearHora(cita.fin)})
                 </span>
@@ -290,7 +302,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
             </div>
 
             <div>
-              <span className="block text-texto-secundario text-xs">Terapeuta asignado(a):</span>
+              <span className="block text-texto-secundario text-xs">
+                Terapeuta asignado(a):
+              </span>
               <div className="flex items-center gap-2 font-weight-medio text-texto-principal mt-0.5">
                 <User className="w-4 h-4 text-texto-secundario" />
                 <span>{cita.psicologoNombre || "Cualquiera disponible"}</span>
@@ -299,7 +313,8 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
 
             {cita.venceEn && cita.estado === "PENDIENTE" && (
               <div className="p-3 rounded-m bg-aviso-fondo border border-amarillo-500/20 text-amarillo-700 text-xs">
-                Esta solicitud vence el {formatearFechaLarga(cita.venceEn)} si no es autorizada.
+                Esta solicitud vence el {formatearFechaLarga(cita.venceEn)} si
+                no es autorizada.
               </div>
             )}
           </div>
@@ -314,7 +329,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
 
           <div className="space-y-3 text-caption">
             <div>
-              <span className="block text-texto-secundario text-xs">Nombre completo:</span>
+              <span className="block text-texto-secundario text-xs">
+                Nombre completo:
+              </span>
               <span className="font-weight-fuerte text-p text-texto-principal">
                 {cita.pacienteNombre || cita.solicitanteNombre}
               </span>
@@ -327,7 +344,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
 
             {cita.pacienteDocumento && (
               <div>
-                <span className="block text-texto-secundario text-xs">Documento de identidad:</span>
+                <span className="block text-texto-secundario text-xs">
+                  Documento de identidad:
+                </span>
                 <span className="font-mono text-texto-principal">
                   {cita.pacienteDocumento}
                 </span>
@@ -336,7 +355,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
 
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-borde-suave/50">
               <div>
-                <span className="block text-texto-secundario text-xs">Teléfono:</span>
+                <span className="block text-texto-secundario text-xs">
+                  Teléfono:
+                </span>
                 <div className="flex items-center gap-1.5 font-weight-medio text-texto-principal mt-0.5">
                   <Phone className="w-3.5 h-3.5 text-texto-secundario" />
                   <a
@@ -349,7 +370,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
               </div>
 
               <div>
-                <span className="block text-texto-secundario text-xs">Correo:</span>
+                <span className="block text-texto-secundario text-xs">
+                  Correo:
+                </span>
                 <div className="flex items-center gap-1.5 font-weight-medio text-texto-principal mt-0.5 truncate">
                   <Mail className="w-3.5 h-3.5 text-texto-secundario shrink-0" />
                   <a
@@ -413,7 +436,10 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
             {cita.historial && cita.historial.length > 0 ? (
               <ul className="space-y-2.5 divide-y divide-borde-suave/40">
                 {cita.historial.map((h, i) => (
-                  <li key={i} className="pt-2 first:pt-0 flex items-start justify-between">
+                  <li
+                    key={i}
+                    className="pt-2 first:pt-0 flex items-start justify-between"
+                  >
                     <div>
                       <span className="font-weight-fuerte text-texto-principal block">
                         {h.accion}
@@ -448,7 +474,9 @@ export function DetalleCitaCliente({ cita: citaInicial }: DetalleCitaClienteProp
                     key={i}
                     className="p-2.5 rounded-m bg-fondo-suave border border-borde-suave flex items-center justify-between text-xs"
                   >
-                    <span className="font-mono text-texto-principal">{cor.llave}</span>
+                    <span className="font-mono text-texto-principal">
+                      {cor.llave}
+                    </span>
                     <span
                       className={`font-weight-medio px-2 py-0.5 rounded-pildora text-[11px] ${
                         cor.entregado

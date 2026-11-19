@@ -39,7 +39,9 @@ export function EnlaceNav({
         <Icono
           className={cn(
             "w-5 h-5 transition-transform duration-200 group-hover:scale-105",
-            activo ? "text-accion-fondo" : "text-texto-secundario group-hover:text-texto-titulo",
+            activo
+              ? "text-accion-fondo"
+              : "text-texto-secundario group-hover:text-texto-titulo",
           )}
           aria-hidden="true"
         />

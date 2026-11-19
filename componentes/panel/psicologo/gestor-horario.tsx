@@ -55,15 +55,19 @@ export function GestorHorario({
 }: GestorHorarioProps) {
   const [bloques, setBloques] = useState<BloqueVisual[]>(
     horarioInicial.map((b, i) => ({
-      id: `b-${i}-${Date.now()}`,
+      id: `b-${b.diaSemana}-${b.inicioMin}-${i}`,
       diaSemana: b.diaSemana,
       inicioMin: b.inicioMin,
       finMin: b.finMin,
     })),
   );
 
-  const [bloqueos, setBloqueos] = useState<BloqueoGuardado[]>(bloqueosIniciales);
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [bloqueos, setBloqueos] =
+    useState<BloqueoGuardado[]>(bloqueosIniciales);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [guardandoHorario, iniciarTransicionHorario] = useTransition();
 
   // Estados para formulario de nueva ausencia puntual
@@ -76,17 +80,23 @@ export function GestorHorario({
   // Agregar bloque a un día
   const agregarBloque = (diaSemana: number) => {
     setMensaje(null);
-    const nuevo: BloqueVisual = {
-      id: `b-${Date.now()}-${Math.random()}`,
-      diaSemana,
-      inicioMin: 8 * 60, // 08:00 AM por defecto
-      finMin: 12 * 60, // 12:00 PM por defecto
-    };
-    setBloques((prev) => [...prev, nuevo]);
+    setBloques((prev) => [
+      ...prev,
+      {
+        id: `bloque-nuevo-${diaSemana}-${prev.length + 1}`,
+        diaSemana,
+        inicioMin: 8 * 60, // 08:00 AM por defecto
+        finMin: 12 * 60, // 12:00 PM por defecto
+      },
+    ]);
   };
 
   // Modificar horario de un bloque
-  const actualizarBloque = (id: string, campo: "inicioMin" | "finMin", valorMin: number) => {
+  const actualizarBloque = (
+    id: string,
+    campo: "inicioMin" | "finMin",
+    valorMin: number,
+  ) => {
     setMensaje(null);
     setBloques((prev) =>
       prev.map((b) => (b.id === id ? { ...b, [campo]: valorMin } : b)),
@@ -108,7 +118,8 @@ export function GestorHorario({
       if (b.finMin <= b.inicioMin) {
         setMensaje({
           tipo: "error",
-          texto: "La hora de finalización debe ser posterior a la de inicio en todos los bloques.",
+          texto:
+            "La hora de finalización debe ser posterior a la de inicio en todos los bloques.",
         });
         return;
       }
@@ -128,10 +139,14 @@ export function GestorHorario({
         if (res.ok) {
           setMensaje({
             tipo: "exito",
-            texto: "Horario semanal actualizado correctamente en la base de datos.",
+            texto:
+              "Horario semanal actualizado correctamente en la base de datos.",
           });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al guardar el horario." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al guardar el horario.",
+          });
         }
       } catch {
         setMensaje({
@@ -148,7 +163,10 @@ export function GestorHorario({
     setMensaje(null);
 
     if (!ausenciaDesde || !ausenciaHasta) {
-      setMensaje({ tipo: "error", texto: "Debes seleccionar fecha y hora de inicio y fin." });
+      setMensaje({
+        tipo: "error",
+        texto: "Debes seleccionar fecha y hora de inicio y fin.",
+      });
       return;
     }
 
@@ -156,7 +174,10 @@ export function GestorHorario({
     const dHasta = new Date(ausenciaHasta);
 
     if (dHasta <= dDesde) {
-      setMensaje({ tipo: "error", texto: "La fecha 'hasta' debe ser posterior a 'desde'." });
+      setMensaje({
+        tipo: "error",
+        texto: "La fecha 'hasta' debe ser posterior a 'desde'.",
+      });
       return;
     }
 
@@ -183,9 +204,15 @@ export function GestorHorario({
           setAusenciaDesde("");
           setAusenciaHasta("");
           setAusenciaMotivo("");
-          setMensaje({ tipo: "exito", texto: "Ausencia puntual registrada con éxito." });
+          setMensaje({
+            tipo: "exito",
+            texto: "Ausencia puntual registrada con éxito.",
+          });
         } else {
-          setMensaje({ tipo: "error", texto: res.mensaje || "Error al crear la ausencia." });
+          setMensaje({
+            tipo: "error",
+            texto: res.mensaje || "Error al crear la ausencia.",
+          });
         }
       } catch {
         const nuevaSimulada: BloqueoGuardado = {
@@ -200,7 +227,10 @@ export function GestorHorario({
         setAusenciaDesde("");
         setAusenciaHasta("");
         setAusenciaMotivo("");
-        setMensaje({ tipo: "exito", texto: "Ausencia registrada (modo simulación local)." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Ausencia registrada (modo simulación local).",
+        });
       }
     });
   };
@@ -213,7 +243,10 @@ export function GestorHorario({
       setMensaje({ tipo: "exito", texto: "Ausencia eliminada correctamente." });
     } catch {
       setBloqueos((prev) => prev.filter((b) => b.id !== id));
-      setMensaje({ tipo: "exito", texto: "Ausencia eliminada (modo simulación local)." });
+      setMensaje({
+        tipo: "exito",
+        texto: "Ausencia eliminada (modo simulación local).",
+      });
     }
   };
 
@@ -247,7 +280,8 @@ export function GestorHorario({
               <span>Franjas Semanales de Disponibilidad</span>
             </h3>
             <p className="text-caption text-texto-secundario mt-0.5">
-              Define los bloques en los que puedes recibir pacientes cada día de la semana.
+              Define los bloques en los que puedes recibir pacientes cada día de
+              la semana.
             </p>
           </div>
 
@@ -278,7 +312,8 @@ export function GestorHorario({
                       {dia.nombre}
                     </span>
                     <span className="text-[11px] text-texto-secundario">
-                      {bloquesDia.length} franja{bloquesDia.length !== 1 ? "s" : ""}
+                      {bloquesDia.length} franja
+                      {bloquesDia.length !== 1 ? "s" : ""}
                     </span>
                   </div>
 
@@ -294,7 +329,11 @@ export function GestorHorario({
                             type="time"
                             value={minutosAHora(bloque.inicioMin)}
                             onChange={(e) =>
-                              actualizarBloque(bloque.id, "inicioMin", horaAMinutos(e.target.value))
+                              actualizarBloque(
+                                bloque.id,
+                                "inicioMin",
+                                horaAMinutos(e.target.value),
+                              )
                             }
                             className="w-full px-1.5 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
                           />
@@ -303,7 +342,11 @@ export function GestorHorario({
                             type="time"
                             value={minutosAHora(bloque.finMin)}
                             onChange={(e) =>
-                              actualizarBloque(bloque.id, "finMin", horaAMinutos(e.target.value))
+                              actualizarBloque(
+                                bloque.id,
+                                "finMin",
+                                horaAMinutos(e.target.value),
+                              )
                             }
                             className="w-full px-1.5 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
                           />
@@ -352,7 +395,8 @@ export function GestorHorario({
               <span>Ausencias Puntuales y Vacaciones</span>
             </h3>
             <p className="text-caption text-texto-secundario mt-0.5">
-              Registra ausencias temporales (enfermedad, exámenes o permisos) para no ofrecer cupos en esas fechas.
+              Registra ausencias temporales (enfermedad, exámenes o permisos)
+              para no ofrecer cupos en esas fechas.
             </p>
           </div>
 
@@ -476,7 +520,8 @@ export function GestorHorario({
 
           {bloqueos.length === 0 && (
             <p className="text-center py-6 text-caption text-texto-secundario">
-              No tienes ausencias registradas. Tu disponibilidad se calculará según tu horario semanal habitual.
+              No tienes ausencias registradas. Tu disponibilidad se calculará
+              según tu horario semanal habitual.
             </p>
           )}
         </div>

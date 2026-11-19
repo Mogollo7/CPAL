@@ -105,7 +105,9 @@ export function FiltrosCitas() {
           <input
             type="search"
             value={busquedaActual}
-            onChange={(e) => actualizarFiltro("busqueda", e.target.value || null)}
+            onChange={(e) =>
+              actualizarFiltro("busqueda", e.target.value || null)
+            }
             placeholder="Buscar por código (ej. CAPL-1234), paciente, correo o documento..."
             className="w-full pl-10 pr-4 py-2 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
           />

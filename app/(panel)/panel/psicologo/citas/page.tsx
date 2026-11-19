@@ -80,7 +80,8 @@ export default async function PaginaPsicologoCitas() {
           Mis Citas y Pacientes Asignados
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Consulta la agenda de tus próximas sesiones clínicas y los datos de contacto autorizados.
+          Consulta la agenda de tus próximas sesiones clínicas y los datos de
+          contacto autorizados.
         </p>
       </div>
 

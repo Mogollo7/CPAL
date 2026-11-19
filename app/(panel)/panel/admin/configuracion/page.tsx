@@ -23,7 +23,9 @@ export default async function PaginaAdminConfiguracion() {
           Configuración y Reglas del Centro
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Ajusta las políticas de antelación, límites de cupos, auto-autorización y dominios institucionales sin necesidad de redesplegar.
+          Ajusta las políticas de antelación, límites de cupos,
+          auto-autorización y dominios institucionales sin necesidad de
+          redesplegar.
         </p>
       </div>
 

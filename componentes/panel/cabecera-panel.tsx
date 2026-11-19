@@ -2,7 +2,7 @@
 
 import { useTransition } from "react";
 import Link from "next/link";
-import { LogOut, ExternalLink, Sparkles } from "lucide-react";
+import { LogOut, ExternalLink } from "lucide-react";
 import { cerrarSesionAccion } from "@/servidor/cuentas/acciones";
 
 interface CabeceraPanelProps {

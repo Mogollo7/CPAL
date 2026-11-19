@@ -50,9 +50,12 @@ export default function PaginaRecuperarClave() {
         <div className="text-center space-y-4">
           <div className="p-4 rounded-m bg-exito-fondo text-exito-texto border border-agua-700/20">
             <CheckCircle2 className="w-8 h-8 mx-auto mb-2 text-agua-700" />
-            <h3 className="font-weight-fuerte text-h2 mb-1">Revisa tu correo</h3>
+            <h3 className="font-weight-fuerte text-h2 mb-1">
+              Revisa tu correo
+            </h3>
             <p className="text-p text-sm leading-relaxed">
-              Si tu cuenta existe en el sistema del CAPL, recibirás un enlace válido durante 24–48 horas para restablecer tu contraseña.
+              Si tu cuenta existe en el sistema del CAPL, recibirás un enlace
+              válido durante 24–48 horas para restablecer tu contraseña.
             </p>
           </div>
 
@@ -96,7 +99,11 @@ export default function PaginaRecuperarClave() {
             className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-p hover:bg-accion-fondo-activo transition-all shadow-xs disabled:opacity-50 cursor-pointer"
           >
             <Send className="w-4 h-4" />
-            <span>{pendiente ? "Enviando enlace..." : "Enviar enlace de recuperación"}</span>
+            <span>
+              {pendiente
+                ? "Enviando enlace..."
+                : "Enviar enlace de recuperación"}
+            </span>
           </button>
 
           <div className="pt-3 text-center">

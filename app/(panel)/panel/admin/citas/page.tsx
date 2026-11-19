@@ -163,12 +163,17 @@ export default async function PaginaAdminCitas({
           Bandeja de Citas
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Revisión de solicitudes entrantes, autorizaciones inmediatas y seguimiento clínico.
+          Revisión de solicitudes entrantes, autorizaciones inmediatas y
+          seguimiento clínico.
         </p>
       </div>
 
       {/* Controles de Filtros y Búsqueda */}
-      <Suspense fallback={<div className="h-20 bg-fondo-suave rounded-m animate-pulse" />}>
+      <Suspense
+        fallback={
+          <div className="h-20 bg-fondo-suave rounded-m animate-pulse" />
+        }
+      >
         <FiltrosCitas />
       </Suspense>
 

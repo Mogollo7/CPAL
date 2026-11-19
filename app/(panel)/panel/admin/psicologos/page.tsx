@@ -62,7 +62,8 @@ export default async function PaginaAdminPsicologos() {
           Equipo de Psicólogos
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Administración de terapeutas, emisión de invitaciones institucionales y control de estado activo.
+          Administración de terapeutas, emisión de invitaciones institucionales
+          y control de estado activo.
         </p>
       </div>
 

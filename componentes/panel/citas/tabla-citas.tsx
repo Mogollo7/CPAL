@@ -5,7 +5,6 @@ import {
   Clock,
   User,
   ArrowRight,
-  ChevronLeft,
 } from "lucide-react";
 import type { CitaLista } from "@/contratos/cita";
 import { PildoraEstado } from "./pildora-estado";
@@ -19,7 +18,10 @@ interface TablaCitasProps {
   baseUrl?: string;
 }
 
-function formatearFechaBogota(isoString: string): { fecha: string; hora: string } {
+function formatearFechaBogota(isoString: string): {
+  fecha: string;
+  hora: string;
+} {
   try {
     const d = new Date(isoString);
     const fecha = new Intl.DateTimeFormat("es-CO", {
@@ -119,7 +121,10 @@ export function TablaCitas({
 
                     {/* Servicio */}
                     <td className="py-3.5 px-4 max-w-[180px] truncate">
-                      <span className="text-texto-secundario" title={cita.servicio}>
+                      <span
+                        className="text-texto-secundario"
+                        title={cita.servicio}
+                      >
                         {cita.servicio}
                       </span>
                     </td>

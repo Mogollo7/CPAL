@@ -6,6 +6,8 @@ interface PaginaCrearClaveProps {
   }>;
 }
 
+export const instant = false;
+
 export default async function PaginaCrearClave({
   params,
 }: PaginaCrearClaveProps) {

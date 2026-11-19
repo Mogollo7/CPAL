@@ -2,6 +2,8 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ArrowLeft, Shield } from "lucide-react";
 
+export const instant = false;
+
 export default function LayoutAcceso({ children }: { children: ReactNode }) {
   return (
     <div className="min-h-screen bg-fondo-pagina flex flex-col justify-between p-4 sm:p-6 lg:p-8">

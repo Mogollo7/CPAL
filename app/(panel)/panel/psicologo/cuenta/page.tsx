@@ -8,7 +8,8 @@ export default function PaginaPsicologoCuenta() {
           Mi Cuenta y Seguridad
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Administra tus credenciales de acceso institucional y controla la actividad de tus sesiones.
+          Administra tus credenciales de acceso institucional y controla la
+          actividad de tus sesiones.
         </p>
       </div>
 

@@ -1,16 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
-import {
-  CalendarCheck,
-  Clock,
-  Phone,
-  Mail,
-  User,
-  ArrowRight,
-  Calendar,
-} from "lucide-react";
+import { CalendarCheck, Clock, Phone, Mail } from "lucide-react";
 import type { CitaLista } from "@/contratos/cita";
 import { PildoraEstado } from "@/componentes/panel/citas/pildora-estado";
 import { EstadoVacio } from "@/componentes/panel/estado-vacio";
@@ -20,7 +11,10 @@ interface MisCitasClienteProps {
   citasIniciales: CitaLista[];
 }
 
-function formatearFechaBogota(isoString: string): { fecha: string; hora: string } {
+function formatearFechaBogota(isoString: string): {
+  fecha: string;
+  hora: string;
+} {
   try {
     const d = new Date(isoString);
     const fecha = new Intl.DateTimeFormat("es-CO", {
@@ -59,9 +53,13 @@ export function MisCitasCliente({ citasIniciales }: MisCitasClienteProps) {
     if (pestaña === "pasadas") {
       return (
         fechaCita < ahora ||
-        ["ATENDIDA", "NO_ASISTIO", "CANCELADA", "RECHAZADA", "VENCIDA"].includes(
-          c.estado,
-        )
+        [
+          "ATENDIDA",
+          "NO_ASISTIO",
+          "CANCELADA",
+          "RECHAZADA",
+          "VENCIDA",
+        ].includes(c.estado)
       );
     }
     return true;
@@ -138,7 +136,9 @@ export function MisCitasCliente({ citasIniciales }: MisCitasClienteProps) {
                   </h4>
                   <div className="flex items-center gap-2 text-caption text-texto-principal mt-1">
                     <Clock className="w-4 h-4 text-morado-600" />
-                    <span className="font-weight-medio capitalize">{fecha}</span>
+                    <span className="font-weight-medio capitalize">
+                      {fecha}
+                    </span>
                     <span className="text-texto-secundario">a las {hora}</span>
                   </div>
                 </div>

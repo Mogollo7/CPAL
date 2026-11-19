@@ -32,7 +32,10 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
     iniciarTransicion(async () => {
       const res = await crearClaveAccion(null, formData);
       if (!res.ok) {
-        if (res.codigo === "ENLACE_INVALIDO" || res.codigo === "ENLACE_VENCIDO") {
+        if (
+          res.codigo === "ENLACE_INVALIDO" ||
+          res.codigo === "ENLACE_VENCIDO"
+        ) {
           setEnlaceVencido(true);
         }
         setError(res.mensaje || "Error al definir la contraseña.");
@@ -63,7 +66,8 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
             Enlace vencido o no válido
           </h2>
           <p className="text-p text-texto-secundario mt-2 text-sm leading-relaxed">
-            Por seguridad, los enlaces para crear o recuperar contraseña tienen una vigencia limitada (24–48 horas) y se invalidan tras ser usados.
+            Por seguridad, los enlaces para crear o recuperar contraseña tienen
+            una vigencia limitada (24–48 horas) y se invalidan tras ser usados.
           </p>
         </div>
 
@@ -72,7 +76,8 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
             <CheckCircle2 className="w-6 h-6 mx-auto mb-2 text-agua-700" />
             <p className="font-weight-fuerte text-p">Solicitud enviada</p>
             <p className="text-caption mt-1">
-              Si tu correo está registrado en el CAPL, recibirás un nuevo enlace de acceso de inmediato.
+              Si tu correo está registrado en el CAPL, recibirás un nuevo enlace
+              de acceso de inmediato.
             </p>
             <Link
               href="/ingresar"
@@ -129,7 +134,8 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
           Crea tu contraseña
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Te damos la bienvenida al equipo del CAPL. Define tu clave para activar tu cuenta.
+          Te damos la bienvenida al equipo del CAPL. Define tu clave para
+          activar tu cuenta.
         </p>
       </div>
 
@@ -172,9 +178,15 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
               type="button"
               onClick={() => setMostrarClave(!mostrarClave)}
               className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal p-0.5 rounded-s"
-              aria-label={mostrarClave ? "Ocultar contraseña" : "Ver contraseña"}
+              aria-label={
+                mostrarClave ? "Ocultar contraseña" : "Ver contraseña"
+              }
             >
-              {mostrarClave ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+              {mostrarClave ? (
+                <EyeOff className="w-4 h-4" />
+              ) : (
+                <Eye className="w-4 h-4" />
+              )}
             </button>
           </div>
           <p className="text-[11px] text-texto-secundario mt-1">
@@ -212,7 +224,11 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
           disabled={pendiente}
           className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-p hover:bg-accion-fondo-activo transition-all shadow-xs disabled:opacity-50 cursor-pointer"
         >
-          <span>{pendiente ? "Guardando contraseña..." : "Guardar contraseña e ingresar"}</span>
+          <span>
+            {pendiente
+              ? "Guardando contraseña..."
+              : "Guardar contraseña e ingresar"}
+          </span>
           <ArrowRight className="w-4 h-4" />
         </button>
       </form>

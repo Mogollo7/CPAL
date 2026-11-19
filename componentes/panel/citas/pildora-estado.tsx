@@ -42,7 +42,8 @@ export const CONFIG_ESTADOS: Record<
   },
   VENCIDA: {
     label: "Vencida",
-    estilos: "bg-fondo-suave text-texto-secundario/60 border-borde-suave line-through",
+    estilos:
+      "bg-fondo-suave text-texto-secundario/60 border-borde-suave line-through",
     punto: "bg-texto-secundario/40",
   },
 };
@@ -62,7 +63,10 @@ export function PildoraEstado({ estado, className }: PildoraEstadoProps) {
         className,
       )}
     >
-      <span className={cn("w-1.5 h-1.5 rounded-circulo", config.punto)} aria-hidden="true" />
+      <span
+        className={cn("w-1.5 h-1.5 rounded-circulo", config.punto)}
+        aria-hidden="true"
+      />
       <span>{config.label}</span>
     </span>
   );

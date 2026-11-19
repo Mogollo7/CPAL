@@ -9,7 +9,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Flag,
-  Sparkles,
   ShieldCheck,
   X,
 } from "lucide-react";
@@ -56,14 +55,18 @@ export function GestorBloqueos({
   bloqueosIniciales,
   festivos,
 }: GestorBloqueosProps) {
-  const [bloqueos, setBloqueos] = useState<BloqueoGuardado[]>(bloqueosIniciales);
+  const [bloqueos, setBloqueos] =
+    useState<BloqueoGuardado[]>(bloqueosIniciales);
   const [modalCrear, setModalCrear] = useState(false);
 
   const [desde, setDesde] = useState("");
   const [hasta, setHasta] = useState("");
   const [motivo, setMotivo] = useState("");
 
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [guardando, iniciarTransicion] = useTransition();
 
   const manejarCrearBloqueo = (e: FormEvent) => {
@@ -132,13 +135,22 @@ export function GestorBloqueos({
       const res = await eliminarBloqueoCentroAccion(id);
       if (res.ok) {
         setBloqueos((prev) => prev.filter((b) => b.id !== id));
-        setMensaje({ tipo: "exito", texto: "Bloqueo eliminado correctamente." });
+        setMensaje({
+          tipo: "exito",
+          texto: "Bloqueo eliminado correctamente.",
+        });
       } else {
-        setMensaje({ tipo: "error", texto: res.mensaje || "Error al eliminar." });
+        setMensaje({
+          tipo: "error",
+          texto: res.mensaje || "Error al eliminar.",
+        });
       }
     } catch {
       setBloqueos((prev) => prev.filter((b) => b.id !== id));
-      setMensaje({ tipo: "exito", texto: "Bloqueo eliminado (modo simulado)." });
+      setMensaje({
+        tipo: "exito",
+        texto: "Bloqueo eliminado (modo simulado).",
+      });
     }
   };
 
@@ -172,7 +184,8 @@ export function GestorBloqueos({
               <span>Bloqueos Globales del Centro</span>
             </h3>
             <p className="text-caption text-texto-secundario mt-0.5">
-              Periodos no laborables para todos los terapeutas (vacaciones institucionales, jornadas académicas o mantenimiento).
+              Periodos no laborables para todos los terapeutas (vacaciones
+              institucionales, jornadas académicas o mantenimiento).
             </p>
           </div>
 
@@ -197,12 +210,14 @@ export function GestorBloqueos({
                 <div className="flex items-center gap-2 font-weight-fuerte text-texto-titulo">
                   <Calendar className="w-4 h-4 text-morado-600" />
                   <span>
-                    Del {formatearFechaBogota(b.desde)} al {formatearFechaBogota(b.hasta)}
+                    Del {formatearFechaBogota(b.desde)} al{" "}
+                    {formatearFechaBogota(b.hasta)}
                   </span>
                 </div>
                 {b.motivo && (
                   <p className="text-xs text-texto-secundario">
-                    <span className="font-weight-medio">Motivo:</span> {b.motivo}
+                    <span className="font-weight-medio">Motivo:</span>{" "}
+                    {b.motivo}
                   </p>
                 )}
               </div>
@@ -220,7 +235,9 @@ export function GestorBloqueos({
 
           {bloqueos.length === 0 && (
             <p className="text-center py-8 text-caption text-texto-secundario italic">
-              No hay bloqueos globales activos. Las citas se calculan únicamente considerando los horarios de cada psicólogo y los festivos nacionales.
+              No hay bloqueos globales activos. Las citas se calculan únicamente
+              considerando los horarios de cada psicólogo y los festivos
+              nacionales.
             </p>
           )}
         </div>
@@ -236,7 +253,8 @@ export function GestorBloqueos({
                 Festivos de Colombia (Bloqueo Automático)
               </h3>
               <p className="text-caption text-texto-secundario mt-0.5">
-                Calendario oficial colombiano (Ley Emiliani) integrado en el motor de cupos.
+                Calendario oficial colombiano (Ley Emiliani) integrado en el
+                motor de cupos.
               </p>
             </div>
           </div>
@@ -248,7 +266,10 @@ export function GestorBloqueos({
 
         <div className="p-4 rounded-m bg-aviso-fondo/60 border border-amarillo-500/20 text-amarillo-700 text-caption text-xs leading-relaxed">
           <p>
-            Los festivos nacionales no requieren configuración manual. La plataforma calcula automáticamente los días de fiesta civil y religiosa cada año y deshabilita la disponibilidad de turnos en esas fechas.
+            Los festivos nacionales no requieren configuración manual. La
+            plataforma calcula automáticamente los días de fiesta civil y
+            religiosa cada año y deshabilita la disponibilidad de turnos en esas
+            fechas.
           </p>
         </div>
 
@@ -293,10 +314,14 @@ export function GestorBloqueos({
               Bloquear Periodo General
             </h3>
             <p className="text-caption text-texto-secundario mb-4 text-xs">
-              Durante este rango de fechas no se agendarán citas para ningún servicio ni terapeuta.
+              Durante este rango de fechas no se agendarán citas para ningún
+              servicio ni terapeuta.
             </p>
 
-            <form onSubmit={manejarCrearBloqueo} className="space-y-4 text-caption">
+            <form
+              onSubmit={manejarCrearBloqueo}
+              className="space-y-4 text-caption"
+            >
               <div>
                 <label className="block font-weight-medio text-texto-principal mb-1">
                   Desde (Fecha y hora)

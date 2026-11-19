@@ -27,14 +27,12 @@ export default async function PaginaPsicologoHorario() {
           Mi Horario y Disponibilidad
         </h2>
         <p className="text-p text-texto-secundario mt-1 text-sm">
-          Los cupos de atención que ven los consultantes en el sitio web se calculan automáticamente a partir de estas franjas.
+          Los cupos de atención que ven los consultantes en el sitio web se
+          calculan automáticamente a partir de estas franjas.
         </p>
       </div>
 
-      <GestorHorario
-        horarioInicial={horario}
-        bloqueosIniciales={bloqueos}
-      />
+      <GestorHorario horarioInicial={horario} bloqueosIniciales={bloqueos} />
     </div>
   );
 }

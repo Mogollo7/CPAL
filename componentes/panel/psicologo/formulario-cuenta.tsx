@@ -5,7 +5,6 @@ import {
   KeyRound,
   Eye,
   EyeOff,
-  ShieldCheck,
   AlertCircle,
   CheckCircle2,
   LogOut,
@@ -24,7 +23,10 @@ export function FormularioCuenta() {
   const [claveNueva, setClaveNueva] = useState("");
   const [confirmacion, setConfirmacion] = useState("");
 
-  const [mensaje, setMensaje] = useState<{ tipo: "exito" | "error"; texto: string } | null>(null);
+  const [mensaje, setMensaje] = useState<{
+    tipo: "exito" | "error";
+    texto: string;
+  } | null>(null);
   const [guardando, iniciarTransicionClave] = useTransition();
   const [cerrandoSesiones, iniciarTransicionSesiones] = useTransition();
 
@@ -153,7 +155,11 @@ export function FormularioCuenta() {
                 onClick={() => setMostrarActual(!mostrarActual)}
                 className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal"
               >
-                {mostrarActual ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {mostrarActual ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </button>
             </div>
           </div>
@@ -181,7 +187,11 @@ export function FormularioCuenta() {
                 onClick={() => setMostrarNueva(!mostrarNueva)}
                 className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal"
               >
-                {mostrarNueva ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                {mostrarNueva ? (
+                  <EyeOff className="w-4 h-4" />
+                ) : (
+                  <Eye className="w-4 h-4" />
+                )}
               </button>
             </div>
             <p className="text-[11px] text-texto-secundario mt-1">
@@ -214,7 +224,9 @@ export function FormularioCuenta() {
               disabled={guardando}
               className="inline-flex items-center gap-2 px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
             >
-              <span>{guardando ? "Actualizando..." : "Actualizar contraseña"}</span>
+              <span>
+                {guardando ? "Actualizando..." : "Actualizar contraseña"}
+              </span>
             </button>
           </div>
         </form>
@@ -235,7 +247,9 @@ export function FormularioCuenta() {
         </div>
 
         <p className="text-caption text-texto-secundario text-xs leading-relaxed">
-          Si utilizaste un computador público o sospechas que tu cuenta quedó abierta en otro navegador, puedes invalidar de inmediato todas las sesiones activas en cualquier equipo.
+          Si utilizaste un computador público o sospechas que tu cuenta quedó
+          abierta en otro navegador, puedes invalidar de inmediato todas las
+          sesiones activas en cualquier equipo.
         </p>
 
         <div className="pt-2">
@@ -246,7 +260,9 @@ export function FormularioCuenta() {
             className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-error-fondo text-coral-700 border border-coral-700/20 text-caption font-weight-fuerte hover:bg-coral-700 hover:text-blanco transition-all shadow-xs cursor-pointer disabled:opacity-50"
           >
             <LogOut className="w-4 h-4" />
-            <span>{cerrandoSesiones ? "Cerrando..." : "Cerrar todas mis sesiones"}</span>
+            <span>
+              {cerrandoSesiones ? "Cerrando..." : "Cerrar todas mis sesiones"}
+            </span>
           </button>
         </div>
       </div>
