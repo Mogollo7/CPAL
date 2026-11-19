@@ -1,23 +1,33 @@
-import { Settings } from "lucide-react";
-import { EstadoVacio } from "@/componentes/panel/estado-vacio";
+import type { Configuracion } from "@/contratos/configuracion";
+import { configuracionSimulada } from "@/contratos/simulados-centro";
+import { obtenerConfiguracionAccion } from "@/servidor/acciones";
+import { FormularioConfiguracion } from "@/componentes/panel/admin/formulario-configuracion";
 
-export default function PaginaAdminConfiguracion() {
+export default async function PaginaAdminConfiguracion() {
+  let configuracion: Configuracion = configuracionSimulada;
+
+  try {
+    const res = await obtenerConfiguracionAccion();
+    if (res.ok) {
+      configuracion = res.datos;
+    }
+  } catch {
+    // Si no hay DB activa en desarrollo local usamos la configuración simulada
+    configuracion = configuracionSimulada;
+  }
+
   return (
     <div className="space-y-6">
-      <div className="pb-4 border-b border-borde-suave">
+      <div className="pb-2">
         <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          Configuración del Centro
+          Configuración y Reglas del Centro
         </h2>
-        <p className="text-p text-texto-secundario mt-1">
-          Parámetros operativos, reglas de negocio y políticas de autorización de citas.
+        <p className="text-p text-texto-secundario mt-1 text-sm">
+          Ajusta las políticas de antelación, límites de cupos, auto-autorización y dominios institucionales sin necesidad de redesplegar.
         </p>
       </div>
 
-      <EstadoVacio
-        icono={Settings}
-        titulo="Ajustes y políticas"
-        descripcion="Configura las horas de antelación para solicitar o cancelar citas, el interruptor de auto-autorización y la capacidad de atención."
-      />
+      <FormularioConfiguracion configuracionInicial={configuracion} />
     </div>
   );
 }

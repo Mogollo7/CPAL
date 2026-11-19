@@ -1,32 +1,51 @@
-import { CalendarOff, Plus } from "lucide-react";
-import { EstadoVacio } from "@/componentes/panel/estado-vacio";
+import type { BloqueoGuardado, Festivo } from "@/contratos/bloqueo";
+import {
+  listarBloqueosCentro,
+  listarFestivos,
+} from "@/contratos/simulados-centro";
+import {
+  listarBloqueosCentroAccion,
+  listarFestivosAccion,
+} from "@/servidor/acciones";
+import { GestorBloqueos } from "@/componentes/panel/admin/gestor-bloqueos";
 
-export default function PaginaAdminBloqueos() {
+export default async function PaginaAdminBloqueos() {
+  const anio = new Date().getFullYear();
+  let bloqueos: BloqueoGuardado[] = [];
+  let festivos: Festivo[] = [];
+
+  try {
+    const [resBloqueos, resFestivos] = await Promise.all([
+      listarBloqueosCentroAccion(),
+      listarFestivosAccion(anio),
+    ]);
+
+    if (resBloqueos.ok) bloqueos = resBloqueos.datos;
+    if (resFestivos.ok) festivos = resFestivos.datos;
+  } catch {
+    // Si no hay DB en desarrollo local usamos los datos simulados
+    const [b, f] = await Promise.all([
+      listarBloqueosCentro(),
+      listarFestivos(),
+    ]);
+    bloqueos = b.ok ? b.datos : [];
+    festivos = f.ok ? f.datos : [];
+  }
+
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
-        <div>
-          <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-            Fechas Bloqueadas y Festivos
-          </h2>
-          <p className="text-p text-texto-secundario mt-1">
-            Gestión de días inhábiles del centro y consulta de festivos nacionales.
-          </p>
-        </div>
-
-        <button
-          type="button"
-          className="flex items-center gap-2 px-4 py-2.5 rounded-m bg-accion-fondo text-accion-texto text-caption font-weight-fuerte hover:bg-accion-fondo-activo transition-colors shadow-xs"
-        >
-          <Plus className="w-4 h-4" />
-          <span>Bloquear fecha</span>
-        </button>
+      <div className="pb-2">
+        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
+          Fechas Bloqueadas y Festivos
+        </h2>
+        <p className="text-p text-texto-secundario mt-1 text-sm">
+          Administración de días inhábiles para todo el centro y consulta del calendario festivo oficial colombiano.
+        </p>
       </div>
 
-      <EstadoVacio
-        icono={CalendarOff}
-        titulo="Sin fechas bloqueadas"
-        descripcion="No hay bloqueos adicionales configurados para la agenda del centro fuera del calendario de festivos oficiales."
+      <GestorBloqueos
+        bloqueosIniciales={bloqueos}
+        festivos={festivos}
       />
     </div>
   );
