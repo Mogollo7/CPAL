@@ -1,34 +1,16 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import type { EventoDetalle } from "@/contratos/evento";
-import eventosData from "@/contenido/eventos-simulados.json";
+import { connection } from "next/server";
+import { formatoFecha, formatoHora } from "@/servidor/fechas";
+import { datosDePagina } from "@/servidor/pagina";
+import { listarEventosPublicosAccion } from "@/servidor/acciones";
 
 export const metadata: Metadata = {
   title: "Eventos y talleres | CAPL — Universidad de La Salle",
   description:
     "Talleres, charlas y grupos de apoyo del Centro de Atención Psicológica Lasallista. Espacios abiertos para toda la comunidad universitaria.",
 };
-
-const eventos = eventosData as EventoDetalle[];
-
-function formatearFecha(isoString: string): string {
-  const fecha = new Date(isoString);
-  return fecha.toLocaleDateString("es-CO", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function formatearHora(isoString: string): string {
-  const fecha = new Date(isoString);
-  return fecha.toLocaleTimeString("es-CO", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
-}
 
 function EtiquetaModalidad({ lugar }: { lugar: string }) {
   const esVirtual = lugar.toLowerCase().includes("virtual");
@@ -46,9 +28,9 @@ function EtiquetaModalidad({ lugar }: { lugar: string }) {
 }
 
 function TarjetaEvento({ evento }: { evento: EventoDetalle }) {
-  const fechaInicio = formatearFecha(evento.inicio);
-  const horaInicio = formatearHora(evento.inicio);
-  const horaFin = evento.fin ? formatearHora(evento.fin) : null;
+  const fechaInicio = formatoFecha(new Date(evento.inicio));
+  const horaInicio = formatoHora(new Date(evento.inicio));
+  const horaFin = evento.fin ? formatoHora(new Date(evento.fin)) : null;
 
   return (
     <article className="flex flex-col gap-[16px] rounded-m bg-fondo-superficie p-[24px] shadow-sm transition-shadow duration-mov-rapido hover:shadow-md">
@@ -115,8 +97,12 @@ function EstadoVacio() {
   );
 }
 
-export default function PaginaEventos() {
-  const eventosPublicados = eventos.filter((e) => e.publicado);
+export const instant = false;
+
+export default async function PaginaEventos() {
+  await connection();
+  // Solo publicados y sin terminar, el más próximo primero (lo filtra el servidor).
+  const eventosPublicados = datosDePagina(await listarEventosPublicosAccion());
 
   return (
     <div className="capl-textura-papel min-h-screen bg-fondo-pagina">

@@ -1,15 +1,18 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import { connection } from "next/server";
+import { formatoFecha, formatoHora } from "@/servidor/fechas";
+import { cache } from "react";
 import { notFound } from "next/navigation";
-import type { EventoDetalle } from "@/contratos/evento";
-import eventosData from "@/contenido/eventos-simulados.json";
+import { verEventoPublicoAccion } from "@/servidor/acciones";
 
-const eventos = eventosData as EventoDetalle[];
+export const instant = false;
 
-// Generación estática de rutas para todos los slugs publicados
-export function generateStaticParams() {
-  return eventos.filter((e) => e.publicado).map((e) => ({ slug: e.slug }));
-}
+// Una sola consulta aunque la pidan los metadatos y la página.
+const cargarEvento = cache(async (slug: string) => {
+  await connection();
+  return verEventoPublicoAccion(slug);
+});
 
 // Metadatos dinámicos por evento
 export async function generateMetadata({
@@ -18,37 +21,18 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const evento = eventos.find((e) => e.slug === slug && e.publicado);
+  const r = await cargarEvento(slug);
 
-  if (!evento) {
+  if (!r.ok) {
     return {
       title: "Evento no encontrado | CAPL",
     };
   }
 
   return {
-    title: `${evento.titulo} | Eventos CAPL`,
-    description: evento.descripcion.slice(0, 160),
+    title: `${r.datos.titulo} | Eventos CAPL`,
+    description: r.datos.descripcion.slice(0, 160),
   };
-}
-
-function formatearFechaCompleta(isoString: string): string {
-  const fecha = new Date(isoString);
-  return fecha.toLocaleDateString("es-CO", {
-    weekday: "long",
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  });
-}
-
-function formatearHora(isoString: string): string {
-  const fecha = new Date(isoString);
-  return fecha.toLocaleTimeString("es-CO", {
-    hour: "2-digit",
-    minute: "2-digit",
-    hour12: true,
-  });
 }
 
 function EtiquetaModalidad({ lugar }: { lugar: string }) {
@@ -72,15 +56,13 @@ export default async function PaginaDetalleEvento({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const evento = eventos.find((e) => e.slug === slug && e.publicado);
+  const r = await cargarEvento(slug);
+  if (!r.ok) notFound();
+  const evento = r.datos;
 
-  if (!evento) {
-    notFound();
-  }
-
-  const fechaInicio = formatearFechaCompleta(evento.inicio);
-  const horaInicio = formatearHora(evento.inicio);
-  const horaFin = evento.fin ? formatearHora(evento.fin) : null;
+  const fechaInicio = formatoFecha(new Date(evento.inicio));
+  const horaInicio = formatoHora(new Date(evento.inicio));
+  const horaFin = evento.fin ? formatoHora(new Date(evento.fin)) : null;
 
   // Párrafos de la descripción separados por salto de línea doble
   const parrafos = evento.descripcion
