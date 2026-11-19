@@ -63,6 +63,7 @@ export async function verCita(
     codigo: c.codigo,
     estado: c.estado,
     servicio: c.servicio.nombre,
+    servicioId: c.servicioId,
     psicologoNombre: c.psicologo.nombre,
     inicio: c.inicio.toISOString(),
     fin: c.fin.toISOString(),

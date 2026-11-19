@@ -1,11 +1,12 @@
-# Componentes UI Públicos — CAPL
+# componentes/ui — piezas genéricas
 
-Dueño: César (sistema de diseño público).  
-Colaborador IA: Gemini.
+Sin dominio del CAPL: se pueden usar en el sitio público y en el panel. Archivos en kebab-case (N11).
 
-## Primitivas de Bienestar y Movimiento
+- `cn.ts`: une clases de Tailwind (`clsx` + `tailwind-merge`).
+- `campo.tsx`: etiqueta + campo de texto + error (`Campo`, `CLASE_CONTROL`).
+- `acordeon-faq.tsx`: acordeón accesible con teclado.
+- `boton-llamar.tsx`: botón `tel:` táctil.
+- `esqueleto-calmo.tsx`: esqueletos de carga con pulso lento (3 s).
+- `transicion-suave.tsx`: entrada desvanecida con `motion/react`; respeta `prefers-reduced-motion`.
 
-- `cn.ts`: Utilidad de fusión para Tailwind CSS y condicionales (`clsx` + `tailwind-merge`).
-- `esqueleto-calmo.tsx`: Componentes de esqueleto con pulso respiratorio (3.0s / 0.33 Hz) para carga sin sobresaltos (`EsqueletoCalmo`, `EsqueletoParrafo`, `EsqueletoTarjetaCita`).
-- `transicion-suave.tsx`: Envoltorio con `motion/react` para entradas desvanecidas (máximo 8-10px) y respeto estricto a `prefers-reduced-motion`.
-- `animacion-biofilica.tsx`: Micro-movimientos biofílicos en bucle largo ($\ge 6\text{ s}$) impulsados por Anime.js v4.
+Lo que es de una pantalla va en `componentes/publico/` (sitio) o `componentes/panel/` (paneles).

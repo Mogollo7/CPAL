@@ -49,18 +49,31 @@ export function desdeBogota(fecha: string, minutos = 0): Date {
 /** Medianoche de Bogotá del día en que cae `d`, como instante UTC. */
 export const inicioDelDia = (d: Date): Date => desdeBogota(fechaBogota(d));
 
-/** Formato de N08: "martes 24 de noviembre, 2:30 p. m." */
-export function formatoFechaHora(d: Date): string {
-  const f = (o: Intl.DateTimeFormatOptions) =>
-    new Intl.DateTimeFormat("es-CO", { timeZone: ZONA, ...o })
-      .format(d)
-      .replace(/[  ]/g, " ");
-  const dia = f({ weekday: "long" });
-  const resto = f({ day: "numeric", month: "long" });
-  const hora = f({
+const formato = (d: Date, o: Intl.DateTimeFormatOptions) =>
+  new Intl.DateTimeFormat("es-CO", { timeZone: ZONA, ...o })
+    .format(d)
+    .replace(/[  ]/g, " ");
+
+/** "martes, 24 de noviembre de 2026" (hora de Bogotá aunque el servidor corra en UTC). */
+export const formatoFecha = (d: Date) =>
+  formato(d, {
+    weekday: "long",
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+/** "2:30 p. m." */
+export const formatoHora = (d: Date) =>
+  formato(d, {
     hour: "numeric",
     minute: "2-digit",
     hour12: true,
   }).toLowerCase();
-  return `${dia} ${resto}, ${hora}`;
+
+/** Formato de N08: "martes 24 de noviembre, 2:30 p. m." */
+export function formatoFechaHora(d: Date): string {
+  const dia = formato(d, { weekday: "long" });
+  const resto = formato(d, { day: "numeric", month: "long" });
+  return `${dia} ${resto}, ${formatoHora(d)}`;
 }

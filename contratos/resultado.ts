@@ -50,3 +50,7 @@ export const fallo = (
   mensaje,
   campos,
 });
+
+/** Cuando la acción ni siquiera llega al servidor (sin red, servidor caído). Nunca se finge el guardado. */
+export const SIN_CONEXION =
+  "No pudimos conectar con el servidor. Revisa tu conexión e intenta de nuevo.";
