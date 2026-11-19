@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition } from "react";
 import {
@@ -149,10 +150,7 @@ export function GestorHorario({
           });
         }
       } catch {
-        setMensaje({
-          tipo: "exito",
-          texto: "Horario semanal guardado (modo simulación local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -215,22 +213,7 @@ export function GestorHorario({
           });
         }
       } catch {
-        const nuevaSimulada: BloqueoGuardado = {
-          id: `aus-${Date.now()}`,
-          desde: dDesde.toISOString(),
-          hasta: dHasta.toISOString(),
-          motivo: ausenciaMotivo.trim() || null,
-          psicologoId: "psi-propio",
-        };
-        setBloqueos((prev) => [...prev, nuevaSimulada]);
-        setMostrarFormAusencia(false);
-        setAusenciaDesde("");
-        setAusenciaHasta("");
-        setAusenciaMotivo("");
-        setMensaje({
-          tipo: "exito",
-          texto: "Ausencia registrada (modo simulación local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -242,11 +225,7 @@ export function GestorHorario({
       setBloqueos((prev) => prev.filter((b) => b.id !== id));
       setMensaje({ tipo: "exito", texto: "Ausencia eliminada correctamente." });
     } catch {
-      setBloqueos((prev) => prev.filter((b) => b.id !== id));
-      setMensaje({
-        tipo: "exito",
-        texto: "Ausencia eliminada (modo simulación local).",
-      });
+      setMensaje({ tipo: "error", texto: SIN_CONEXION });
     }
   };
 

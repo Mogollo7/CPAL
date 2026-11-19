@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState } from "react";
 import Link from "next/link";
@@ -67,6 +68,7 @@ export function DetalleCitaCliente({
   const [modalRechazar, setModalRechazar] = useState(false);
   const [modalCancelar, setModalCancelar] = useState(false);
   const [mensajeExito, setMensajeExito] = useState<string | null>(null);
+  const [mensajeError, setMensajeError] = useState<string | null>(null);
 
   // Manejador Autorizar
   const ejecutarAutorizar = async () => {
@@ -82,10 +84,7 @@ export function DetalleCitaCliente({
       }
       return { ok: false, mensaje: res.mensaje };
     } catch {
-      // Simulación en local sin base de datos
-      setCita((prev) => ({ ...prev, estado: "AUTORIZADA" }));
-      setMensajeExito("Cita autorizada (modo simulado local).");
-      return { ok: true };
+      return { ok: false, mensaje: SIN_CONEXION };
     }
   };
 
@@ -105,13 +104,7 @@ export function DetalleCitaCliente({
       }
       return { ok: false, mensaje: res.mensaje };
     } catch {
-      setCita((prev) => ({
-        ...prev,
-        estado: "RECHAZADA",
-        motivoRechazo: motivo || null,
-      }));
-      setMensajeExito("Cita rechazada (modo simulado local).");
-      return { ok: true };
+      return { ok: false, mensaje: SIN_CONEXION };
     }
   };
 
@@ -130,9 +123,7 @@ export function DetalleCitaCliente({
       }
       return { ok: false, mensaje: res.mensaje };
     } catch {
-      setCita((prev) => ({ ...prev, estado: "CANCELADA" }));
-      setMensajeExito("Cita cancelada (modo simulado local).");
-      return { ok: true };
+      return { ok: false, mensaje: SIN_CONEXION };
     }
   };
 
@@ -148,10 +139,11 @@ export function DetalleCitaCliente({
             : "Cita marcada como NO ASISTIÓ.",
         );
         router.refresh();
+      } else {
+        setMensajeError(res.mensaje);
       }
     } catch {
-      setCita((prev) => ({ ...prev, estado: resultado }));
-      setMensajeExito(`Cita marcada como ${resultado} (modo simulado).`);
+      setMensajeError(SIN_CONEXION);
     }
   };
 
@@ -237,6 +229,15 @@ export function DetalleCitaCliente({
       </div>
 
       {/* Alerta de Éxito */}
+      {mensajeError && (
+        <div
+          role="alert"
+          className="p-4 rounded-m bg-error-fondo text-error-texto border border-error-texto/20 text-caption font-weight-medio"
+        >
+          {mensajeError}
+        </div>
+      )}
+
       {mensajeExito && (
         <div
           role="status"

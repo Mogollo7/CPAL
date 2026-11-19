@@ -1,8 +1,4 @@
-import type { BloqueoGuardado, Festivo } from "@/contratos/bloqueo";
-import {
-  listarBloqueosCentro,
-  listarFestivos,
-} from "@/contratos/simulados-centro";
+import { datosDePagina } from "@/servidor/pagina";
 import {
   listarBloqueosCentroAccion,
   listarFestivosAccion,
@@ -10,27 +6,10 @@ import {
 import { GestorBloqueos } from "@/componentes/panel/admin/gestor-bloqueos";
 
 export default async function PaginaAdminBloqueos() {
-  const anio = 2026;
-  let bloqueos: BloqueoGuardado[] = [];
-  let festivos: Festivo[] = [];
-
-  try {
-    const [resBloqueos, resFestivos] = await Promise.all([
-      listarBloqueosCentroAccion(),
-      listarFestivosAccion(anio),
-    ]);
-
-    if (resBloqueos.ok) bloqueos = resBloqueos.datos;
-    if (resFestivos.ok) festivos = resFestivos.datos;
-  } catch {
-    // Si no hay DB en desarrollo local usamos los datos simulados
-    const [b, f] = await Promise.all([
-      listarBloqueosCentro(),
-      listarFestivos(),
-    ]);
-    bloqueos = b.ok ? b.datos : [];
-    festivos = f.ok ? f.datos : [];
-  }
+  const [bloqueos, festivos] = await Promise.all([
+    listarBloqueosCentroAccion().then(datosDePagina),
+    listarFestivosAccion(new Date().getFullYear()).then(datosDePagina),
+  ]);
 
   return (
     <div className="space-y-6">

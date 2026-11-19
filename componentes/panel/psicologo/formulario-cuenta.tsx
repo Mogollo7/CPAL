@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
@@ -72,13 +73,7 @@ export function FormularioCuenta() {
           });
         }
       } catch {
-        setMensaje({
-          tipo: "exito",
-          texto: "Contraseña actualizada (modo simulación local).",
-        });
-        setClaveActual("");
-        setClaveNueva("");
-        setConfirmacion("");
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };

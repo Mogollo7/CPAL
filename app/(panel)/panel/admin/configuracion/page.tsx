@@ -1,20 +1,9 @@
-import type { Configuracion } from "@/contratos/configuracion";
-import { configuracionSimulada } from "@/contratos/simulados-centro";
+import { datosDePagina } from "@/servidor/pagina";
 import { obtenerConfiguracionAccion } from "@/servidor/acciones";
 import { FormularioConfiguracion } from "@/componentes/panel/admin/formulario-configuracion";
 
 export default async function PaginaAdminConfiguracion() {
-  let configuracion: Configuracion = configuracionSimulada;
-
-  try {
-    const res = await obtenerConfiguracionAccion();
-    if (res.ok) {
-      configuracion = res.datos;
-    }
-  } catch {
-    // Si no hay DB activa en desarrollo local usamos la configuración simulada
-    configuracion = configuracionSimulada;
-  }
+  const configuracion = datosDePagina(await obtenerConfiguracionAccion());
 
   return (
     <div className="space-y-6">

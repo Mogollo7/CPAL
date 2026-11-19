@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import {
   useState,
@@ -138,45 +139,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           }
         }
       } catch {
-        // En simulación local
-        if (eventoAEditar) {
-          setEventos((prev) =>
-            prev.map((ev) =>
-              ev.id === eventoAEditar.id
-                ? {
-                    ...ev,
-                    ...payload,
-                    fin: payload.fin || null,
-                    enlace: payload.enlace || null,
-                  }
-                : ev,
-            ),
-          );
-          setEventoAEditar(null);
-          setMensaje({
-            tipo: "exito",
-            texto: "Evento actualizado (modo simulado).",
-          });
-        } else {
-          const nuevoSimulado: EventoDetalle = {
-            id: `ev-${Date.now()}`,
-            slug: titulo.toLowerCase().replace(/\s+/g, "-"),
-            titulo: payload.titulo,
-            descripcion: payload.descripcion,
-            inicio: payload.inicio,
-            fin: payload.fin || null,
-            lugar: payload.lugar,
-            enlace: payload.enlace || null,
-            imagenUrl: null,
-            publicado: payload.publicado,
-          };
-          setEventos((prev) => [nuevoSimulado, ...prev]);
-          setModalCrear(false);
-          setMensaje({
-            tipo: "exito",
-            texto: "Evento creado (modo simulado).",
-          });
-        }
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -210,16 +173,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           });
         }
       } catch {
-        const urlLocal = URL.createObjectURL(file);
-        setEventos((prev) =>
-          prev.map((ev) =>
-            ev.id === eventoId ? { ...ev, imagenUrl: urlLocal } : ev,
-          ),
-        );
-        setMensaje({
-          tipo: "exito",
-          texto: "Imagen actualizada (modo simulado).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };

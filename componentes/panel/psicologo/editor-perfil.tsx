@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import {
   useState,
@@ -94,12 +95,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
           });
         }
       } catch {
-        // En simulación local
-        setFotoUrl(urlLocal);
-        setMensaje({
-          tipo: "exito",
-          texto: "Foto actualizada (modo simulado local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -129,10 +125,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
           });
         }
       } catch {
-        setMensaje({
-          tipo: "exito",
-          texto: "Perfil guardado (modo simulado local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };

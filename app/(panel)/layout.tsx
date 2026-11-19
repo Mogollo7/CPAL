@@ -13,26 +13,12 @@ export default async function LayoutPanel({
   children: ReactNode;
 }) {
   await connection();
-  // Obtenemos la sesión real desde la cookie/servidor
-  const sesionReal = await obtenerSesion();
-
-  // Guarda de sesión con soporte de sesión simulada para desarrollo (T-111)
-  let rol: RolPanel = "ADMIN";
-  let usuarioNombre = "Monitora CAPL";
-
-  if (sesionReal) {
-    rol = sesionReal.rol;
-    usuarioNombre =
-      sesionReal.rol === "ADMIN" ? "Administrador CAPL" : "Psicólogo(a) CAPL";
-  } else if (process.env.ENTORNO === "produccion") {
-    // En producción es estricto: sin sesión redirige a /ingresar
-    redirect("/ingresar");
-  } else {
-    // Modo desarrollo local sin base de datos activa:
-    // Permite que Brand maquete y visualice el panel sin bloqueos de Docker (T-111)
-    rol = "ADMIN";
-    usuarioNombre = "Coordinación (Simulado)";
-  }
+  // proxy.ts ya corta /panel sin cookie; aquí se comprueba en BD que la cuenta siga activa.
+  const sesion = await obtenerSesion();
+  if (!sesion) redirect("/ingresar");
+  const rol: RolPanel = sesion.rol;
+  const usuarioNombre =
+    rol === "ADMIN" ? "Administrador CAPL" : "Psicólogo(a) CAPL";
 
   return (
     <div className="min-h-screen bg-fondo-pagina text-texto-principal flex">

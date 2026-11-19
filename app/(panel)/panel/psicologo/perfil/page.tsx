@@ -1,29 +1,9 @@
-import type { PerfilPropio } from "@/contratos/psicologo";
+import { datosDePagina } from "@/servidor/pagina";
 import { obtenerMiPerfilAccion } from "@/servidor/acciones";
 import { EditorPerfil } from "@/componentes/panel/psicologo/editor-perfil";
 
 export default async function PaginaPsicologoPerfil() {
-  let perfil: PerfilPropio = {
-    id: "psi-1",
-    nombre: "Dra. Sofía Martínez",
-    area: "PSICOLOGIA",
-    presentacion:
-      "Psicóloga en formación con enfoque cognitivo-conductual. Experiencia en orientación para el manejo del estrés académico, procesos adaptativos universitarios y habilidades interpersonales.",
-    visible: true,
-    fotoUrl: null,
-    servicioIds: ["serv-1", "serv-3"],
-    horario: { bloques: [] },
-    bloqueos: [],
-  };
-
-  try {
-    const res = await obtenerMiPerfilAccion();
-    if (res.ok) {
-      perfil = res.datos;
-    }
-  } catch {
-    // Si no hay DB, usamos los valores simulados
-  }
+  const perfil = datosDePagina(await obtenerMiPerfilAccion());
 
   return (
     <div className="space-y-6">

@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
@@ -109,22 +110,7 @@ export function GestorBloqueos({
           });
         }
       } catch {
-        const nuevoSimulado: BloqueoGuardado = {
-          id: `blq-${Date.now()}`,
-          desde: dDesde.toISOString(),
-          hasta: dHasta.toISOString(),
-          motivo: motivo.trim() || null,
-          psicologoId: null,
-        };
-        setBloqueos((prev) => [...prev, nuevoSimulado]);
-        setModalCrear(false);
-        setDesde("");
-        setHasta("");
-        setMotivo("");
-        setMensaje({
-          tipo: "exito",
-          texto: "Bloqueo registrado (modo simulación local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -146,11 +132,7 @@ export function GestorBloqueos({
         });
       }
     } catch {
-      setBloqueos((prev) => prev.filter((b) => b.id !== id));
-      setMensaje({
-        tipo: "exito",
-        texto: "Bloqueo eliminado (modo simulado).",
-      });
+      setMensaje({ tipo: "error", texto: SIN_CONEXION });
     }
   };
 

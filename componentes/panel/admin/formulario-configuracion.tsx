@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
@@ -68,11 +69,7 @@ export function FormularioConfiguracion({
           });
         }
       } catch {
-        setConfig(payload);
-        setMensaje({
-          tipo: "exito",
-          texto: "Configuración guardada (modo simulación local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };

@@ -1,4 +1,5 @@
 "use client";
+import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition, type FormEvent } from "react";
 import {
@@ -86,23 +87,7 @@ export function GestorPsicologos({
           });
         }
       } catch {
-        const nuevoSimulado: UsuarioResumen = {
-          id: `psi-${Date.now()}`,
-          nombre: nuevoNombre.trim(),
-          correo: nuevoCorreo.trim().toLowerCase(),
-          rol: "PSICOLOGO",
-          area: nuevaArea,
-          estado: "INVITADO",
-          ultimoIngreso: null,
-        };
-        setPsicologos((prev) => [nuevoSimulado, ...prev]);
-        setModalCrear(false);
-        setNuevoNombre("");
-        setNuevoCorreo("");
-        setMensaje({
-          tipo: "exito",
-          texto: "Psicólogo registrado (modo simulación local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -141,18 +126,7 @@ export function GestorPsicologos({
           });
         }
       } catch {
-        setPsicologos((prev) =>
-          prev.map((p) =>
-            p.id === psicologoAEditar.id
-              ? { ...p, nombre: editNombre.trim(), area: editArea }
-              : p,
-          ),
-        );
-        setPsicologoAEditar(null);
-        setMensaje({
-          tipo: "exito",
-          texto: "Actualizado (modo simulado local).",
-        });
+        setMensaje({ tipo: "error", texto: SIN_CONEXION });
       }
     });
   };
@@ -174,10 +148,7 @@ export function GestorPsicologos({
         });
       }
     } catch {
-      setMensaje({
-        tipo: "exito",
-        texto: `Invitación reenviada a ${correo} (modo simulado).`,
-      });
+      setMensaje({ tipo: "error", texto: SIN_CONEXION });
     }
   };
 
@@ -203,13 +174,7 @@ export function GestorPsicologos({
         });
       }
     } catch {
-      setPsicologos((prev) =>
-        prev.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
-      );
-      setMensaje({
-        tipo: "exito",
-        texto: `Estado cambiado a ${nuevoEstado} (modo simulado).`,
-      });
+      setMensaje({ tipo: "error", texto: SIN_CONEXION });
     }
   };
 
