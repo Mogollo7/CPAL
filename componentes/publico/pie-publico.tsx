@@ -150,8 +150,8 @@ export async function PiePublico() {
         {/* Barra inferior: Términos, Política de datos y Derechos */}
         <div className="mt-12 pt-8 border-t border-morado-700 flex flex-col sm:flex-row items-center justify-between gap-4 text-caption text-morado-100">
           <p className="text-center sm:text-left">
-            © {await anioActual()} Centro de Atención Psicológica
-            Lasallista (CAPL). Todos los derechos reservados.
+            © {await anioActual()} Centro de Atención Psicológica Lasallista
+            (CAPL). Todos los derechos reservados.
           </p>
 
           <nav
