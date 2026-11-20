@@ -11,8 +11,10 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_USER: capl
-      POSTGRES_PASSWORD: capl_local # solo dentro de la red de Docker: no se publica ningún puerto
+      POSTGRES_PASSWORD: capl_local
       POSTGRES_DB: capl
+    ports:
+      - "127.0.0.1:${PUERTO_BD:-5434}:5432" # solo este equipo (para cargar la semilla o abrir psql); nunca la red
     volumes:
       - datos_db:/var/lib/postgresql/data
       - ./bd/init.sql:/docker-entrypoint-initdb.d/00-roles.sql:ro

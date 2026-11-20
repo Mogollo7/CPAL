@@ -25,6 +25,11 @@ Dueño: Sebas (infraestructura).
 - El puerto de este equipo es `3000`; cámbialo con `PUERTO_APP` en `.env`.
 - Para publicarlo en un dominio hace falta un túnel **propio** (un token nuevo en `.env › CLOUDFLARE_TUNNEL_TOKEN`) cuyo
   «Public hostname» sea `tu-dominio → HTTP → app:3000`. Si el dominio ya apunta a otro túnel, se mueve ese hostname al nuevo.
+- La base queda en `127.0.0.1:5434` (solo este equipo). Datos de ejemplo (`prisma/semilla.ts`; si ya hay, no duplica):
+  `$env:DATABASE_URL="postgresql://capl_app:app_local@localhost:5434/capl"; npx tsx prisma/semilla.ts`
+- Cuentas de ejemplo (clave de todas: `clave-de-prueba-capl`): `admin@ejemplo.test` (administración) y
+  `psicologo1@ejemplo.test` … `psicologo3@ejemplo.test` (psicología). La administración pide un código de 6 dígitos al
+  ingresar; con `CORREO_MODO=consola` no sale ningún correo, así que en local se fija el código a mano en la base.
 - `URL_SITIO` en `.env` debe ser la dirección pública (los correos arman enlaces e imágenes con ella).
 
 ## Servicios programados (fase 1: Node sin Docker, systemd)
