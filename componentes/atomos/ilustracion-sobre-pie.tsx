@@ -1,6 +1,7 @@
 import Image, { type StaticImageData } from "next/image";
 
-// Figma: en las páginas internas una ilustración «se asoma» sobre la curva del pie (103 px dentro de ella).
+// Figma: en las páginas internas una ilustración «se asoma» por detrás de la curva del pie (103 px dentro de ella):
+// el pie (z-10) la tapa, no al revés.
 // `izquierda` es la posición en px del frame de 1280.
 export function IlustracionSobrePie({
   src,
@@ -14,7 +15,7 @@ export function IlustracionSobrePie({
   return (
     <div
       aria-hidden="true"
-      className="relative z-10 -mb-[103px] pointer-events-none"
+      className="relative z-0 -mb-[103px] pointer-events-none"
     >
       <Image
         src={src}
