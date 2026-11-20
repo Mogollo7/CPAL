@@ -1,0 +1,64 @@
+# El sitio completo en ESTE equipo (base de datos + migraciones + app + túnel de Cloudflare), todo en Docker.
+#   npm run pc:subir        → construye y arranca (app en http://localhost:3000)
+#   npm run pc:subir:tunel  → lo mismo + el túnel que lo publica en https://<tu dominio>
+#   npm run pc:parar        → apaga todo (los datos quedan en los volúmenes)
+# Lee el .env de la raíz (AUTH_SECRET, URL_SITIO, RESEND_API_KEYS, CLOUDFLARE_TUNNEL_TOKEN…). Las direcciones de la
+# base de datos las fija este archivo apuntando a `db:5432`, así que no hace falta tocar DATABASE_URL del .env.
+name: capl-pc
+services:
+  db:
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: capl
+      POSTGRES_PASSWORD: capl_local # solo dentro de la red de Docker: no se publica ningún puerto
+      POSTGRES_DB: capl
+    volumes:
+      - datos_db:/var/lib/postgresql/data
+      - ./bd/init.sql:/docker-entrypoint-initdb.d/00-roles.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U capl"]
+      interval: 3s
+      retries: 20
+
+  # Aplica las migraciones y termina; la app arranca solo si terminó bien.
+  migrar:
+    build: { context: .., target: migrador }
+    restart: "no"
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DATABASE_URL_MIGRADOR: postgresql://capl_migrador:migrador_local@db:5432/capl
+
+  app:
+    build: { context: .., target: app, args: { MEDICION: "no" } }
+    restart: unless-stopped
+    depends_on:
+      db: { condition: service_healthy }
+      migrar: { condition: service_completed_successfully }
+    env_file: [../.env]
+    environment:
+      DATABASE_URL: postgresql://capl_app:app_local@db:5432/capl
+      DATABASE_URL_MIGRADOR: postgresql://capl_migrador:migrador_local@db:5432/capl
+      RUTA_ARCHIVOS: /archivos
+    volumes:
+      - archivos:/archivos
+    ports:
+      - "${PUERTO_APP:-3000}:3000" # el puerto de ESTE equipo; cámbialo con PUERTO_APP en .env
+
+  # Túnel de Cloudflare PROPIO de este equipo (perfil "tunel"): su token va en .env (CLOUDFLARE_TUNNEL_TOKEN).
+  # En Cloudflare → Zero Trust → Networks → Tunnels → [este túnel] → Public hostname:
+  #     capl.juanlabs.me  →  HTTP  →  app:3000        (el nombre del servicio de este archivo, no localhost)
+  # NUNCA uses el token de un túnel que ya sirve otras aplicaciones: todas sus réplicas comparten destinos.
+  tunel:
+    profiles: ["tunel"]
+    image: cloudflare/cloudflared:latest
+    restart: unless-stopped
+    depends_on: [app]
+    command: tunnel --no-autoupdate run
+    environment:
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:-} # vacío = cloudflared avisa al arrancar (con `:?` fallaría hasta quien no usa el túnel)
+
+volumes:
+  datos_db:
+  archivos:
