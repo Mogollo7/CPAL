@@ -12,6 +12,7 @@ export type Correo = {
   texto: string;
   adjuntos?: { nombre: string; contenido: string; tipo: string }[]; // contenido en texto (p. ej. .ics)
   trabajoId?: string; // viaja como etiqueta: el aviso de entrega de Resend lo trae de vuelta (T-332)
+  plantilla?: { id: string; variables: Record<string, string> }; // plantilla publicada en Resend (alias = nombre); si falla, se envía el html propio
   llave?: string; // llave del trabajo: Resend la usa para no enviar dos veces el mismo correo (idempotencia)
 };
 export type ErrorEnvio = {
@@ -48,8 +49,9 @@ const enviarConResend: Enviar = async (llave, c) => {
       replyTo: process.env.CORREO_RESPUESTA || undefined,
       to: c.para,
       subject: c.asunto,
-      html: c.html,
-      text: c.texto,
+      ...(c.plantilla
+        ? { template: { id: c.plantilla.id, variables: c.plantilla.variables } }
+        : { html: c.html, text: c.texto }),
       attachments: c.adjuntos?.map((a) => ({
         filename: a.nombre,
         content: Buffer.from(a.contenido),
@@ -90,7 +92,21 @@ export async function enviarCorreo(
   for (const [i, llave] of lista.entries()) {
     if ((agotadasHasta.get(llave) ?? 0) > ahora) continue;
     const t0 = performance.now();
-    const error = await enviar(llave, c);
+    let error = await enviar(llave, c);
+    // Plantilla de Resend sin publicar, renombrada o con variables que no cuadran (400/404/422): el correo no se pierde, sale con el html propio.
+    if (
+      error &&
+      c.plantilla &&
+      [400, 404, 422].includes(error.statusCode ?? 0)
+    ) {
+      registrar("externo.respaldo_usado", {
+        nivel: "aviso",
+        servicio: "resend",
+        operacion: `plantilla_${c.plantilla.id}_${error.name ?? error.statusCode}`,
+      });
+      c = { ...c, plantilla: undefined };
+      error = await enviar(llave, c);
+    }
     registrar("externo.llamada", {
       servicio: "resend",
       operacion: "enviar",

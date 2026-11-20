@@ -85,7 +85,7 @@
   --color-borde-suave: var(--color-morado-100);
   --color-foco: var(--color-morado-600);
 
-  /* ── Tipografía (N03 · Figma): Nunito en todo: 400 texto · 600 énfasis · 800 títulos; escala 32 · 20 · 16 · 13 ──
+  /* ── Tipografía (N03 · Figma): Nunito en todo: 400 texto · 600 énfasis · 800 títulos; texto 20 · 16 · 13, títulos 48 (hero 64) ──
      Escala del sitio: portada 110 · sección 42 · h1 32 · tarjeta 28 · h2 20 · destacado 18 · p 16 · caption 13.
      Las fuentes las aloja next/font en app/layout.tsx (variables --fuente-*). */
   --font-sans:
@@ -95,13 +95,13 @@
   --text-portada--letter-spacing: -0.03em;
   --text-portada--line-height: 1.18;
   /* Duolingo: títulos de sección y de fila a 48; los de transición (hero) a 64. Fuentes del Figma. */
-  --text-seccion: 2rem;
+  --text-seccion: clamp(2rem, 3.75vw, 3rem);
   --text-seccion--line-height: 1.2;
-  --text-hero: 2rem;
+  --text-hero: clamp(2.5rem, 5vw, 4rem);
   --text-hero--line-height: 1.15;
-  --text-titulo-pagina: 2rem;
+  --text-titulo-pagina: 3rem;
   --text-titulo-pagina--line-height: 1.2;
-  --text-bloque: 2rem;
+  --text-bloque: 3rem;
   --text-bloque--line-height: 1.2;
   --text-tarjeta: 1.25rem;
   --text-subtitulo: 1.25rem;

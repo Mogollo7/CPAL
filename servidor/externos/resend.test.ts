@@ -60,3 +60,28 @@ describe("rotación de llaves Resend", () => {
     }
   });
 });
+
+describe("plantillas de Resend", () => {
+  const conPlantilla = {
+    ...c,
+    plantilla: { id: "cita-vencida", variables: { NOMBRE: "Ana" } },
+  };
+  it("con plantilla publicada se envía con ella", async () => {
+    const vistos: unknown[] = [];
+    const r = await enviarCorreo(conPlantilla, async (_l, x) => {
+      vistos.push(x.plantilla);
+      return null;
+    });
+    expect(r).toEqual({ ok: true, llaveUsada: 0 });
+    expect(vistos).toEqual([conPlantilla.plantilla]);
+  });
+  it("plantilla sin publicar (404/422) → el correo sale con el html propio, sin perderse ni gastar otra llave", async () => {
+    const vistos: unknown[] = [];
+    const r = await enviarCorreo(conPlantilla, async (_l, x) => {
+      vistos.push(x.plantilla);
+      return x.plantilla ? { statusCode: 404, name: "not_found" } : null;
+    });
+    expect(r).toEqual({ ok: true, llaveUsada: 0 });
+    expect(vistos).toEqual([conPlantilla.plantilla, undefined]);
+  });
+});

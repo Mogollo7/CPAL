@@ -27,7 +27,8 @@
     "tunel:logs": "docker logs --tail 30 capl-tunel",
     "guardar": "node scripts/guardar.mjs local",
     "subir": "node scripts/guardar.mjs subir",
-    "admin:crear": "tsx scripts/admin-crear.mts"
+    "admin:crear": "tsx scripts/admin-crear.mts",
+    "resend:plantillas": "tsx scripts/resend-plantillas.mts"
   },
   "dependencies": {
     "@node-rs/argon2": "2.2.2",
