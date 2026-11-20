@@ -48,6 +48,21 @@ services:
     ports:
       - "${PUERTO_APP:-3000}:3000" # el puerto de ESTE equipo; cámbialo con PUERTO_APP en .env
 
+  # La tarea programada (cada minuto): cola de correos, vencimientos, recordatorios, sondeo del servidor y, a las 08:00
+  # (Bogotá), el informe diario. Sin esto no sale ningún correo de la cola. Usa CRON_SECRET del .env.
+  tareas:
+    image: alpine:3.20
+    restart: unless-stopped
+    depends_on:
+      app: { condition: service_healthy }
+    env_file: [../.env]
+    environment:
+      APP_URL_INTERNA: http://app:3000
+    volumes:
+      - ./tareas.sh:/tareas.sh:ro
+    command: sh -c "apk add --no-cache curl >/dev/null && while true; do sh /tareas.sh || true; sleep 60; done"
+    mem_limit: 64m
+
   # Túnel de Cloudflare PROPIO de este equipo (perfil "tunel"): su token va en .env (CLOUDFLARE_TUNNEL_TOKEN).
   # En Cloudflare → Zero Trust → Networks → Tunnels → [este túnel] → Public hostname:
   #     capl.juanlabs.me  →  HTTP  →  app:3000        (el nombre del servicio de este archivo, no localhost)

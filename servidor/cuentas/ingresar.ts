@@ -1,6 +1,7 @@
 // Ingreso con correo y contraseña (RF-AUT-01, E03 §7). No toca cookies: devuelve el token y la acción de servidor lo guarda.
 import { ingresoSchema } from "../../contratos/cuenta";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
+import { auditar } from "../auditoria";
 import { bd } from "../bd";
 import { consultar, limitar, olvidar } from "../limites";
 import type { Rol } from "../permisos";
@@ -72,6 +73,12 @@ export async function ingresar(
         where: { id: u.id },
         data: { bloqueadaEn: new Date() }, // sobrevive a un reinicio de la aplicación
       });
+    await auditar({
+      usuarioId: u?.id,
+      accion: "INGRESO_FALLIDO",
+      entidad: "Usuario",
+      entidadId: u?.id ?? "sin-cuenta",
+    });
     registrar("cuenta.ingreso_fallido", {
       nivel: "aviso",
       rol: "publico",
@@ -92,6 +99,12 @@ export async function ingresar(
   await bd.usuario.update({
     where: { id: u.id },
     data: { ultimoIngreso: new Date() },
+  });
+  await auditar({
+    usuarioId: u.id,
+    accion: "INGRESO_OK",
+    entidad: "Usuario",
+    entidadId: u.id,
   });
   registrar("cuenta.ingreso", {
     rol: u.rol === "ADMIN" ? "admin" : "psicologo",

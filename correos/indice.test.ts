@@ -27,8 +27,8 @@ beforeEach(() => {
 });
 
 describe("registro de plantillas (E06)", () => {
-  it("tiene exactamente las plantillas de E06 más las dos añadidas", () => {
-    expect([...NOMBRES].sort()).toEqual([...E06].sort());
+  it("tiene exactamente las plantillas de E06 más las añadidas", () => {
+    expect([...NOMBRES].sort()).toEqual([...E06, "estado-servidor"].sort());
     expect(esPlantilla("recordatorio")).toBe(true);
     expect(esPlantilla("otra")).toBe(false);
   });
