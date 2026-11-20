@@ -15,9 +15,9 @@ import {
   HeartHandshake,
   ChevronDown,
 } from "lucide-react";
-import { TransicionSuave } from "@/componentes/ui/transicion-suave";
-import { BotonLlamar } from "@/componentes/ui/boton-llamar";
-import { cn } from "@/componentes/ui/cn";
+import { TransicionSuave } from "@/componentes/atomos/transicion-suave";
+import { BotonLlamar } from "@/componentes/moleculas/boton-llamar";
+import { cn } from "@/componentes/cn";
 import anclajeData from "@/contenido/anclaje.json";
 import type { AnclajeContenido } from "@/contratos/orientador";
 

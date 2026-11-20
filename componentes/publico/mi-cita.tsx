@@ -4,7 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { CalendarClock, MapPin, User } from "lucide-react";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 import type { CitaPublica, EstadoCita } from "@/contratos/cita";
 import { SIN_CONEXION } from "@/contratos/resultado";
 import { cancelarCitaAccion, reprogramarCitaAccion } from "@/servidor/acciones";

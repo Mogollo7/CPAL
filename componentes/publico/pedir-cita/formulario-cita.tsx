@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
-import { cn } from "@/componentes/ui/cn";
-import { TransicionSuave } from "@/componentes/ui/transicion-suave";
+import { cn } from "@/componentes/cn";
+import { TransicionSuave } from "@/componentes/atomos/transicion-suave";
 import type { CitaCreada } from "@/contratos/cita";
 import { SIN_CONEXION } from "@/contratos/resultado";
 import { crearCitaAccion } from "@/servidor/acciones";

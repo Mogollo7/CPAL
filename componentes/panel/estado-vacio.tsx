@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { LucideIcon } from "lucide-react";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 interface EstadoVacioProps {
   icono: LucideIcon;

@@ -2,7 +2,7 @@ import React from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { AlertTriangle, PhoneCall, ShieldCheck, Calendar } from "lucide-react";
-import { BotonLlamar } from "@/componentes/ui/boton-llamar";
+import { BotonLlamar } from "@/componentes/moleculas/boton-llamar";
 import { OrientadorCrisis } from "@/componentes/publico/orientador-crisis";
 import { EjercicioAnclaje } from "@/componentes/publico/ejercicio-anclaje";
 import emergenciasData from "@/contenido/emergencias.json";

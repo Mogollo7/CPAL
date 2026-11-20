@@ -48,6 +48,13 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // Imágenes: las fuentes viven en contenido/ como WebP (calidad 82, máx. 2560 px); next/image entrega
+  // AVIF o WebP al tamaño de cada pantalla. Los anchos siguen la retícula de Figma (1280 y su doble).
+  images: {
+    formats: ["image/avif", "image/webp"],
+    deviceSizes: [360, 640, 900, 1280, 1920, 2560],
+    imageSizes: [64, 147, 220, 350, 440, 640],
+  },
   // Salida mínima para la imagen de Docker (la activa el Dockerfile); `npm start` en local sigue igual.
   output: process.env.NEXT_OUTPUT === "standalone" ? "standalone" : undefined,
   async headers() {

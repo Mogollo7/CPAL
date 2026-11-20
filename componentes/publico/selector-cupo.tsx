@@ -3,9 +3,9 @@
 import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Clock } from "lucide-react";
-import { CLASE_CONTROL } from "@/componentes/ui/campo";
-import { cn } from "@/componentes/ui/cn";
-import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
+import { CLASE_CONTROL } from "@/componentes/moleculas/campo";
+import { cn } from "@/componentes/cn";
+import { EsqueletoCalmo } from "@/componentes/atomos/esqueleto-calmo";
 import type { Cupo, PsicologoDeServicio } from "@/contratos/cupo";
 import { SIN_CONEXION } from "@/contratos/resultado";
 import {

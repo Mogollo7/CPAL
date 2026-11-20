@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { MiCita } from "@/componentes/publico/mi-cita";
-import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
+import { EsqueletoCalmo } from "@/componentes/atomos/esqueleto-calmo";
 import { verCitaAccion } from "@/servidor/acciones";
 
 // El enlace es personal: nunca se indexa (robots.ts también excluye /cita/).

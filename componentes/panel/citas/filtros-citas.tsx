@@ -3,7 +3,7 @@
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Search, Download, RotateCcw } from "lucide-react";
 import type { EstadoCita } from "@/contratos/cita";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 const PESTANAS: { id: string; label: string; estado?: EstadoCita }[] = [
   { id: "pendientes", label: "Pendientes", estado: "PENDIENTE" },

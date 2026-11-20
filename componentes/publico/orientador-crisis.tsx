@@ -10,9 +10,9 @@ import {
   ShieldAlert,
   ArrowDown,
 } from "lucide-react";
-import { TransicionSuave } from "@/componentes/ui/transicion-suave";
-import { BotonLlamar } from "@/componentes/ui/boton-llamar";
-import { cn } from "@/componentes/ui/cn";
+import { TransicionSuave } from "@/componentes/atomos/transicion-suave";
+import { BotonLlamar } from "@/componentes/moleculas/boton-llamar";
+import { cn } from "@/componentes/cn";
 import orientadorData from "@/contenido/orientador.json";
 import type {
   OrientadorContenido,

@@ -2,7 +2,7 @@
 
 import { useState, useTransition, type FormEvent } from "react";
 import { X, AlertCircle } from "lucide-react";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 interface ModalAccionCitaProps {
   abierto: boolean;

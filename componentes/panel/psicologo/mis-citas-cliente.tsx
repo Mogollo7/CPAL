@@ -5,7 +5,7 @@ import { CalendarCheck, Clock, Phone, Mail } from "lucide-react";
 import type { CitaLista } from "@/contratos/cita";
 import { PildoraEstado } from "@/componentes/panel/citas/pildora-estado";
 import { EstadoVacio } from "@/componentes/panel/estado-vacio";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 interface MisCitasClienteProps {
   citasIniciales: CitaLista[];

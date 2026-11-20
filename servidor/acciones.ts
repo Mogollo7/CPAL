@@ -12,7 +12,11 @@ import * as centroServicios from "./centro/servicios";
 import { validar } from "./centro/validar";
 import * as citasAdmin from "./citas/admin";
 import { crearCita } from "./citas/crear";
-import { listarPsicologosDeServicio, obtenerCupos } from "./citas/cupos";
+import {
+  listarEquipoPublico,
+  listarPsicologosDeServicio,
+  obtenerCupos,
+} from "./citas/cupos";
 import * as citasGestion from "./citas/gestion";
 import * as correoPanel from "./correo/panel";
 import { exigirClaveReciente, obtenerSesion } from "./cuentas/sesionActual";
@@ -51,6 +55,7 @@ export const obtenerCuposAccion = async (entrada: unknown) =>
   obtenerCupos(entrada, { ip: await ip() });
 export const listarPsicologosDeServicioAccion = async (servicioId: string) =>
   listarPsicologosDeServicio(servicioId);
+export const listarEquipoPublicoAccion = async () => listarEquipoPublico();
 export const listarServiciosAgendablesAccion = async () =>
   centroServicios.listarServiciosAgendables();
 /** `token` es el tramo final del enlace `/cita/{token}` que llega por correo. */

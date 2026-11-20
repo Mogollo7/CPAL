@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Fondo con grano (Figma · «Color original · Ruido nativo» + «Máscara alfa»), al estilo de tiimoapp.com.
+   Tres capas, como en Figma:
+     1. color de fondo del tono;
+     2. ruido monótono (tamaño 1,7 · densidad 0,72) pintado con el tinte del tono al 13–19 %;
+     3. máscara alfa vertical que funde el bloque con la sección vecina (sin cortes duros).
+   El ruido es un SVG de 1 KB repetido como máscara: el tinte sale de un token, no del archivo.
+   ========================================================================== */
+
+@layer components {
+  .capl-grano {
+    --grano-fondo: var(--color-morado-100);
+    --grano-tinte: rgb(72 80 192 / 0.18);
+    --grano-mascara: linear-gradient(#000, #000);
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: var(--grano-fondo);
+    mask-image: var(--grano-mascara);
+  }
+
+  .capl-grano::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: var(--grano-tinte);
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 7 -3.4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    mask-size: 240px 240px;
+  }
+
+  /* Tonos (pares fondo/tinte medidos en Figma) */
+  .capl-grano[data-tono="lavanda"] {
+    --grano-fondo: var(--color-morado-100);
+    --grano-tinte: rgb(72 80 192 / 0.18);
+  }
+  .capl-grano[data-tono="lavanda-claro"] {
+    --grano-fondo: var(--color-morado-50);
+    --grano-tinte: rgb(72 80 192 / 0.19);
+  }
+  .capl-grano[data-tono="crema"] {
+    --grano-fondo: var(--color-crema);
+    --grano-tinte: rgb(138 97 0 / 0.13);
+  }
+  .capl-grano[data-tono="menta"] {
+    --grano-fondo: var(--color-menta-100);
+    --grano-tinte: rgb(10 110 120 / 0.17);
+  }
+  .capl-grano[data-tono="miel"] {
+    --grano-fondo: var(--color-miel-100);
+    --grano-tinte: rgb(138 97 0 / 0.17);
+  }
+  .capl-grano[data-tono="ciruela"] {
+    --grano-fondo: var(--color-ciruela-50);
+    --grano-tinte: rgb(112 82 154 / 0.19);
+  }
+
+  /* Fundidos (Figma · «Máscara alfa»): la cabecera de página solo se funde abajo;
+     los fondos en medio de la página se funden arriba y abajo. */
+  .capl-grano[data-fundido="ambos"] {
+    --grano-mascara: linear-gradient(
+      #0000 0%,
+      #00000021 4%,
+      #000000db 12%,
+      #000 20%,
+      #000 66%,
+      #000000d1 80%,
+      #0000004d 91%,
+      #00000005 98%,
+      #0000 100%
+    );
+  }
+  .capl-grano[data-fundido="abajo"] {
+    --grano-mascara: linear-gradient(
+      #000 0%,
+      #000 35%,
+      #000000d6 64%,
+      #00000085 79%,
+      #0000000d 94%,
+      #0000 100%
+    );
+  }
+
+  @media (prefers-contrast: more), (forced-colors: active) {
+    .capl-grano::after {
+      display: none;
+    }
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Pulso respiratorio para esqueletos de carga: ciclo de 3 s (0,33 Hz).
+   -------------------------------------------------------------------------- */
+@keyframes caplPulsoRespiracion {
+  0%,
+  100% {
+    opacity: 0.55;
+  }
+  50% {
+    opacity: 0.95;
+  }
+}
+
+.capl-pulso-respiracion {
+  animation: caplPulsoRespiracion 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}

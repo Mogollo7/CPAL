@@ -5,6 +5,7 @@ import {
   type PsicologoDeServicio,
 } from "../../contratos/cupo";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
+import type { Prisma } from "../generado/client";
 import { bd } from "../bd";
 import { limitar } from "../limites";
 import { redTruncada, registrar } from "../registro";
@@ -53,13 +54,26 @@ export async function obtenerCupos(
 export async function listarPsicologosDeServicio(
   servicioId: string,
 ): Promise<Resultado<PsicologoDeServicio[]>> {
-  const usuarios = await bd.usuario.findMany({
-    where: {
-      rol: "PSICOLOGO",
-      activo: true,
+  return ok(
+    await psicologosPublicos({
       perfil: { servicios: { some: { id: servicioId } } },
       disponibilidades: { some: {} },
-    },
+    }),
+  );
+}
+
+/** /equipo: todas las personas que atienden (activas), sin datos de contacto. */
+export async function listarEquipoPublico(): Promise<
+  Resultado<PsicologoDeServicio[]>
+> {
+  return ok(await psicologosPublicos({}));
+}
+
+async function psicologosPublicos(
+  filtro: Prisma.UsuarioWhereInput,
+): Promise<PsicologoDeServicio[]> {
+  const usuarios = await bd.usuario.findMany({
+    where: { rol: "PSICOLOGO", activo: true, ...filtro },
     select: {
       id: true,
       nombre: true,
@@ -67,12 +81,10 @@ export async function listarPsicologosDeServicio(
     },
     orderBy: { nombre: "asc" },
   });
-  return ok(
-    usuarios.map((u) => ({
-      id: u.id,
-      nombre: u.nombre,
-      presentacion: u.perfil?.presentacion ?? "",
-      fotoUrl: u.perfil?.fotoRuta ? `/archivos/${u.perfil.fotoRuta}` : null, // SUPUESTO: igual que servidor/psicologos
-    })),
-  );
+  return usuarios.map((u) => ({
+    id: u.id,
+    nombre: u.nombre,
+    presentacion: u.perfil?.presentacion ?? "",
+    fotoUrl: u.perfil?.fotoRuta ? `/archivos/${u.perfil.fotoRuta}` : null, // SUPUESTO: igual que servidor/psicologos
+  }));
 }

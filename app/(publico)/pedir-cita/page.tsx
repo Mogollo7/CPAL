@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { FormularioCita } from "@/componentes/publico/pedir-cita/formulario-cita";
-import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
+import { EsqueletoCalmo } from "@/componentes/atomos/esqueleto-calmo";
 import contenidoServicios from "@/contenido/servicios.json";
 import type { Servicios } from "@/contratos/servicio-contenido";
 import { listarServiciosAgendablesAccion } from "@/servidor/acciones";
