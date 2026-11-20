@@ -97,6 +97,14 @@ async function Agenda({ searchParams }: PaginaProps = {}) {
   return (
     <>
       {primero && <Destacado evento={primero} />}
+      {!primero && (
+        // Sin eventos (o sin ninguno de ese tipo) no hay destacado: la página conserva su h1.
+        <header className="px-4 pt-cabecera sm:px-borde md:px-[90px]">
+          <Titulo nivel="h1" tamano="pagina">
+            Eventos y talleres
+          </Titulo>
+        </header>
+      )}
       <Seccion
         aria-labelledby="titulo-agenda"
         className="mx-auto max-w-[1196px] space-y-bloque md:px-[80px]"

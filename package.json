@@ -16,7 +16,7 @@
     "bd:semilla:produccion": "tsx prisma/semilla-produccion.ts",
     "psicologos:cargar": "tsx scripts/cargar-psicologos.ts",
     "bd:reiniciar": "prisma migrate reset --force",
-    "pruebas:e2e": "echo 'pendiente: playwright'",
+    "pruebas:e2e": "playwright test",
     "postinstall": "prisma generate",
     "pc:subir": "docker compose --env-file .env -f infra/compose.pc.yml up -d --build",
     "pc:subir:tunel": "docker compose --env-file .env -f infra/compose.pc.yml --profile tunel up -d --build",
@@ -45,6 +45,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",

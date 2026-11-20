@@ -11,7 +11,7 @@ export default function PlantillaPublica({
   children: ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col overflow-x-clip">
       <a
         href="#contenido-principal"
         className="sr-only z-50 rounded-pildora bg-accion-fondo px-5 py-3 font-medio text-accion-texto focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
