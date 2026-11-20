@@ -45,18 +45,18 @@ export function render(d: Datos): CorreoRender {
       };
 
   const cifra = (valor: string, rotulo: string) =>
-    `<td width="33%" valign="top" style="padding-right:12px"><div style="font-size:29px;line-height:36px;font-weight:bold;color:#1d2853">${esc(valor)}</div><div style="font-size:15px;line-height:19px;color:#4c536b">${esc(rotulo)}</div></td>`;
+    `<td width="33%" valign="top" style="padding-right:12px"><div style="font-size:32px;line-height:41px;font-weight:bold;color:#1d2853">${esc(valor)}</div><div style="font-size:13px;line-height:21px;color:#4c536b">${esc(rotulo)}</div></td>`;
   const tarjeta = (nombre: string, cifras: [string, string][], extra: string) =>
-    `<tr><td style="padding-top:15px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px"><tr><td style="padding:24px"><div style="font-size:22px;line-height:27px;font-weight:bold;color:#1d2853;padding-bottom:15px">${esc(nombre)}</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${cifras.map(([v, r]) => cifra(v, r)).join("")}</tr></table>${extra}</td></tr></table></td></tr>`;
+    `<tr><td style="padding-top:15px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px"><tr><td style="padding:24px"><div style="font-size:20px;line-height:25px;font-weight:bold;color:#1d2853;padding-bottom:15px">${esc(nombre)}</div><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>${cifras.map(([v, r]) => cifra(v, r)).join("")}</tr></table>${extra}</td></tr></table></td></tr>`;
   const nota = (t: string) =>
-    `<div style="font-size:16px;line-height:20px;color:#4c536b;padding-top:15px">${esc(t)}</div>`;
+    `<div style="font-size:16px;line-height:26px;color:#4c536b;padding-top:15px">${esc(t)}</div>`;
   const c = d.correos;
   const s = d.seguridad;
 
-  const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet"></head>
-<body style="margin:0;background:#faf9f6;font-family:Nunito,Arial,sans-serif;color:#1c2956"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;background:#faf9f6;border-radius:12px"><tr><td style="padding:4px 32px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td height="84"><img src="${esc(`${sitio()}/correos/logo-capl.png`)}" width="106" height="106" alt="" style="display:block;width:106px;height:auto;max-height:84px;object-fit:contain"></td><td align="right" style="font-size:14px;line-height:17px;font-weight:bold;color:#49516b">Centro de Atención<br>Psicológica Lasallista</td></tr></table></td></tr>
-<tr><td style="background:#e6f4ee;border-radius:16px;padding:24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="176" valign="middle" style="width:176px;padding-right:20px"><img src="${esc(`${sitio()}/correos/gato-soporte.png`)}" width="176" height="187" alt="" style="display:block;width:176px;height:auto;max-width:100%"></td><td valign="middle"><div style="font-size:13px;line-height:16px;font-weight:bold;color:#246659">INFORME DIARIO · PRODUCCIÓN</div><h1 style="margin:9px 0 0;font-size:31px;line-height:38px;font-weight:bold;color:#1d2853">${esc(titulo)}</h1><p style="margin:9px 0 0;font-size:16px;line-height:20px;color:#4c536b">${esc(comprobacion)}</p></td></tr></table></td></tr>
-<tr><td align="center" style="padding-top:15px;font-size:15px;line-height:19px;font-weight:bold;color:#4c536b">${esc(ventana)}</td></tr>
+  const html = `<!doctype html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap" rel="stylesheet"><style>@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;800&display=swap');</style></head>
+<body style="margin:0;background:#faf9f6;font-family:Nunito,Arial,sans-serif;color:#1c2956"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="max-width:640px;background:#faf9f6;border-radius:12px"><tr><td style="padding:4px 32px 8px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td height="84"><img src="${esc(`${sitio()}/correos/logo-capl.png`)}" width="106" height="106" alt="" style="display:block;width:106px;height:auto;max-height:84px;object-fit:contain"></td><td align="right" style="font-size:13px;line-height:21px;font-weight:bold;color:#49516b">Centro de Atención<br>Psicológica Lasallista</td></tr></table></td></tr>
+<tr><td style="background:#e6f4ee;border-radius:16px;padding:24px"><table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td width="176" valign="middle" style="width:176px;padding-right:20px"><img src="${esc(`${sitio()}/correos/gato-soporte.png`)}" width="176" height="187" alt="" style="display:block;width:176px;height:auto;max-width:100%"></td><td valign="middle"><div style="font-size:13px;line-height:21px;font-weight:bold;color:#246659">INFORME DIARIO · PRODUCCIÓN</div><h1 style="margin:9px 0 0;font-size:32px;line-height:41px;font-weight:bold;color:#1d2853">${esc(titulo)}</h1><p style="margin:9px 0 0;font-size:16px;line-height:26px;color:#4c536b">${esc(comprobacion)}</p></td></tr></table></td></tr>
+<tr><td align="center" style="padding-top:15px;font-size:13px;line-height:21px;font-weight:bold;color:#4c536b">${esc(ventana)}</td></tr>
 ${tarjeta(
   "Disponibilidad del servidor",
   [
@@ -67,7 +67,7 @@ ${tarjeta(
       "Latencia p95",
     ],
   ],
-  `<div style="background:#fbf1df;border-radius:10px;padding:16px;margin-top:15px"><div style="font-size:18px;line-height:22px;font-weight:bold;color:#844b1e">${esc(incidente.titulo)}</div><div style="font-size:16px;line-height:20px;color:#4c536b;padding-top:6px">${esc(incidente.detalle)}</div></div>`,
+  `<div style="background:#fbf1df;border-radius:10px;padding:16px;margin-top:15px"><div style="font-size:20px;line-height:25px;font-weight:bold;color:#844b1e">${esc(incidente.titulo)}</div><div style="font-size:16px;line-height:26px;color:#4c536b;padding-top:6px">${esc(incidente.detalle)}</div></div>`,
 )}
 ${tarjeta(
   "Envío de correos · Resend",
@@ -91,8 +91,8 @@ ${tarjeta(
     `${num(s.accesosEmergencia)} accesos de emergencia · ${num(s.administradoresCreados)} cuentas administradoras creadas`,
   ),
 )}
-<tr><td align="center" style="padding:15px 0"><a href="${esc(`${sitio()}/panel/admin/correos`)}" style="display:inline-block;box-sizing:border-box;width:236px;padding:15px 8px;line-height:20px;background:#4a4fc1;color:#fff;text-decoration:none;font-size:17px;font-weight:bold;border-radius:9999px">Ver monitoreo</a></td></tr>
-<tr><td align="center" style="border-top:1px solid #dddcd9;padding:25px 0 16px;color:#49516b;font-size:14px;line-height:20px"><a href="${esc(sitio())}" style="color:#4a4fc1;font-size:15px;font-weight:bold">Sitio del CAPL</a> · <a href="mailto:${esc(process.env.CORREO_RESPUESTA ?? "")}" style="color:#4a4fc1;font-size:15px;font-weight:bold">Contacto</a><p style="margin:16px 0 0;font-weight:bold">Unilasallista Corporación Universitaria</p><p style="margin:0">Casa amarilla del CAPL · Caldas, Antioquia</p></td></tr></table></td></tr></table></td></tr></table></body>
+<tr><td align="center" style="padding:15px 0"><a href="${esc(`${sitio()}/panel/admin/correos`)}" style="display:inline-block;box-sizing:border-box;width:236px;padding:15px 8px;line-height:20px;background:#4a4fc1;color:#fff;text-decoration:none;font-size:16px;font-weight:bold;border-radius:9999px">Ver monitoreo</a></td></tr>
+<tr><td align="center" style="border-top:1px solid #dddcd9;padding:25px 0 16px;color:#49516b;font-size:13px;line-height:21px"><a href="${esc(sitio())}" style="color:#4a4fc1;font-size:16px;font-weight:bold">Sitio del CAPL</a> · <a href="mailto:${esc(process.env.CORREO_RESPUESTA ?? "")}" style="color:#4a4fc1;font-size:16px;font-weight:bold">Contacto</a><p style="margin:16px 0 0;font-weight:bold">Unilasallista Corporación Universitaria</p><p style="margin:0">Casa amarilla del CAPL · Caldas, Antioquia</p></td></tr></table></td></tr></table></td></tr></table></body>
 </html>`;
 
   const texto = [

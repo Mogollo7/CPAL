@@ -137,7 +137,7 @@ export default function PaginaEventos() {
           Seguir en Instagram
         </a>
       </section>
-      <IlustracionSobrePie src={comunidad} ancho={980} izquierda={175} />
+      <IlustracionSobrePie src={comunidad} ancho={980} izquierda={175} detras />
     </>
   );
 }

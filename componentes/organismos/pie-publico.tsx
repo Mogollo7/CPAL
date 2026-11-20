@@ -30,7 +30,7 @@ const ENLACE = "rounded-s hover:underline underline-offset-4";
 // Figma · Organismos/Pie de página: curva morada de 102 sobre la página y cuatro columnas (42 · 335 · 600 · 885).
 export async function PiePublico() {
   return (
-    <footer className="relative isolate z-10 text-blanco">
+    <footer className="relative isolate text-blanco">
       <svg
         aria-hidden="true"
         viewBox="0 0 1280 103"
