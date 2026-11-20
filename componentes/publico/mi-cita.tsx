@@ -3,12 +3,16 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { CalendarClock, MapPin, User } from "lucide-react";
+import Image from "next/image";
+import { claseBoton } from "@/componentes/atomos/boton";
+import { Titulo } from "@/componentes/atomos/titulo";
+import citaNotas from "@/contenido/ilustraciones/cita-notas.webp";
+import citaCancelada from "@/contenido/ilustraciones/cita-cancelada.webp";
 import { cn } from "@/componentes/cn";
 import type { CitaPublica, EstadoCita } from "@/contratos/cita";
 import { SIN_CONEXION } from "@/contratos/resultado";
 import { cancelarCitaAccion, reprogramarCitaAccion } from "@/servidor/acciones";
-import { formatoFechaHora } from "@/servidor/fechas";
+import { formatoFecha, formatoHora, formatoFechaHora } from "@/servidor/fechas";
 import { SelectorCupo, type CambioCupo } from "./selector-cupo";
 
 const ESTADOS: Record<
@@ -57,10 +61,8 @@ const ESTADOS: Record<
   },
 };
 
-const BOTON =
-  "min-h-[48px] px-6 py-2.5 rounded-m font-medio text-p inline-flex items-center justify-center gap-2 focus-visible:outline-3 focus-visible:outline-foco disabled:opacity-50";
-const PRINCIPAL = `${BOTON} bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo shadow-sm`;
-const SECUNDARIO = `${BOTON} border border-borde-suave bg-fondo-superficie hover:bg-morado-50 text-texto-principal`;
+const PRINCIPAL = claseBoton("principal");
+const SECUNDARIO = claseBoton("borde");
 
 /** /cita/[token] (RF-CIT-11, RF-CIT-13): ver la cita y, si está en plazo, cancelarla o reprogramarla. */
 export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
@@ -116,191 +118,207 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
     });
 
   return (
-    <div className="mx-auto max-w-[720px] rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-10 shadow-xs space-y-6">
-      <div className="space-y-2">
-        <span
-          className={cn(
-            "inline-block rounded-pildora px-3 py-1 text-caption font-medio",
-            estado.tono,
-          )}
-        >
-          {estado.nombre}
-        </span>
-        <h1 className="text-h1 font-fuerte text-texto-titulo">
-          {cita.servicio}
-        </h1>
-        <p className="text-caption text-tinta-suave">
-          Código <span className="font-mono font-fuerte">{cita.codigo}</span>
-        </p>
-      </div>
-
-      <ul className="space-y-3 text-p text-texto-principal">
-        <li className="flex gap-3">
-          <CalendarClock
-            className="w-5 h-5 text-morado-600 shrink-0"
-            aria-hidden="true"
-          />
-          <span className="first-letter:uppercase">
-            {formatoFechaHora(new Date(cita.inicio))}
-          </span>
-        </li>
-        <li className="flex gap-3">
-          <User
-            className="w-5 h-5 text-morado-600 shrink-0"
-            aria-hidden="true"
-          />
-          <span>{cita.psicologoNombre}</span>
-        </li>
-        <li className="flex gap-3">
-          <MapPin
-            className="w-5 h-5 text-morado-600 shrink-0"
-            aria-hidden="true"
-          />
-          <span>{cita.lugar}</span>
-        </li>
-      </ul>
-
-      <p className="text-p text-texto-secundario">{estado.texto}</p>
-
-      {/* E09 §2: activa pero fuera de plazo → solo lectura con contactos. */}
-      {activa && !cita.puedeCancelar && (
-        <p className="rounded-m bg-crema border border-borde-suave p-4 text-caption">
-          Falta muy poco para tu cita y ya no se puede cambiar desde aquí. Si no
-          puedes asistir,{" "}
-          <Link href="/contacto" className="text-texto-enlace underline">
-            avísanos
-          </Link>
-          .
-        </p>
-      )}
-      {cita.puedeCancelar && !cita.puedeReprogramar && (
-        <p className="rounded-m bg-crema border border-borde-suave p-4 text-caption">
-          Ya usaste las reprogramaciones permitidas. Aún puedes cancelarla.
-        </p>
-      )}
-
-      {error && (
-        <p
-          role="alert"
-          className="p-4 rounded-m bg-error-fondo text-error-texto text-caption font-medio"
-        >
-          {error}
-        </p>
-      )}
-
-      {vista === "detalle" && (
-        <div className="flex flex-wrap gap-3 pt-2 border-t border-borde-suave">
-          {cita.puedeReprogramar && (
-            <button
-              type="button"
-              className={PRINCIPAL}
-              onClick={() => setVista("reprogramar")}
-            >
-              Cambiar fecha u hora
-            </button>
-          )}
-          {cita.puedeCancelar && (
-            <button
-              type="button"
-              className={SECUNDARIO}
-              onClick={() => setVista("confirmar-cancelar")}
-            >
-              Cancelar cita
-            </button>
-          )}
-          {!activa && (
-            <Link href="/pedir-cita" className={PRINCIPAL}>
-              Pedir una nueva cita
-            </Link>
-          )}
-        </div>
-      )}
-
-      {vista === "confirmar-cancelar" && (
-        <div
-          role="alertdialog"
-          aria-labelledby="titulo-cancelar"
-          className="rounded-m border border-borde p-5 space-y-4"
-        >
-          <h2
-            id="titulo-cancelar"
-            className="text-h2 font-fuerte text-texto-titulo"
+    <div className="mx-auto grid max-w-lectura gap-bloque md:grid-cols-2 md:gap-cabecera">
+      <div className="space-y-5">
+        <Titulo nivel="h1" tamano="pagina">
+          Tu cita
+        </Titulo>
+        <div className="space-y-3">
+          <span
+            className={cn(
+              "inline-block rounded-pildora px-3 py-1 text-caption font-medio",
+              estado.tono,
+            )}
           >
-            ¿Cancelar esta cita?
-          </h2>
-          <p className="text-p text-texto-secundario">
-            El horario queda libre para otra persona. Si luego quieres atención,
-            puedes pedir una cita nueva.
+            {estado.nombre}
+          </span>
+          <Titulo nivel="h2" tamano="h1">
+            {cita.servicio}
+          </Titulo>
+        </div>
+        <div className="grid grid-cols-2 rounded-m bg-fondo-suave p-4">
+          <div className="pr-4">
+            <p className="text-caption font-medio text-texto-secundario">
+              Cu?ndo
+            </p>
+            <p className="text-h2 text-texto-titulo first-letter:uppercase">
+              {formatoFecha(new Date(cita.inicio))}
+            </p>
+          </div>
+          <div className="border-l border-borde-suave pl-4">
+            <p className="text-caption font-medio text-texto-secundario">
+              Hora
+            </p>
+            <p className="text-h2 text-texto-titulo">
+              {formatoHora(new Date(cita.inicio))}
+            </p>
+          </div>
+        </div>
+        <dl>
+          {[
+            ["Con qui?n", cita.psicologoNombre],
+            ["D?nde", cita.lugar],
+            ["C?digo de referencia", cita.codigo],
+          ].map(([etiqueta, valor]) => (
+            <div key={etiqueta} className="border-b border-borde-suave py-4">
+              <dt className="text-caption font-medio text-texto-secundario">
+                {etiqueta}
+              </dt>
+              <dd className="text-h2 text-texto-titulo">{valor}</dd>
+            </div>
+          ))}
+        </dl>
+        {activa && !cita.puedeCancelar && (
+          <p className="rounded-m bg-fondo-suave p-4 text-caption">
+            Falta muy poco para tu cita y ya no se puede cambiar desde aqu?. Si
+            no puedes asistir,{" "}
+            <Link href="/contacto" className="text-texto-enlace underline">
+              av?sanos
+            </Link>
+            .
           </p>
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              className={PRINCIPAL}
-              disabled={ocupado}
-              onClick={cancelar}
-            >
-              {ocupado ? "Cancelando…" : "Sí, cancelar"}
-            </button>
-            <button
-              type="button"
-              className={SECUNDARIO}
-              disabled={ocupado}
-              onClick={() => setVista("detalle")}
-            >
-              No, mantenerla
-            </button>
-          </div>
-        </div>
-      )}
+        )}
+        {cita.puedeCancelar && !cita.puedeReprogramar && (
+          <p className="rounded-m bg-fondo-suave p-4 text-caption">
+            Ya usaste las reprogramaciones permitidas. A?n puedes cancelarla.
+          </p>
+        )}
 
-      {vista === "reprogramar" && (
-        <div className="space-y-6 pt-2 border-t border-borde-suave">
-          <h2 className="text-h2 font-fuerte text-texto-titulo">
-            Elige el nuevo horario
-          </h2>
-          {aviso && (
-            <p
-              role="alert"
-              className="p-4 rounded-m bg-aviso-fondo text-tinta text-caption"
+        {error && (
+          <p
+            role="alert"
+            className="p-4 rounded-m bg-error-fondo text-error-texto text-caption font-medio"
+          >
+            {error}
+          </p>
+        )}
+
+        {vista === "confirmar-cancelar" && (
+          <div
+            role="alertdialog"
+            aria-labelledby="titulo-cancelar"
+            className="rounded-m border border-borde p-5 space-y-4"
+          >
+            <h2
+              id="titulo-cancelar"
+              className="text-h2 font-fuerte text-texto-titulo"
             >
-              {aviso}
+              ¿Cancelar esta cita?
+            </h2>
+            <p className="text-p text-texto-secundario">
+              El horario queda libre para otra persona. Si luego quieres
+              atención, puedes pedir una cita nueva.
             </p>
-          )}
-          <SelectorCupo
-            servicioId={cita.servicioId}
-            psicologoId={elegido.psicologoId}
-            inicio={elegido.inicio}
-            recargar={aviso ?? ""}
-            alCambiar={(c) => setElegido((e) => ({ ...e, ...c }))}
-          />
-          {elegido.inicio && (
-            // P-07: la cita anterior se cancela al confirmar.
-            <p className="rounded-m bg-crema border border-borde-suave p-4 text-caption">
-              Tu cita pasará al{" "}
-              <strong>{formatoFechaHora(new Date(elegido.inicio))}</strong>. La
-              cita actual se cancela y te llega un correo con el enlace nuevo.
-            </p>
-          )}
-          <div className="flex flex-wrap gap-3">
-            <button
-              type="button"
-              className={PRINCIPAL}
-              disabled={!elegido.inicio || ocupado}
-              onClick={reprogramar}
-            >
-              {ocupado ? "Guardando…" : "Confirmar nuevo horario"}
-            </button>
-            <button
-              type="button"
-              className={SECUNDARIO}
-              disabled={ocupado}
-              onClick={() => setVista("detalle")}
-            >
-              Volver
-            </button>
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                className={PRINCIPAL}
+                disabled={ocupado}
+                onClick={cancelar}
+              >
+                {ocupado ? "Cancelando…" : "Sí, cancelar"}
+              </button>
+              <button
+                type="button"
+                className={SECUNDARIO}
+                disabled={ocupado}
+                onClick={() => setVista("detalle")}
+              >
+                No, mantenerla
+              </button>
+            </div>
           </div>
-        </div>
-      )}
+        )}
+
+        {vista === "reprogramar" && (
+          <div className="space-y-6 pt-2 border-t border-borde-suave">
+            <h2 className="text-h2 font-fuerte text-texto-titulo">
+              Elige el nuevo horario
+            </h2>
+            {aviso && (
+              <p
+                role="alert"
+                className="p-4 rounded-m bg-aviso-fondo text-tinta text-caption"
+              >
+                {aviso}
+              </p>
+            )}
+            <SelectorCupo
+              servicioId={cita.servicioId}
+              psicologoId={elegido.psicologoId}
+              inicio={elegido.inicio}
+              recargar={aviso ?? ""}
+              alCambiar={(c) => setElegido((e) => ({ ...e, ...c }))}
+            />
+            {elegido.inicio && (
+              // P-07: la cita anterior se cancela al confirmar.
+              <p className="rounded-m bg-crema border border-borde-suave p-4 text-caption">
+                Tu cita pasará al{" "}
+                <strong>{formatoFechaHora(new Date(elegido.inicio))}</strong>.
+                La cita actual se cancela y te llega un correo con el enlace
+                nuevo.
+              </p>
+            )}
+            <div className="flex flex-wrap gap-3">
+              <button
+                type="button"
+                className={PRINCIPAL}
+                disabled={!elegido.inicio || ocupado}
+                onClick={reprogramar}
+              >
+                {ocupado ? "Guardando…" : "Confirmar nuevo horario"}
+              </button>
+              <button
+                type="button"
+                className={SECUNDARIO}
+                disabled={ocupado}
+                onClick={() => setVista("detalle")}
+              >
+                Volver
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+      <aside className="flex flex-col items-center gap-5 text-center md:pt-cabecera">
+        <Image
+          src={cita.estado === "CANCELADA" ? citaCancelada : citaNotas}
+          alt=""
+          sizes="(max-width: 599px) calc(100vw - 32px), 283px"
+          className="w-full max-w-[283px]"
+        />
+        <p className="text-p text-texto-secundario">{estado.texto}</p>
+        {vista === "detalle" && (
+          <div className="flex w-full max-w-[253px] flex-col gap-3">
+            {cita.puedeReprogramar && (
+              <button
+                type="button"
+                className={claseBoton("principal", "w-full")}
+                onClick={() => setVista("reprogramar")}
+              >
+                Reprogramar mi cita
+              </button>
+            )}
+            {cita.puedeCancelar && (
+              <button
+                type="button"
+                className={claseBoton("borde", "w-full text-error-texto")}
+                onClick={() => setVista("confirmar-cancelar")}
+              >
+                Cancelar mi cita
+              </button>
+            )}
+            {!activa && (
+              <Link
+                href="/pedir-cita"
+                className={claseBoton("principal", "w-full")}
+              >
+                Pedir una nueva cita
+              </Link>
+            )}
+          </div>
+        )}
+      </aside>
     </div>
   );
 }

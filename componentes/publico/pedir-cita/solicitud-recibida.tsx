@@ -1,8 +1,11 @@
 import Link from "next/link";
-import { CheckCircle2, Clock, Home } from "lucide-react";
+import { Clock, Home } from "lucide-react";
+import Image from "next/image";
+import { claseBoton } from "@/componentes/atomos/boton";
+import { Titulo } from "@/componentes/atomos/titulo";
+import calendario from "@/contenido/ilustraciones/cita-calendario.webp";
 import type { CitaCreada } from "@/contratos/cita";
 import { formatoFechaHora } from "@/servidor/fechas";
-import { CLASE_PRINCIPAL } from "./piezas";
 
 export function SolicitudRecibida({
   cita,
@@ -15,16 +18,19 @@ export function SolicitudRecibida({
   const autorizada = cita.estado === "AUTORIZADA";
   return (
     <div className="text-center space-y-6 py-6 sm:py-8">
-      <div className="w-16 h-16 rounded-circulo bg-agua-100 text-agua-700 flex items-center justify-center mx-auto shadow-sm">
-        <CheckCircle2 className="w-10 h-10" aria-hidden="true" />
-      </div>
+      <Image
+        src={calendario}
+        alt=""
+        sizes="(max-width: 335px) calc(100vw - 32px), 304px"
+        className="mx-auto w-full max-w-[304px]"
+      />
 
       <div className="space-y-2 max-w-[65ch] mx-auto">
-        <h2 className="text-h1 font-fuerte text-texto-titulo">
+        <Titulo nivel="h2" tamano="h1">
           {autorizada
             ? "¡Tu cita quedó confirmada!"
             : "¡Recibimos tu solicitud de cita!"}
-        </h2>
+        </Titulo>
         <p className="text-p text-texto-secundario leading-texto">
           {autorizada
             ? `Te esperamos el ${formatoFechaHora(new Date(cita.inicio))}.`
@@ -32,18 +38,18 @@ export function SolicitudRecibida({
         </p>
       </div>
 
-      <div className="p-6 rounded-m bg-crema border border-morado-100 max-w-[500px] mx-auto space-y-2">
-        <span className="text-caption text-tinta-suave block">
+      <div className="p-6 rounded-m bg-fondo-suave border border-borde-suave max-w-[500px] mx-auto space-y-2">
+        <span className="text-caption text-texto-secundario block">
           Código de tu solicitud
         </span>
-        <span className="font-fuerte text-h1 text-morado-900 tracking-wider block font-mono">
+        <span className="font-fuerte text-h1 text-texto-titulo tracking-wider block font-mono">
           {cita.codigo}
         </span>
       </div>
 
       <div className="max-w-[600px] mx-auto text-left rounded-m bg-fondo-suave border border-borde-suave p-6 space-y-3">
         <h3 className="font-fuerte text-p text-texto-titulo flex items-center gap-2">
-          <Clock className="w-5 h-5 text-morado-600" aria-hidden="true" />
+          <Clock className="w-5 h-5 text-texto-enlace" aria-hidden="true" />
           <span>¿Qué sigue?</span>
         </h3>
         <ul className="space-y-2 text-p text-texto-principal list-disc pl-5">
@@ -56,7 +62,7 @@ export function SolicitudRecibida({
       </div>
 
       <div className="pt-4 flex flex-wrap justify-center gap-4">
-        <Link href="/" className={CLASE_PRINCIPAL}>
+        <Link href="/" className={claseBoton("principal")}>
           <Home className="w-5 h-5" aria-hidden="true" />
           <span>Volver al inicio</span>
         </Link>

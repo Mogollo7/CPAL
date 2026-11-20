@@ -1,6 +1,9 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
+import { BotonEnlace } from "@/componentes/atomos/boton";
+import Image from "next/image";
+import { Titulo } from "@/componentes/atomos/titulo";
+import enlaceInvalido from "@/contenido/ilustraciones/cita-enlace-invalido.webp";
 import { connection } from "next/server";
 import { MiCita } from "@/componentes/publico/mi-cita";
 import { EsqueletoCalmo } from "@/componentes/atomos/esqueleto-calmo";
@@ -24,32 +27,31 @@ async function Contenido({ params }: Props) {
 
   // ENLACE_INVALIDO (firma alterada o cita inexistente): misma respuesta, con salida a contacto (E09 §2).
   return (
-    <div className="mx-auto max-w-[600px] rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-10 space-y-4 text-center">
-      <h1 className="text-h1 font-fuerte text-texto-titulo">
+    <section className="mx-auto flex max-w-lectura flex-col items-center gap-5 text-center">
+      <Image
+        src={enlaceInvalido}
+        alt=""
+        priority
+        sizes="(max-width: 507px) calc(100vw - 32px), 475px"
+        className="w-full max-w-[475px]"
+      />
+      <Titulo nivel="h1" tamano="pagina">
         No pudimos abrir tu cita
-      </h1>
-      <p className="text-p text-texto-secundario">{r.mensaje}</p>
-      <div className="flex flex-wrap justify-center gap-3 pt-2">
-        <Link
-          href="/contacto"
-          className="min-h-[48px] px-6 py-3 rounded-m bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo font-medio text-p inline-flex items-center"
-        >
-          Escribirnos
-        </Link>
-        <Link
-          href="/pedir-cita"
-          className="min-h-[48px] px-6 py-3 rounded-m border border-borde-suave bg-fondo-superficie hover:bg-morado-50 font-medio text-p inline-flex items-center"
-        >
+      </Titulo>
+      <p className="text-h2 text-texto-secundario">{r.mensaje}</p>
+      <div className="flex flex-wrap justify-center gap-3">
+        <BotonEnlace href="/contacto">Escribirnos</BotonEnlace>
+        <BotonEnlace href="/pedir-cita" tipo="borde">
           Pedir una cita
-        </Link>
+        </BotonEnlace>
       </div>
-    </div>
+    </section>
   );
 }
 
 export default function PaginaMiCita(props: Props) {
   return (
-    <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+    <div className="px-4 py-cabecera sm:px-borde">
       <Suspense
         fallback={
           <EsqueletoCalmo className="mx-auto h-[420px] max-w-[720px] w-full rounded-l" />
