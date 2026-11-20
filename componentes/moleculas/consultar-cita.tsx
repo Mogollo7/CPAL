@@ -14,7 +14,7 @@ export function ConsultarCita() {
       }}
       className="space-y-2"
     >
-      <label htmlFor="codigo-cita" className="block text-[22px] font-medio">
+      <label htmlFor="codigo-cita" className="block text-h2 font-medio">
         Consultar mi cita
       </label>
       <div className="flex w-fit gap-2 rounded-s bg-blanco p-1">

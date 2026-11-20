@@ -145,7 +145,7 @@ export function ModalAccionCita({
                 placeholder={placeholderMotivo}
                 className="w-full p-3 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 resize-none"
               />
-              <span className="block text-[11px] text-texto-secundario text-right mt-1">
+              <span className="block text-caption text-texto-secundario text-right mt-1">
                 {motivo.length}/300 caracteres
               </span>
             </div>

@@ -43,7 +43,7 @@ export function TarjetaEvento({
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 px-[10px] pb-[10px]">
-        <span className="text-[14px] font-medio uppercase text-petroleo-700">
+        <span className="text-caption font-medio uppercase text-petroleo-700">
           {fecha}
         </span>
         <span className="font-titulo text-subtitulo font-fuerte text-texto-titulo">

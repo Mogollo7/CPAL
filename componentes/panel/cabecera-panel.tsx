@@ -56,7 +56,7 @@ export function CabeceraPanel({
             <span className="text-caption font-weight-medio text-texto-principal leading-tight">
               {usuarioNombre}
             </span>
-            <span className="text-[11px] text-agua-700 font-weight-medio flex items-center gap-1 justify-end">
+            <span className="text-caption text-agua-700 font-weight-medio flex items-center gap-1 justify-end">
               <span className="w-[6px] h-[6px] rounded-circulo bg-agua-500 animate-pulse" />
               Sesión activa
             </span>

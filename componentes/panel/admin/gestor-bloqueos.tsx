@@ -267,7 +267,7 @@ export function GestorBloqueos({
               <p className="font-fuerte text-texto-titulo text-caption leading-snug">
                 {f.nombre}
               </p>
-              <span className="text-[11px] text-texto-secundario capitalize block">
+              <span className="text-caption text-texto-secundario capitalize block">
                 {formatearDiaFestivo(f.fecha)}
               </span>
             </div>

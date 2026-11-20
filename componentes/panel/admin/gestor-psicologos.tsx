@@ -229,7 +229,7 @@ export function GestorPsicologos({
                     {p.correo}
                   </td>
                   <td className="py-[14px] px-4">
-                    <span className="px-2 py-[2px] rounded-pildora text-[11px] font-medio bg-morado-50 text-morado-700 border border-morado-100">
+                    <span className="px-2 py-[2px] rounded-pildora text-caption font-medio bg-morado-50 text-morado-700 border border-morado-100">
                       {p.area || "PSICOLOGIA"}
                     </span>
                   </td>

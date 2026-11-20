@@ -15,7 +15,7 @@ export function PreguntaFrecuente({
         {pregunta}
         <span
           aria-hidden="true"
-          className="text-[26px] leading-none transition-transform duration-(--mov-medio) group-open:rotate-45"
+          className="text-h2 leading-none transition-transform duration-(--mov-medio) group-open:rotate-45"
         >
           +
         </span>

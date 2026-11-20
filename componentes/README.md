@@ -19,10 +19,10 @@ orientador de crisis, paneles). `cn.ts` une clases y conoce los tokens propios p
 
 - Sección: 96 arriba y abajo (`py-seccion`); cabecera de página: 68 (`py-cabecera`).
 - Sección de transición (trae un fondo con grano nuevo): 140 arriba (`<Seccion ritmo="entrada">`, `pt-entrada`),
-  título de 64 (`tamano="hero"`). Su fondo nace de la nada 340 px antes y se llena despacio, como en Duolingo.
+  título de 32 (`tamano="hero"`). Su fondo nace de la nada 340 px antes y se llena despacio, como en Duolingo.
 - Filas de contenido (`FilaIlustrada`): alto mínimo 530, texto de 503 e ilustración separados 101 (`gap-fila`),
-  título 48, 24 entre título y texto; las filas van seguidas, sin margen entre ellas.
-- Títulos: 64 transición · 48 sección y fila · 32/28 tarjetas. Fuentes del Figma (Nunito 800, Source Sans 3).
+  título 32, 24 entre título y texto; las filas van seguidas, sin margen entre ellas.
+- Tipografía (N03): **Nunito en todo** (400 texto · 600 énfasis · 800 títulos) y la escala **32 · 20 · 16 · 13**: 32 títulos de página, sección, fila y transición; 20 subtítulos, tarjetas y bajadas; 16 cuerpo; 13 apoyo. Solo el título del hero usa el display de 110 (N03).
 - Entre bloques de una sección: 42 (`gap-bloque`, `space-y-bloque`); borde lateral: 42 (`px-borde`).
 - Anchos: lectura 920 (`max-w-lectura`), contenido 1196.
 

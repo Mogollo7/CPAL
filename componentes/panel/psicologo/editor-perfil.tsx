@@ -203,7 +203,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
             Lasallista
           </p>
 
-          <p className="text-[11px] text-texto-secundario/70 pt-1">
+          <p className="text-caption text-texto-secundario/70 pt-1">
             Formatos admitidos: JPG, PNG o WebP (máx. 6 MB). Se ajusta
             automáticamente a 400 × 400 px.
           </p>
@@ -232,7 +232,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
                 >
                   Presentación profesional (Directorio público)
                 </label>
-                <span className="text-[11px] text-texto-secundario">
+                <span className="text-caption text-texto-secundario">
                   {presentacion.length}/600 caracteres
                 </span>
               </div>
@@ -246,7 +246,7 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
                 placeholder="Describe brevemente tu enfoque terapéutico, experiencia e intereses clínicos..."
                 className="w-full p-3 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors resize-none leading-relaxed"
               />
-              <p className="text-[11px] text-texto-secundario mt-1">
+              <p className="text-caption text-texto-secundario mt-1">
                 Este texto será visible para los consultantes cuando busquen
                 terapeutas en el directorio del CAPL.
               </p>
@@ -283,7 +283,9 @@ export function EditorPerfil({ perfilInicial }: EditorPerfilProps) {
                             : "border-borde-control bg-fondo-superficie"
                         }`}
                       >
-                        {seleccionado && <span className="text-[10px]">✓</span>}
+                        {seleccionado && (
+                          <span className="text-caption">✓</span>
+                        )}
                       </div>
                       <span className="text-caption font-medio leading-snug">
                         {servicio.nombre}

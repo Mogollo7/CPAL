@@ -183,7 +183,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Tiempo mínimo que debe haber entre el momento del agendamiento y
                 el turno (ej. 24 h).
               </span>
@@ -208,7 +208,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Horizonte de días a futuro visibles en el calendario (ej. 30
                 días).
               </span>
@@ -233,7 +233,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Plazo límite antes de la cita para que el paciente pueda
                 cancelar en línea (ej. 12 h).
               </span>
@@ -261,7 +261,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Tiempo para que administración autorice antes de que el cupo se
                 libere (ej. 48 h).
               </span>
@@ -304,7 +304,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Máximo de citas simultáneas pendientes/autorizadas por paciente
                 (ej. 1).
               </span>
@@ -329,7 +329,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Veces que un paciente puede mover la fecha de su cita (ej. 2).
               </span>
             </div>
@@ -353,7 +353,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Validez de enlaces de invitación y recuperación (24 a 48 h).
               </span>
             </div>
@@ -393,7 +393,7 @@ export function FormularioConfiguracion({
                 }
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Correo que recibe avisos de nuevas solicitudes de citas y
                 reportes de atención.
               </span>
@@ -415,7 +415,7 @@ export function FormularioConfiguracion({
                 placeholder="unilasallista.edu.co, unisalle.edu.co"
                 className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 font-mono text-caption"
               />
-              <span className="block text-[11px] text-texto-secundario mt-1">
+              <span className="block text-caption text-texto-secundario mt-1">
                 Separados por coma. Solo se permite invitar psicólogos con estos
                 dominios oficiales.
               </span>

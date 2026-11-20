@@ -130,10 +130,7 @@ export default function ComoFunciona() {
                 key={titulo}
                 className="flex gap-5 text-h2 font-medio leading-titulo text-texto-titulo"
               >
-                <span
-                  aria-hidden="true"
-                  className="text-[24px] text-accion-fondo"
-                >
+                <span aria-hidden="true" className="text-h2 text-accion-fondo">
                   ✓
                 </span>
                 <span>

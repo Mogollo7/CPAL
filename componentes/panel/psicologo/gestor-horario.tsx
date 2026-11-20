@@ -353,7 +353,7 @@ export function GestorHorario({
                     <span className="font-fuerte text-caption text-texto-titulo">
                       {dia.nombre}
                     </span>
-                    <span className="text-[11px] text-texto-secundario">
+                    <span className="text-caption text-texto-secundario">
                       {bloquesDia.length} franja
                       {bloquesDia.length !== 1 ? "s" : ""}
                     </span>
@@ -397,7 +397,7 @@ export function GestorHorario({
                         <button
                           type="button"
                           onClick={() => eliminarBloque(bloque.id)}
-                          className="w-full flex items-center justify-center gap-1 py-1 text-[11px] text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
+                          className="w-full flex items-center justify-center gap-1 py-1 text-caption text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
                           title="Eliminar esta franja"
                         >
                           <Trash2 className="w-3 h-3" />
@@ -417,7 +417,7 @@ export function GestorHorario({
                 <button
                   type="button"
                   onClick={() => agregarBloque(dia.num)}
-                  className="mt-3 w-full flex items-center justify-center gap-1 py-2 rounded-s border border-dashed border-borde-control text-[11px] font-medio text-texto-secundario hover:text-texto-principal hover:border-morado-500 hover:bg-fondo-superficie transition-all cursor-pointer"
+                  className="mt-3 w-full flex items-center justify-center gap-1 py-2 rounded-s border border-dashed border-borde-control text-caption font-medio text-texto-secundario hover:text-texto-principal hover:border-morado-500 hover:bg-fondo-superficie transition-all cursor-pointer"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Añadir</span>

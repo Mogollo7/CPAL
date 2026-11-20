@@ -191,7 +191,7 @@ export function FormularioCuenta() {
                 )}
               </button>
             </div>
-            <p className="text-[11px] text-texto-secundario mt-1">
+            <p className="text-caption text-texto-secundario mt-1">
               Debe tener mínimo 10 caracteres y no coincidir con tu correo.
             </p>
           </div>

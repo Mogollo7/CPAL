@@ -85,27 +85,28 @@
   --color-borde-suave: var(--color-morado-100);
   --color-foco: var(--color-morado-600);
 
-  /* ── Tipografía (N03 · Figma): títulos Nunito 800, texto Source Sans 3 ──
+  /* ── Tipografía (N03 · Figma): Nunito en todo: 400 texto · 600 énfasis · 800 títulos; escala 32 · 20 · 16 · 13 ──
      Escala del sitio: portada 110 · sección 42 · h1 32 · tarjeta 28 · h2 20 · destacado 18 · p 16 · caption 13.
      Las fuentes las aloja next/font en app/layout.tsx (variables --fuente-*). */
-  --font-sans: var(--fuente-texto), system-ui, sans-serif;
+  --font-sans:
+    var(--fuente-titulo), system-ui, sans-serif; /* Nunito en todo (Figma) */
   --font-titulo: var(--fuente-titulo), system-ui, sans-serif;
   --text-portada: clamp(3.5rem, 8.6vw, 6.875rem);
   --text-portada--letter-spacing: -0.03em;
   --text-portada--line-height: 1.18;
   /* Duolingo: títulos de sección y de fila a 48; los de transición (hero) a 64. Fuentes del Figma. */
-  --text-seccion: clamp(2rem, 3.75vw, 3rem);
+  --text-seccion: 2rem;
   --text-seccion--line-height: 1.2;
-  --text-hero: clamp(2.5rem, 5vw, 4rem);
+  --text-hero: 2rem;
   --text-hero--line-height: 1.15;
-  --text-titulo-pagina: 3rem;
+  --text-titulo-pagina: 2rem;
   --text-titulo-pagina--line-height: 1.2;
-  --text-bloque: 3rem;
+  --text-bloque: 2rem;
   --text-bloque--line-height: 1.2;
-  --text-tarjeta: 1.75rem;
-  --text-subtitulo: 1.5rem;
+  --text-tarjeta: 1.25rem;
+  --text-subtitulo: 1.25rem;
   --text-tarjeta--line-height: 1.2;
-  --text-destacado: 1.125rem;
+  --text-destacado: 1.25rem;
   --text-h1: 2rem;
   --text-h2: 1.25rem;
   --text-p: 1rem;

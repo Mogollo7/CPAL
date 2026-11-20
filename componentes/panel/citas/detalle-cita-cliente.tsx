@@ -423,7 +423,7 @@ export function DetalleCitaCliente({
             <FileText className="w-5 h-5 text-morado-600" />
             <span>Motivo de Consulta</span>
           </div>
-          <span className="text-[11px] font-medio text-agua-700 bg-exito-fondo px-[10px] py-[2px] rounded-pildora border border-agua-500/20">
+          <span className="text-caption font-medio text-agua-700 bg-exito-fondo px-[10px] py-[2px] rounded-pildora border border-agua-500/20">
             Dato clínico cifrado
           </span>
         </div>
@@ -460,7 +460,7 @@ export function DetalleCitaCliente({
                       <span className="font-fuerte text-texto-principal block">
                         {h.accion}
                       </span>
-                      <span className="text-[11px] text-texto-secundario">
+                      <span className="text-caption text-texto-secundario">
                         {formatearFechaLarga(h.creadaEn)}
                       </span>
                     </div>
@@ -494,7 +494,7 @@ export function DetalleCitaCliente({
                       {cor.llave}
                     </span>
                     <span
-                      className={`font-medio px-2 py-[2px] rounded-pildora text-[11px] ${
+                      className={`font-medio px-2 py-[2px] rounded-pildora text-caption ${
                         cor.entregado
                           ? "bg-exito-fondo text-agua-700"
                           : "bg-aviso-fondo text-amarillo-700"

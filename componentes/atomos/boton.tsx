@@ -2,7 +2,7 @@ import type { ComponentProps } from "react";
 import Link from "next/link";
 import { cn } from "../cn";
 
-// Figma · Átomos/Botón: píldora, 26 × 11, Source Sans 600 16.
+// Figma · Átomos/Botón: píldora, 26 × 11, Nunito 600 16.
 const TIPOS = {
   principal:
     "bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo shadow-flotante",

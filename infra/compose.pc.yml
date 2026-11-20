@@ -60,7 +60,8 @@ services:
       APP_URL_INTERNA: http://app:3000
     volumes:
       - ./tareas.sh:/tareas.sh:ro
-    command: sh -c "apk add --no-cache curl >/dev/null && while true; do sh /tareas.sh || true; sleep 60; done"
+    # `tr -d '\r'`: en Windows el .sh puede llegar con CRLF y `set -eu` fallaría.
+    command: sh -c "apk add --no-cache curl >/dev/null && while true; do tr -d '\\r' < /tareas.sh | sh || true; sleep 60; done"
     mem_limit: 64m
 
   # Túnel de Cloudflare PROPIO de este equipo (perfil "tunel"): su token va en .env (CLOUDFLARE_TUNNEL_TOKEN).

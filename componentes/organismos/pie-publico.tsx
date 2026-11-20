@@ -101,7 +101,7 @@ export async function PiePublico() {
               © {await anioActual()} CAPL · Unilasallista Corporación
               Universitaria
             </p>
-            <p className="flex flex-wrap justify-center gap-5 text-[14px] font-medio">
+            <p className="flex flex-wrap justify-center gap-5 text-caption font-medio">
               <Link href="/privacidad" className={ENLACE}>
                 Política de tratamiento de datos
               </Link>
