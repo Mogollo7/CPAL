@@ -193,9 +193,21 @@ describe.skipIf(!process.env.DATABASE_URL)(
         estado: "CANCELADA",
         pagina: 2,
       });
+      const fuera = await a.listarCitas(ADMIN, {
+        ...base,
+        estado: "CANCELADA",
+        pagina: 100,
+      });
       expect(p1.ok && p1.datos.citas).toHaveLength(25);
       expect(p2.ok && p2.datos.citas).toHaveLength(2);
       expect(p1.ok && p1.datos.total).toBe(27);
+      expect(fuera).toEqual(p2);
+      if (p1.ok && p2.ok) {
+        expect(
+          new Set([...p1.datos.citas, ...p2.datos.citas].map(({ id }) => id))
+            .size,
+        ).toBe(27);
+      }
     });
 
     it("verCitaAdmin: muestra el motivo descifrado, el historial y los correos; NO_ENCONTRADO si no existe", async () => {
@@ -205,6 +217,7 @@ describe.skipIf(!process.env.DATABASE_URL)(
       expect(r).toMatchObject({
         ok: true,
         datos: {
+          servicioId: e.servicio.id,
           motivo: "Duelo reciente",
           estado: "AUTORIZADA",
           pacienteDocumento: c.pacienteDocumento,

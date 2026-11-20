@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
-import { claseBoton } from "@/componentes/atomos/boton";
+import { Boton, BotonEnlace, claseBoton } from "@/componentes/atomos/boton";
 import { Titulo } from "@/componentes/atomos/titulo";
 import citaNotas from "@/contenido/ilustraciones/cita-notas.webp";
 import citaCancelada from "@/contenido/ilustraciones/cita-cancelada.webp";
@@ -78,9 +78,24 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
   const [ocupado, setOcupado] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
+  const [cancelada, setCancelada] = useState(false);
+  const dialogoCancelar = useRef<HTMLDialogElement>(null);
 
-  const estado = ESTADOS[cita.estado];
-  const activa = cita.estado === "PENDIENTE" || cita.estado === "AUTORIZADA";
+  const estadoActual = cancelada ? "CANCELADA" : cita.estado;
+  const estado = ESTADOS[estadoActual];
+  const activa = estadoActual === "PENDIENTE" || estadoActual === "AUTORIZADA";
+
+  useEffect(() => {
+    if (vista !== "confirmar-cancelar") return;
+    const dialogo = dialogoCancelar.current;
+    dialogo?.showModal();
+    return () => dialogo?.close();
+  }, [vista]);
+
+  const cambiarVista = (nueva: typeof vista) => {
+    setError(null);
+    setVista(nueva);
+  };
 
   const ejecutar = async (accion: () => Promise<void>) => {
     setOcupado(true);
@@ -98,6 +113,7 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
     ejecutar(async () => {
       const r = await cancelarCitaAccion(token);
       if (!r.ok) return setError(r.mensaje);
+      setCancelada(true);
       setVista("detalle");
       router.refresh(); // la página vuelve a leer la cita, ya cancelada
     });
@@ -139,7 +155,7 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
         <div className="grid grid-cols-2 rounded-m bg-fondo-suave p-4">
           <div className="pr-4">
             <p className="text-caption font-medio text-texto-secundario">
-              Cu?ndo
+              Cuándo
             </p>
             <p className="text-h2 text-texto-titulo first-letter:uppercase">
               {formatoFecha(new Date(cita.inicio))}
@@ -156,9 +172,9 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
         </div>
         <dl>
           {[
-            ["Con qui?n", cita.psicologoNombre],
-            ["D?nde", cita.lugar],
-            ["C?digo de referencia", cita.codigo],
+            ["Con quién", cita.psicologoNombre],
+            ["Dónde", cita.lugar],
+            ["Código de referencia", cita.codigo],
           ].map(([etiqueta, valor]) => (
             <div key={etiqueta} className="border-b border-borde-suave py-4">
               <dt className="text-caption font-medio text-texto-secundario">
@@ -169,22 +185,29 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
           ))}
         </dl>
         {activa && !cita.puedeCancelar && (
-          <p className="rounded-m bg-fondo-suave p-4 text-caption">
-            Falta muy poco para tu cita y ya no se puede cambiar desde aqu?. Si
+          <p
+            id="plazo-cita"
+            className="rounded-m bg-fondo-suave p-4 text-caption"
+          >
+            Ya pasó el plazo para cancelar o reprogramar esta cita en línea. Si
             no puedes asistir,{" "}
             <Link href="/contacto" className="text-texto-enlace underline">
-              av?sanos
+              avísanos
             </Link>
             .
           </p>
         )}
-        {cita.puedeCancelar && !cita.puedeReprogramar && (
-          <p className="rounded-m bg-fondo-suave p-4 text-caption">
-            Ya usaste las reprogramaciones permitidas. A?n puedes cancelarla.
+        {activa && cita.puedeCancelar && !cita.puedeReprogramar && (
+          <p
+            id="limite-reprogramaciones"
+            className="rounded-m bg-fondo-suave p-4 text-caption"
+          >
+            Ya usaste las reprogramaciones permitidas. Aún puedes cancelar tu
+            cita.
           </p>
         )}
 
-        {error && (
+        {error && vista !== "confirmar-cancelar" && (
           <p
             role="alert"
             className="p-4 rounded-m bg-error-fondo text-error-texto text-caption font-medio"
@@ -194,10 +217,15 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
         )}
 
         {vista === "confirmar-cancelar" && (
-          <div
-            role="alertdialog"
+          <dialog
+            ref={dialogoCancelar}
             aria-labelledby="titulo-cancelar"
-            className="rounded-m border border-borde p-5 space-y-4"
+            aria-describedby="descripcion-cancelar"
+            onCancel={(evento) => {
+              evento.preventDefault();
+              if (!ocupado) cambiarVista("detalle");
+            }}
+            className="m-auto w-[calc(100%-32px)] max-w-lg space-y-4 rounded-m border border-borde bg-fondo-superficie p-5 text-texto-principal shadow-flotante backdrop:bg-morado-900/40"
           >
             <h2
               id="titulo-cancelar"
@@ -205,29 +233,32 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
             >
               ¿Cancelar esta cita?
             </h2>
-            <p className="text-p text-texto-secundario">
+            <p
+              id="descripcion-cancelar"
+              className="text-p text-texto-secundario"
+            >
               El horario queda libre para otra persona. Si luego quieres
               atención, puedes pedir una cita nueva.
             </p>
+            {error && (
+              <p role="alert" className="text-caption text-error-texto">
+                {error}
+              </p>
+            )}
             <div className="flex flex-wrap gap-3">
-              <button
-                type="button"
-                className={PRINCIPAL}
+              <Boton disabled={ocupado} onClick={() => cambiarVista("detalle")}>
+                Mantener mi cita
+              </Boton>
+              <Boton
+                tipo="borde"
+                className="text-error-texto"
                 disabled={ocupado}
                 onClick={cancelar}
               >
                 {ocupado ? "Cancelando…" : "Sí, cancelar"}
-              </button>
-              <button
-                type="button"
-                className={SECUNDARIO}
-                disabled={ocupado}
-                onClick={() => setVista("detalle")}
-              >
-                No, mantenerla
-              </button>
+              </Boton>
             </div>
-          </div>
+          </dialog>
         )}
 
         {vista === "reprogramar" && (
@@ -272,7 +303,7 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
                 type="button"
                 className={SECUNDARIO}
                 disabled={ocupado}
-                onClick={() => setVista("detalle")}
+                onClick={() => cambiarVista("detalle")}
               >
                 Volver
               </button>
@@ -282,39 +313,47 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
       </div>
       <aside className="flex flex-col items-center gap-5 text-center md:pt-cabecera">
         <Image
-          src={cita.estado === "CANCELADA" ? citaCancelada : citaNotas}
+          src={estadoActual === "CANCELADA" ? citaCancelada : citaNotas}
           alt=""
           sizes="(max-width: 599px) calc(100vw - 32px), 283px"
           className="w-full max-w-[283px]"
         />
         <p className="text-p text-texto-secundario">{estado.texto}</p>
-        {vista === "detalle" && (
+        {vista !== "reprogramar" && (
           <div className="flex w-full max-w-[253px] flex-col gap-3">
-            {cita.puedeReprogramar && (
-              <button
-                type="button"
-                className={claseBoton("principal", "w-full")}
-                onClick={() => setVista("reprogramar")}
+            {activa && (
+              <Boton
+                className="w-full"
+                disabled={!cita.puedeReprogramar}
+                aria-describedby={
+                  !cita.puedeCancelar
+                    ? "plazo-cita"
+                    : !cita.puedeReprogramar
+                      ? "limite-reprogramaciones"
+                      : undefined
+                }
+                onClick={() => cambiarVista("reprogramar")}
               >
                 Reprogramar mi cita
-              </button>
+              </Boton>
             )}
-            {cita.puedeCancelar && (
-              <button
-                type="button"
-                className={claseBoton("borde", "w-full text-error-texto")}
-                onClick={() => setVista("confirmar-cancelar")}
+            {activa && (
+              <Boton
+                tipo="borde"
+                className="w-full text-error-texto"
+                disabled={!cita.puedeCancelar}
+                aria-describedby={
+                  !cita.puedeCancelar ? "plazo-cita" : undefined
+                }
+                onClick={() => cambiarVista("confirmar-cancelar")}
               >
                 Cancelar mi cita
-              </button>
+              </Boton>
             )}
             {!activa && (
-              <Link
-                href="/pedir-cita"
-                className={claseBoton("principal", "w-full")}
-              >
-                Pedir una nueva cita
-              </Link>
+              <BotonEnlace href="/pedir-cita" className="w-full">
+                Pedir otra cita
+              </BotonEnlace>
             )}
           </div>
         )}

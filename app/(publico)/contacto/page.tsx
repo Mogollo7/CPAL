@@ -14,7 +14,6 @@ import p5 from "@/contenido/ilustraciones/perfiles/perfil-5.webp";
 import p6 from "@/contenido/ilustraciones/perfiles/perfil-6.webp";
 import p7 from "@/contenido/ilustraciones/perfiles/perfil-7.webp";
 import canales from "@/contenido/ilustraciones/contacto-canales.webp";
-import mapa from "@/contenido/ilustraciones/contacto-mapa.webp";
 import chateando from "@/contenido/ilustraciones/cierre-chateando.webp";
 
 export const metadata: Metadata = {
@@ -25,8 +24,9 @@ export const metadata: Metadata = {
 
 const WHATSAPP = "https://wa.me/573102096266";
 const CORREO = "mailto:capl@unilasallista.edu.co";
-const MAPA =
-  "https://www.openstreetmap.org/search?query=Unilasallista%20Caldas%20Antioquia";
+const OSM = "https://www.openstreetmap.org";
+const MAPA = `${OSM}/?mlat=6.09968&mlon=-75.63854#map=18/6.09968/-75.63854`;
+const MAPA_EMBEBIDO = `${OSM}/export/embed.html?bbox=-75.641%2C6.098%2C-75.636%2C6.102&layer=mapnik&marker=6.09968%2C-75.63854`;
 
 // Figma · Forma orgánica: la misma silueta en los tres tonos del sitio, detrás de cada perfil.
 const FORMAS = [
@@ -192,12 +192,23 @@ export default function ContactoPage() {
           >
             Abrir en el mapa
           </a>
-          <Image
-            src={mapa}
-            alt="Mapa ilustrativo de la ubicación del CAPL en Unilasallista"
-            sizes="533px"
-            className="w-full rounded-m"
+          <p className="text-caption text-texto-secundario">
+            El mapa señala el campus de Unilasallista.
+          </p>
+          <iframe
+            src={MAPA_EMBEBIDO}
+            title="Mapa del campus de Unilasallista en Caldas, Antioquia"
+            loading="lazy"
+            className="h-[300px] w-full rounded-m border border-borde-suave"
           />
+          <a
+            href={`${OSM}/copyright`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block text-caption text-texto-enlace underline"
+          >
+            © Colaboradores de OpenStreetMap
+          </a>
         </div>
       </Seccion>
 

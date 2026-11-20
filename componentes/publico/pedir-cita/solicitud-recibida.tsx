@@ -1,7 +1,10 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { Clock, Home } from "lucide-react";
 import Image from "next/image";
-import { claseBoton } from "@/componentes/atomos/boton";
+import { Boton, claseBoton } from "@/componentes/atomos/boton";
 import { Titulo } from "@/componentes/atomos/titulo";
 import calendario from "@/contenido/ilustraciones/cita-calendario.webp";
 import type { CitaCreada } from "@/contratos/cita";
@@ -16,6 +19,21 @@ export function SolicitudRecibida({
 }) {
   // Con auto-autorización (configuración del centro) la cita sale ya AUTORIZADA.
   const autorizada = cita.estado === "AUTORIZADA";
+  const [aviso, setAviso] = useState("");
+  const temporizador = useRef<number | undefined>(undefined);
+
+  useEffect(() => () => window.clearTimeout(temporizador.current), []);
+
+  async function copiarCodigo() {
+    window.clearTimeout(temporizador.current);
+    try {
+      await navigator.clipboard.writeText(cita.codigo);
+      setAviso("Copiado");
+      temporizador.current = window.setTimeout(() => setAviso(""), 6000);
+    } catch {
+      setAviso("No pudimos copiar el código. Puedes seleccionarlo y copiarlo.");
+    }
+  }
   return (
     <div className="text-center space-y-6 py-6 sm:py-8">
       <Image
@@ -45,6 +63,12 @@ export function SolicitudRecibida({
         <span className="font-fuerte text-h1 text-texto-titulo tracking-wider block font-mono">
           {cita.codigo}
         </span>
+        <Boton tipo="borde" onClick={copiarCodigo}>
+          Copiar código
+        </Boton>
+        <p role="status" className="text-caption text-texto-secundario">
+          {aviso}
+        </p>
       </div>
 
       <div className="max-w-[600px] mx-auto text-left rounded-m bg-fondo-suave border border-borde-suave p-6 space-y-3">

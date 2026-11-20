@@ -4,7 +4,6 @@ import { BotonEnlace } from "@/componentes/atomos/boton";
 import { FondoGrano } from "@/componentes/atomos/fondo-grano";
 import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
 import { Titulo } from "@/componentes/atomos/titulo";
-import { FilaIlustrada } from "@/componentes/moleculas/fila-ilustrada";
 import { CabeceraIlustrada } from "@/componentes/organismos/cabecera-ilustrada";
 import { PreguntasFrecuentes } from "@/componentes/organismos/preguntas-frecuentes";
 import { ResumenPasos } from "@/componentes/organismos/resumen-pasos";
@@ -61,12 +60,40 @@ export default function ServiciosPage() {
                 className="-inset-x-borde"
               />
             )}
-            <FilaIlustrada
-              titulo={s.nombre}
-              texto={s.descripcion}
-              ilustracion={ILUSTRACIONES[s.slug] ?? formacion}
-              invertida={i % 2 === 1}
-            />
+            <article className="mx-auto grid max-w-[988px] items-center gap-bloque md:min-h-[530px] md:grid-cols-[minmax(0,503px)_minmax(0,1fr)] md:gap-fila">
+              <div
+                className={
+                  i % 2 === 1
+                    ? "space-y-[24px] md:order-last"
+                    : "space-y-[24px]"
+                }
+              >
+                <Titulo tamano="bloque">{s.nombre}</Titulo>
+                <p className="text-destacado text-texto-secundario">
+                  {s.descripcion}
+                </p>
+                <BotonEnlace
+                  href={
+                    s.agendableEnLinea
+                      ? `/pedir-cita?servicio=${encodeURIComponent(s.slug)}`
+                      : "/contacto"
+                  }
+                  aria-label={
+                    s.agendableEnLinea
+                      ? `Pedir cita: ${s.nombre}`
+                      : `Contactar: ${s.nombre}`
+                  }
+                >
+                  {s.agendableEnLinea ? "Pedir cita" : "Contactar"}
+                </BotonEnlace>
+              </div>
+              <Image
+                src={ILUSTRACIONES[s.slug] ?? formacion}
+                alt=""
+                sizes="(min-width: 900px) 384px, 100vw"
+                className="mx-auto w-full max-w-[420px]"
+              />
+            </article>
           </div>
         ))}
       </div>

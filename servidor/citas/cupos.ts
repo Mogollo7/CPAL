@@ -11,10 +11,29 @@ import { limitar } from "../limites";
 import { redTruncada, registrar } from "../registro";
 import { cuposDeServicio } from "./datos";
 
+type PaginaCupos = {
+  cupos: Cupo[];
+  cursor: string | null;
+  siguiente: string | null;
+};
+
+type Contexto = { ip: string; ahora?: Date };
+
+type DatosCupos<Entrada> = unknown extends Entrada
+  ? Cupo[] | PaginaCupos
+  : Entrada extends { modo: "agenda" }
+    ? PaginaCupos
+    : Cupo[];
+
+export function obtenerCupos<Entrada>(
+  entrada: Entrada,
+  contexto: Contexto,
+): Promise<Resultado<DatosCupos<Entrada>>>;
+
 export async function obtenerCupos(
   entrada: unknown,
-  { ip, ahora = new Date() }: { ip: string; ahora?: Date },
-): Promise<Resultado<Cupo[]>> {
+  { ip, ahora = new Date() }: Contexto,
+): Promise<Resultado<Cupo[] | PaginaCupos>> {
   const lim = limitar("consultarCupos", ip, ahora.getTime());
   if (!lim.permitido) {
     registrar("limite.excedido", {
@@ -35,19 +54,44 @@ export async function obtenerCupos(
     return fallo("VALIDACION", "Revisa las fechas y el servicio.", campos);
   }
   const { servicioId, psicologoId, desde, hasta } = v.data;
+  const opciones = { psicologoId: psicologoId || undefined };
+  const fin = new Date(hasta);
   const r = await cuposDeServicio(
     servicioId,
     new Date(desde),
-    new Date(hasta),
+    fin,
     ahora,
-    { psicologoId: psicologoId || undefined },
+    opciones,
   );
   if (!r)
     return fallo(
       "SERVICIO_NO_DISPONIBLE",
       "Este servicio no se puede pedir en línea por ahora.",
     );
-  return ok(r.cupos);
+  if (!(
+    entrada &&
+    typeof entrada === "object" &&
+    "modo" in entrada &&
+    entrada.modo === "agenda"
+  ))
+    return ok(r.cupos);
+
+  const finAgenda = new Date(
+    ahora.getTime() + r.config.anticipacionMaxDias * 86_400_000 + 1,
+  );
+  const cursor = fin < finAgenda ? fin.toISOString() : null;
+  if (!cursor || r.cupos.length)
+    return ok({ cupos: r.cupos, cursor, siguiente: null });
+
+  const resto = await cuposDeServicio(
+    servicioId,
+    fin,
+    finAgenda,
+    ahora,
+    opciones,
+  );
+  const siguiente = resto?.cupos[0]?.inicio ?? null;
+  return ok({ cupos: r.cupos, cursor: siguiente ? cursor : null, siguiente });
 }
 
 /** Psicólogos activos que atienden el servicio y tienen horario (para elegir con quién). */

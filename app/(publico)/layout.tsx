@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { EncabezadoPublico } from "@/componentes/organismos/encabezado-publico";
 import { PiePublico } from "@/componentes/organismos/pie-publico";
 import { BotonAyudaAhora } from "@/componentes/organismos/boton-ayuda-ahora";
+import { AvisoCookies } from "@/componentes/organismos/aviso-cookies";
 
 // Plantilla · Página pública (Figma · Plantillas/Página pública): encabezado, contenido, pie y ayuda flotante.
 export default function PlantillaPublica({
@@ -23,6 +24,7 @@ export default function PlantillaPublica({
       </main>
       <PiePublico />
       <BotonAyudaAhora />
+      <AvisoCookies />
     </div>
   );
 }
