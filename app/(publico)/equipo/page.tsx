@@ -82,7 +82,7 @@ export default function EquipoPage() {
       {/* Equipo · presentación */}
       <Seccion
         aria-labelledby="titulo-presentacion"
-        className="mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[490px_550px] md:justify-between"
+        className="z-10 mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[490px_550px] md:justify-between"
       >
         <div className="space-y-5">
           <Titulo id="titulo-presentacion">

@@ -32,7 +32,7 @@ export function HeroCarrusel({
     <section
       aria-roledescription="carrusel"
       aria-label="Bienvenida"
-      className="relative isolate flex min-h-[560px] flex-col items-center overflow-hidden rounded-b-xl px-4 pb-5 pt-6 md:h-[712px] md:pt-[182px]"
+      className="relative isolate flex min-h-[560px] flex-col items-center overflow-hidden rounded-b-xl px-4 pb-5 pt-6 md:aspect-[16/9] md:min-h-[712px] md:max-h-[960px] md:pt-[182px]"
     >
       <AnimatePresence initial={false}>
         <motion.div
@@ -49,7 +49,7 @@ export function HeroCarrusel({
             fill
             priority={actual === 0}
             sizes="100vw"
-            className="object-cover object-bottom"
+            className="object-cover object-top"
           />
           <div className="absolute inset-x-0 bottom-0 h-[45px] bg-linear-to-b from-crema/0 to-crema" />
         </motion.div>

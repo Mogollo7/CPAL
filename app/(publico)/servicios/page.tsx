@@ -72,20 +72,6 @@ export default function ServiciosPage() {
                 <p className="text-destacado text-texto-secundario">
                   {s.descripcion}
                 </p>
-                <BotonEnlace
-                  href={
-                    s.agendableEnLinea
-                      ? `/pedir-cita?servicio=${encodeURIComponent(s.slug)}`
-                      : "/contacto"
-                  }
-                  aria-label={
-                    s.agendableEnLinea
-                      ? `Pedir cita: ${s.nombre}`
-                      : `Contactar: ${s.nombre}`
-                  }
-                >
-                  {s.agendableEnLinea ? "Pedir cita" : "Contactar"}
-                </BotonEnlace>
               </div>
               <Image
                 src={ILUSTRACIONES[s.slug] ?? formacion}

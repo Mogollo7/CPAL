@@ -11,7 +11,7 @@ import habilitacion from "@/contenido/ilustraciones/habilitacion.webp";
 import formacion from "@/contenido/ilustraciones/formacion-supervision.webp";
 import comunidad from "@/contenido/ilustraciones/comunidad-psicologia.webp";
 import personaRecostada from "@/contenido/ilustraciones/cierre-persona-recostada.webp";
-import fotoEstudiante from "@/contenido/fotos/estudiante-capl.webp";
+import fotoEstudiante from "@/contenido/fotos/estudiante-capl-fhd.webp";
 import p1 from "@/contenido/ilustraciones/particulas/p1.webp";
 import p2 from "@/contenido/ilustraciones/particulas/p2.webp";
 import p3 from "@/contenido/ilustraciones/particulas/p3.webp";
@@ -149,6 +149,7 @@ export default function ComoFunciona() {
           src={fotoEstudiante}
           alt="Estudiante en la casa amarilla del CAPL"
           sizes="483px"
+          quality={95}
           className="aspect-[483/432] w-full max-w-[483px] rounded-l object-cover"
         />
       </Seccion>
@@ -201,7 +202,7 @@ export default function ComoFunciona() {
             }}
           />
         ))}
-        <div className="flex flex-col items-center gap-bloque px-4 text-center md:pt-[180px]">
+        <div className="flex flex-col items-center gap-bloque px-4 text-center md:pt-[280px]">
           <Titulo
             id="titulo-formacion"
             tamano="bloque"

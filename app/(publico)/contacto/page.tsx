@@ -5,6 +5,7 @@ import { FondoGrano } from "@/componentes/atomos/fondo-grano";
 import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
 import { Seccion } from "@/componentes/atomos/seccion";
 import { Titulo } from "@/componentes/atomos/titulo";
+import { CarruselPerfiles } from "@/componentes/organismos/carrusel-perfiles";
 import { EncabezadoSeccion } from "@/componentes/moleculas/encabezado-seccion";
 import p1 from "@/contenido/ilustraciones/perfiles/perfil-1.webp";
 import p2 from "@/contenido/ilustraciones/perfiles/perfil-2.webp";
@@ -28,12 +29,6 @@ const OSM = "https://www.openstreetmap.org";
 const MAPA = `${OSM}/?mlat=6.09968&mlon=-75.63854#map=18/6.09968/-75.63854`;
 const MAPA_EMBEBIDO = `${OSM}/export/embed.html?bbox=-75.641%2C6.098%2C-75.636%2C6.102&layer=mapnik&marker=6.09968%2C-75.63854`;
 
-// Figma · Forma orgánica: la misma silueta en los tres tonos del sitio, detrás de cada perfil.
-const FORMAS = [
-  "fill-forma-lavanda",
-  "fill-forma-miel",
-  "fill-forma-agua",
-] as const;
 const PERFILES = [p1, p2, p3, p4, p5, p6, p7];
 
 const DATOS = [
@@ -58,28 +53,7 @@ export default function ContactoPage() {
           titulo="Contacta con nosotros"
           bajada="Estamos para resolver tus dudas. Respondemos en horario de atención."
         />
-        {/* Perfiles · carrusel horizontal: siete ilustraciones, tres a la vista, desplazamiento nativo con imán. */}
-        <ul
-          aria-hidden="true"
-          className="mx-auto mt-bloque flex max-w-[1076px] snap-x gap-[32px] overflow-x-auto pb-cabecera"
-        >
-          {PERFILES.map((src, i) => (
-            <li key={i} className="relative w-[337px] shrink-0 snap-start">
-              <svg
-                viewBox="0 0 310 288"
-                className={`absolute inset-x-[14px] top-[33px] ${FORMAS[i % 3]}`}
-              >
-                <path d="M23.8 150C12.5 83.8 52.5 41.3 116.3 26.3c62.5-17.5 147.5 12.5 170 67.5 25 57.5-3.8 133.8-56.3 162.5-51.3 28.8-133.8 21.3-175-17.5C31.3 215 25 187.5 23.8 150Z" />
-              </svg>
-              <Image
-                src={src}
-                alt=""
-                sizes="288px"
-                className="relative mx-auto w-[288px]"
-              />
-            </li>
-          ))}
-        </ul>
+        <CarruselPerfiles imagenes={PERFILES} />
       </section>
 
       {/* Contáctanos */}

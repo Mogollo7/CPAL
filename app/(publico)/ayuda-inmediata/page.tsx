@@ -170,9 +170,6 @@ export default function AyudaInmediataPage() {
         <Titulo tamano="bloque">
           Pedir ayuda también es un acto de valentía.
         </Titulo>
-        <p className="mt-3 text-caption text-texto-secundario">
-          Última revisión: {datos.ultimaRevision} · {datos.aprobadoPor}
-        </p>
       </section>
       <IlustracionSobrePie src={abrazo} ancho={360} izquierda={460} />
     </>

@@ -40,7 +40,7 @@ export async function PiePublico() {
         <path d="M0 51.6C235-6.4 403-10.4 646 14.6c274 29 413 32 634-6V103H0Z" />
       </svg>
       <div className="bg-morado-600 px-4 pb-bloque pt-5 sm:px-borde">
-        <div className="grid gap-bloque md:grid-cols-[251px_223px_243px_minmax(0,1fr)]">
+        <div className="mx-auto grid max-w-[1196px] gap-bloque md:grid-cols-[1.25fr_1fr_1fr_1.3fr] md:justify-items-start">
           <div className="space-y-4">
             <LogoCapl fondo="oscuro" />
             <p>
@@ -95,13 +95,13 @@ export async function PiePublico() {
             </div>
           </div>
         </div>
-        <div className="mt-bloque flex flex-wrap items-end justify-between gap-4 text-caption">
+        <div className="mx-auto mt-bloque flex max-w-[1196px] flex-col items-center gap-4 text-center text-caption">
           <div className="space-y-1">
             <p>
               © {await anioActual()} CAPL · Unilasallista Corporación
               Universitaria
             </p>
-            <p className="flex gap-5 text-[14px] font-medio">
+            <p className="flex flex-wrap justify-center gap-5 text-[14px] font-medio">
               <Link href="/privacidad" className={ENLACE}>
                 Política de tratamiento de datos
               </Link>

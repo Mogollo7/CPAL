@@ -109,3 +109,28 @@
 .capl-pulso-respiracion {
   animation: caplPulsoRespiracion 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
+
+/* --------------------------------------------------------------------------
+   Marquesina infinita (perfiles de Contacto): la pista lleva el mismo conjunto repetido 6 veces y avanza
+   exactamente uno (1/6); así no se ve el corte aunque la ventana sea muy ancha o se aleje el zoom.
+   -------------------------------------------------------------------------- */
+@keyframes caplMarquesina {
+  to {
+    transform: translateX(calc(-100% / 6));
+  }
+}
+
+.capl-marquesina {
+  animation: caplMarquesina 70s linear infinite;
+}
+
+/* Es decorativa (aria-hidden) y lo pidió el diseño: con «reducir movimiento» no se detiene, va a la mitad de velocidad. */
+@media (prefers-reduced-motion: reduce) {
+  .capl-marquesina {
+    animation: caplMarquesina 140s linear infinite !important;
+  }
+}
+
+.capl-marquesina:hover {
+  animation-play-state: paused;
+}
