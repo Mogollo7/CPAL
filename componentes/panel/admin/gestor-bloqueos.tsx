@@ -137,35 +137,35 @@ export function GestorBloqueos({
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-5 w-full">
       {/* Notificación */}
       {mensaje && (
         <div
           role="status"
-          className={`p-4 rounded-m flex items-start gap-2.5 text-caption font-weight-medio border ${
+          className={`p-4 rounded-m flex items-start gap-[10px] text-caption font-medio border ${
             mensaje.tipo === "exito"
               ? "bg-exito-fondo text-exito-texto border-agua-700/20"
               : "bg-error-fondo text-error-texto border-coral-700/20"
           }`}
         >
           {mensaje.tipo === "exito" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 mt-[2px]" />
           ) : (
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-[2px]" />
           )}
           <span>{mensaje.texto}</span>
         </div>
       )}
 
       {/* SECCIÓN 1: BLOQUEOS GENERALES DEL CENTRO (RF-ADM-09) */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-6">
+      <div className="p-6 rounded-m bg-fondo-superficie border border-borde-suave  space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
           <div>
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo flex items-center gap-2">
+            <h3 className="text-h2 font-fuerte text-texto-titulo flex items-center gap-2">
               <CalendarOff className="w-5 h-5 text-morado-600" />
               <span>Bloqueos Globales del Centro</span>
             </h3>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-[2px]">
               Periodos no laborables para todos los terapeutas (vacaciones
               institucionales, jornadas académicas o mantenimiento).
             </p>
@@ -174,7 +174,7 @@ export function GestorBloqueos({
           <button
             type="button"
             onClick={() => setModalCrear(true)}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto text-caption font-weight-fuerte hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer"
+            className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Bloquear periodo</span>
@@ -189,7 +189,7 @@ export function GestorBloqueos({
               className="p-4 rounded-m bg-fondo-suave/60 border border-borde-suave flex items-center justify-between text-caption hover:border-morado-300 transition-all"
             >
               <div className="space-y-1">
-                <div className="flex items-center gap-2 font-weight-fuerte text-texto-titulo">
+                <div className="flex items-center gap-2 font-fuerte text-texto-titulo">
                   <Calendar className="w-4 h-4 text-morado-600" />
                   <span>
                     Del {formatearFechaBogota(b.desde)} al{" "}
@@ -197,9 +197,8 @@ export function GestorBloqueos({
                   </span>
                 </div>
                 {b.motivo && (
-                  <p className="text-xs text-texto-secundario">
-                    <span className="font-weight-medio">Motivo:</span>{" "}
-                    {b.motivo}
+                  <p className="text-caption text-texto-secundario">
+                    <span className="font-medio">Motivo:</span> {b.motivo}
                   </p>
                 )}
               </div>
@@ -216,7 +215,7 @@ export function GestorBloqueos({
           ))}
 
           {bloqueos.length === 0 && (
-            <p className="text-center py-8 text-caption text-texto-secundario italic">
+            <p className="text-center py-5 text-caption text-texto-secundario italic">
               No hay bloqueos globales activos. Las citas se calculan únicamente
               considerando los horarios de cada psicólogo y los festivos
               nacionales.
@@ -226,27 +225,27 @@ export function GestorBloqueos({
       </div>
 
       {/* SECCIÓN 2: FESTIVOS NACIONALES AUTOMÁTICOS (RF-ADM-13) */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-6">
+      <div className="p-6 rounded-m bg-fondo-superficie border border-borde-suave  space-y-6">
         <div className="flex items-center justify-between pb-4 border-b border-borde-suave">
-          <div className="flex items-center gap-2.5">
+          <div className="flex items-center gap-[10px]">
             <Flag className="w-5 h-5 text-amarillo-700" />
             <div>
-              <h3 className="text-h2 font-weight-fuerte text-texto-titulo">
+              <h3 className="text-h2 font-fuerte text-texto-titulo">
                 Festivos de Colombia (Bloqueo Automático)
               </h3>
-              <p className="text-caption text-texto-secundario mt-0.5">
+              <p className="text-caption text-texto-secundario mt-[2px]">
                 Calendario oficial colombiano (Ley Emiliani) integrado en el
                 motor de cupos.
               </p>
             </div>
           </div>
-          <span className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1 rounded-pildora text-xs font-weight-fuerte bg-exito-fondo text-agua-700 border border-agua-500/30">
-            <ShieldCheck className="w-3.5 h-3.5" />
+          <span className="hidden sm:inline-flex items-center gap-[6px] px-3 py-1 rounded-pildora text-caption font-fuerte bg-exito-fondo text-agua-700 border border-agua-500/30">
+            <ShieldCheck className="w-[14px] h-[14px]" />
             <span>Sincronizado</span>
           </span>
         </div>
 
-        <div className="p-4 rounded-m bg-aviso-fondo/60 border border-amarillo-500/20 text-amarillo-700 text-caption text-xs leading-relaxed">
+        <div className="p-4 rounded-m bg-aviso-fondo/60 border border-amarillo-500/20 text-amarillo-700 text-caption text-caption leading-relaxed">
           <p>
             Los festivos nacionales no requieren configuración manual. La
             plataforma calcula automáticamente los días de fiesta civil y
@@ -260,12 +259,12 @@ export function GestorBloqueos({
           {festivos.map((f, i) => (
             <div
               key={i}
-              className="p-3.5 rounded-m bg-fondo-suave/40 border border-borde-suave text-caption space-y-1"
+              className="p-[14px] rounded-m bg-fondo-suave/40 border border-borde-suave text-caption space-y-1"
             >
-              <span className="font-mono text-xs font-weight-fuerte text-morado-900 block">
+              <span className="font-mono text-caption font-fuerte text-morado-900 block">
                 {f.fecha}
               </span>
-              <p className="font-weight-fuerte text-texto-titulo text-sm leading-snug">
+              <p className="font-fuerte text-texto-titulo text-caption leading-snug">
                 {f.nombre}
               </p>
               <span className="text-[11px] text-texto-secundario capitalize block">
@@ -283,7 +282,7 @@ export function GestorBloqueos({
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-md bg-fondo-superficie rounded-l border border-borde-suave shadow-flotante p-6 relative">
+          <div className="w-full max-w-md bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
             <button
               type="button"
               onClick={() => setModalCrear(false)}
@@ -292,10 +291,10 @@ export function GestorBloqueos({
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo mb-1">
+            <h3 className="text-h2 font-fuerte text-texto-titulo mb-1">
               Bloquear Periodo General
             </h3>
-            <p className="text-caption text-texto-secundario mb-4 text-xs">
+            <p className="text-caption text-texto-secundario mb-4 text-caption">
               Durante este rango de fechas no se agendarán citas para ningún
               servicio ni terapeuta.
             </p>
@@ -305,7 +304,7 @@ export function GestorBloqueos({
               className="space-y-4 text-caption"
             >
               <div>
-                <label className="block font-weight-medio text-texto-principal mb-1">
+                <label className="block font-medio text-texto-principal mb-1">
                   Desde (Fecha y hora)
                 </label>
                 <input
@@ -313,12 +312,12 @@ export function GestorBloqueos({
                   required
                   value={desde}
                   onChange={(e) => setDesde(e.target.value)}
-                  className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
               <div>
-                <label className="block font-weight-medio text-texto-principal mb-1">
+                <label className="block font-medio text-texto-principal mb-1">
                   Hasta (Fecha y hora)
                 </label>
                 <input
@@ -326,12 +325,12 @@ export function GestorBloqueos({
                   required
                   value={hasta}
                   onChange={(e) => setHasta(e.target.value)}
-                  className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
               <div>
-                <label className="block font-weight-medio text-texto-principal mb-1">
+                <label className="block font-medio text-texto-principal mb-1">
                   Motivo institucional (opcional)
                 </label>
                 <input
@@ -340,7 +339,7 @@ export function GestorBloqueos({
                   placeholder="Ej. Vacaciones colectivas de fin de año"
                   value={motivo}
                   onChange={(e) => setMotivo(e.target.value)}
-                  className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
@@ -355,7 +354,7 @@ export function GestorBloqueos({
                 <button
                   type="submit"
                   disabled={guardando}
-                  className="px-5 py-2 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte hover:bg-accion-fondo-activo cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 rounded-m bg-accion-fondo text-accion-texto font-fuerte hover:bg-accion-fondo-activo cursor-pointer disabled:opacity-50"
                 >
                   {guardando ? "Guardando..." : "Confirmar bloqueo"}
                 </button>

@@ -4,13 +4,13 @@ Misma jerarquía que la biblioteca de Figma («0 · Biblioteca CAPL»). Cada niv
 datos por props y no llama al servidor. Archivos en kebab-case (N11). Valores visuales: solo tokens de
 `estilos/tokens.css` (si falta uno, se agrega allí, no se escribe el número en el componente).
 
-| Nivel | Carpeta | Qué va | Ejemplos |
-|---|---|---|---|
-| Átomo | `atomos/` | un solo elemento visual | `boton`, `titulo`, `logo-capl`, `etiqueta`, `fondo-grano`, `seccion`, `ilustracion-sobre-pie` |
-| Molécula | `moleculas/` | unos pocos átomos con un solo propósito | `encabezado-seccion`, `tarjeta-taller`, `tarjeta-evento`, `tarjeta-perfil`, `fila-servicio`, `pregunta-frecuente`, `campo`, `consultar-cita` |
-| Organismo | `organismos/` | una sección completa reutilizable | `encabezado-publico`, `pie-publico`, `hero-carrusel`, `pasos-cita`, `preguntas-frecuentes`, `cierre-pedir-cita`, `cabecera-ilustrada` |
-| Plantilla | `app/(publico)/layout.tsx` | marco de página | encabezado + contenido + pie + ayuda flotante |
-| Página | `app/(publico)/**/page.tsx` | compone organismos y trae los datos | |
+| Nivel     | Carpeta                     | Qué va                                  | Ejemplos                                                                                                                                     |
+| --------- | --------------------------- | --------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------- |
+| Átomo     | `atomos/`                   | un solo elemento visual                 | `boton`, `titulo`, `logo-capl`, `etiqueta`, `fondo-grano`, `seccion`, `ilustracion-sobre-pie`                                                |
+| Molécula  | `moleculas/`                | unos pocos átomos con un solo propósito | `encabezado-seccion`, `tarjeta-taller`, `tarjeta-evento`, `tarjeta-perfil`, `fila-servicio`, `pregunta-frecuente`, `campo`, `consultar-cita` |
+| Organismo | `organismos/`               | una sección completa reutilizable       | `encabezado-publico`, `pie-publico`, `hero-carrusel`, `pasos-cita`, `preguntas-frecuentes`, `cierre-pedir-cita`, `cabecera-ilustrada`        |
+| Plantilla | `app/(publico)/layout.tsx`  | marco de página                         | encabezado + contenido + pie + ayuda flotante                                                                                                |
+| Página    | `app/(publico)/**/page.tsx` | compone organismos y trae los datos     |                                                                                                                                              |
 
 `publico/` y `panel/` guardan las piezas con estado o flujo propio de una pantalla (pedir cita, mi cita,
 orientador de crisis, paneles). `cn.ts` une clases y conoce los tokens propios para no borrarlos al mezclar.

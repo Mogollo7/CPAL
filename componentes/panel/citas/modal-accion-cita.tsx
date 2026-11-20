@@ -65,7 +65,7 @@ export function ModalAccionCita({
       role="dialog"
       aria-modal="true"
     >
-      <div className="w-full max-w-lg bg-fondo-superficie rounded-l border border-borde-suave shadow-flotante p-6 relative">
+      <div className="w-full max-w-lg bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
         <button
           type="button"
           onClick={alCerrar}
@@ -76,19 +76,17 @@ export function ModalAccionCita({
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-h2 font-weight-fuerte text-texto-titulo mb-2">
-          {titulo}
-        </h3>
-        <p className="text-p text-texto-secundario text-sm mb-4 leading-relaxed">
+        <h3 className="text-h2 font-fuerte text-texto-titulo mb-2">{titulo}</h3>
+        <p className="text-p text-texto-secundario text-caption mb-4 leading-relaxed">
           {descripcion}
         </p>
 
         {error && (
           <div
             role="alert"
-            className="mb-4 p-3 rounded-m bg-error-fondo text-error-texto border border-coral-700/20 text-caption font-weight-medio flex items-start gap-2"
+            className="mb-4 p-3 rounded-m bg-error-fondo text-error-texto border border-coral-700/20 text-caption font-medio flex items-start gap-2"
           >
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-[2px]" />
             <span>{error}</span>
           </div>
         )}
@@ -98,7 +96,7 @@ export function ModalAccionCita({
             <div>
               <label
                 htmlFor="modal-motivo"
-                className="block text-caption font-weight-medio text-texto-principal mb-1.5"
+                className="block text-caption font-medio text-texto-principal mb-[6px]"
               >
                 Motivo <span className="text-coral-700">*</span>
               </label>
@@ -124,7 +122,7 @@ export function ModalAccionCita({
               type="button"
               onClick={alCerrar}
               disabled={pendiente}
-              className="px-4 py-2 rounded-m border border-borde-control text-caption font-weight-medio text-texto-principal hover:bg-fondo-suave cursor-pointer"
+              className="px-4 py-2 rounded-m border border-borde-control text-caption font-medio text-texto-principal hover:bg-fondo-suave cursor-pointer"
             >
               Cancelar
             </button>
@@ -133,7 +131,7 @@ export function ModalAccionCita({
               type="submit"
               disabled={pendiente}
               className={cn(
-                "px-5 py-2 rounded-m text-caption font-weight-fuerte shadow-xs cursor-pointer disabled:opacity-50 transition-all",
+                "px-5 py-2 rounded-m text-caption font-fuerte  cursor-pointer disabled:opacity-50 transition-all",
                 estiloBotonConfirmar,
               )}
             >

@@ -47,7 +47,7 @@ export function FiltrosCitas() {
     <div className="space-y-4">
       {/* Fila superior: Pestañas de estado rápido y botón de exportar */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border-b border-borde-suave pb-2">
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
+        <div className="flex items-center gap-[6px] overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
           {PESTANAS.map((pestana) => {
             const estaActiva =
               (!pestana.estado && !searchParams.get("estado")) ||
@@ -62,9 +62,9 @@ export function FiltrosCitas() {
                   actualizarFiltro("estado", pestana.estado || null)
                 }
                 className={cn(
-                  "px-4 py-2 rounded-m text-caption font-weight-medio transition-all cursor-pointer whitespace-nowrap",
+                  "px-4 py-2 rounded-m text-caption font-medio transition-all cursor-pointer whitespace-nowrap",
                   estaActiva
-                    ? "bg-accion-suave-fondo text-accion-suave-texto font-weight-fuerte shadow-2xs border border-morado-300"
+                    ? "bg-accion-suave-fondo text-accion-suave-texto font-fuerte  border border-morado-300"
                     : "text-texto-secundario hover:text-texto-principal hover:bg-fondo-suave border border-transparent",
                 )}
               >
@@ -79,10 +79,10 @@ export function FiltrosCitas() {
             <button
               type="button"
               onClick={limpiarFiltros}
-              className="inline-flex items-center gap-1.5 px-3 py-2 text-caption font-weight-medio text-texto-secundario hover:text-texto-principal rounded-m border border-borde-suave hover:bg-fondo-suave transition-colors"
+              className="inline-flex items-center gap-[6px] px-3 py-2 text-caption font-medio text-texto-secundario hover:text-texto-principal rounded-m border border-borde-suave hover:bg-fondo-suave transition-colors"
               title="Restablecer filtros a Pendientes"
             >
-              <RotateCcw className="w-3.5 h-3.5" />
+              <RotateCcw className="w-[14px] h-[14px]" />
               <span>Limpiar</span>
             </button>
           )}
@@ -90,7 +90,7 @@ export function FiltrosCitas() {
           <a
             href={urlExportar}
             download
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-m bg-fondo-superficie border border-borde-control text-caption font-weight-medio text-texto-principal hover:bg-fondo-suave transition-colors shadow-xs"
+            className="inline-flex items-center gap-2 px-[14px] py-2 rounded-m bg-fondo-superficie border border-borde-control text-caption font-medio text-texto-principal hover:bg-fondo-suave transition-colors "
             title="Exportar citas filtradas a formato CSV compatible con Excel"
           >
             <Download className="w-4 h-4 text-texto-secundario" />
@@ -109,9 +109,9 @@ export function FiltrosCitas() {
               actualizarFiltro("busqueda", e.target.value || null)
             }
             placeholder="Buscar por código (ej. CAPL-1234), paciente, correo o documento..."
-            className="w-full pl-10 pr-4 py-2 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
+            className="w-full pl-[40px] pr-4 py-2 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
           />
-          <Search className="w-4 h-4 text-texto-secundario absolute left-3.5 top-2.5" />
+          <Search className="w-4 h-4 text-texto-secundario absolute left-[14px] top-[10px]" />
         </div>
 
         <div>

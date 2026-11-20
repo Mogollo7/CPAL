@@ -1,3 +1,6 @@
+﻿import { TarjetaPanel } from "@/componentes/panel/tarjeta-panel";
+import { Titulo } from "@/componentes/atomos/titulo";
+import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
 import { datosDePagina } from "@/servidor/pagina";
 import { Suspense } from "react";
 import type { EstadoCita } from "@/contratos/cita";
@@ -32,33 +35,36 @@ export default async function PaginaAdminCitas({
 
   return (
     <div className="space-y-6">
-      {/* Encabezado de la página */}
-      <div className="pb-2">
-        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          Bandeja de Citas
-        </h2>
-        <p className="text-p text-texto-secundario mt-1 text-sm">
-          Revisión de solicitudes entrantes, autorizaciones inmediatas y
-          seguimiento clínico.
-        </p>
-      </div>
-
-      {/* Controles de Filtros y Búsqueda */}
-      <Suspense
-        fallback={
-          <div className="h-20 bg-fondo-suave rounded-m animate-pulse" />
-        }
-      >
-        <FiltrosCitas />
-      </Suspense>
-
-      {/* Tabla Interactiva de Citas */}
-      <TablaCitas
-        citas={citas}
-        total={total}
-        paginaActual={pagina}
-        baseUrl="/panel/admin/citas"
+      {/* Encabezado de la pÃ¡gina */}
+      <EncabezadoPagina
+        titulo="Citas del centro"
+        descripcion="Revisa las solicitudes y gestiona las citas de todos los profesionales."
       />
+
+      <TarjetaPanel>
+        <Titulo nivel="h2" tamano="tarjeta" className="text-subtitulo">
+          Bandeja de citas
+        </Titulo>
+        <p className="mt-1 mb-5 text-texto-secundario">
+          Selecciona una cita para revisar sus datos.
+        </p>
+        {/* Controles de Filtros y BÃºsqueda */}
+        <Suspense
+          fallback={
+            <div className="h-[80px] bg-fondo-suave rounded-m animate-pulse" />
+          }
+        >
+          <FiltrosCitas />
+        </Suspense>
+
+        {/* Tabla Interactiva de Citas */}
+        <TablaCitas
+          citas={citas}
+          total={total}
+          paginaActual={pagina}
+          baseUrl="/panel/admin/citas"
+        />
+      </TarjetaPanel>
     </div>
   );
 }

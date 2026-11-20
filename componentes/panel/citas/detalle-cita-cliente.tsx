@@ -148,7 +148,7 @@ export function DetalleCitaCliente({
   };
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 w-full">
       {/* Botón Volver y Cabecera de Detalle */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
         <div className="flex items-center gap-3">
@@ -161,12 +161,12 @@ export function DetalleCitaCliente({
           </Link>
           <div>
             <div className="flex items-center gap-3">
-              <h2 className="text-h1 font-mono font-weight-fuerte text-morado-900 tracking-tight">
+              <h2 className="text-h1 font-mono font-fuerte text-morado-900 tracking-tight">
                 {cita.codigo}
               </h2>
               <PildoraEstado estado={cita.estado} />
             </div>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-[2px]">
               Solicitud creada el {formatearFechaLarga(cita.creadaEn)}
             </p>
           </div>
@@ -179,7 +179,7 @@ export function DetalleCitaCliente({
               <button
                 type="button"
                 onClick={() => setModalAutorizar(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-agua-700 text-blanco text-caption font-weight-fuerte hover:bg-agua-700/90 transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-agua-700 text-blanco text-caption font-fuerte hover:bg-agua-700/90 transition-all  cursor-pointer"
               >
                 <CheckCircle2 className="w-4 h-4" />
                 <span>Autorizar cita</span>
@@ -188,7 +188,7 @@ export function DetalleCitaCliente({
               <button
                 type="button"
                 onClick={() => setModalRechazar(true)}
-                className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-error-fondo text-coral-700 border border-coral-700/30 text-caption font-weight-fuerte hover:bg-coral-700 hover:text-blanco transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-error-fondo text-coral-700 border border-coral-700/30 text-caption font-fuerte hover:bg-coral-700 hover:text-blanco transition-all  cursor-pointer"
               >
                 <XCircle className="w-4 h-4" />
                 <span>Rechazar</span>
@@ -201,7 +201,7 @@ export function DetalleCitaCliente({
               <button
                 type="button"
                 onClick={() => ejecutarAsistencia("ATENDIDA")}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-m bg-morado-100 text-morado-700 text-caption font-weight-fuerte hover:bg-morado-600 hover:text-blanco transition-all shadow-xs cursor-pointer"
+                className="inline-flex items-center gap-2 px-[14px] py-2 rounded-m bg-morado-100 text-morado-700 text-caption font-fuerte hover:bg-morado-600 hover:text-blanco transition-all  cursor-pointer"
               >
                 <Check className="w-4 h-4" />
                 <span>Marcar atendida</span>
@@ -210,7 +210,7 @@ export function DetalleCitaCliente({
               <button
                 type="button"
                 onClick={() => ejecutarAsistencia("NO_ASISTIO")}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-m bg-fondo-suave text-texto-secundario border border-borde-suave text-caption font-weight-medio hover:text-texto-principal hover:bg-fondo-superficie transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-[14px] py-2 rounded-m bg-fondo-suave text-texto-secundario border border-borde-suave text-caption font-medio hover:text-texto-principal hover:bg-fondo-superficie transition-all cursor-pointer"
               >
                 <span>No asistió</span>
               </button>
@@ -218,7 +218,7 @@ export function DetalleCitaCliente({
               <button
                 type="button"
                 onClick={() => setModalCancelar(true)}
-                className="inline-flex items-center gap-2 px-3.5 py-2 rounded-m bg-error-fondo/50 text-coral-700 border border-coral-700/20 text-caption font-weight-medio hover:bg-error-fondo transition-all cursor-pointer"
+                className="inline-flex items-center gap-2 px-[14px] py-2 rounded-m bg-error-fondo/50 text-coral-700 border border-coral-700/20 text-caption font-medio hover:bg-error-fondo transition-all cursor-pointer"
               >
                 <Ban className="w-4 h-4" />
                 <span>Cancelar</span>
@@ -232,7 +232,7 @@ export function DetalleCitaCliente({
       {mensajeError && (
         <div
           role="alert"
-          className="p-4 rounded-m bg-error-fondo text-error-texto border border-error-texto/20 text-caption font-weight-medio"
+          className="p-4 rounded-m bg-error-fondo text-error-texto border border-error-texto/20 text-caption font-medio"
         >
           {mensajeError}
         </div>
@@ -243,14 +243,14 @@ export function DetalleCitaCliente({
           role="status"
           className="p-4 rounded-m bg-exito-fondo text-exito-texto border border-agua-700/20 flex items-center justify-between"
         >
-          <div className="flex items-center gap-2.5 font-weight-medio text-caption">
+          <div className="flex items-center gap-[10px] font-medio text-caption">
             <CheckCircle2 className="w-5 h-5 shrink-0" />
             <span>{mensajeExito}</span>
           </div>
           <button
             type="button"
             onClick={() => setMensajeExito(null)}
-            className="text-agua-700 font-weight-fuerte text-caption hover:underline"
+            className="text-agua-700 font-fuerte text-caption hover:underline"
           >
             Cerrar
           </button>
@@ -260,38 +260,40 @@ export function DetalleCitaCliente({
       {/* Motivo de Rechazo (si existe) */}
       {cita.motivoRechazo && (
         <div className="p-4 rounded-m bg-error-fondo/60 border border-coral-700/20 text-error-texto">
-          <div className="flex items-center gap-2 font-weight-fuerte text-caption mb-1">
+          <div className="flex items-center gap-2 font-fuerte text-caption mb-1">
             <AlertTriangle className="w-4 h-4" />
             <span>Motivo de rechazo registrado:</span>
           </div>
-          <p className="text-p text-sm leading-relaxed">{cita.motivoRechazo}</p>
+          <p className="text-p text-caption leading-relaxed">
+            {cita.motivoRechazo}
+          </p>
         </div>
       )}
 
       {/* Grilla Principal de Datos */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Tarjeta 1: Información de la Atención */}
-        <div className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-weight-fuerte text-h2">
+        <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
             <Calendar className="w-5 h-5 text-morado-600" />
             <span>Horario y Servicio</span>
           </div>
 
           <div className="space-y-3 text-caption">
             <div>
-              <span className="block text-texto-secundario text-xs">
+              <span className="block text-texto-secundario text-caption">
                 Servicio clínico:
               </span>
-              <span className="font-weight-fuerte text-p text-texto-principal">
+              <span className="font-fuerte text-p text-texto-principal">
                 {cita.servicio}
               </span>
             </div>
 
             <div>
-              <span className="block text-texto-secundario text-xs">
+              <span className="block text-texto-secundario text-caption">
                 Fecha y horario:
               </span>
-              <div className="flex items-center gap-2 font-weight-medio text-texto-principal mt-0.5">
+              <div className="flex items-center gap-2 font-medio text-texto-principal mt-[2px]">
                 <Clock className="w-4 h-4 text-morado-600" />
                 <span className="capitalize">
                   {formatearFechaLarga(cita.inicio)}
@@ -303,17 +305,17 @@ export function DetalleCitaCliente({
             </div>
 
             <div>
-              <span className="block text-texto-secundario text-xs">
+              <span className="block text-texto-secundario text-caption">
                 Terapeuta asignado(a):
               </span>
-              <div className="flex items-center gap-2 font-weight-medio text-texto-principal mt-0.5">
+              <div className="flex items-center gap-2 font-medio text-texto-principal mt-[2px]">
                 <User className="w-4 h-4 text-texto-secundario" />
                 <span>{cita.psicologoNombre || "Cualquiera disponible"}</span>
               </div>
             </div>
 
             {cita.venceEn && cita.estado === "PENDIENTE" && (
-              <div className="p-3 rounded-m bg-aviso-fondo border border-amarillo-500/20 text-amarillo-700 text-xs">
+              <div className="p-3 rounded-m bg-aviso-fondo border border-amarillo-500/20 text-amarillo-700 text-caption">
                 Esta solicitud vence el {formatearFechaLarga(cita.venceEn)} si
                 no es autorizada.
               </div>
@@ -322,22 +324,22 @@ export function DetalleCitaCliente({
         </div>
 
         {/* Tarjeta 2: Datos del Paciente / Solicitante */}
-        <div className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-weight-fuerte text-h2">
+        <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-4">
+          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
             <User className="w-5 h-5 text-morado-600" />
             <span>Datos del Paciente</span>
           </div>
 
           <div className="space-y-3 text-caption">
             <div>
-              <span className="block text-texto-secundario text-xs">
+              <span className="block text-texto-secundario text-caption">
                 Nombre completo:
               </span>
-              <span className="font-weight-fuerte text-p text-texto-principal">
+              <span className="font-fuerte text-p text-texto-principal">
                 {cita.pacienteNombre || cita.solicitanteNombre}
               </span>
               {cita.pacienteEdad !== null && (
-                <span className="text-texto-secundario ml-2 text-xs">
+                <span className="text-texto-secundario ml-2 text-caption">
                   ({cita.pacienteEdad} años)
                 </span>
               )}
@@ -345,7 +347,7 @@ export function DetalleCitaCliente({
 
             {cita.pacienteDocumento && (
               <div>
-                <span className="block text-texto-secundario text-xs">
+                <span className="block text-texto-secundario text-caption">
                   Documento de identidad:
                 </span>
                 <span className="font-mono text-texto-principal">
@@ -356,11 +358,11 @@ export function DetalleCitaCliente({
 
             <div className="grid grid-cols-2 gap-2 pt-2 border-t border-borde-suave/50">
               <div>
-                <span className="block text-texto-secundario text-xs">
+                <span className="block text-texto-secundario text-caption">
                   Teléfono:
                 </span>
-                <div className="flex items-center gap-1.5 font-weight-medio text-texto-principal mt-0.5">
-                  <Phone className="w-3.5 h-3.5 text-texto-secundario" />
+                <div className="flex items-center gap-[6px] font-medio text-texto-principal mt-[2px]">
+                  <Phone className="w-[14px] h-[14px] text-texto-secundario" />
                   <a
                     href={`tel:${cita.solicitanteTelefono}`}
                     className="hover:text-texto-enlace"
@@ -371,11 +373,11 @@ export function DetalleCitaCliente({
               </div>
 
               <div>
-                <span className="block text-texto-secundario text-xs">
+                <span className="block text-texto-secundario text-caption">
                   Correo:
                 </span>
-                <div className="flex items-center gap-1.5 font-weight-medio text-texto-principal mt-0.5 truncate">
-                  <Mail className="w-3.5 h-3.5 text-texto-secundario shrink-0" />
+                <div className="flex items-center gap-[6px] font-medio text-texto-principal mt-[2px] truncate">
+                  <Mail className="w-[14px] h-[14px] text-texto-secundario shrink-0" />
                   <a
                     href={`mailto:${cita.solicitanteCorreo}`}
                     className="hover:text-texto-enlace truncate"
@@ -388,8 +390,8 @@ export function DetalleCitaCliente({
 
             {/* Datos de menor / acudiente si aplica */}
             {cita.paraQuien === "MENOR" && cita.acudienteNombre && (
-              <div className="p-3 rounded-m bg-fondo-suave border border-borde-suave text-xs">
-                <span className="font-weight-fuerte text-texto-titulo block mb-0.5">
+              <div className="p-3 rounded-m bg-fondo-suave border border-borde-suave text-caption">
+                <span className="font-fuerte text-texto-titulo block mb-[2px]">
                   Acudiente responsable:
                 </span>
                 <span>
@@ -402,19 +404,19 @@ export function DetalleCitaCliente({
       </div>
 
       {/* Tarjeta 3: Motivo de Consulta (Cifrado / Privacidad) */}
-      <div className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-3">
+      <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-3">
         <div className="flex items-center justify-between pb-3 border-b border-borde-suave">
-          <div className="flex items-center gap-2 text-texto-titulo font-weight-fuerte text-h2">
+          <div className="flex items-center gap-2 text-texto-titulo font-fuerte text-h2">
             <FileText className="w-5 h-5 text-morado-600" />
             <span>Motivo de Consulta</span>
           </div>
-          <span className="text-[11px] font-weight-medio text-agua-700 bg-exito-fondo px-2.5 py-0.5 rounded-pildora border border-agua-500/20">
+          <span className="text-[11px] font-medio text-agua-700 bg-exito-fondo px-[10px] py-[2px] rounded-pildora border border-agua-500/20">
             Dato clínico cifrado
           </span>
         </div>
 
         {cita.motivo ? (
-          <p className="text-p text-sm leading-relaxed text-texto-principal bg-fondo-suave p-4 rounded-m border border-borde-suave">
+          <p className="text-p text-caption leading-relaxed text-texto-principal bg-fondo-suave p-4 rounded-m border border-borde-suave">
             {cita.motivo}
           </p>
         ) : (
@@ -427,22 +429,22 @@ export function DetalleCitaCliente({
       {/* Tarjeta 4: Historial de Auditoría y Correos */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Historial */}
-        <div className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-3">
-          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-weight-fuerte text-h2">
+        <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-3">
+          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
             <History className="w-5 h-5 text-morado-600" />
             <span>Historial de Acciones</span>
           </div>
 
           <div className="space-y-3 text-caption">
             {cita.historial && cita.historial.length > 0 ? (
-              <ul className="space-y-2.5 divide-y divide-borde-suave/40">
+              <ul className="space-y-[10px] divide-y divide-borde-suave/40">
                 {cita.historial.map((h, i) => (
                   <li
                     key={i}
                     className="pt-2 first:pt-0 flex items-start justify-between"
                   >
                     <div>
-                      <span className="font-weight-fuerte text-texto-principal block">
+                      <span className="font-fuerte text-texto-principal block">
                         {h.accion}
                       </span>
                       <span className="text-[11px] text-texto-secundario">
@@ -461,8 +463,8 @@ export function DetalleCitaCliente({
         </div>
 
         {/* Correos */}
-        <div className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-3">
-          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-weight-fuerte text-h2">
+        <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-3">
+          <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
             <Send className="w-5 h-5 text-morado-600" />
             <span>Notificaciones por Correo</span>
           </div>
@@ -473,13 +475,13 @@ export function DetalleCitaCliente({
                 {cita.correos.map((cor, i) => (
                   <li
                     key={i}
-                    className="p-2.5 rounded-m bg-fondo-suave border border-borde-suave flex items-center justify-between text-xs"
+                    className="p-[10px] rounded-m bg-fondo-suave border border-borde-suave flex items-center justify-between text-caption"
                   >
                     <span className="font-mono text-texto-principal">
                       {cor.llave}
                     </span>
                     <span
-                      className={`font-weight-medio px-2 py-0.5 rounded-pildora text-[11px] ${
+                      className={`font-medio px-2 py-[2px] rounded-pildora text-[11px] ${
                         cor.entregado
                           ? "bg-exito-fondo text-agua-700"
                           : "bg-aviso-fondo text-amarillo-700"
