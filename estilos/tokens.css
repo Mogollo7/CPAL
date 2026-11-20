@@ -93,13 +93,14 @@
   --text-portada: clamp(3.5rem, 8.6vw, 6.875rem);
   --text-portada--letter-spacing: -0.03em;
   --text-portada--line-height: 1.18;
-  --text-seccion: clamp(2rem, 3.3vw, 2.625rem);
+  /* Duolingo: títulos de sección y de fila a 48; los de transición (hero) a 64. Fuentes del Figma. */
+  --text-seccion: clamp(2rem, 3.75vw, 3rem);
   --text-seccion--line-height: 1.2;
   --text-hero: clamp(2.5rem, 5vw, 4rem);
   --text-hero--line-height: 1.15;
   --text-titulo-pagina: 3rem;
   --text-titulo-pagina--line-height: 1.2;
-  --text-bloque: 2.25rem;
+  --text-bloque: 3rem;
   --text-bloque--line-height: 1.2;
   --text-tarjeta: 1.75rem;
   --text-subtitulo: 1.5rem;
@@ -129,7 +130,10 @@
   /* Ritmo de página (medido en Figma desktop):
      sección = 110 arriba/abajo · cabecera de página = 68 · entre bloques = 42 · borde lateral = 42.
      Anchos: lectura 920 (FAQ, textos), contenido 1196 (1280 − 2 × 42). */
-  --spacing-seccion: var(--spacing-8);
+  --spacing-seccion: 96px; /* Duolingo: 96 arriba y abajo de cada bloque de filas */
+  --spacing-entrada: 140px; /* Duolingo: aire extra sobre una sección de transición (título de 64) */
+  --spacing-fila: 101px; /* Duolingo: separación entre texto e ilustración en una fila */
+  --spacing-sangria-grano: 340px; /* el degradado empieza a aparecer 340 px antes de la sección */
   --spacing-cabecera: var(--spacing-7);
   --spacing-bloque: var(--spacing-6);
   --spacing-borde: var(--spacing-6);

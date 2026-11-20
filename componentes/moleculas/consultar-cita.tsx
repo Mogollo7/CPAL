@@ -17,14 +17,14 @@ export function ConsultarCita() {
       <label htmlFor="codigo-cita" className="block text-[22px] font-medio">
         Consultar mi cita
       </label>
-      <div className="flex gap-2 rounded-s bg-blanco p-1">
+      <div className="flex w-fit gap-2 rounded-s bg-blanco p-1">
         <input
           id="codigo-cita"
           name="codigo"
           placeholder="CAPL-0000"
           pattern="CAPL-\d{4}"
           required
-          className="min-w-0 flex-1 rounded-s px-2 text-p text-texto-principal placeholder:text-texto-secundario"
+          className="w-[96px] rounded-s px-2 text-p text-texto-principal placeholder:text-texto-secundario"
         />
         <button
           type="submit"

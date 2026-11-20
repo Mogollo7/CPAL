@@ -57,16 +57,21 @@
 
   /* Fundidos (Figma · «Máscara alfa»): la cabecera de página solo se funde abajo;
      los fondos en medio de la página se funden arriba y abajo. */
+  /* Fondo en medio de la página: como en duolingo.com, nace de la nada 340 px antes de la sección y se
+     llena despacio (curva suave), se mantiene detrás del contenido y se desvanece al final. */
   .capl-grano[data-fundido="ambos"] {
+    top: calc(var(--spacing-sangria-grano) * -1);
     --grano-mascara: linear-gradient(
       #0000 0%,
-      #00000021 4%,
-      #000000db 12%,
-      #000 20%,
-      #000 66%,
-      #000000d1 80%,
-      #0000004d 91%,
-      #00000005 98%,
+      #00000008 8%,
+      #00000024 16%,
+      #00000059 24%,
+      #000000a0 31%,
+      #000000db 37%,
+      #000 43%,
+      #000 74%,
+      #000000d1 84%,
+      #0000004d 93%,
       #0000 100%
     );
   }

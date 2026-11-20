@@ -19,7 +19,9 @@ export function EncabezadoSeccion({
   className?: string;
 }) {
   return (
-    <header className={cn("space-y-5", centrado && "text-center", className)}>
+    <header
+      className={cn("space-y-[24px]", centrado && "text-center", className)}
+    >
       <Titulo nivel={nivel} id={id}>
         {titulo}
       </Titulo>

@@ -35,7 +35,7 @@ export async function PiePublico() {
         aria-hidden="true"
         viewBox="0 0 1280 103"
         preserveAspectRatio="none"
-        className="block h-[103px] w-full fill-morado-600"
+        className="-mb-px block h-[103px] w-full fill-morado-600"
       >
         <path d="M0 51.6C235-6.4 403-10.4 646 14.6c274 29 413 32 634-6V103H0Z" />
       </svg>

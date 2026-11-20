@@ -4,7 +4,7 @@ import { BotonEnlace } from "@/componentes/atomos/boton";
 import { FondoGrano } from "@/componentes/atomos/fondo-grano";
 import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
 import { Titulo } from "@/componentes/atomos/titulo";
-import { FilaServicio } from "@/componentes/moleculas/fila-servicio";
+import { FilaIlustrada } from "@/componentes/moleculas/fila-ilustrada";
 import { CabeceraIlustrada } from "@/componentes/organismos/cabecera-ilustrada";
 import { PreguntasFrecuentes } from "@/componentes/organismos/preguntas-frecuentes";
 import { ResumenPasos } from "@/componentes/organismos/resumen-pasos";
@@ -58,12 +58,12 @@ export default function ServiciosPage() {
               <FondoGrano
                 tono="miel"
                 fundido="ambos"
-                className="-inset-x-borde -inset-y-[110px]"
+                className="-inset-x-borde"
               />
             )}
-            <FilaServicio
+            <FilaIlustrada
               titulo={s.nombre}
-              descripcion={s.descripcion}
+              texto={s.descripcion}
               ilustracion={ILUSTRACIONES[s.slug] ?? formacion}
               invertida={i % 2 === 1}
             />

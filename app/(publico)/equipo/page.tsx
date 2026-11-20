@@ -104,6 +104,7 @@ export default function EquipoPage() {
 
       {/* Equipo · psicólogos en formación */}
       <Seccion
+        ritmo="entrada"
         aria-labelledby="titulo-equipo"
         className="space-y-bloque md:px-[100px]"
       >

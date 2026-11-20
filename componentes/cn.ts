@@ -20,7 +20,15 @@ const twMerge = extendTailwindMerge({
         "p",
         "caption",
       ],
-      spacing: ["seccion", "cabecera", "bloque", "borde", "encabezado"],
+      spacing: [
+        "seccion",
+        "cabecera",
+        "bloque",
+        "borde",
+        "encabezado",
+        "entrada",
+        "fila",
+      ],
     },
   },
 });
