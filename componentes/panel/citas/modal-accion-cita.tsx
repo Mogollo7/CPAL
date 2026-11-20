@@ -1,6 +1,13 @@
 "use client";
 
-import { useState, useTransition, type FormEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useTransition,
+  type FormEvent,
+} from "react";
 import { X, AlertCircle } from "lucide-react";
 import { cn } from "@/componentes/cn";
 
@@ -30,8 +37,22 @@ export function ModalAccionCita({
   const [motivo, setMotivo] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pendiente, iniciarTransicion] = useTransition();
+  const dialogo = useRef<HTMLDialogElement>(null);
+  const tituloId = useId();
+  const descripcionId = useId();
+  const motivoId = useId();
 
-  if (!abierto) return null;
+  useEffect(() => {
+    const elemento = dialogo.current;
+    if (abierto && elemento && !elemento.open) elemento.showModal();
+    if (!abierto && elemento?.open) elemento.close();
+  }, [abierto]);
+
+  function cerrar() {
+    setMotivo("");
+    setError(null);
+    alCerrar();
+  }
 
   const manejarEnvio = (e: FormEvent) => {
     e.preventDefault();
@@ -47,7 +68,7 @@ export function ModalAccionCita({
       if (!res.ok) {
         setError(res.mensaje || "Ocurrió un error al procesar la acción.");
       } else {
-        alCerrar();
+        cerrar();
       }
     });
   };
@@ -60,15 +81,20 @@ export function ModalAccionCita({
         : "bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo";
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogo}
+      aria-labelledby={tituloId}
+      aria-describedby={descripcionId}
+      onCancel={(evento) => {
+        evento.preventDefault();
+        if (!pendiente) cerrar();
+      }}
+      className="m-auto w-[min(92vw,512px)] bg-transparent text-texto-principal backdrop:bg-morado-900/40"
     >
       <div className="w-full max-w-lg bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
         <button
           type="button"
-          onClick={alCerrar}
+          onClick={cerrar}
           disabled={pendiente}
           className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1 rounded-s"
           aria-label="Cerrar modal"
@@ -76,8 +102,16 @@ export function ModalAccionCita({
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-h2 font-fuerte text-texto-titulo mb-2">{titulo}</h3>
-        <p className="text-p text-texto-secundario text-caption mb-4 leading-relaxed">
+        <h3
+          id={tituloId}
+          className="text-h2 font-fuerte text-texto-titulo mb-2"
+        >
+          {titulo}
+        </h3>
+        <p
+          id={descripcionId}
+          className="text-p text-texto-secundario text-caption mb-4 leading-relaxed"
+        >
           {descripcion}
         </p>
 
@@ -95,13 +129,13 @@ export function ModalAccionCita({
           {requiereMotivo && (
             <div>
               <label
-                htmlFor="modal-motivo"
+                htmlFor={motivoId}
                 className="block text-caption font-medio text-texto-principal mb-[6px]"
               >
                 Motivo <span className="text-coral-700">*</span>
               </label>
               <textarea
-                id="modal-motivo"
+                id={motivoId}
                 required
                 minLength={3}
                 maxLength={300}
@@ -120,7 +154,7 @@ export function ModalAccionCita({
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-borde-suave">
             <button
               type="button"
-              onClick={alCerrar}
+              onClick={cerrar}
               disabled={pendiente}
               className="px-4 py-2 rounded-m border border-borde-control text-caption font-medio text-texto-principal hover:bg-fondo-suave cursor-pointer"
             >
@@ -140,6 +174,6 @@ export function ModalAccionCita({
           </div>
         </form>
       </div>
-    </div>
+    </dialog>
   );
 }

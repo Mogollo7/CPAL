@@ -9,6 +9,9 @@ import {
   Sparkles,
   CalendarOff,
   Settings,
+  ClipboardList,
+  ShieldCheck,
+  MailWarning,
   Clock,
   User,
   Menu,
@@ -35,6 +38,16 @@ export function BarraLateral({
     { href: "/panel/admin/citas", label: "Citas", icono: CalendarCheck },
     { href: "/panel/admin/calendario", label: "Calendario", icono: Calendar },
     { href: "/panel/admin/psicologos", label: "Psicólogos", icono: Users },
+    {
+      href: "/panel/admin/servicios",
+      label: "Servicios",
+      icono: ClipboardList,
+    },
+    {
+      href: "/panel/admin/administradores",
+      label: "Administradores",
+      icono: ShieldCheck,
+    },
     { href: "/panel/admin/eventos", label: "Eventos", icono: Sparkles },
     {
       href: "/panel/admin/bloqueos",
@@ -46,6 +59,12 @@ export function BarraLateral({
       label: "Configuración",
       icono: Settings,
     },
+    {
+      href: "/panel/admin/correos",
+      label: "Correos fallidos",
+      icono: MailWarning,
+    },
+    { href: "/panel/admin/cuenta", label: "Mi cuenta", icono: User },
   ];
 
   const enlacesPsicologo = [

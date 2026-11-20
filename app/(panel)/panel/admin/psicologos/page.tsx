@@ -1,9 +1,13 @@
 import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
+import { connection } from "next/server";
 import { datosDePagina } from "@/servidor/pagina";
 import { listarPsicologosAccion } from "@/servidor/acciones";
 import { GestorPsicologos } from "@/componentes/panel/admin/gestor-psicologos";
 
+export const instant = false;
+
 export default async function PaginaAdminPsicologos() {
+  await connection();
   const psicologos = datosDePagina(await listarPsicologosAccion());
 
   return (

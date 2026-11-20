@@ -11,17 +11,14 @@ import {
   Power,
   X,
 } from "lucide-react";
-import type {
-  Area,
-  EstadoPsicologo,
-  UsuarioResumen,
-} from "@/contratos/psicologo";
+import type { Area, UsuarioResumen } from "@/contratos/psicologo";
 import {
   crearPsicologoAccion,
   actualizarPsicologoAccion,
   reenviarInvitacionAccion,
-  cambiarActivoAccion,
 } from "@/servidor/acciones";
+import { CambioEstadoUsuario } from "./cambio-estado-usuario";
+import { Boton } from "@/componentes/atomos/boton";
 
 interface GestorPsicologosProps {
   psicologosIniciales: UsuarioResumen[];
@@ -33,6 +30,9 @@ export function GestorPsicologos({
   const [psicologos, setPsicologos] =
     useState<UsuarioResumen[]>(psicologosIniciales);
   const [modalCrear, setModalCrear] = useState(false);
+  const [usuarioACambiar, setUsuarioACambiar] = useState<UsuarioResumen | null>(
+    null,
+  );
   const [psicologoAEditar, setPsicologoAEditar] =
     useState<UsuarioResumen | null>(null);
 
@@ -152,34 +152,26 @@ export function GestorPsicologos({
     }
   };
 
-  // Activar o desactivar
-  const manejarCambiarActivo = async (id: string, activoActual: boolean) => {
-    setMensaje(null);
-    const nuevoEstado: EstadoPsicologo = activoActual ? "INACTIVO" : "ACTIVO";
-
-    try {
-      const res = await cambiarActivoAccion({ id, activo: !activoActual });
-      if (res.ok) {
-        setPsicologos((prev) =>
-          prev.map((p) => (p.id === id ? { ...p, estado: nuevoEstado } : p)),
-        );
-        setMensaje({
-          tipo: "exito",
-          texto: `Psicólogo ${activoActual ? "desactivado" : "reactivado"} con éxito.`,
-        });
-      } else {
-        setMensaje({
-          tipo: "error",
-          texto: res.mensaje || "Error al cambiar estado.",
-        });
-      }
-    } catch {
-      setMensaje({ tipo: "error", texto: SIN_CONEXION });
-    }
-  };
-
   return (
     <div className="space-y-6 w-full">
+      {usuarioACambiar && (
+        <CambioEstadoUsuario
+          usuario={usuarioACambiar}
+          alCerrar={() => setUsuarioACambiar(null)}
+          alGuardar={(usuario) => {
+            setPsicologos((prev) =>
+              prev.map((p) => (p.id === usuario.id ? usuario : p)),
+            );
+            setMensaje({
+              tipo: "exito",
+              texto:
+                usuario.estado === "ACTIVO"
+                  ? "Psicólogo activado."
+                  : "Psicólogo desactivado.",
+            });
+          }}
+        />
+      )}
       {/* Notificación */}
       {mensaje && (
         <div
@@ -287,24 +279,18 @@ export function GestorPsicologos({
                       </button>
 
                       {p.estado !== "INVITADO" && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            manejarCambiarActivo(p.id, p.estado === "ACTIVO")
-                          }
-                          className={`p-[6px] rounded-s transition-colors ${
-                            p.estado === "ACTIVO"
-                              ? "text-coral-700 hover:bg-error-fondo/60"
-                              : "text-agua-700 hover:bg-exito-fondo/60"
-                          }`}
-                          title={
-                            p.estado === "ACTIVO"
-                              ? "Desactivar terapeuta"
-                              : "Reactivar terapeuta"
-                          }
+                        <Boton
+                          tipo="borde"
+                          onClick={() => {
+                            setMensaje(null);
+                            setUsuarioACambiar(p);
+                          }}
+                          className="px-3 focus-visible:outline-2 focus-visible:outline-foco"
+                          aria-label={`${p.estado === "ACTIVO" ? "Desactivar" : "Activar"} a ${p.nombre}`}
                         >
-                          <Power className="w-[14px] h-[14px]" />
-                        </button>
+                          <Power className="w-4 h-4" aria-hidden="true" />
+                          {p.estado === "ACTIVO" ? "Desactivar" : "Activar"}
+                        </Boton>
                       )}
                     </div>
                   </td>

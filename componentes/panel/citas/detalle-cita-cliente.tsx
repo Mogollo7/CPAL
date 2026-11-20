@@ -23,6 +23,7 @@ import {
 import type { CitaDetalle } from "@/contratos/cita";
 import { PildoraEstado } from "./pildora-estado";
 import { ModalAccionCita } from "./modal-accion-cita";
+import { ReasignarCita } from "./reasignar-cita";
 import {
   autorizarCitaAccion,
   rechazarCitaAccion,
@@ -31,7 +32,7 @@ import {
 } from "@/servidor/acciones";
 
 interface DetalleCitaClienteProps {
-  cita: CitaDetalle;
+  cita: CitaDetalle & { servicioId: string };
 }
 
 function formatearFechaLarga(isoString: string): string {
@@ -257,6 +258,18 @@ export function DetalleCitaCliente({
         </div>
       )}
 
+      {(cita.estado === "PENDIENTE" || cita.estado === "AUTORIZADA") && (
+        <ReasignarCita
+          cita={cita}
+          alReasignar={(datos) => {
+            setCita((anterior) => ({ ...anterior, ...datos }));
+            setMensajeError(null);
+            setMensajeExito("Cita reasignada.");
+            router.refresh();
+          }}
+        />
+      )}
+
       {/* Motivo de Rechazo (si existe) */}
       {cita.motivoRechazo && (
         <div className="p-4 rounded-m bg-error-fondo/60 border border-coral-700/20 text-error-texto">
@@ -436,9 +449,9 @@ export function DetalleCitaCliente({
           </div>
 
           <div className="space-y-3 text-caption">
-            {cita.historial && cita.historial.length > 0 ? (
+            {citaInicial.historial.length > 0 ? (
               <ul className="space-y-[10px] divide-y divide-borde-suave/40">
-                {cita.historial.map((h, i) => (
+                {citaInicial.historial.map((h, i) => (
                   <li
                     key={i}
                     className="pt-2 first:pt-0 flex items-start justify-between"
@@ -470,9 +483,9 @@ export function DetalleCitaCliente({
           </div>
 
           <div className="space-y-2 text-caption">
-            {cita.correos && cita.correos.length > 0 ? (
+            {citaInicial.correos.length > 0 ? (
               <ul className="space-y-2">
-                {cita.correos.map((cor, i) => (
+                {citaInicial.correos.map((cor, i) => (
                   <li
                     key={i}
                     className="p-[10px] rounded-m bg-fondo-suave border border-borde-suave flex items-center justify-between text-caption"
