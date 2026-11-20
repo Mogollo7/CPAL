@@ -7,17 +7,7 @@ import {
   type FormEvent,
   type ChangeEvent,
 } from "react";
-import {
-  Plus,
-  Calendar,
-  MapPin,
-  ExternalLink,
-  Edit2,
-  CheckCircle2,
-  AlertCircle,
-  X,
-  Upload,
-} from "lucide-react";
+import { Plus, CheckCircle2, AlertCircle, X } from "lucide-react";
 import type { EventoDetalle } from "@/contratos/evento";
 import {
   crearEventoAccion,
@@ -179,21 +169,21 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
   };
 
   return (
-    <div className="space-y-6 max-w-5xl">
+    <div className="space-y-6 w-full">
       {/* Notificación */}
       {mensaje && (
         <div
           role="status"
-          className={`p-4 rounded-m flex items-start gap-2.5 text-caption font-weight-medio border ${
+          className={`p-4 rounded-m flex items-start gap-[10px] text-caption font-medio border ${
             mensaje.tipo === "exito"
               ? "bg-exito-fondo text-exito-texto border-agua-700/20"
               : "bg-error-fondo text-error-texto border-coral-700/20"
           }`}
         >
           {mensaje.tipo === "exito" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 mt-[2px]" />
           ) : (
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-[2px]" />
           )}
           <span>{mensaje.texto}</span>
         </div>
@@ -204,99 +194,89 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
         <button
           type="button"
           onClick={abrirCreacion}
-          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto text-caption font-weight-fuerte hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer"
+          className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Nuevo evento</span>
         </button>
       </div>
 
-      {/* Grilla de Eventos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-        {eventos.map((ev) => (
-          <div
-            key={ev.id}
-            className="p-5 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs flex flex-col justify-between hover:border-morado-300 transition-all space-y-4"
-          >
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <span
-                  className={`px-2.5 py-0.5 rounded-pildora text-[11px] font-weight-fuerte border ${
-                    ev.publicado
-                      ? "bg-exito-fondo text-agua-700 border-agua-500/20"
-                      : "bg-fondo-suave text-texto-secundario border-borde-suave"
-                  }`}
-                >
-                  {ev.publicado ? "Publicado en web" : "Borrador privado"}
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() => abrirEdicion(ev)}
-                  className="p-1.5 text-texto-secundario hover:text-texto-principal hover:bg-fondo-suave rounded-s"
-                  title="Editar evento"
-                >
-                  <Edit2 className="w-3.5 h-3.5" />
-                </button>
-              </div>
-
-              <div>
-                <h4 className="text-h2 font-weight-fuerte text-texto-titulo">
-                  {ev.titulo}
-                </h4>
-                <p className="text-caption text-texto-secundario mt-1 line-clamp-2 leading-relaxed">
-                  {ev.descripcion}
-                </p>
-              </div>
-
-              <div className="space-y-1.5 text-xs text-texto-principal pt-2 border-t border-borde-suave/60">
-                <div className="flex items-center gap-2">
-                  <Calendar className="w-3.5 h-3.5 text-morado-600" />
-                  <span>{formatearFechaBogota(ev.inicio)}</span>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <MapPin className="w-3.5 h-3.5 text-texto-secundario" />
-                  <span>{ev.lugar}</span>
-                </div>
-
-                {ev.enlace && (
-                  <div className="flex items-center gap-2 truncate">
-                    <ExternalLink className="w-3.5 h-3.5 text-texto-enlace shrink-0" />
-                    <a
-                      href={ev.enlace}
-                      target="_blank"
-                      className="text-texto-enlace hover:underline truncate"
+      <div className="rounded-m bg-fondo-superficie border border-borde-suave p-4 sm:p-5">
+        <h2 className="font-titulo font-fuerte text-subtitulo text-texto-titulo">
+          Cartelera del centro
+        </h2>
+        <p className="text-texto-secundario mb-5">
+          Selecciona un evento para revisar la publicación.
+        </p>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[700px] text-left text-caption">
+            <thead className="bg-fondo-suave text-texto-secundario">
+              <tr>
+                <th className="p-3">Evento</th>
+                <th className="p-3">Fecha y hora</th>
+                <th className="p-3">Lugar</th>
+                <th className="p-3">Estado</th>
+                <th className="p-3">Acciones</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-borde-suave">
+              {eventos.map((ev) => (
+                <tr key={ev.id}>
+                  <td className="p-3">
+                    <button
+                      type="button"
+                      onClick={() => abrirEdicion(ev)}
+                      className="font-fuerte hover:underline text-left"
                     >
-                      {ev.enlace}
-                    </a>
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Subida de Imagen / Afiche */}
-            <div className="pt-3 border-t border-borde-suave flex items-center justify-between">
-              <span className="text-[11px] text-texto-secundario">
-                {ev.imagenUrl ? "Afiche cargado ✓" : "Sin afiche promocional"}
-              </span>
-
-              <label
-                className="inline-flex items-center gap-1.5 px-3 py-1 rounded-s bg-fondo-suave border border-borde-suave text-xs font-weight-medio text-texto-principal hover:bg-fondo-superficie cursor-pointer transition-colors"
-                title="Subir afiche"
-              >
-                <Upload className="w-3 h-3 text-texto-secundario" />
-                <span>{ev.imagenUrl ? "Cambiar afiche" : "Subir afiche"}</span>
-                <input
-                  type="file"
-                  accept="image/jpeg,image/png,image/webp"
-                  onChange={(e) => manejarSubirImagen(ev.id, e)}
-                  className="sr-only"
-                />
-              </label>
-            </div>
-          </div>
-        ))}
+                      {ev.titulo}
+                    </button>
+                    <span className="block text-texto-secundario">
+                      {ev.descripcion}
+                    </span>
+                    {ev.enlace && (
+                      <a
+                        href={ev.enlace}
+                        target="_blank"
+                        className="text-texto-enlace hover:underline"
+                      >
+                        {ev.enlace}
+                      </a>
+                    )}
+                  </td>
+                  <td className="p-3 text-texto-secundario">
+                    {formatearFechaBogota(ev.inicio)}
+                  </td>
+                  <td className="p-3 text-texto-secundario">{ev.lugar}</td>
+                  <td className="p-3">
+                    <span
+                      className={`inline-flex rounded-pildora px-3 py-1 font-medio ${ev.publicado ? "bg-exito-fondo text-exito-texto" : "bg-aviso-fondo text-amarillo-700"}`}
+                    >
+                      {ev.publicado ? "Publicado" : "Borrador"}
+                    </span>
+                  </td>
+                  <td className="p-3">
+                    <button
+                      type="button"
+                      onClick={() => abrirEdicion(ev)}
+                      className="text-texto-enlace hover:underline"
+                    >
+                      Editar
+                    </button>
+                    <label className="block cursor-pointer text-texto-enlace hover:underline">
+                      {ev.imagenUrl ? "Cambiar afiche" : "Subir afiche"}
+                      <input
+                        type="file"
+                        accept="image/jpeg,image/png,image/webp"
+                        onChange={(e) => manejarSubirImagen(ev.id, e)}
+                        className="sr-only"
+                      />
+                    </label>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* MODAL CREAR / EDITAR EVENTO */}
@@ -306,7 +286,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-lg bg-fondo-superficie rounded-l border border-borde-suave shadow-flotante p-6 relative max-h-[90vh] overflow-y-auto">
+          <div className="w-full max-w-lg bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative max-h-[90vh] overflow-y-auto">
             <button
               type="button"
               onClick={() => {
@@ -318,13 +298,13 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo mb-4">
+            <h3 className="text-h2 font-fuerte text-texto-titulo mb-4">
               {eventoAEditar ? "Editar Evento" : "Crear Nuevo Evento"}
             </h3>
 
             <form onSubmit={manejarGuardar} className="space-y-4 text-caption">
               <div>
-                <label className="block font-weight-medio text-texto-principal mb-1">
+                <label className="block font-medio text-texto-principal mb-1">
                   Título del evento (máx. 120 caracteres)
                 </label>
                 <input
@@ -334,12 +314,12 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
                   placeholder="Ej. Taller de primeros auxilios psicológicos"
-                  className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
               <div>
-                <label className="block font-weight-medio text-texto-principal mb-1">
+                <label className="block font-medio text-texto-principal mb-1">
                   Descripción del taller o charla
                 </label>
                 <textarea
@@ -349,13 +329,13 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   placeholder="Describe los temas, objetivos y a quién va dirigido..."
-                  className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 resize-none"
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 resize-none"
                 />
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-weight-medio text-texto-principal mb-1">
+                  <label className="block font-medio text-texto-principal mb-1">
                     Fecha y hora de inicio:
                   </label>
                   <input
@@ -368,7 +348,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 </div>
 
                 <div>
-                  <label className="block font-weight-medio text-texto-principal mb-1">
+                  <label className="block font-medio text-texto-principal mb-1">
                     Fecha y hora de fin (opcional):
                   </label>
                   <input
@@ -382,7 +362,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block font-weight-medio text-texto-principal mb-1">
+                  <label className="block font-medio text-texto-principal mb-1">
                     Lugar o modalidad
                   </label>
                   <input
@@ -391,12 +371,12 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                     placeholder='Ej. "Virtual" o "Edificio A, sala 301"'
                     value={lugar}
                     onChange={(e) => setLugar(e.target.value)}
-                    className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption"
+                    className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
                   />
                 </div>
 
                 <div>
-                  <label className="block font-weight-medio text-texto-principal mb-1">
+                  <label className="block font-medio text-texto-principal mb-1">
                     Enlace virtual (opcional)
                   </label>
                   <input
@@ -404,7 +384,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                     placeholder="https://teams.microsoft.com/..."
                     value={enlace}
                     onChange={(e) => setEnlace(e.target.value)}
-                    className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-caption"
+                    className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
                   />
                 </div>
               </div>
@@ -419,7 +399,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 />
                 <label
                   htmlFor="publicar-check"
-                  className="font-weight-medio text-texto-principal cursor-pointer"
+                  className="font-medio text-texto-principal cursor-pointer"
                 >
                   Publicar en la cartelera web inmediatamente
                 </label>
@@ -439,7 +419,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 <button
                   type="submit"
                   disabled={pendiente}
-                  className="px-5 py-2 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte hover:bg-accion-fondo-activo cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 rounded-m bg-accion-fondo text-accion-texto font-fuerte hover:bg-accion-fondo-activo cursor-pointer disabled:opacity-50"
                 >
                   {pendiente ? "Guardando..." : "Guardar evento"}
                 </button>

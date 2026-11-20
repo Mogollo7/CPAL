@@ -1,3 +1,4 @@
+import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
 import { connection } from "next/server";
 import { datosDePagina } from "@/servidor/pagina";
 import {
@@ -15,15 +16,10 @@ export default async function PaginaAdminBloqueos() {
 
   return (
     <div className="space-y-6">
-      <div className="pb-2">
-        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          Fechas Bloqueadas y Festivos
-        </h2>
-        <p className="text-p text-texto-secundario mt-1 text-sm">
-          Administración de días inhábiles para todo el centro y consulta del
-          calendario festivo oficial colombiano.
-        </p>
-      </div>
+      <EncabezadoPagina
+        titulo="Cierres del centro"
+        descripcion="Los cierres institucionales afectan los cupos disponibles de todo el equipo."
+      />
 
       <GestorBloqueos bloqueosIniciales={bloqueos} festivos={festivos} />
     </div>

@@ -285,3 +285,14 @@ model CorreoSuprimido {
   motivo   String
   creadoEn DateTime @default(now())
 }
+
+/// Un latido por minuto de la tarea programada (S05): si la aplicación y la base responden, queda una fila con lo que
+/// tardó la base. Los minutos sin fila cuentan como «sin servicio» en el informe diario. Se conservan 35 días.
+model Sondeo {
+  id       String   @id @default(cuid())
+  creadoEn DateTime @default(now())
+  ok       Boolean
+  ms       Int // lo que tardó un SELECT 1, en milisegundos
+
+  @@index([creadoEn])
+}

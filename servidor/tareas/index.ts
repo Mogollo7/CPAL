@@ -2,6 +2,7 @@
 // cada paso aislado y con límite de 30 s: si uno falla, los demás corren.
 import { bd } from "../bd";
 import { procesarCola, type Resumen } from "../cola";
+import { encolarInformeDiario, sondear } from "../informes/estado";
 import { registrar } from "../registro";
 import {
   anonimizarCitas,
@@ -42,6 +43,8 @@ export type ResumenTareas = {
   recordatorios: number | null;
   anonimizadas: number | null;
   limpieza: Awaited<ReturnType<typeof limpiar>> | null;
+  sondeoMs: number | null;
+  informe: boolean | null;
   pendientes: number;
   fallidos: number;
 };
@@ -70,6 +73,9 @@ export async function ejecutarTareas({
         anonimizarCitas(ahora),
       );
       const limpieza = await paso("limpiar", () => limpiar(ahora));
+      // Latido del servidor (un sondeo por minuto) e informe diario de las 08:00 (S06).
+      const sondeoMs = await paso("sondeo", () => sondear(ahora));
+      const informe = await paso("informe", () => encolarInformeDiario(ahora));
 
       const [pendientes, fallidos] = await Promise.all([
         bd.trabajo.count({ where: { estado: "PENDIENTE" } }),
@@ -88,6 +94,8 @@ export async function ejecutarTareas({
         recordatorios,
         anonimizadas,
         limpieza,
+        sondeoMs,
+        informe,
         pendientes,
         fallidos,
       };

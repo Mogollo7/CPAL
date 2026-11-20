@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { connection } from "next/server";
 import { FormularioCita } from "@/componentes/publico/pedir-cita/formulario-cita";
-import { EsqueletoCalmo } from "@/componentes/ui/esqueleto-calmo";
+import { EsqueletoCalmo } from "@/componentes/atomos/esqueleto-calmo";
 import contenidoServicios from "@/contenido/servicios.json";
 import type { Servicios } from "@/contratos/servicio-contenido";
 import { listarServiciosAgendablesAccion } from "@/servidor/acciones";
@@ -14,6 +14,8 @@ export const metadata: Metadata = {
   description:
     "Solicita tu cita de psicología individual, neuropsicología u orientación vocacional en el CAPL. Proceso guiado en 5 pasos, sin contraseñas y 100% gratuito.",
 };
+
+export const instant = false;
 
 function CargandoFormulario() {
   return (
@@ -46,7 +48,7 @@ async function FormularioConServicios() {
 
 export default function PedirCitaPage() {
   return (
-    <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 space-y-8">
+    <div className="py-8 sm:py-[48px] px-4 sm:px-6 lg:px-8 space-y-8">
       <div className="mx-auto max-w-[900px] space-y-3">
         <nav
           aria-label="Navegación secundaria"

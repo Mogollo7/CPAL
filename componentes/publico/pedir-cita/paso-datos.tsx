@@ -1,4 +1,4 @@
-import { Campo } from "@/componentes/ui/campo";
+import { Campo } from "@/componentes/moleculas/campo";
 import {
   EncabezadoPaso,
   Navegacion,

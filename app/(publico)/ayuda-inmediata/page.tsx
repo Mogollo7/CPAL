@@ -1,317 +1,177 @@
-import React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import { AlertTriangle, PhoneCall, ShieldCheck, Calendar } from "lucide-react";
-import { BotonLlamar } from "@/componentes/ui/boton-llamar";
+import Image from "next/image";
+import { EnlaceLlamar } from "@/componentes/atomos/enlace-llamar";
+import { FondoGrano } from "@/componentes/atomos/fondo-grano";
+import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
+import { Seccion } from "@/componentes/atomos/seccion";
+import { Titulo } from "@/componentes/atomos/titulo";
+import { EncabezadoSeccion } from "@/componentes/moleculas/encabezado-seccion";
 import { OrientadorCrisis } from "@/componentes/publico/orientador-crisis";
 import { EjercicioAnclaje } from "@/componentes/publico/ejercicio-anclaje";
 import emergenciasData from "@/contenido/emergencias.json";
 import type { Emergencias } from "@/contratos/emergencias";
+import telefono from "@/contenido/ilustraciones/ayuda-telefono.webp";
+import respiracion from "@/contenido/ilustraciones/ayuda-respiracion.webp";
+import abrazo from "@/contenido/ilustraciones/cierre-abrazo.webp";
 
 export const metadata: Metadata = {
-  title: "Guía de Emergencias y Ayuda Inmediata · CAPL",
+  title: "Ayuda inmediata · CAPL",
   description:
-    "Directorio de líneas de atención inmediata en Colombia, códigos de crisis, orientador confidencial y técnicas de apoyo emocional.",
+    "Si estás en peligro llama al 123. Líneas gratuitas, qué hacer en cada caso y un ejercicio para calmarte.",
 };
 
 const datos = emergenciasData as Emergencias;
 
+// El contenido (códigos, líneas, orientador) sale de contenido/*.json, validado por el CAPL; aquí solo el diseño.
 export default function AyudaInmediataPage() {
   return (
-    <div className="py-8 px-4 sm:px-6 lg:px-8">
-      <div className="mx-auto max-w-[1100px] space-y-10">
-        {/* Enlace accesible para saltar directo a las líneas */}
-        <a
-          href="#directorio-lineas"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-accion-fondo text-accion-texto px-4 py-2 rounded-m font-medio focus-visible:outline-3 focus-visible:outline-foco"
+    <>
+      {/* Cabecera · llamar a emergencias */}
+      <section
+        aria-labelledby="titulo-pagina"
+        className="relative isolate grid items-center gap-bloque px-4 py-cabecera sm:px-borde md:min-h-[671px] md:grid-cols-[612px_523px] md:justify-between md:px-[102px]"
+      >
+        <FondoGrano tono="lavanda" fundido="abajo" />
+        <div className="space-y-5">
+          <Titulo nivel="h1" tamano="hero" id="titulo-pagina">
+            Si estás en peligro
+            <br />
+            llama
+          </Titulo>
+          <EnlaceLlamar
+            telefono="123"
+            className="min-h-[58px] px-5 text-destacado"
+          />
+          <p className="text-destacado text-texto-secundario">
+            Línea gratuita de emergencias en Antioquia.
+          </p>
+        </div>
+        <Image
+          src={telefono}
+          alt=""
+          priority
+          sizes="523px"
+          className="mx-auto w-full max-w-[523px]"
+        />
+      </section>
+
+      {/* Orientador · qué está pasando + respirar */}
+      <Seccion
+        aria-label="Orientador"
+        className="mx-auto grid max-w-[1280px] gap-bloque md:grid-cols-[1fr_456px] md:px-[102px]"
+      >
+        <OrientadorCrisis />
+        <aside
+          aria-labelledby="titulo-respirar"
+          className="h-fit space-y-5 rounded-l bg-fondo-suave p-5 text-center"
         >
-          Saltar al directorio de llamadas de emergencia
-        </a>
-
-        {/* Encabezado y Aviso de No Urgencias Médicas (RF-PUB-08) */}
-        <header className="space-y-4">
-          <nav
-            aria-label="Ruta de navegación"
-            className="text-caption text-texto-secundario"
+          <h2
+            id="titulo-respirar"
+            className="font-titulo text-tarjeta font-fuerte text-texto-titulo"
           >
-            <Link
-              href="/"
-              className="text-texto-enlace hover:underline focus-visible:outline-3 focus-visible:outline-foco rounded-s"
+            Respira conmigo un minuto
+          </h2>
+          <Image
+            src={respiracion}
+            alt=""
+            sizes="242px"
+            className="mx-auto w-[242px]"
+          />
+          <a
+            href="#anclaje"
+            className="inline-flex min-h-[48px] items-center rounded-s bg-accion-fondo px-5 font-medio text-accion-texto hover:bg-accion-fondo-activo"
+          >
+            Hacer el ejercicio
+          </a>
+        </aside>
+      </Seccion>
+
+      {/* Qué hacer en cada caso */}
+      <Seccion
+        aria-labelledby="titulo-casos"
+        className="mx-auto max-w-[1280px] space-y-bloque md:px-[102px]"
+      >
+        <EncabezadoSeccion
+          id="titulo-casos"
+          titulo="Qué hacer en cada caso"
+          bajada="Si hay peligro inmediato, llama al 123."
+        />
+        <ul className="grid gap-5 md:grid-cols-2">
+          {datos.codigos.map((c) => {
+            const linea =
+              c.lineas.find((l) => l.telefono !== "123") ?? c.lineas[0];
+            return (
+              <li
+                key={c.id}
+                id={`codigo-${c.id}`}
+                className="scroll-mt-[110px] space-y-3 rounded-[13px] bg-blanco p-5 shadow-flotante"
+              >
+                <span className="inline-block rounded-[7px] bg-fondo-suave px-3 py-1 text-caption font-medio text-texto-titulo">
+                  {c.nombre}
+                </span>
+                <h3 className="font-titulo text-subtitulo font-fuerte text-texto-titulo">
+                  {c.situacion}
+                </h3>
+                <ol className="list-inside list-decimal text-texto-secundario">
+                  {c.queHacer.map((paso) => (
+                    <li key={paso}>{paso}</li>
+                  ))}
+                </ol>
+                {linea && <EnlaceLlamar telefono={linea.telefono} />}
+              </li>
+            );
+          })}
+        </ul>
+      </Seccion>
+
+      {/* Líneas gratuitas */}
+      <Seccion
+        id="directorio-lineas"
+        aria-labelledby="titulo-lineas"
+        className="mx-auto max-w-[1280px] space-y-bloque md:px-[102px]"
+      >
+        <EncabezadoSeccion
+          id="titulo-lineas"
+          titulo="Líneas gratuitas"
+          bajada="Disponibles las 24 horas. Marca el número desde tu teléfono."
+        />
+        <ul className="space-y-4">
+          {datos.directorio.map((l) => (
+            <li
+              key={l.telefono}
+              className="flex flex-wrap items-center gap-5 rounded-m bg-blanco p-4 shadow-flotante"
             >
-              Inicio
-            </Link>{" "}
-            / <span aria-current="page">Ayuda inmediata</span>
-          </nav>
-
-          <div className="border-b border-borde-suave pb-6">
-            <h1 className="text-h1 font-fuerte text-texto-titulo tracking-tight">
-              Guía de Emergencias y Ayuda Inmediata
-            </h1>
-            <p className="text-p text-texto-secundario mt-2 max-w-[70ch] leading-texto">
-              Si estás viviendo un momento de angustia desbordante, pensamientos
-              de hacerte daño o una situación de violencia, aquí encuentras los
-              canales de apoyo profesional gratuitos y disponibles para ti en
-              Colombia.
-            </p>
-          </div>
-
-          {/* Aviso prioritario obligatorio: El CAPL no atiende urgencias médicas */}
-          <div
-            role="alert"
-            className="rounded-m bg-aviso-fondo border-l-4 border-amarillo-700 p-5 shadow-sm"
-          >
-            <div className="flex items-start gap-4">
-              <AlertTriangle
-                className="w-6 h-6 text-amarillo-700 shrink-0 mt-0.5"
-                aria-hidden="true"
-              />
-              <div className="space-y-1">
-                <h2 className="text-p font-fuerte text-tinta">
-                  El CAPL no es un servicio de urgencias médicas ni
-                  psiquiátricas
-                </h2>
-                <p className="text-p text-tinta leading-texto">
-                  Nuestro centro brinda atención psicológica con cita previa. Si
-                  tú o una persona cercana se encuentra en peligro inmediato,
-                  requiere hospitalización o atraviesa una crisis aguda,
-                  comunícate ya mismo a las líneas de ayuda oficiales o acude al
-                  servicio de urgencias de salud más cercano.
+              <span className="flex h-[52px] min-w-[76px] items-center justify-center rounded-s bg-fondo-suave px-2 font-titulo text-subtitulo font-fuerte text-texto-titulo">
+                {l.telefono}
+              </span>
+              <div className="min-w-0 flex-1">
+                <p className="text-h2 font-medio text-texto-titulo">
+                  {l.nombre}
+                </p>
+                <p className="text-texto-secundario">
+                  {l.porConfirmar ? "Horario por confirmar" : l.horario}
                 </p>
               </div>
-            </div>
-          </div>
-        </header>
+              <EnlaceLlamar telefono={l.telefono} />
+            </li>
+          ))}
+        </ul>
+      </Seccion>
 
-        {/* 1. Directorio general de líneas de ayuda directas (RF-EMG-02) */}
-        <section
-          id="directorio-lineas"
-          aria-labelledby="titulo-directorio"
-          className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 shadow-sm space-y-6"
-        >
-          <div className="border-b border-borde-suave pb-4">
-            <div className="flex items-center gap-2 text-morado-700 text-caption font-medio uppercase tracking-wider">
-              <PhoneCall className="w-4 h-4" aria-hidden="true" />
-              <span>Atención gratuita y confidencial</span>
-            </div>
-            <h2
-              id="titulo-directorio"
-              className="text-h1 font-fuerte text-texto-titulo mt-1"
-            >
-              Directorio de Líneas de Emergencia en Colombia
-            </h2>
-            <p className="text-p text-texto-secundario mt-1">
-              Haz clic o toca cualquiera de los botones para llamar directamente
-              desde tu teléfono.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {datos.directorio.map((linea, idx) => (
-              <BotonLlamar
-                key={idx}
-                nombre={linea.nombre}
-                telefono={linea.telefono}
-                horario={linea.horario}
-                porConfirmar={linea.porConfirmar}
-                variante={linea.telefono === "123" ? "alerta" : "principal"}
-              />
-            ))}
-          </div>
-
-          <p className="text-caption text-tinta-suave pt-2">
-            * Todas las líneas anteriores son de acceso gratuito desde teléfonos
-            móviles y fijos en el territorio colombiano.
-          </p>
-        </section>
-
-        {/* 2. Orientador Interactivo de Crisis (RF-EMG-03) */}
-        <OrientadorCrisis />
-
-        {/* 3. Tarjetas de Códigos de Emergencia (RF-EMG-01, RF-EMG-05) */}
-        <section aria-labelledby="titulo-codigos" className="space-y-6">
-          <div className="border-b border-borde-suave pb-4">
-            <span className="text-caption font-medio uppercase tracking-wider text-morado-700">
-              Protocolos de contención y acompañamiento
-            </span>
-            <h2
-              id="titulo-codigos"
-              className="text-h1 font-fuerte text-texto-titulo mt-1"
-            >
-              Códigos de Crisis: Cómo actuar paso a paso
-            </h2>
-            <p className="text-p text-texto-secundario mt-1 max-w-[70ch]">
-              Información clara sobre qué hacer y qué evitar según la situación
-              que se esté presentando.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-6">
-            {datos.codigos.map((codigo) => (
-              <article
-                key={codigo.id}
-                id={`codigo-${codigo.id}`}
-                className="scroll-mt-8 rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 shadow-sm space-y-6"
-                aria-labelledby={`titulo-${codigo.id}`}
-              >
-                {/* REQUISITO ESTRICTO: Destacar PRIMERO la situación en text-h2 font-medio */}
-                <div className="border-b border-borde-suave pb-4 space-y-2">
-                  <h3
-                    id={`titulo-${codigo.id}`}
-                    className="text-h2 font-medio text-texto-titulo leading-titulo"
-                  >
-                    {codigo.situacion}
-                  </h3>
-
-                  {/* Nombre del código y píldora de color */}
-                  <div className="flex flex-wrap items-center gap-2 pt-1">
-                    <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-pildora text-caption font-fuerte bg-morado-100 text-morado-900 border border-morado-300">
-                      <span
-                        className="w-2.5 h-2.5 rounded-circulo shrink-0"
-                        style={{
-                          backgroundColor:
-                            codigo.id === "dorado"
-                              ? "#FFCB05"
-                              : codigo.id === "fucsia"
-                                ? "#E040FB"
-                                : codigo.id === "rosa"
-                                  ? "#FF80AB"
-                                  : "#A9AEEB",
-                        }}
-                        aria-hidden="true"
-                      />
-                      {codigo.nombre}
-                    </span>
-
-                    <span className="text-caption text-tinta-suave">
-                      Ruta asociada: Color {codigo.color}
-                    </span>
-
-                    {codigo.porConfirmar && (
-                      <span className="text-caption bg-morado-50 text-tinta-suave px-2 py-0.5 rounded-s border border-borde-suave">
-                        Contenido en validación por CAPL
-                      </span>
-                    )}
-                  </div>
-                </div>
-
-                {/* Señales de alerta */}
-                <div>
-                  <h4 className="text-p font-fuerte text-texto-titulo mb-2">
-                    Señales a las que debemos prestar atención:
-                  </h4>
-                  <ul className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                    {codigo.senales.map((senal, sIdx) => (
-                      <li
-                        key={sIdx}
-                        className="flex items-start gap-2.5 text-p text-texto-principal leading-texto"
-                      >
-                        <span
-                          className="w-1.5 h-1.5 rounded-circulo bg-morado-600 mt-2.5 shrink-0"
-                          aria-hidden="true"
-                        />
-                        <span>{senal}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-
-                {/* Qué hacer vs Qué no hacer */}
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
-                  {/* Qué hacer */}
-                  <div className="rounded-m bg-agua-100/60 border border-agua-300 p-5 space-y-3">
-                    <h4 className="text-p font-fuerte text-agua-700 flex items-center gap-2">
-                      <ShieldCheck
-                        className="w-5 h-5 shrink-0"
-                        aria-hidden="true"
-                      />
-                      <span>Qué SÍ debes hacer:</span>
-                    </h4>
-                    <ul className="space-y-2">
-                      {codigo.queHacer.map((hacer, hIdx) => (
-                        <li
-                          key={hIdx}
-                          className="flex items-start gap-2 text-p text-texto-principal leading-texto"
-                        >
-                          <span className="font-fuerte text-agua-700 shrink-0 select-none">
-                            •
-                          </span>
-                          <span>{hacer}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Qué no hacer */}
-                  <div className="rounded-m bg-error-fondo border border-coral-700/30 p-5 space-y-3">
-                    <h4 className="text-p font-fuerte text-error-texto flex items-center gap-2">
-                      <AlertTriangle
-                        className="w-5 h-5 shrink-0"
-                        aria-hidden="true"
-                      />
-                      <span>Qué NO debes hacer:</span>
-                    </h4>
-                    <ul className="space-y-2">
-                      {codigo.queNoHacer.map((noHacer, nIdx) => (
-                        <li
-                          key={nIdx}
-                          className="flex items-start gap-2 text-p text-texto-principal leading-texto"
-                        >
-                          <span className="font-fuerte text-error-texto shrink-0 select-none">
-                            •
-                          </span>
-                          <span>{noHacer}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* Líneas específicas para este código */}
-                <div className="border-t border-borde-suave pt-4">
-                  <p className="text-caption font-medio text-texto-secundario mb-3">
-                    Líneas prioritarias para este caso:
-                  </p>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                    {codigo.lineas.map((linea, lIdx) => (
-                      <BotonLlamar
-                        key={lIdx}
-                        nombre={linea.nombre}
-                        telefono={linea.telefono}
-                        horario={linea.horario}
-                        porConfirmar={linea.porConfirmar}
-                        variante={
-                          linea.telefono === "123" ? "alerta" : "secundario"
-                        }
-                      />
-                    ))}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        {/* 4. Ejercicio de Anclaje Sensorial 5-4-3-2-1 (RF-EMG-06) */}
+      <div
+        id="anclaje"
+        className="mx-auto max-w-[1076px] scroll-mt-[110px] px-4"
+      >
         <EjercicioAnclaje />
-
-        {/* Pie de la página: Metadatos y Fecha de Revisión */}
-        <footer className="border-t border-borde-suave pt-6 text-caption text-tinta-suave flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Última revisión: {datos.ultimaRevision}</span>
-            <span>·</span>
-            <span>{datos.aprobadoPor}</span>
-          </div>
-          <div>
-            <Link
-              href="/contacto"
-              className="text-texto-enlace hover:underline focus-visible:outline-3 focus-visible:outline-foco rounded-s"
-            >
-              ¿Tienes dudas sobre los servicios del CAPL? Contáctanos
-            </Link>
-          </div>
-        </footer>
       </div>
-    </div>
+
+      {/* Cierre */}
+      <section className="px-4 pt-seccion text-center">
+        <Titulo tamano="bloque">
+          Pedir ayuda también es un acto de valentía.
+        </Titulo>
+      </section>
+      <IlustracionSobrePie src={abrazo} ancho={360} izquierda={460} />
+    </>
   );
 }

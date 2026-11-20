@@ -1,4 +1,6 @@
 "use client";
+import { TarjetaPanel } from "@/componentes/panel/tarjeta-panel";
+import { Titulo } from "@/componentes/atomos/titulo";
 import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition } from "react";
@@ -230,35 +232,96 @@ export function GestorHorario({
   };
 
   return (
-    <div className="space-y-8 max-w-5xl">
+    <div className="space-y-5">
       {/* Alerta de notificación */}
       {mensaje && (
         <div
           role="status"
-          className={`p-4 rounded-m flex items-start gap-2.5 text-caption font-weight-medio border ${
+          className={`p-4 rounded-m flex items-start gap-[10px] text-caption font-medio border ${
             mensaje.tipo === "exito"
               ? "bg-exito-fondo text-exito-texto border-agua-700/20"
               : "bg-error-fondo text-error-texto border-coral-700/20"
           }`}
         >
           {mensaje.tipo === "exito" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 mt-1" />
           ) : (
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-1" />
           )}
           <span>{mensaje.texto}</span>
         </div>
       )}
 
+      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
+        <TarjetaPanel>
+          <Titulo tamano="tarjeta" className="text-subtitulo">
+            Horario semanal
+          </Titulo>
+          <p className="text-caption text-texto-secundario mb-4">
+            Hora de Bogotá
+          </p>
+          <div className="overflow-x-auto">
+            <div className="grid grid-cols-5 min-w-[500px] border-l border-borde-suave">
+              {DIAS_SEMANA.map((dia) => (
+                <div
+                  key={dia.num}
+                  className="border-r border-borde-suave min-h-[300px]"
+                >
+                  <p className="font-medio text-texto-titulo px-2 pb-2">
+                    {dia.nombre}
+                  </p>
+                  <div className="border-t border-borde-suave p-1 space-y-1">
+                    {bloques
+                      .filter((b) => b.diaSemana === dia.num)
+                      .map((b) => (
+                        <div
+                          key={b.id}
+                          className="rounded-s bg-menta-100 p-2 text-caption text-petroleo-700"
+                        >
+                          <strong>
+                            {minutosAHora(b.inicioMin)}–{minutosAHora(b.finMin)}
+                          </strong>
+                          <span className="block">Disponible</span>
+                        </div>
+                      ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </TarjetaPanel>
+        <TarjetaPanel>
+          <Titulo tamano="tarjeta" className="text-subtitulo">
+            Franjas habituales
+          </Titulo>
+          <p className="text-caption text-texto-secundario mb-4">
+            Se repiten cada semana
+          </p>
+          {DIAS_SEMANA.map((dia) => (
+            <div key={dia.num} className="py-2 border-b border-borde-suave">
+              <strong className="block text-texto-titulo">{dia.nombre}</strong>
+              <span className="text-caption text-texto-secundario">
+                {bloques
+                  .filter((b) => b.diaSemana === dia.num)
+                  .map(
+                    (b) =>
+                      minutosAHora(b.inicioMin) + "–" + minutosAHora(b.finMin),
+                  )
+                  .join(" · ") || "Sin franjas"}
+              </span>
+            </div>
+          ))}
+        </TarjetaPanel>
+      </div>
       {/* SECCIÓN 1: HORARIO SEMANAL */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-6">
+      <div className="p-4 sm:p-5 rounded-m bg-fondo-superficie border border-borde-suave space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
           <div>
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo flex items-center gap-2">
+            <h3 className="text-h2 font-fuerte text-texto-titulo flex items-center gap-2">
               <Clock className="w-5 h-5 text-morado-600" />
               <span>Franjas Semanales de Disponibilidad</span>
             </h3>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-1">
               Define los bloques en los que puedes recibir pacientes cada día de
               la semana.
             </p>
@@ -268,7 +331,7 @@ export function GestorHorario({
             type="button"
             onClick={manejarGuardarHorario}
             disabled={guardandoHorario}
-            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto font-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>{guardandoHorario ? "Guardando..." : "Guardar horario"}</span>
@@ -283,14 +346,14 @@ export function GestorHorario({
             return (
               <div
                 key={dia.num}
-                className="p-3.5 rounded-m bg-fondo-suave/60 border border-borde-suave flex flex-col justify-between min-h-[220px]"
+                className="p-3 rounded-m bg-fondo-suave/60 border border-borde-suave flex flex-col justify-between min-h-[220px]"
               >
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-borde-suave/60">
-                    <span className="font-weight-fuerte text-caption text-texto-titulo">
+                    <span className="font-fuerte text-caption text-texto-titulo">
                       {dia.nombre}
                     </span>
-                    <span className="text-[11px] text-texto-secundario">
+                    <span className="text-caption text-texto-secundario">
                       {bloquesDia.length} franja
                       {bloquesDia.length !== 1 ? "s" : ""}
                     </span>
@@ -301,9 +364,9 @@ export function GestorHorario({
                     {bloquesDia.map((bloque) => (
                       <div
                         key={bloque.id}
-                        className="p-2 rounded-s bg-fondo-superficie border border-borde-suave shadow-2xs space-y-1.5"
+                        className="p-2 rounded-s bg-fondo-superficie border border-borde-suave shadow-2xs space-y-2"
                       >
-                        <div className="flex items-center gap-1.5 text-xs">
+                        <div className="flex items-center gap-2 text-caption">
                           <input
                             type="time"
                             value={minutosAHora(bloque.inicioMin)}
@@ -314,7 +377,7 @@ export function GestorHorario({
                                 horaAMinutos(e.target.value),
                               )
                             }
-                            className="w-full px-1.5 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
+                            className="w-full px-2 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
                           />
                           <span className="text-texto-secundario">-</span>
                           <input
@@ -327,14 +390,14 @@ export function GestorHorario({
                                 horaAMinutos(e.target.value),
                               )
                             }
-                            className="w-full px-1.5 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
+                            className="w-full px-2 py-1 rounded-s border border-borde-suave text-caption text-center focus-visible:outline-morado-600"
                           />
                         </div>
 
                         <button
                           type="button"
                           onClick={() => eliminarBloque(bloque.id)}
-                          className="w-full flex items-center justify-center gap-1 py-1 text-[11px] text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
+                          className="w-full flex items-center justify-center gap-1 py-1 text-caption text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
                           title="Eliminar esta franja"
                         >
                           <Trash2 className="w-3 h-3" />
@@ -344,7 +407,7 @@ export function GestorHorario({
                     ))}
 
                     {bloquesDia.length === 0 && (
-                      <p className="text-center py-6 text-xs text-texto-secundario/60 italic">
+                      <p className="text-center py-6 text-caption text-texto-secundario/60 italic">
                         Sin atención
                       </p>
                     )}
@@ -354,7 +417,7 @@ export function GestorHorario({
                 <button
                   type="button"
                   onClick={() => agregarBloque(dia.num)}
-                  className="mt-3 w-full flex items-center justify-center gap-1 py-1.5 rounded-s border border-dashed border-borde-control text-[11px] font-weight-medio text-texto-secundario hover:text-texto-principal hover:border-morado-500 hover:bg-fondo-superficie transition-all cursor-pointer"
+                  className="mt-3 w-full flex items-center justify-center gap-1 py-2 rounded-s border border-dashed border-borde-control text-caption font-medio text-texto-secundario hover:text-texto-principal hover:border-morado-500 hover:bg-fondo-superficie transition-all cursor-pointer"
                 >
                   <Plus className="w-3 h-3" />
                   <span>Añadir</span>
@@ -366,14 +429,14 @@ export function GestorHorario({
       </div>
 
       {/* SECCIÓN 2: AUSENCIAS PUNTUALES Y BLOQUEOS */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-6">
+      <div className="p-4 sm:p-5 rounded-m bg-fondo-superficie border border-borde-suave space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
           <div>
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo flex items-center gap-2">
+            <h3 className="text-h2 font-fuerte text-texto-titulo flex items-center gap-2">
               <CalendarOff className="w-5 h-5 text-morado-600" />
               <span>Ausencias Puntuales y Vacaciones</span>
             </h3>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-1">
               Registra ausencias temporales (enfermedad, exámenes o permisos)
               para no ofrecer cupos en esas fechas.
             </p>
@@ -383,7 +446,7 @@ export function GestorHorario({
             <button
               type="button"
               onClick={() => setMostrarFormAusencia(true)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-fondo-superficie border border-borde-control text-texto-principal text-caption font-weight-fuerte hover:bg-fondo-suave transition-all shadow-xs cursor-pointer"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-fondo-superficie border border-borde-control text-texto-principal text-caption font-fuerte hover:bg-fondo-suave transition-all shadow-xs cursor-pointer"
             >
               <Plus className="w-4 h-4 text-morado-600" />
               <span>Declarar ausencia</span>
@@ -398,7 +461,7 @@ export function GestorHorario({
             className="p-4 rounded-m bg-fondo-suave border border-morado-300 space-y-4 animate-in fade-in duration-200"
           >
             <div className="flex items-center justify-between">
-              <h4 className="font-weight-fuerte text-caption text-texto-titulo">
+              <h4 className="font-fuerte text-caption text-texto-titulo">
                 Nueva ausencia programada
               </h4>
               <button
@@ -412,7 +475,7 @@ export function GestorHorario({
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="block text-xs font-weight-medio text-texto-secundario mb-1">
+                <label className="block text-caption font-medio text-texto-secundario mb-1">
                   Desde (Fecha y hora):
                 </label>
                 <input
@@ -425,7 +488,7 @@ export function GestorHorario({
               </div>
 
               <div>
-                <label className="block text-xs font-weight-medio text-texto-secundario mb-1">
+                <label className="block text-caption font-medio text-texto-secundario mb-1">
                   Hasta (Fecha y hora):
                 </label>
                 <input
@@ -439,7 +502,7 @@ export function GestorHorario({
             </div>
 
             <div>
-              <label className="block text-xs font-weight-medio text-texto-secundario mb-1">
+              <label className="block text-caption font-medio text-texto-secundario mb-1">
                 Motivo (opcional):
               </label>
               <input
@@ -456,7 +519,7 @@ export function GestorHorario({
               <button
                 type="submit"
                 disabled={guardandoAusencia}
-                className="px-4 py-2 rounded-s bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all cursor-pointer disabled:opacity-50"
+                className="px-4 py-2 rounded-s bg-accion-fondo text-accion-texto font-fuerte text-caption hover:bg-accion-fondo-activo transition-all cursor-pointer disabled:opacity-50"
               >
                 {guardandoAusencia ? "Registrando..." : "Guardar ausencia"}
               </button>
@@ -469,10 +532,10 @@ export function GestorHorario({
           {bloqueos.map((bloqueo) => (
             <div
               key={bloqueo.id}
-              className="p-3.5 rounded-m bg-fondo-suave/40 border border-borde-suave flex items-center justify-between text-caption"
+              className="p-3 rounded-m bg-fondo-suave/40 border border-borde-suave flex items-center justify-between text-caption"
             >
-              <div className="space-y-0.5">
-                <div className="flex items-center gap-2 font-weight-medio text-texto-titulo">
+              <div className="space-y-[2px]">
+                <div className="flex items-center gap-2 font-medio text-texto-titulo">
                   <Calendar className="w-4 h-4 text-morado-600" />
                   <span>
                     Del {new Date(bloqueo.desde).toLocaleDateString("es-CO")} al{" "}
@@ -480,7 +543,7 @@ export function GestorHorario({
                   </span>
                 </div>
                 {bloqueo.motivo && (
-                  <p className="text-xs text-texto-secundario italic">
+                  <p className="text-caption text-texto-secundario italic">
                     Motivo: {bloqueo.motivo}
                   </p>
                 )}
@@ -489,7 +552,7 @@ export function GestorHorario({
               <button
                 type="button"
                 onClick={() => manejarEliminarAusencia(bloqueo.id)}
-                className="p-1.5 text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
+                className="p-[6px] text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors"
                 title="Eliminar este bloqueo"
               >
                 <Trash2 className="w-4 h-4" />

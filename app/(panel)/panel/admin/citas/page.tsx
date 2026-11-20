@@ -1,64 +1,74 @@
+import { connection } from "next/server";
+import { TarjetaPanel } from "@/componentes/panel/tarjeta-panel";
+import { Titulo } from "@/componentes/atomos/titulo";
+import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
 import { datosDePagina } from "@/servidor/pagina";
-import { Suspense } from "react";
-import type { EstadoCita } from "@/contratos/cita";
-import { listarCitasAccion } from "@/servidor/acciones";
+import {
+  listarCitasAccion,
+  listarPsicologosAccion,
+  listarServiciosAccion,
+} from "@/servidor/acciones";
 import { FiltrosCitas } from "@/componentes/panel/citas/filtros-citas";
 import { TablaCitas } from "@/componentes/panel/citas/tabla-citas";
+import { consultaBandeja } from "@/componentes/panel/citas/consulta-citas";
 
-interface PaginaAdminCitasProps {
-  searchParams: Promise<{
-    estado?: string;
-    busqueda?: string;
-    fecha?: string;
-    pagina?: string;
-  }>;
-}
+export const instant = false;
 
 export default async function PaginaAdminCitas({
   searchParams,
-}: PaginaAdminCitasProps) {
-  const params = await searchParams;
-  const estadoFiltro = (params.estado || "PENDIENTE") as EstadoCita | "todas";
-  const busqueda = (params.busqueda || "").toLowerCase().trim();
-  const pagina = Number(params.pagina) || 1;
-
-  const { citas, total } = datosDePagina(
-    await listarCitasAccion({
-      estado: estadoFiltro === "todas" ? undefined : estadoFiltro,
-      busqueda: busqueda || undefined,
-      pagina,
-    }),
-  );
+}: {
+  searchParams: Promise<Record<string, string | string[] | undefined>>;
+}) {
+  await connection();
+  const consulta = consultaBandeja(await searchParams);
+  const [resultado, resultadoPendientes, profesionales, servicios] =
+    await Promise.all([
+      listarCitasAccion({ ...consulta.filtros, pagina: consulta.pagina }),
+      consulta.estado === "PENDIENTE"
+        ? null
+        : listarCitasAccion({ ...consulta.filtros, estado: "PENDIENTE" }),
+      listarPsicologosAccion(),
+      listarServiciosAccion(),
+    ]);
+  const { citas, total, pagina, porPagina } = datosDePagina(resultado);
 
   return (
     <div className="space-y-6">
-      {/* Encabezado de la página */}
-      <div className="pb-2">
-        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          Bandeja de Citas
-        </h2>
-        <p className="text-p text-texto-secundario mt-1 text-sm">
-          Revisión de solicitudes entrantes, autorizaciones inmediatas y
-          seguimiento clínico.
-        </p>
-      </div>
-
-      {/* Controles de Filtros y Búsqueda */}
-      <Suspense
-        fallback={
-          <div className="h-20 bg-fondo-suave rounded-m animate-pulse" />
-        }
-      >
-        <FiltrosCitas />
-      </Suspense>
-
-      {/* Tabla Interactiva de Citas */}
-      <TablaCitas
-        citas={citas}
-        total={total}
-        paginaActual={pagina}
-        baseUrl="/panel/admin/citas"
+      <EncabezadoPagina
+        titulo="Citas del centro"
+        descripcion="Revisa las solicitudes y gestiona las citas de todos los profesionales."
       />
+      <TarjetaPanel>
+        <Titulo nivel="h2" tamano="tarjeta" className="text-subtitulo">
+          Bandeja de citas
+        </Titulo>
+        <p className="mt-1 mb-5 text-texto-secundario">
+          Selecciona una cita para revisar sus datos.
+        </p>
+        <FiltrosCitas
+          consulta={consulta}
+          pendientes={
+            resultadoPendientes
+              ? datosDePagina(resultadoPendientes).total
+              : total
+          }
+          profesionales={datosDePagina(profesionales).map(({ id, nombre }) => ({
+            id,
+            nombre,
+          }))}
+          servicios={datosDePagina(servicios).map(({ id, nombre }) => ({
+            id,
+            nombre,
+          }))}
+        />
+        <TablaCitas
+          citas={citas}
+          total={total}
+          paginaActual={pagina}
+          porPagina={porPagina}
+          consulta={consulta}
+        />
+      </TarjetaPanel>
     </div>
   );
 }

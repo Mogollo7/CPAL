@@ -1,6 +1,5 @@
-import { plantillaBase } from "./base";
+import { plantillaBase, fechaCorreo } from "./base";
 import { centro } from "./centro";
-import { formatoFechaHora } from "../servidor/fechas";
 
 export type Datos = {
   nombre: string;
@@ -11,12 +10,21 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-recordatorio",
+    tono: "#fdf3dc",
+    disposicion: "fila",
     asunto: "Recordatorio: tu cita es mañana",
+    titulo: "Tu cita es mañana",
+    fecha: fechaCorreo(d.inicio, "Tu sesión de mañana"),
+    datos: [{ rotulo: "Lugar", valor: centro().direccion }],
     parrafos: [
-      `Hola, ${d.nombre}. Te recordamos tu cita de mañana, ${formatoFechaHora(d.inicio)}, con ${d.psicologo}.`,
-      `Dónde: casa amarilla del CAPL, ${centro().direccion}.`,
-      "Si no puedes asistir, cancela o cambia el horario desde el botón para que otra persona pueda usar ese espacio.",
+      `Hola, ${d.nombre}. Te esperamos mañana para tu cita con ${d.psicologo}.`,
     ],
+    nota: {
+      titulo: "Si cambian tus planes",
+      texto:
+        "Si no puedes asistir, cancela o cambia el horario desde el botón para que otra persona pueda usar ese espacio.",
+    },
     boton: { texto: "Ver mi cita", ruta: d.rutaGestion },
   });
 

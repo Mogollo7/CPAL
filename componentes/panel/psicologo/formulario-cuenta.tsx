@@ -1,4 +1,6 @@
 "use client";
+import { claseBoton } from "@/componentes/atomos/boton";
+import { CLASE_CONTROL } from "@/componentes/moleculas/campo";
 import { SIN_CONEXION } from "@/contratos/resultado";
 
 import { useState, useTransition, type FormEvent } from "react";
@@ -93,35 +95,35 @@ export function FormularioCuenta() {
   };
 
   return (
-    <div className="space-y-6 max-w-2xl">
+    <div className="space-y-5">
       {/* Alerta de notificación */}
       {mensaje && (
         <div
           role="status"
-          className={`p-4 rounded-m flex items-start gap-2.5 text-caption font-weight-medio border ${
+          className={`p-4 rounded-m flex items-start gap-[10px] text-caption font-medio border ${
             mensaje.tipo === "exito"
               ? "bg-exito-fondo text-exito-texto border-agua-700/20"
               : "bg-error-fondo text-error-texto border-coral-700/20"
           }`}
         >
           {mensaje.tipo === "exito" ? (
-            <CheckCircle2 className="w-4 h-4 shrink-0 mt-0.5" />
+            <CheckCircle2 className="w-4 h-4 shrink-0 mt-1" />
           ) : (
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-1" />
           )}
           <span>{mensaje.texto}</span>
         </div>
       )}
 
       {/* SECCIÓN 1: CAMBIAR CONTRASEÑA */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-6">
-        <div className="flex items-center gap-2.5 pb-4 border-b border-borde-suave">
+      <div className="p-4 sm:p-5 rounded-m bg-fondo-superficie border border-borde-suave space-y-6">
+        <div className="flex items-center gap-[10px] pb-4 border-b border-borde-suave">
           <KeyRound className="w-5 h-5 text-morado-600" />
           <div>
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo">
+            <h3 className="text-h2 font-fuerte text-texto-titulo">
               Cambiar Contraseña
             </h3>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-1">
               Actualiza tu clave de acceso institucional.
             </p>
           </div>
@@ -131,7 +133,7 @@ export function FormularioCuenta() {
           <div>
             <label
               htmlFor="clave-actual"
-              className="block text-caption font-weight-medio text-texto-principal mb-1.5"
+              className="block text-caption font-medio text-texto-principal mb-[6px]"
             >
               Contraseña actual
             </label>
@@ -143,12 +145,12 @@ export function FormularioCuenta() {
                 value={claveActual}
                 onChange={(e) => setClaveActual(e.target.value)}
                 placeholder="Ingresa tu clave actual"
-                className="w-full pl-3.5 pr-10 py-2.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal text-caption focus-visible:outline-2 focus-visible:outline-morado-600"
+                className={CLASE_CONTROL}
               />
               <button
                 type="button"
                 onClick={() => setMostrarActual(!mostrarActual)}
-                className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal"
+                className="absolute right-3 top-[10px] text-texto-secundario hover:text-texto-principal"
               >
                 {mostrarActual ? (
                   <EyeOff className="w-4 h-4" />
@@ -162,7 +164,7 @@ export function FormularioCuenta() {
           <div>
             <label
               htmlFor="clave-nueva"
-              className="block text-caption font-weight-medio text-texto-principal mb-1.5"
+              className="block text-caption font-medio text-texto-principal mb-[6px]"
             >
               Nueva contraseña
             </label>
@@ -175,12 +177,12 @@ export function FormularioCuenta() {
                 value={claveNueva}
                 onChange={(e) => setClaveNueva(e.target.value)}
                 placeholder="Mínimo 10 caracteres"
-                className="w-full pl-3.5 pr-10 py-2.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal text-caption focus-visible:outline-2 focus-visible:outline-morado-600"
+                className={CLASE_CONTROL}
               />
               <button
                 type="button"
                 onClick={() => setMostrarNueva(!mostrarNueva)}
-                className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal"
+                className="absolute right-3 top-[10px] text-texto-secundario hover:text-texto-principal"
               >
                 {mostrarNueva ? (
                   <EyeOff className="w-4 h-4" />
@@ -189,7 +191,7 @@ export function FormularioCuenta() {
                 )}
               </button>
             </div>
-            <p className="text-[11px] text-texto-secundario mt-1">
+            <p className="text-caption text-texto-secundario mt-1">
               Debe tener mínimo 10 caracteres y no coincidir con tu correo.
             </p>
           </div>
@@ -197,7 +199,7 @@ export function FormularioCuenta() {
           <div>
             <label
               htmlFor="confirmacion"
-              className="block text-caption font-weight-medio text-texto-principal mb-1.5"
+              className="block text-caption font-medio text-texto-principal mb-[6px]"
             >
               Confirmar nueva contraseña
             </label>
@@ -209,7 +211,7 @@ export function FormularioCuenta() {
               value={confirmacion}
               onChange={(e) => setConfirmacion(e.target.value)}
               placeholder="Repite la nueva contraseña"
-              className="w-full p-2.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal text-caption focus-visible:outline-2 focus-visible:outline-morado-600"
+              className={CLASE_CONTROL}
             />
           </div>
 
@@ -217,7 +219,7 @@ export function FormularioCuenta() {
             <button
               type="submit"
               disabled={guardando}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-caption hover:bg-accion-fondo-activo transition-all shadow-xs cursor-pointer disabled:opacity-50"
+              className={claseBoton("principal", "shadow-none")}
             >
               <span>
                 {guardando ? "Actualizando..." : "Actualizar contraseña"}
@@ -228,20 +230,20 @@ export function FormularioCuenta() {
       </div>
 
       {/* SECCIÓN 2: SEGURIDAD Y CIERRE DE SESIONES */}
-      <div className="p-6 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs space-y-4">
-        <div className="flex items-center gap-2.5 pb-3 border-b border-borde-suave">
+      <div className="p-4 sm:p-5 rounded-m bg-fondo-superficie border border-borde-suave space-y-4">
+        <div className="flex items-center gap-[10px] pb-3 border-b border-borde-suave">
           <ShieldAlert className="w-5 h-5 text-coral-700" />
           <div>
-            <h3 className="text-h2 font-weight-fuerte text-texto-titulo">
+            <h3 className="text-h2 font-fuerte text-texto-titulo">
               Sesiones Activas
             </h3>
-            <p className="text-caption text-texto-secundario mt-0.5">
+            <p className="text-caption text-texto-secundario mt-1">
               Control de acceso en dispositivos institucionales y personales.
             </p>
           </div>
         </div>
 
-        <p className="text-caption text-texto-secundario text-xs leading-relaxed">
+        <p className="text-caption text-texto-secundario text-caption leading-relaxed">
           Si utilizaste un computador público o sospechas que tu cuenta quedó
           abierta en otro navegador, puedes invalidar de inmediato todas las
           sesiones activas en cualquier equipo.
@@ -252,7 +254,7 @@ export function FormularioCuenta() {
             type="button"
             onClick={manejarCerrarTodasSesiones}
             disabled={cerrandoSesiones}
-            className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-error-fondo text-coral-700 border border-coral-700/20 text-caption font-weight-fuerte hover:bg-coral-700 hover:text-blanco transition-all shadow-xs cursor-pointer disabled:opacity-50"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-m bg-error-fondo text-coral-700 border border-coral-700/20 text-caption font-fuerte hover:bg-coral-700 hover:text-blanco transition-all shadow-xs cursor-pointer disabled:opacity-50"
           >
             <LogOut className="w-4 h-4" />
             <span>

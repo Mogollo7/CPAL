@@ -9,14 +9,16 @@ import {
   Sparkles,
   CalendarOff,
   Settings,
+  ClipboardList,
+  ShieldCheck,
+  MailWarning,
   Clock,
   User,
-  KeyRound,
   Menu,
   X,
-  ShieldCheck,
-  HeartHandshake,
 } from "lucide-react";
+import { LogoCapl } from "@/componentes/atomos/logo-capl";
+import { CabeceraPanel } from "./cabecera-panel";
 import { EnlaceNav } from "./enlace-nav";
 
 export type RolPanel = "ADMIN" | "PSICOLOGO";
@@ -36,6 +38,16 @@ export function BarraLateral({
     { href: "/panel/admin/citas", label: "Citas", icono: CalendarCheck },
     { href: "/panel/admin/calendario", label: "Calendario", icono: Calendar },
     { href: "/panel/admin/psicologos", label: "Psicólogos", icono: Users },
+    {
+      href: "/panel/admin/servicios",
+      label: "Servicios",
+      icono: ClipboardList,
+    },
+    {
+      href: "/panel/admin/administradores",
+      label: "Administradores",
+      icono: ShieldCheck,
+    },
     { href: "/panel/admin/eventos", label: "Eventos", icono: Sparkles },
     {
       href: "/panel/admin/bloqueos",
@@ -47,6 +59,12 @@ export function BarraLateral({
       label: "Configuración",
       icono: Settings,
     },
+    {
+      href: "/panel/admin/correos",
+      label: "Correos fallidos",
+      icono: MailWarning,
+    },
+    { href: "/panel/admin/cuenta", label: "Mi cuenta", icono: User },
   ];
 
   const enlacesPsicologo = [
@@ -55,9 +73,12 @@ export function BarraLateral({
       label: "Mis citas",
       icono: CalendarCheck,
     },
-    { href: "/panel/psicologo/horario", label: "Mi horario", icono: Clock },
-    { href: "/panel/psicologo/perfil", label: "Mi perfil", icono: User },
-    { href: "/panel/psicologo/cuenta", label: "Mi cuenta", icono: KeyRound },
+    {
+      href: "/panel/psicologo/horario",
+      label: "Horario habitual",
+      icono: Clock,
+    },
+    { href: "/panel/psicologo/perfil", label: "Perfil y cuenta", icono: User },
   ];
 
   const enlaces = rol === "ADMIN" ? enlacesAdmin : enlacesPsicologo;
@@ -76,9 +97,9 @@ export function BarraLateral({
           aria-expanded={abiertoMovil}
         >
           {abiertoMovil ? (
-            <X className="w-6 h-6" />
+            <X className="w-[24px] h-[24px]" />
           ) : (
-            <Menu className="w-6 h-6" />
+            <Menu className="w-[24px] h-[24px]" />
           )}
         </button>
       </div>
@@ -94,84 +115,53 @@ export function BarraLateral({
 
       {/* Barra lateral fija */}
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-40 w-[260px] bg-fondo-superficie border-r border-borde-suave flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 ${
+        className={`fixed top-0 bottom-0 left-0 z-40 w-[260px] bg-fondo-superficie border border-borde-suave rounded-m flex flex-col justify-between transition-transform duration-300 ease-in-out lg:translate-x-0 ${
           abiertoMovil ? "translate-x-0 shadow-flotante" : "-translate-x-full"
         }`}
       >
         <div className="flex flex-col flex-1 overflow-y-auto p-4">
-          {/* Logo y Encabezado del Panel */}
-          <div className="pb-5 pt-2 border-b border-borde-suave">
-            <Link
-              href="/"
-              className="flex items-center gap-3 group focus-visible:outline-hidden"
-            >
-              <div className="w-10 h-10 rounded-m bg-accion-fondo text-accion-texto flex items-center justify-center font-weight-fuerte text-h2 shadow-xs group-hover:scale-105 transition-transform">
-                C
-              </div>
-              <div className="flex flex-col">
-                <span className="font-weight-fuerte text-texto-titulo tracking-tight text-h2">
-                  CAPL
-                </span>
-                <span className="text-caption text-texto-secundario leading-tight">
-                  Centro de Atención Psicológica
-                </span>
-              </div>
+          <div className="px-3 pt-2">
+            <Link href="/" className="inline-block">
+              <LogoCapl />
             </Link>
-
-            {/* Rol activo */}
-            <div className="mt-4 flex items-center gap-2 px-3 py-1.5 rounded-pildora bg-fondo-suave border border-borde-suave text-caption text-texto-secundario">
-              {rol === "ADMIN" ? (
-                <>
-                  <ShieldCheck className="w-4 h-4 text-morado-600" />
-                  <span className="font-weight-medio text-texto-titulo">
-                    Administración
-                  </span>
-                </>
-              ) : (
-                <>
-                  <HeartHandshake className="w-4 h-4 text-agua-700" />
-                  <span className="font-weight-medio text-texto-titulo">
-                    Psicólogo(a)
-                  </span>
-                </>
-              )}
-            </div>
+            <p className="text-caption font-medio text-texto-secundario">
+              Panel {rol === "ADMIN" ? "de administración" : "del psicólogo"}
+            </p>
           </div>
-
-          {/* Navegación */}
-          <nav
-            className="mt-5 flex-1 space-y-1.5"
-            aria-label="Navegación del panel"
-          >
-            <div className="px-3 pb-2 text-caption font-weight-medio uppercase tracking-wider text-texto-secundario/70">
-              {rol === "ADMIN" ? "Gestión del Centro" : "Mi Espacio"}
-            </div>
-            {enlaces.map((item) => (
-              <EnlaceNav
-                key={item.href}
-                href={item.href}
-                label={item.label}
-                icono={item.icono}
-                onClick={() => setAbiertoMovil(false)}
-              />
+          <nav className="mt-5 flex-1" aria-label="Navegación del panel">
+            {enlaces.map((item, index) => (
+              <div key={item.href}>
+                {(index === 0 ||
+                  (rol === "PSICOLOGO" && (index === 1 || index === 2))) && (
+                  <p className="px-3 pt-4 pb-2 text-caption font-medio text-texto-secundario">
+                    {rol === "ADMIN"
+                      ? "Gestión del centro"
+                      : index === 0
+                        ? "Agenda"
+                        : index === 1
+                          ? "Disponibilidad"
+                          : "Mi espacio"}
+                  </p>
+                )}
+                <EnlaceNav
+                  href={item.href}
+                  label={item.label}
+                  icono={item.icono}
+                  onClick={() => setAbiertoMovil(false)}
+                />
+              </div>
             ))}
           </nav>
         </div>
-
-        {/* Pie de barra lateral con información del usuario */}
-        <div className="p-4 border-t border-borde-suave bg-fondo-suave/50">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-circulo bg-morado-100 text-morado-700 flex items-center justify-center font-weight-fuerte text-caption border border-morado-300">
-              {usuarioNombre.charAt(0).toUpperCase()}
-            </div>
-            <div className="flex flex-col min-w-0">
-              <span className="text-caption font-weight-medio text-texto-titulo truncate">
-                {usuarioNombre}
-              </span>
-              <span className="text-caption text-texto-secundario truncate text-[11px]">
-                {rol === "ADMIN" ? "Coordinación" : "Atención clínica"}
-              </span>
-            </div>
+        <div className="m-4 rounded-m bg-fondo-suave p-3 flex items-center gap-3">
+          <div className="w-[44px] h-[44px] rounded-circulo bg-fondo-seccion text-texto-enlace flex items-center justify-center font-fuerte text-caption">
+            {usuarioNombre.charAt(0).toUpperCase()}
+          </div>
+          <div className="min-w-0">
+            <span className="block text-caption font-medio truncate">
+              {usuarioNombre}
+            </span>
+            <CabeceraPanel usuarioNombre={usuarioNombre} rol={rol} compacto />
           </div>
         </div>
       </aside>

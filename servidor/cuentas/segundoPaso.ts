@@ -8,6 +8,7 @@ import {
 } from "node:crypto";
 import { codigoSchema } from "../../contratos/cuenta";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
+import { auditar } from "../auditoria";
 import { bd } from "../bd";
 import { limitar } from "../limites";
 import { registrar } from "../registro";
@@ -173,6 +174,12 @@ export async function verificarCodigo(
 
   // Aviso de ingreso: si hizo falta el código, el dispositivo era nuevo.
   await correoDeAvisoIngreso(u.id, c.id, navegador.slice(0, 120), ahora);
+  await auditar({
+    usuarioId: u.id,
+    accion: "INGRESO_OK",
+    entidad: "Usuario",
+    entidadId: u.id,
+  });
   registrar("cuenta.dispositivo_nuevo", { rol: "admin", actor: usuarioId });
   registrar("cuenta.ingreso", {
     rol: "admin",

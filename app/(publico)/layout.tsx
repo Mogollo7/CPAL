@@ -1,36 +1,30 @@
-import React from "react";
-import { EncabezadoPublico } from "@/componentes/publico/encabezado-publico";
-import { PiePublico } from "@/componentes/publico/pie-publico";
-import { BotonAyudaAhora } from "@/componentes/publico/boton-ayuda-ahora";
+import type { ReactNode } from "react";
+import { EncabezadoPublico } from "@/componentes/organismos/encabezado-publico";
+import { PiePublico } from "@/componentes/organismos/pie-publico";
+import { BotonAyudaAhora } from "@/componentes/organismos/boton-ayuda-ahora";
+import { AvisoCookies } from "@/componentes/organismos/aviso-cookies";
 
-export default function PublicoLayout({
+// Plantilla · Página pública (Figma · Plantillas/Página pública): encabezado, contenido, pie y ayuda flotante.
+export default function PlantillaPublica({
   children,
 }: {
-  children: React.ReactNode;
+  children: ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col bg-fondo-pagina text-texto-principal">
-      {/* Enlace accesible para saltar directo al contenido */}
+    <div className="flex min-h-screen flex-col">
       <a
         href="#contenido-principal"
-        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 z-50 bg-accion-fondo text-accion-texto px-4 py-2.5 rounded-m font-medio focus-visible:outline-3 focus-visible:outline-foco shadow-md"
+        className="sr-only z-50 rounded-pildora bg-accion-fondo px-5 py-3 font-medio text-accion-texto focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
       >
         Saltar al contenido principal
       </a>
-
-      {/* Cabecera con banner de urgencias integrado y navegación accesible */}
       <EncabezadoPublico />
-
-      {/* Contenedor principal de vistas públicas */}
       <main id="contenido-principal" className="flex-1">
         {children}
       </main>
-
-      {/* Pie de página oficial */}
       <PiePublico />
-
-      {/* Botón flotante accesible "Necesito ayuda ahora" (se oculta en /ayuda-inmediata) */}
       <BotonAyudaAhora />
+      <AvisoCookies />
     </div>
   );
 }

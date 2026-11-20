@@ -2,6 +2,7 @@
 // datos personales se leen AL ENVIAR y nunca viajan en `Trabajo.datos`. Devuelve null cuando ya no hay nada que enviar
 // (cita anonimizada, cancelada entretanto, enlace usado…): el trabajo se da por hecho.
 import { bd } from "../bd";
+import type { InformeEstado } from "../../contratos/informe-estado";
 import { renderizar, type NombrePlantilla } from "../../correos/indice";
 import { rutaCita } from "./enlaces";
 import type { Correo } from "../externos/resend";
@@ -30,6 +31,7 @@ export type Payloads = {
   "aviso-ingreso": { usuarioId: string; navegador: string; cuando?: string };
   "aviso-acceso-emergencia": { usuarioId: string; nuevoAdminId: string };
   "cita-reasignada": { citaId: string };
+  "estado-servidor": { informe: InformeEstado };
 };
 
 type Cargado = { para: string; datos: unknown } | null;
@@ -254,6 +256,11 @@ const cargadores: {
         cuando: nuevo.creadoEn,
       },
     };
+  },
+  // Informe diario: solo cifras (ya vienen en el payload); va al correo de administración.
+  "estado-servidor": async (p) => {
+    const para = (await config()).correoAdministracion;
+    return para ? { para, datos: p.informe } : null;
   },
   "cita-reasignada": (p) =>
     conCita(p, (c) => {

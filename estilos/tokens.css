@@ -40,6 +40,24 @@
   --color-borde: #8286a8;
   --color-crema: #fffbf5;
   --color-blanco: #ffffff;
+  /* Fondos con grano (Figma · «Color original · Ruido nativo») */
+  --color-menta-100: #d6f1ed;
+  --color-miel-100: #fff3cf;
+  --color-ciruela-50: #f5effa;
+  --color-ciruela-600: #70529a;
+  --color-petroleo-700: #126d70;
+  /* Formas orgánicas detrás de las ilustraciones y estrella del logo */
+  --color-forma-lavanda: #c1c3ee;
+  --color-forma-miel: #ffe4a0;
+  --color-forma-agua: #afe1e5;
+  --color-estrella: #fcbf00;
+  /* Líneas de ayuda (Figma · Ayuda inmediata): fondo y texto de cada número */
+  --color-linea-106: #a5dbc9;
+  --color-linea-106-texto: #164d42;
+  --color-linea-155: #f4afd5;
+  --color-linea-155-texto: #502038;
+  --color-linea-141: #f5b4ae;
+  --color-linea-141-texto: #591f20;
 
   /* ── Color de rol (los componentes usan SOLO estos) ── */
   --color-fondo-pagina: var(--color-crema);
@@ -67,9 +85,28 @@
   --color-borde-suave: var(--color-morado-100);
   --color-foco: var(--color-morado-600);
 
-  /* ── Tipografía: escala estándar de trabajo 32 · 20 · 16 · 13 (N03) ── */
+  /* ── Tipografía (N03 · Figma): Nunito en todo: 400 texto · 600 énfasis · 800 títulos; escala 32 · 20 · 16 · 13 ──
+     Escala del sitio: portada 110 · sección 42 · h1 32 · tarjeta 28 · h2 20 · destacado 18 · p 16 · caption 13.
+     Las fuentes las aloja next/font en app/layout.tsx (variables --fuente-*). */
   --font-sans:
-    system-ui, sans-serif; /* se cambia al alojar la fuente (T-013) */
+    var(--fuente-titulo), system-ui, sans-serif; /* Nunito en todo (Figma) */
+  --font-titulo: var(--fuente-titulo), system-ui, sans-serif;
+  --text-portada: clamp(3.5rem, 8.6vw, 6.875rem);
+  --text-portada--letter-spacing: -0.03em;
+  --text-portada--line-height: 1.18;
+  /* Duolingo: títulos de sección y de fila a 48; los de transición (hero) a 64. Fuentes del Figma. */
+  --text-seccion: 2rem;
+  --text-seccion--line-height: 1.2;
+  --text-hero: 2rem;
+  --text-hero--line-height: 1.15;
+  --text-titulo-pagina: 2rem;
+  --text-titulo-pagina--line-height: 1.2;
+  --text-bloque: 2rem;
+  --text-bloque--line-height: 1.2;
+  --text-tarjeta: 1.25rem;
+  --text-subtitulo: 1.25rem;
+  --text-tarjeta--line-height: 1.2;
+  --text-destacado: 1.25rem;
   --text-h1: 2rem;
   --text-h2: 1.25rem;
   --text-p: 1rem;
@@ -81,6 +118,7 @@
   --leading-titulo: 1.272;
 
   /* ── Espacio (N04): escala áurea desde 16 px ── */
+  --spacing-0: 0px;
   --spacing-1: 4px;
   --spacing-2: 6px;
   --spacing-3: 10px;
@@ -90,6 +128,19 @@
   --spacing-7: 68px;
   --spacing-8: 110px;
   --spacing-9: 178px;
+  /* Ritmo de página (medido en Figma desktop):
+     sección = 110 arriba/abajo · cabecera de página = 68 · entre bloques = 42 · borde lateral = 42.
+     Anchos: lectura 920 (FAQ, textos), contenido 1196 (1280 − 2 × 42). */
+  --spacing-seccion: 96px; /* Duolingo: 96 arriba y abajo de cada bloque de filas */
+  --spacing-entrada: 140px; /* Duolingo: aire extra sobre una sección de transición (título de 64) */
+  --spacing-fila: 101px; /* Duolingo: separación entre texto e ilustración en una fila */
+  --spacing-sangria-grano: 340px; /* el degradado empieza a aparecer 340 px antes de la sección */
+  --spacing-cabecera: var(--spacing-7);
+  --spacing-bloque: var(--spacing-6);
+  --spacing-borde: var(--spacing-6);
+  --container-lectura: 920px;
+  --container-contenido: 1196px;
+  --spacing-encabezado: 88px;
 
   /* ── Radios ── */
   --radius-s: 10px;
@@ -101,6 +152,7 @@
 
   /* ── Sombra y movimiento (N07) ── */
   --shadow-flotante: 0 10px 26px rgb(27 44 101 / 0.1);
+  --shadow-ayuda: 0 10px 13px rgb(27 44 101 / 0.1);
   --ease-entrada: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-salida: cubic-bezier(0.4, 0, 1, 1);
   --mov-rapido: 160ms;

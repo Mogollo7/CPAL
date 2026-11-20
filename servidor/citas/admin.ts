@@ -91,21 +91,23 @@ export async function consultarCitas(
   psicologoId?: string,
 ): Promise<PaginaCitas> {
   const where = donde(f, psicologoId);
-  const [filas, total] = await Promise.all([
-    bd.cita.findMany({
-      where,
-      include: incluir,
-      // Las pendientes se atienden por orden de llegada del horario; el resto, lo más reciente primero.
-      orderBy: { inicio: f.estado === "PENDIENTE" ? "asc" : "desc" },
-      skip: (f.pagina - 1) * POR_PAGINA,
-      take: POR_PAGINA,
-    }),
-    bd.cita.count({ where }),
-  ]);
+  const total = await bd.cita.count({ where });
+  const pagina = Math.min(f.pagina, Math.max(1, Math.ceil(total / POR_PAGINA)));
+  const filas = await bd.cita.findMany({
+    where,
+    include: incluir,
+    // Las pendientes se atienden por orden de llegada del horario; el resto, lo más reciente primero.
+    orderBy: [
+      { inicio: f.estado === "PENDIENTE" ? "asc" : "desc" },
+      { id: "asc" },
+    ],
+    skip: (pagina - 1) * POR_PAGINA,
+    take: POR_PAGINA,
+  });
   return {
     citas: filas.map(aLista),
     total,
-    pagina: f.pagina,
+    pagina,
     porPagina: POR_PAGINA,
   };
 }
@@ -123,7 +125,7 @@ export async function listarCitas(
 export async function verCitaAdmin(
   sesion: Sesion | null | undefined,
   id: string,
-): Promise<Resultado<CitaDetalle>> {
+): Promise<Resultado<CitaDetalle & { servicioId: string }>> {
   const p = exigir(sesion, "ADMIN");
   if (!p.ok) return p;
   const c = await bd.cita.findUnique({
@@ -159,6 +161,7 @@ export async function verCitaAdmin(
   }
   return ok({
     ...aLista(c),
+    servicioId: c.servicioId,
     pacienteEdad: c.pacienteEdad,
     acudienteNombre: c.acudienteNombre,
     acudienteDocumento: c.acudienteDocumento,
@@ -451,9 +454,14 @@ export async function exportarCitas(
   const filas = await bd.cita.findMany({
     where: donde(f.datos),
     include: incluir,
-    orderBy: { inicio: "desc" },
-    take: MAX_EXPORTACION,
+    orderBy: [{ inicio: "desc" }, { id: "asc" }],
+    take: MAX_EXPORTACION + 1,
   });
+  if (filas.length > MAX_EXPORTACION)
+    return fallo(
+      "VALIDACION",
+      "La exportación supera las 5000 citas. Aplica más filtros e inténtalo de nuevo.",
+    );
   await auditar({
     usuarioId: p.datos.usuarioId,
     accion: "CITAS_EXPORTADAS",
