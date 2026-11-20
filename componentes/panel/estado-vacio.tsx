@@ -20,11 +20,11 @@ export function EstadoVacio({
   return (
     <div
       className={cn(
-        "flex flex-col items-center justify-center text-center p-8 sm:p-12 rounded-l bg-fondo-superficie border border-borde-suave shadow-xs",
+        "flex flex-col items-center justify-center text-center p-6 sm:p-7 rounded-l bg-fondo-superficie shadow-flotante",
         className,
       )}
     >
-      <div className="w-14 h-14 rounded-circulo bg-morado-50 border border-morado-100 flex items-center justify-center text-morado-600 mb-4 shadow-xs">
+      <div className="size-[56px] rounded-circulo bg-morado-50 flex items-center justify-center text-morado-600 mb-4">
         <Icono className="w-7 h-7" aria-hidden="true" />
       </div>
       <h3 className="text-h2 font-weight-fuerte text-texto-titulo mb-2">

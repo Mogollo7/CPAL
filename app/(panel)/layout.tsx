@@ -28,10 +28,12 @@ export default async function LayoutPanel({
       {/* Contenedor principal con margen izquierdo para compensar la barra lateral fija */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-[260px]">
         {/* Cabecera superior */}
-        <CabeceraPanel usuarioNombre={usuarioNombre} rol={rol} />
+        {rol === "ADMIN" && (
+          <CabeceraPanel usuarioNombre={usuarioNombre} rol={rol} />
+        )}
 
         {/* Área de contenido de las pantallas del panel */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="flex-1 w-full mx-auto px-4 pt-7 pb-6 sm:px-5 lg:px-[32px] lg:pt-5">
           {children}
         </main>
       </div>

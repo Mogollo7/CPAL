@@ -21,24 +21,28 @@ export function EnlaceNav({
   onClick,
 }: EnlaceNavProps) {
   const pathname = usePathname();
-  const activo = pathname === href || pathname.startsWith(`${href}/`);
+  const activo =
+    pathname === href ||
+    pathname.startsWith(`${href}/`) ||
+    (href === "/panel/psicologo/perfil" &&
+      pathname === "/panel/psicologo/cuenta");
 
   return (
     <Link
       href={href}
       onClick={onClick}
       className={cn(
-        "group flex items-center justify-between gap-3 px-4 py-3 rounded-m text-p font-weight-medio transition-all duration-200",
+        "group flex items-center justify-between gap-3 px-3 py-2 rounded-s text-p font-medio transition-all duration-200",
         activo
-          ? "bg-accion-suave-fondo text-accion-suave-texto font-weight-fuerte shadow-xs"
-          : "text-texto-secundario hover:text-texto-titulo hover:bg-fondo-suave",
+          ? "bg-accion-suave-fondo text-accion-suave-texto font-medio"
+          : "text-texto-principal hover:text-texto-titulo hover:bg-fondo-suave",
       )}
       aria-current={activo ? "page" : undefined}
     >
       <div className="flex items-center gap-3">
         <Icono
           className={cn(
-            "w-5 h-5 transition-transform duration-200 group-hover:scale-105",
+            "w-[18px] h-[18px] transition-transform duration-200 group-hover:scale-105",
             activo
               ? "text-accion-fondo"
               : "text-texto-secundario group-hover:text-texto-titulo",
@@ -51,7 +55,7 @@ export function EnlaceNav({
       {badge !== undefined && (
         <span
           className={cn(
-            "text-caption px-2 py-0.5 rounded-pildora font-weight-fuerte",
+            "text-caption px-2 py-[2px] rounded-pildora font-weight-fuerte",
             activo
               ? "bg-accion-fondo text-accion-texto"
               : "bg-fondo-seccion text-texto-secundario",
