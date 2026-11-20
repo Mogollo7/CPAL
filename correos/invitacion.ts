@@ -10,11 +10,18 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-saludo",
+    tono: "#efeefb",
+    disposicion: "centrada",
     asunto: "Te damos la bienvenida al equipo del CAPL",
+    titulo: "Te damos la bienvenida al CAPL",
     parrafos: [
       `Hola, ${d.nombre}. Has sido invitado/a como ${d.rol === "ADMIN" ? "administrador/a" : "psicólogo/a"} del CAPL.`,
-      `Tu usuario es este correo. Crea tu contraseña para ingresar. El enlace funciona durante ${d.horas} horas; si vence, puedes pedir otro desde la página de ingreso.`,
     ],
+    nota: {
+      titulo: "Activa tu cuenta",
+      texto: `Tu usuario es este correo. Crea tu contraseña para ingresar. El enlace funciona durante ${d.horas} horas; si vence, puedes pedir otro desde la página de ingreso.`,
+    },
     boton: { texto: "Crear mi contraseña", ruta: RUTAS.crearClave(d.token) },
   });
 
