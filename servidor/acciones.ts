@@ -18,9 +18,11 @@ import {
   obtenerCupos,
 } from "./citas/cupos";
 import * as citasGestion from "./citas/gestion";
+import { consultarCitaPorCodigo } from "./citas/consulta";
 import * as correoPanel from "./correo/panel";
 import { exigirClaveReciente, obtenerSesion } from "./cuentas/sesionActual";
 import * as eventos from "./eventos/eventos";
+import * as pacientes from "./pacientes/pacientes";
 import { exigir, type Sesion } from "./permisos";
 import * as perfil from "./psicologos/perfil";
 import * as psicologos from "./psicologos/psicologos";
@@ -61,8 +63,10 @@ export const listarServiciosAgendablesAccion = async () =>
 /** `token` es el tramo final del enlace `/cita/{token}` que llega por correo. */
 export const verCitaAccion = async (token: string) =>
   citasGestion.verCita(token);
-export const cancelarCitaAccion = async (token: string) =>
-  citasGestion.cancelarCita(token);
+export const cancelarCitaAccion = async (token: string, motivo?: string) =>
+  citasGestion.cancelarCita(token, { motivo });
+export const consultarCitaAccion = async (codigo: string) =>
+  consultarCitaPorCodigo(codigo, { ip: await ip() });
 export const reprogramarCitaAccion = async (entrada: unknown) =>
   citasGestion.reprogramarCita(entrada);
 export const listarEventosPublicosAccion = async () =>
@@ -180,6 +184,12 @@ export const crearBloqueoAccion = async (entrada: unknown) =>
   perfil.crearBloqueo(await obtenerSesion(), entrada);
 export const eliminarBloqueoAccion = async (id: string) =>
   perfil.eliminarBloqueo(await obtenerSesion(), id);
+
+/** Fichas de pacientes: solo las citas del psicólogo de la sesión. Abrir una ficha queda auditado. */
+export const listarPacientesAccion = async () =>
+  pacientes.listarPacientes(await obtenerSesion());
+export const verPacienteAccion = async (documento: string) =>
+  pacientes.verPaciente(await obtenerSesion(), documento);
 
 /** Citas del psicólogo que tiene la sesión; nunca las de otro (RF-PSI-04, 05). Mismos filtros de la bandeja. */
 export async function listarMisCitasAccion(filtros: unknown) {

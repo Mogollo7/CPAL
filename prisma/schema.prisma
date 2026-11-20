@@ -20,6 +20,12 @@ enum Area {
   NEUROPSICOLOGIA
 }
 
+enum TipoEvento {
+  TALLER
+  CHARLA
+  ENCUENTRO
+}
+
 enum EstadoCita {
   PENDIENTE
   AUTORIZADA
@@ -156,6 +162,7 @@ model Cita {
 
   calendarioEventoId    String? // evento en el calendario compartido, si la integración está activa
   motivoRechazo         String?
+  motivoCancelacion     String? // lo que escribe la persona al cancelar desde su enlace (opcional, máx. 200)
   consentimientoEn      DateTime
   consentimientoVersion String
   venceEn               DateTime? // solo mientras está PENDIENTE
@@ -182,6 +189,7 @@ model Evento {
   descripcion   String
   inicio        DateTime
   fin           DateTime?
+  tipo          TipoEvento    @default(TALLER)
   lugar         String // dirección o "Virtual"
   enlace        String?
   imagenRuta    String?

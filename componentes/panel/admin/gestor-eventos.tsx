@@ -8,7 +8,12 @@ import {
   type ChangeEvent,
 } from "react";
 import { Plus, CheckCircle2, AlertCircle, X } from "lucide-react";
-import type { EventoDetalle } from "@/contratos/evento";
+import {
+  type EventoDetalle,
+  type TipoEvento,
+  TIPOS_EVENTO,
+  ROTULO_TIPO,
+} from "@/contratos/evento";
 import {
   crearEventoAccion,
   editarEventoAccion,
@@ -42,6 +47,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
   // Formulario de creación / edición
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [tipo, setTipo] = useState<TipoEvento>("TALLER");
   const [inicio, setInicio] = useState("");
   const [fin, setFin] = useState("");
   const [lugar, setLugar] = useState("");
@@ -58,6 +64,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
   const abrirCreacion = () => {
     setTitulo("");
     setDescripcion("");
+    setTipo("TALLER");
     setInicio("");
     setFin("");
     setLugar("Bloque 3, auditorio");
@@ -71,6 +78,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
     setEventoAEditar(ev);
     setTitulo(ev.titulo);
     setDescripcion(ev.descripcion);
+    setTipo(ev.tipo ?? "TALLER");
     setInicio(ev.inicio.slice(0, 16));
     setFin(ev.fin ? ev.fin.slice(0, 16) : "");
     setLugar(ev.lugar);
@@ -86,6 +94,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
     const payload = {
       titulo: titulo.trim(),
       descripcion: descripcion.trim(),
+      tipo,
       inicio: new Date(inicio).toISOString(),
       fin: fin ? new Date(fin).toISOString() : undefined,
       lugar: lugar.trim(),
@@ -331,6 +340,27 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                   placeholder="Describe los temas, objetivos y a quién va dirigido..."
                   className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 resize-none"
                 />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="tipo"
+                  className="block font-medio text-texto-principal mb-1"
+                >
+                  Tipo
+                </label>
+                <select
+                  id="tipo"
+                  value={tipo}
+                  onChange={(e) => setTipo(e.target.value as TipoEvento)}
+                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                >
+                  {TIPOS_EVENTO.map((t) => (
+                    <option key={t} value={t}>
+                      {ROTULO_TIPO[t]}
+                    </option>
+                  ))}
+                </select>
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

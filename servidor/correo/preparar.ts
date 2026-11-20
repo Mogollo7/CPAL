@@ -32,6 +32,7 @@ export type Payloads = {
   "aviso-acceso-emergencia": { usuarioId: string; nuevoAdminId: string };
   "cita-reasignada": { citaId: string };
   "estado-servidor": { informe: InformeEstado };
+  "enlace-cita": { citaId: string };
 };
 
 type Cargado = { para: string; datos: unknown } | null;
@@ -184,6 +185,19 @@ const cargadores: {
             },
           },
     ),
+  "enlace-cita": (p) =>
+    conCita(p, (c) => {
+      const s = delSolicitante(c);
+      if (!s || !["PENDIENTE", "AUTORIZADA"].includes(c.estado)) return null;
+      return {
+        para: s.para,
+        datos: {
+          nombre: s.nombre,
+          inicio: c.inicio,
+          rutaGestion: rutaCita(c.id),
+        },
+      };
+    }),
   recordatorio: (p) =>
     conCita(p, (c) => {
       const s = delSolicitante(c);

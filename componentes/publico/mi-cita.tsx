@@ -79,6 +79,7 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
   const [error, setError] = useState<string | null>(null);
   const [aviso, setAviso] = useState<string | null>(null);
   const [cancelada, setCancelada] = useState(false);
+  const [motivo, setMotivo] = useState("");
   const dialogoCancelar = useRef<HTMLDialogElement>(null);
 
   const estadoActual = cancelada ? "CANCELADA" : cita.estado;
@@ -94,6 +95,7 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
 
   const cambiarVista = (nueva: typeof vista) => {
     setError(null);
+    if (nueva !== "confirmar-cancelar") setMotivo("");
     setVista(nueva);
   };
 
@@ -111,8 +113,9 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
 
   const cancelar = () =>
     ejecutar(async () => {
-      const r = await cancelarCitaAccion(token);
+      const r = await cancelarCitaAccion(token, motivo);
       if (!r.ok) return setError(r.mensaje);
+      setMotivo("");
       setCancelada(true);
       setVista("detalle");
       router.refresh(); // la página vuelve a leer la cita, ya cancelada
@@ -240,6 +243,32 @@ export function MiCita({ token, cita }: { token: string; cita: CitaPublica }) {
               El horario queda libre para otra persona. Si luego quieres
               atención, puedes pedir una cita nueva.
             </p>
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label
+                  htmlFor="motivo-cancelar"
+                  className="text-caption font-medio text-texto-principal"
+                >
+                  ¿Quieres contarnos por qué cancelas? (opcional)
+                </label>
+                <span className="text-caption text-texto-secundario">
+                  {motivo.length}/200
+                </span>
+              </div>
+              <textarea
+                id="motivo-cancelar"
+                rows={3}
+                maxLength={200}
+                value={motivo}
+                onChange={(e) => setMotivo(e.target.value)}
+                disabled={ocupado}
+                placeholder="¿Quieres contarnos por qué cancelas? (opcional)"
+                className="w-full p-3 rounded-m border border-borde bg-blanco text-texto-principal focus-visible:outline-3 focus-visible:outline-foco resize-none"
+              />
+              <p className="text-caption text-texto-secundario mt-1">
+                No escribas datos de salud: es opcional
+              </p>
+            </div>
             {error && (
               <p role="alert" className="text-caption text-error-texto">
                 {error}

@@ -13,6 +13,7 @@ export function TarjetaEvento({
   lugar,
   imagenUrl,
   tono = 0,
+  tipo,
 }: {
   href: string;
   fecha: string;
@@ -20,6 +21,7 @@ export function TarjetaEvento({
   lugar: string;
   imagenUrl?: string | null;
   tono?: number;
+  tipo?: string;
 }) {
   return (
     <Link
@@ -43,9 +45,16 @@ export function TarjetaEvento({
         )}
       </div>
       <div className="flex flex-1 flex-col gap-2 px-[10px] pb-[10px]">
-        <span className="text-caption font-medio uppercase text-petroleo-700">
-          {fecha}
-        </span>
+        <div className="flex items-center justify-between gap-2">
+          <span className="text-caption font-medio uppercase text-petroleo-700">
+            {fecha}
+          </span>
+          {tipo && (
+            <span className="text-caption font-medio text-texto-secundario">
+              {tipo}
+            </span>
+          )}
+        </div>
         <span className="font-titulo text-subtitulo font-fuerte text-texto-titulo">
           {titulo}
         </span>

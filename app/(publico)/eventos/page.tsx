@@ -8,8 +8,14 @@ import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie"
 import { Seccion } from "@/componentes/atomos/seccion";
 import { Titulo } from "@/componentes/atomos/titulo";
 import { EncabezadoSeccion } from "@/componentes/moleculas/encabezado-seccion";
+import { FiltroTipoEvento } from "@/componentes/moleculas/filtro-tipo-evento";
 import { TarjetaEvento } from "@/componentes/moleculas/tarjeta-evento";
-import type { EventoDetalle } from "@/contratos/evento";
+import {
+  type EventoDetalle,
+  type TipoEvento,
+  TIPOS_EVENTO,
+  ROTULO_TIPO,
+} from "@/contratos/evento";
 import { formatoFecha, formatoHora } from "@/servidor/fechas";
 import { datosDePagina } from "@/servidor/pagina";
 import { listarEventosPublicosAccion } from "@/servidor/acciones";
@@ -65,10 +71,28 @@ function Destacado({ evento }: { evento: EventoDetalle }) {
   );
 }
 
-async function Agenda() {
+type PaginaProps = {
+  searchParams?: Promise<{ tipo?: string | string[] | undefined }>;
+};
+
+async function Agenda({ searchParams }: PaginaProps = {}) {
   await connection();
+  const params = searchParams ? await searchParams : {};
+  const rawTipo =
+    typeof params.tipo === "string"
+      ? params.tipo
+      : Array.isArray(params.tipo)
+        ? params.tipo[0]
+        : undefined;
+  const tipoUpper = rawTipo?.toUpperCase();
+  const tipoActivo =
+    tipoUpper && (TIPOS_EVENTO as readonly string[]).includes(tipoUpper)
+      ? (tipoUpper as TipoEvento)
+      : undefined;
+
   // Solo publicados y sin terminar, el más próximo primero (lo filtra el servidor).
-  const eventos = datosDePagina(await listarEventosPublicosAccion());
+  const todos = datosDePagina(await listarEventosPublicosAccion());
+  const eventos = rawTipo ? todos.filter((e) => e.tipo === tipoActivo) : todos;
   const [primero, ...resto] = eventos;
   return (
     <>
@@ -82,11 +106,16 @@ async function Agenda() {
           titulo="próximos eventos"
           bajada="Talleres, charlas y encuentros para cuidar de ti y compartir con otras personas."
         />
-        {resto.length === 0 ? (
+        <FiltroTipoEvento tipoActivo={tipoActivo} />
+        {eventos.length === 0 ? (
           <p className="text-h2 text-texto-secundario">
-            {primero
-              ? "Por ahora este es el único evento en la agenda."
+            {rawTipo
+              ? "No hay eventos de este tipo por ahora."
               : "Pronto publicaremos nuevos encuentros."}
+          </p>
+        ) : resto.length === 0 ? (
+          <p className="text-h2 text-texto-secundario">
+            Por ahora este es el único evento en la agenda.
           </p>
         ) : (
           <ul className="grid gap-[25px] sm:grid-cols-2 md:grid-cols-3">
@@ -99,6 +128,7 @@ async function Agenda() {
                   lugar={e.lugar}
                   imagenUrl={e.imagenUrl}
                   tono={i}
+                  tipo={ROTULO_TIPO[e.tipo]}
                 />
               </li>
             ))}
@@ -109,11 +139,11 @@ async function Agenda() {
   );
 }
 
-export default function PaginaEventos() {
+export default function PaginaEventos(props: PaginaProps) {
   return (
     <>
       <Suspense fallback={<div className="h-[670px]" />}>
-        <Agenda />
+        <Agenda searchParams={props.searchParams} />
       </Suspense>
 
       {/* Instagram · comunidad CAPL */}

@@ -2,7 +2,11 @@
 // Visible al público = `publicado` y `fin` (o `inicio` si no hay fin) en el futuro (E03 §10).
 import { borrarArchivo, guardarImagen } from "../archivos";
 import { z } from "zod";
-import { eventoSchema, type EventoDetalle } from "../../contratos/evento";
+import {
+  eventoSchema,
+  type EventoDetalle,
+  type TipoEvento,
+} from "../../contratos/evento";
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import { auditar } from "../auditoria";
 import { bd } from "../bd";
@@ -16,6 +20,7 @@ type Fila = {
   descripcion: string;
   inicio: Date;
   fin: Date | null;
+  tipo: TipoEvento;
   lugar: string;
   enlace: string | null;
   imagenRuta: string | null;
@@ -29,6 +34,7 @@ const aDetalle = (e: Fila): EventoDetalle => ({
   descripcion: e.descripcion,
   inicio: e.inicio.toISOString(),
   fin: e.fin?.toISOString() ?? null,
+  tipo: e.tipo,
   lugar: e.lugar,
   enlace: e.enlace,
   imagenUrl: e.imagenRuta ? `/archivos/${e.imagenRuta}` : null, // SUPUESTO: ruta pública de archivos
@@ -63,6 +69,7 @@ const datos = (e: z.output<typeof eventoSchema>) => ({
   descripcion: e.descripcion,
   inicio: new Date(e.inicio),
   fin: e.fin ? new Date(e.fin) : null,
+  tipo: e.tipo,
   lugar: e.lugar,
   enlace: e.enlace ?? null,
   publicado: e.publicado,

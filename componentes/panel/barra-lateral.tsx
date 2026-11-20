@@ -73,6 +73,7 @@ export function BarraLateral({
       label: "Mis citas",
       icono: CalendarCheck,
     },
+    { href: "/panel/psicologo/pacientes", label: "Pacientes", icono: Users },
     {
       href: "/panel/psicologo/horario",
       label: "Horario habitual",
