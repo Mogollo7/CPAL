@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { TransicionSuave } from "@/componentes/atomos/transicion-suave";
 import { BotonLlamar } from "@/componentes/moleculas/boton-llamar";
+import { EnlaceLlamar } from "@/componentes/atomos/enlace-llamar";
 import { cn } from "@/componentes/cn";
 import orientadorData from "@/contenido/orientador.json";
 import type {
@@ -90,12 +91,12 @@ export function OrientadorCrisis({
       id={id}
       aria-labelledby="titulo-orientador"
       className={cn(
-        "rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 shadow-sm",
+        "rounded-l bg-fondo-superficie p-5 shadow-flotante",
         className,
       )}
     >
       {/* 1. Línea 123 SIEMPRE visible en la parte superior (Requisito no negociable) */}
-      <div className="mb-6 rounded-m bg-aviso-fondo border border-amarillo-300 p-4 sm:p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+      <div className="mb-6 rounded-m bg-aviso-fondo p-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <ShieldAlert
             className="w-6 h-6 text-morado-900 shrink-0"
@@ -111,15 +112,7 @@ export function OrientadorCrisis({
             </p>
           </div>
         </div>
-        <div className="w-full sm:w-auto">
-          <BotonLlamar
-            nombre={datos.lineaGlobal.nombre}
-            telefono={datos.lineaGlobal.telefono}
-            porConfirmar={datos.lineaGlobal.porConfirmar}
-            variante="alerta"
-            className="w-full sm:w-auto"
-          />
-        </div>
+        <EnlaceLlamar telefono={datos.lineaGlobal.telefono} />
       </div>
 
       {/* Encabezado del Orientador */}

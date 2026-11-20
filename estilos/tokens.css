@@ -51,6 +51,13 @@
   --color-forma-miel: #ffe4a0;
   --color-forma-agua: #afe1e5;
   --color-estrella: #fcbf00;
+  /* Líneas de ayuda (Figma · Ayuda inmediata): fondo y texto de cada número */
+  --color-linea-106: #a5dbc9;
+  --color-linea-106-texto: #164d42;
+  --color-linea-155: #f4afd5;
+  --color-linea-155-texto: #502038;
+  --color-linea-141: #f5b4ae;
+  --color-linea-141-texto: #591f20;
 
   /* ── Color de rol (los componentes usan SOLO estos) ── */
   --color-fondo-pagina: var(--color-crema);

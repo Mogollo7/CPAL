@@ -2,7 +2,9 @@
 
 import { useState } from "react";
 import { useSearchParams } from "next/navigation";
+import Image, { type StaticImageData } from "next/image";
 import { cn } from "@/componentes/cn";
+import { IndicadorPasos } from "@/componentes/moleculas/indicador-pasos";
 import { TransicionSuave } from "@/componentes/atomos/transicion-suave";
 import type { CitaCreada } from "@/contratos/cita";
 import { SIN_CONEXION } from "@/contratos/resultado";
@@ -13,12 +15,12 @@ import { PasoDatos } from "./paso-datos";
 import { PasoHorario } from "./paso-horario";
 import { PasoParaQuien } from "./paso-para-quien";
 import { PasoServicio } from "./paso-servicio";
-import {
-  TOTAL_PASOS,
-  type Borrador,
-  type ServicioDelFormulario,
-} from "./piezas";
+import { type Borrador, type ServicioDelFormulario } from "./piezas";
 import { SolicitudRecibida } from "./solicitud-recibida";
+import pensando from "@/contenido/ilustraciones/cita-pensando.webp";
+import adultoMenor from "@/contenido/ilustraciones/cita-adulto-menor.webp";
+import notas from "@/contenido/ilustraciones/cita-notas.webp";
+import revisa from "@/contenido/ilustraciones/cita-revisa.webp";
 
 const NOMBRES_PASOS = [
   "Servicio",
@@ -27,6 +29,14 @@ const NOMBRES_PASOS = [
   "Tus datos",
   "Confirmación",
 ];
+
+// Figma: cada paso lleva su ilustración a la derecha; el de horario usa todo el ancho.
+const ILUSTRACIONES: Record<number, StaticImageData | undefined> = {
+  1: pensando,
+  2: adultoMenor,
+  4: notas,
+  5: revisa,
+};
 
 const VACIO: Omit<Borrador, "servicioId"> = {
   paraQuien: "PROPIA",
@@ -102,7 +112,7 @@ export function FormularioCita({
 
   if (creada)
     return (
-      <div className="mx-auto max-w-[900px] rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-10 shadow-xs">
+      <div className="mx-auto max-w-[900px]">
         <TransicionSuave key="exito" direccion="arriba">
           <SolicitudRecibida cita={creada} correo={datos.solicitanteCorreo} />
         </TransicionSuave>
@@ -112,44 +122,15 @@ export function FormularioCita({
   const servicio = servicios.find((s) => s.id === datos.servicioId);
 
   return (
-    <div className="mx-auto max-w-[900px] space-y-8">
-      <div aria-label="Progreso del formulario" className="space-y-4">
-        <div className="flex items-center justify-between text-caption font-medio text-texto-secundario">
-          <span className="text-morado-900 font-fuerte">
-            Paso {paso} de {TOTAL_PASOS}: {NOMBRES_PASOS[paso - 1]}
-          </span>
-        </div>
-        <div
-          className="h-2 w-full bg-morado-50 rounded-pildora overflow-hidden"
-          role="progressbar"
-          aria-valuenow={paso}
-          aria-valuemin={1}
-          aria-valuemax={TOTAL_PASOS}
-        >
-          <div
-            className="h-full bg-morado-600 transition-all duration-mov-medio ease-entrada rounded-pildora"
-            style={{ width: `${(paso / TOTAL_PASOS) * 100}%` }}
-          />
-        </div>
-        <ol className="hidden sm:grid grid-cols-5 gap-2 pt-1 text-center">
-          {NOMBRES_PASOS.map((nombre, i) => (
-            <li
-              key={nombre}
-              aria-current={paso === i + 1 ? "step" : undefined}
-              className={cn(
-                "text-caption font-medio py-1 px-2 rounded-s",
-                paso === i + 1 && "text-morado-900 font-fuerte bg-morado-100",
-                paso > i + 1 && "text-agua-700",
-                paso < i + 1 && "text-tinta-suave",
-              )}
-            >
-              {i + 1}. {nombre}
-            </li>
-          ))}
-        </ol>
-      </div>
+    <div className="mx-auto max-w-[1100px] space-y-bloque">
+      <IndicadorPasos pasos={NOMBRES_PASOS} actual={paso} />
 
-      <div className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-10 shadow-xs">
+      <div
+        className={cn(
+          "grid items-start gap-bloque",
+          ILUSTRACIONES[paso] && "md:grid-cols-[1fr_400px]",
+        )}
+      >
         <TransicionSuave key={paso} direccion="arriba">
           {paso === 1 && (
             <PasoServicio
@@ -206,6 +187,14 @@ export function FormularioCita({
             />
           )}
         </TransicionSuave>
+        {ILUSTRACIONES[paso] && (
+          <Image
+            src={ILUSTRACIONES[paso]}
+            alt=""
+            sizes="375px"
+            className="mx-auto hidden w-full max-w-[375px] md:block"
+          />
+        )}
       </div>
     </div>
   );
