@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint && prettier --check .",
     "tipos": "tsc --noEmit",
-    "pruebas": "vitest run --no-file-parallelism",
+    "pruebas": "vitest run --no-file-parallelism --exclude=e2e/**",
     "correos": "tsx correos/vista-previa.ts",
     "bd:subir": "docker compose --env-file .env -f infra/compose.yml up -d --wait db",
     "bd:migrar": "prisma migrate deploy",
