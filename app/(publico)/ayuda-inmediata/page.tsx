@@ -135,24 +135,27 @@ export default function AyudaInmediataPage() {
           titulo="Líneas gratuitas"
           bajada="Disponibles las 24 horas. Marca el número desde tu teléfono."
         />
-        <ul className="space-y-4">
+        <ul className="@container space-y-4">
           {datos.directorio.map((l) => (
             <li
               key={l.telefono}
-              className="flex flex-wrap items-center gap-5 rounded-m bg-blanco p-4 shadow-flotante"
+              className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-m bg-blanco p-4 shadow-flotante @min-[32rem]:grid-cols-[auto_minmax(0,1fr)_auto] @min-[32rem]:gap-5"
             >
-              <span className="flex min-h-[52px] min-w-[76px] items-center justify-center rounded-s bg-fondo-suave px-2 font-titulo text-subtitulo font-fuerte text-texto-titulo">
+              <span className="flex min-h-[52px] min-w-[3.25rem] items-center justify-center rounded-s bg-fondo-suave px-2 font-titulo text-subtitulo font-fuerte text-texto-titulo">
                 {l.telefono}
               </span>
-              <div className="min-w-0 flex-1">
-                <p className="text-h2 font-medio text-texto-titulo">
+              <div className="min-w-0">
+                <p className="text-h2 font-medio text-texto-titulo text-balance">
                   {l.nombre}
                 </p>
                 <p className="text-texto-secundario">
                   {l.porConfirmar ? "Horario por confirmar" : l.horario}
                 </p>
               </div>
-              <EnlaceLlamar telefono={l.telefono} />
+              <EnlaceLlamar
+                telefono={l.telefono}
+                className="col-span-full w-full @min-[32rem]:col-span-1 @min-[32rem]:w-auto"
+              />
             </li>
           ))}
         </ul>

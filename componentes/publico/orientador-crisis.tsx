@@ -91,12 +91,12 @@ export function OrientadorCrisis({
       id={id}
       aria-labelledby="titulo-orientador"
       className={cn(
-        "rounded-l bg-fondo-superficie p-5 shadow-flotante",
+        "@container min-w-0 rounded-l bg-fondo-superficie p-4 shadow-flotante sm:p-5",
         className,
       )}
     >
       {/* 1. Línea 123 SIEMPRE visible en la parte superior (Requisito no negociable) */}
-      <div className="mb-6 rounded-m bg-aviso-fondo p-4 flex flex-wrap items-center justify-between gap-4">
+      <div className="mb-6 grid items-center gap-3 rounded-m bg-aviso-fondo p-4 @min-[33rem]:grid-cols-[minmax(0,1fr)_auto]">
         <div className="flex items-center gap-3">
           <ShieldAlert
             className="w-6 h-6 text-morado-900 shrink-0"
@@ -112,7 +112,10 @@ export function OrientadorCrisis({
             </p>
           </div>
         </div>
-        <EnlaceLlamar telefono={datos.lineaGlobal.telefono} />
+        <EnlaceLlamar
+          telefono={datos.lineaGlobal.telefono}
+          className="w-full @min-[33rem]:w-auto"
+        />
       </div>
 
       {/* Encabezado del Orientador */}
@@ -275,7 +278,7 @@ export function OrientadorCrisis({
               <p className="text-caption font-medio text-texto-secundario mb-3">
                 Comunícate directamente:
               </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid gap-3 @min-[40rem]:grid-cols-2">
                 <BotonLlamar
                   nombre={recomendacionFinal.lineaPrincipal.nombre}
                   telefono={recomendacionFinal.lineaPrincipal.telefono}
@@ -331,7 +334,7 @@ export function OrientadorCrisis({
             </div>
 
             {/* Botón para reiniciar */}
-            <div className="border-t border-borde-suave pt-4 flex justify-between items-center">
+            <div className="flex flex-wrap items-center justify-between gap-3 border-t border-borde-suave pt-4">
               <button
                 type="button"
                 onClick={retroceder}

@@ -22,9 +22,9 @@ export default function PlantillaPublica({
       <main id="contenido-principal" className="flex-1">
         {children}
       </main>
+      <AvisoCookies />
       <PiePublico />
       <BotonAyudaAhora />
-      <AvisoCookies />
     </div>
   );
 }

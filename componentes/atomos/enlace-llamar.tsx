@@ -20,13 +20,15 @@ export function EnlaceLlamar({
     <a
       href={`tel:${telefono.replace(/\s/g, "")}`}
       className={cn(
-        "inline-flex min-h-[44px] items-center gap-3 rounded-s px-4 py-2 text-destacado font-medio whitespace-nowrap",
+        "inline-flex min-h-[48px] max-w-full items-center justify-center gap-2 rounded-s px-4 py-2 text-center text-p font-medio sm:text-destacado",
         TONOS[telefono] ?? "bg-accion-fondo text-accion-texto",
         className,
       )}
     >
-      <Phone className="size-[18px]" aria-hidden="true" />
-      Llamar al {telefono}
+      <Phone className="size-[18px] shrink-0" aria-hidden="true" />
+      <span>
+        Llamar al <span className="whitespace-nowrap">{telefono}</span>
+      </span>
     </a>
   );
 }

@@ -1,9 +1,14 @@
+"use client";
+
+import { usePathname } from "next/navigation";
 import { LifeBuoy } from "lucide-react";
 import { BotonEnlace } from "../atomos/boton";
 
-// Figma · Moléculas/Botón flotante de ayuda: amarillo, 26 × 21, a 34 de la esquina. Siempre visible,
-// también en /ayuda-inmediata (N01). Sin movimiento en reposo.
+// La página de ayuda ya muestra sus propios accesos de llamada en el contenido.
 export function BotonAyudaAhora() {
+  const ruta = usePathname();
+  if (ruta === "/ayuda-inmediata") return null;
+
   return (
     <BotonEnlace
       href="/ayuda-inmediata"

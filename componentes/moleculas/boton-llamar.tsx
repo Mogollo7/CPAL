@@ -39,7 +39,7 @@ export function BotonLlamar({
     : "";
 
   const estilosBase =
-    "min-h-[48px] px-5 py-3 rounded-m transition-colors duration-mov-rapido inline-flex items-center justify-between gap-3 focus-visible:outline-3 focus-visible:outline-foco focus-visible:outline-offset-2 select-none";
+    "min-h-[48px] px-5 py-3 rounded-m transition-colors duration-mov-rapido inline-flex min-w-0 max-w-full flex-wrap items-center justify-between gap-2 focus-visible:outline-3 focus-visible:outline-foco focus-visible:outline-offset-2 select-none";
 
   const estilosVariante = {
     principal:
@@ -65,12 +65,12 @@ export function BotonLlamar({
         role="status"
         aria-label={`${nombre}: Número pendiente de confirmar`}
       >
-        <div className="flex items-center gap-3">
+        <div className="flex min-w-0 grow basis-32 items-center gap-2">
           <Phone
             className="w-5 h-5 shrink-0 text-texto-secundario"
             aria-hidden="true"
           />
-          <div className="flex flex-col text-left">
+          <div className="flex min-w-0 flex-col text-left">
             <span className="font-medio text-p text-texto-principal">
               {nombre}
             </span>
@@ -91,11 +91,14 @@ export function BotonLlamar({
         etiquetaEstado ? `. ${etiquetaEstado}` : ""
       }${horario ? `. Horario: ${horario}` : ""}`}
     >
-      <div className="flex items-center gap-3">
+      <div className="flex min-w-0 grow basis-32 items-center gap-2">
         <PhoneCall className="w-5 h-5 shrink-0" aria-hidden="true" />
-        <div className="flex flex-col text-left">
+        <div className="flex min-w-0 flex-col text-left">
           <span className="font-medio text-p leading-titulo">
-            {nombre} · <strong className="font-fuerte">{telefono}</strong>
+            {nombre} ·{" "}
+            <strong className="font-fuerte whitespace-nowrap">
+              {telefono}
+            </strong>
           </span>
           {etiquetaEstado ? (
             <span className="text-caption font-normal opacity-90">
