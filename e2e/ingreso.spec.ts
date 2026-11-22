@@ -11,9 +11,7 @@ test.describe("Acceso y autenticación", () => {
     ).toBeVisible();
   });
 
-  test("ingreso con credenciales válidas de psicólogo redirige a una URL que empieza por /panel", async ({
-    page,
-  }) => {
+  test("el ingreso válido de psicólogo carga Mis citas", async ({ page }) => {
     await page.goto("/ingresar");
 
     await page
@@ -24,8 +22,10 @@ test.describe("Acceso y autenticación", () => {
       .fill("clave-de-prueba-capl");
     await page.getByRole("button", { name: "Ingresar" }).click();
 
-    await expect(page).toHaveURL(/\/panel/);
-    expect(new URL(page.url()).pathname.startsWith("/panel")).toBe(true);
+    await expect(page).toHaveURL(/\/panel\/psicologo\/citas/);
+    await expect(
+      page.getByRole("heading", { level: 1, name: "Mis citas" }),
+    ).toBeVisible();
   });
 
   test("ingreso con clave equivocada muestra mensaje de error y mantiene la URL en /ingresar", async ({

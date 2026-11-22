@@ -1,9 +1,13 @@
+import { connection } from "next/server";
 import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
 import { datosDePagina } from "@/servidor/pagina";
 import { listarMisCitasAccion } from "@/servidor/acciones";
 import { MisCitasCliente } from "@/componentes/panel/psicologo/mis-citas-cliente";
 
+export const instant = false;
+
 export default async function PaginaPsicologoCitas() {
+  await connection();
   const { citas } = datosDePagina(await listarMisCitasAccion({}));
 
   return (

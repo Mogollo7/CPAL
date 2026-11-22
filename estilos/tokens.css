@@ -165,6 +165,11 @@
   --breakpoint-lg: 1200px;
 }
 
+@utility titulo-panel {
+  /* 26–42 px: pasos áureos de la escala del panel, con 16 px en el texto base. */
+  font-size: clamp(1.618rem, 1.15rem + 2.4cqi, 2.618rem);
+}
+
 @utility reticula-capl {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));

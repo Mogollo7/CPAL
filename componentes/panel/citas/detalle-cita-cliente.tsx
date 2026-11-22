@@ -151,20 +151,20 @@ export function DetalleCitaCliente({
   return (
     <div className="space-y-6 w-full">
       {/* Botón Volver y Cabecera de Detalle */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
-        <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center justify-between gap-4 border-b border-borde-suave pb-4">
+        <div className="flex min-w-0 items-start gap-3">
           <Link
             href="/panel/admin/citas"
-            className="p-2 rounded-m bg-fondo-superficie border border-borde-suave text-texto-secundario hover:text-texto-principal hover:bg-fondo-suave transition-colors"
-            title="Volver a la bandeja de citas"
+            className="inline-flex size-[44px] shrink-0 items-center justify-center rounded-m border border-borde-suave bg-fondo-superficie text-texto-secundario transition-colors hover:bg-fondo-suave hover:text-texto-principal"
+            aria-label="Volver a la bandeja de citas"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
-          <div>
-            <div className="flex items-center gap-3">
-              <h2 className="text-h1 font-mono font-fuerte text-morado-900 tracking-tight">
+          <div className="min-w-0">
+            <div className="flex flex-wrap items-center gap-2">
+              <h1 className="titulo-panel font-mono leading-titulo font-fuerte whitespace-nowrap tracking-tight text-morado-900">
                 {cita.codigo}
-              </h2>
+              </h1>
               <PildoraEstado estado={cita.estado} />
             </div>
             <p className="text-caption text-texto-secundario mt-[2px]">
@@ -174,7 +174,7 @@ export function DetalleCitaCliente({
         </div>
 
         {/* Barra de Acciones según el Estado */}
-        <div className="flex items-center gap-2 flex-wrap">
+        <div className="flex flex-wrap items-center gap-2 [&>button]:min-h-[44px]">
           {cita.estado === "PENDIENTE" && (
             <>
               <button
@@ -284,7 +284,7 @@ export function DetalleCitaCliente({
       )}
 
       {/* Grilla Principal de Datos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-bloque">
         {/* Tarjeta 1: Información de la Atención */}
         <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-4">
           <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
@@ -369,7 +369,7 @@ export function DetalleCitaCliente({
               </div>
             )}
 
-            <div className="grid grid-cols-2 gap-2 pt-2 border-t border-borde-suave/50">
+            <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,11rem),1fr))] gap-3 border-t border-borde-suave/50 pt-2">
               <div>
                 <span className="block text-texto-secundario text-caption">
                   Teléfono:
@@ -389,11 +389,11 @@ export function DetalleCitaCliente({
                 <span className="block text-texto-secundario text-caption">
                   Correo:
                 </span>
-                <div className="flex items-center gap-[6px] font-medio text-texto-principal mt-[2px] truncate">
+                <div className="mt-[2px] flex min-w-0 items-center gap-[6px] font-medio text-texto-principal">
                   <Mail className="w-[14px] h-[14px] text-texto-secundario shrink-0" />
                   <a
                     href={`mailto:${cita.solicitanteCorreo}`}
-                    className="hover:text-texto-enlace truncate"
+                    className="min-w-0 wrap-anywhere hover:text-texto-enlace"
                   >
                     {cita.solicitanteCorreo}
                   </a>
@@ -418,7 +418,7 @@ export function DetalleCitaCliente({
 
       {/* Tarjeta 3: Motivo de Consulta (Cifrado / Privacidad) */}
       <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-3">
-        <div className="flex items-center justify-between pb-3 border-b border-borde-suave">
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-borde-suave pb-3">
           <div className="flex items-center gap-2 text-texto-titulo font-fuerte text-h2">
             <FileText className="w-5 h-5 text-morado-600" />
             <span>Motivo de Consulta</span>
@@ -440,7 +440,7 @@ export function DetalleCitaCliente({
       </div>
 
       {/* Tarjeta 4: Historial de Auditoría y Correos */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,22rem),1fr))] gap-bloque">
         {/* Historial */}
         <div className="p-5 rounded-m bg-fondo-superficie border border-borde-suave  space-y-3">
           <div className="flex items-center gap-2 pb-3 border-b border-borde-suave text-texto-titulo font-fuerte text-h2">
@@ -488,9 +488,9 @@ export function DetalleCitaCliente({
                 {citaInicial.correos.map((cor, i) => (
                   <li
                     key={i}
-                    className="p-[10px] rounded-m bg-fondo-suave border border-borde-suave flex items-center justify-between text-caption"
+                    className="flex flex-wrap items-center justify-between gap-2 rounded-m border border-borde-suave bg-fondo-suave p-[10px] text-caption"
                   >
-                    <span className="font-mono text-texto-principal">
+                    <span className="min-w-0 font-mono wrap-anywhere text-texto-principal">
                       {cor.llave}
                     </span>
                     <span

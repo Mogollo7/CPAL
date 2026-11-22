@@ -224,7 +224,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
         <button
           type="button"
           onClick={abrirCreacion}
-          className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
+          className="inline-flex min-h-[44px] items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
         >
           <Plus className="w-4 h-4" />
           <span>Nuevo evento</span>
@@ -245,7 +245,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           {eventos.map((ev) => (
             <li
               key={ev.id}
-              className="col-span-4 min-w-0 space-y-3 rounded-m border border-borde-suave p-4 wrap-anywhere @min-[34rem]:col-span-2"
+              className="col-span-4 min-w-0 space-y-3 rounded-m border border-borde-suave p-4 wrap-break-word @min-[34rem]:col-span-2"
             >
               <h3 className="text-h2 font-fuerte">{ev.titulo}</h3>
               <p>{ev.descripcion}</p>
@@ -329,6 +329,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="titulo-formulario-evento"
         >
           <div className="relative max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-m border border-borde-suave bg-fondo-superficie p-4 shadow-flotante sm:p-6">
             <button
@@ -343,23 +344,30 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="mb-4 pr-[3rem] text-h2 font-fuerte text-texto-titulo">
+            <h3
+              id="titulo-formulario-evento"
+              className="mb-4 pr-[3rem] text-h2 font-fuerte text-texto-titulo"
+            >
               {eventoAEditar ? "Editar Evento" : "Crear Nuevo Evento"}
             </h3>
 
             <form onSubmit={manejarGuardar} className="space-y-4 text-caption">
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="evento-titulo"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Título del evento (máx. 120 caracteres)
                 </label>
                 <input
+                  id="evento-titulo"
                   type="text"
                   required
                   maxLength={120}
                   value={titulo}
                   onChange={(e) => setTitulo(e.target.value)}
                   placeholder="Ej. Taller de primeros auxilios psicológicos"
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
@@ -374,7 +382,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                   value={descripcion}
                   onChange={(e) => setDescripcion(e.target.value)}
                   placeholder="Describe los temas, objetivos y a quién va dirigido..."
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 resize-none"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600 resize-none"
                 />
               </div>
 
@@ -389,7 +397,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                   id="tipo"
                   value={tipo}
                   onChange={(e) => setTipo(e.target.value as TipoEvento)}
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 >
                   {TIPOS_EVENTO.map((t) => (
                     <option key={t} value={t}>
@@ -399,7 +407,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 </select>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,10rem),1fr))] gap-3">
                 <div>
                   <label className="block font-medio text-texto-principal mb-1">
                     Fecha y hora de inicio:
@@ -426,7 +434,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,10rem),1fr))] gap-3">
                 <div>
                   <label className="block font-medio text-texto-principal mb-1">
                     Lugar o modalidad
@@ -437,7 +445,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                     placeholder='Ej. "Virtual" o "Edificio A, sala 301"'
                     value={lugar}
                     onChange={(e) => setLugar(e.target.value)}
-                    className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
+                    className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
                   />
                 </div>
 
@@ -450,7 +458,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                     placeholder="https://teams.microsoft.com/..."
                     value={enlace}
                     onChange={(e) => setEnlace(e.target.value)}
-                    className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
+                    className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption"
                   />
                 </div>
               </div>
@@ -471,7 +479,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                 </label>
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-borde-suave">
+              <div className="flex flex-wrap justify-end gap-2 border-t border-borde-suave pt-3 [&>button]:min-h-[44px]">
                 <button
                   type="button"
                   onClick={() => {

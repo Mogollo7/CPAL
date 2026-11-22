@@ -196,7 +196,7 @@ export function GestorPsicologos({
         <button
           type="button"
           onClick={() => setModalCrear(true)}
-          className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
+          className="inline-flex min-h-[44px] items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
         >
           <UserPlus className="w-4 h-4" />
           <span>Invitar psicólogo</span>
@@ -204,36 +204,69 @@ export function GestorPsicologos({
       </div>
 
       {/* Tabla de Psicólogos */}
-      <div className="rounded-m bg-fondo-superficie border border-borde-suave  overflow-hidden">
-        <div className="overflow-x-auto">
-          <table className="w-full text-left border-collapse text-caption">
-            <thead>
+      <div className="@container rounded-m border border-borde-suave bg-fondo-superficie">
+        <div>
+          <table
+            role="table"
+            className="block w-full border-collapse text-left text-caption @min-[48rem]:table"
+          >
+            <caption className="sr-only">Equipo de psicología</caption>
+            <thead className="hidden @min-[48rem]:table-header-group">
               <tr className="border-b border-borde-suave bg-fondo-suave/60 text-caption font-fuerte text-texto-secundario uppercase tracking-wider">
-                <th className="py-3 px-4">Terapeuta</th>
-                <th className="py-3 px-4">Correo Institucional</th>
-                <th className="py-3 px-4">Área</th>
-                <th className="py-3 px-4 text-center">Estado</th>
-                <th className="py-3 px-4 text-right">Acciones</th>
+                <th scope="col" className="py-3 px-4">
+                  Terapeuta
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Correo Institucional
+                </th>
+                <th scope="col" className="py-3 px-4">
+                  Área
+                </th>
+                <th scope="col" className="py-3 px-4 text-center">
+                  Estado
+                </th>
+                <th scope="col" className="py-3 px-4 text-right">
+                  Acciones
+                </th>
               </tr>
             </thead>
-            <tbody className="divide-y divide-borde-suave text-texto-principal">
+            <tbody
+              role="rowgroup"
+              className="block divide-y divide-borde-suave text-texto-principal @min-[48rem]:table-row-group"
+            >
               {psicologos.map((p) => (
                 <tr
                   key={p.id}
-                  className="hover:bg-fondo-suave/50 transition-colors"
+                  role="row"
+                  className="grid min-w-0 gap-2 p-4 transition-colors hover:bg-fondo-suave/50 @min-[48rem]:table-row @min-[48rem]:p-0"
                 >
-                  <td className="py-[14px] px-4 font-fuerte text-texto-titulo">
+                  <th
+                    scope="row"
+                    role="rowheader"
+                    className="font-fuerte text-texto-titulo @min-[48rem]:px-4 @min-[48rem]:py-3"
+                  >
                     {p.nombre}
-                  </td>
-                  <td className="py-[14px] px-4 font-mono text-caption text-texto-secundario">
+                  </th>
+                  <td
+                    role="cell"
+                    className="min-w-0 wrap-anywhere text-texto-secundario @min-[48rem]:px-4 @min-[48rem]:py-3"
+                  >
                     {p.correo}
                   </td>
-                  <td className="py-[14px] px-4">
+                  <td
+                    role="cell"
+                    className="@min-[48rem]:px-4 @min-[48rem]:py-3"
+                  >
                     <span className="px-2 py-[2px] rounded-pildora text-caption font-medio bg-morado-50 text-morado-700 border border-morado-100">
-                      {p.area || "PSICOLOGIA"}
+                      {p.area === "NEUROPSICOLOGIA"
+                        ? "Neuropsicología"
+                        : "Psicología"}
                     </span>
                   </td>
-                  <td className="py-[14px] px-4 text-center">
+                  <td
+                    role="cell"
+                    className="@min-[48rem]:px-4 @min-[48rem]:py-3 @min-[48rem]:text-center"
+                  >
                     <span
                       className={`inline-flex items-center gap-[6px] px-[10px] py-[2px] rounded-pildora text-caption font-medio border ${
                         p.estado === "ACTIVO"
@@ -255,13 +288,16 @@ export function GestorPsicologos({
                       <span>{p.estado}</span>
                     </span>
                   </td>
-                  <td className="py-[14px] px-4 text-right">
-                    <div className="flex items-center justify-end gap-2">
+                  <td
+                    role="cell"
+                    className="@min-[48rem]:px-4 @min-[48rem]:py-3"
+                  >
+                    <div className="flex flex-wrap items-center gap-2 @min-[48rem]:justify-end">
                       {p.estado === "INVITADO" && (
                         <button
                           type="button"
                           onClick={() => manejarReenviar(p.id, p.correo)}
-                          className="inline-flex items-center gap-1 px-[10px] py-1 text-caption font-medio text-texto-enlace hover:bg-fondo-suave rounded-s border border-borde-suave transition-colors"
+                          className="inline-flex min-h-[44px] items-center gap-2 px-[10px] py-1 text-caption font-medio text-texto-enlace hover:bg-fondo-suave rounded-s border border-borde-suave transition-colors"
                           title="Reenviar correo de activación"
                         >
                           <Send className="w-3 h-3" />
@@ -272,8 +308,8 @@ export function GestorPsicologos({
                       <button
                         type="button"
                         onClick={() => abrirEdicion(p)}
-                        className="p-[6px] text-texto-secundario hover:text-texto-principal hover:bg-fondo-suave rounded-s transition-colors"
-                        title="Editar datos"
+                        className="inline-flex size-[44px] shrink-0 items-center justify-center rounded-s text-texto-secundario transition-colors hover:bg-fondo-suave hover:text-texto-principal"
+                        aria-label={`Editar datos de ${p.nombre}`}
                       >
                         <Edit2 className="w-[14px] h-[14px]" />
                       </button>
@@ -307,17 +343,22 @@ export function GestorPsicologos({
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="titulo-formulario-psicologo"
         >
-          <div className="w-full max-w-md bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
+          <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-m border border-borde-suave bg-fondo-superficie p-4 shadow-flotante sm:p-6">
             <button
               type="button"
               onClick={() => setModalCrear(false)}
-              className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1"
+              className="absolute top-2 right-2 inline-flex size-[44px] items-center justify-center rounded-s text-texto-secundario hover:text-texto-principal"
+              aria-label="Cerrar"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-fuerte text-texto-titulo mb-1">
+            <h3
+              id="titulo-formulario-psicologo"
+              className="pr-[44px] text-h2 font-fuerte text-texto-titulo mb-1"
+            >
               Invitar Terapeuta
             </h3>
             <p className="text-caption text-texto-secundario mb-4 text-caption">
@@ -327,10 +368,14 @@ export function GestorPsicologos({
 
             <form onSubmit={manejarCrear} className="space-y-4 text-caption">
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="psicologo-nombre"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Nombre completo
                 </label>
                 <input
+                  id="psicologo-nombre"
                   type="text"
                   required
                   placeholder="Ej. Dr. Carlos Rodríguez"
@@ -341,10 +386,14 @@ export function GestorPsicologos({
               </div>
 
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="psicologo-correo"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Correo institucional
                 </label>
                 <input
+                  id="psicologo-correo"
                   type="email"
                   required
                   placeholder="ejemplo@unilasallista.edu.co"
@@ -355,10 +404,14 @@ export function GestorPsicologos({
               </div>
 
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="psicologo-area"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Área clínica
                 </label>
                 <select
+                  id="psicologo-area"
                   value={nuevaArea}
                   onChange={(e) => setNuevaArea(e.target.value as Area)}
                   className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
@@ -368,7 +421,7 @@ export function GestorPsicologos({
                 </select>
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-borde-suave">
+              <div className="flex flex-wrap justify-end gap-2 border-t border-borde-suave pt-3 [&>button]:min-h-[44px]">
                 <button
                   type="button"
                   onClick={() => setModalCrear(false)}
@@ -395,17 +448,22 @@ export function GestorPsicologos({
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="titulo-formulario-psicologo"
         >
-          <div className="w-full max-w-md bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
+          <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-m border border-borde-suave bg-fondo-superficie p-4 shadow-flotante sm:p-6">
             <button
               type="button"
               onClick={() => setPsicologoAEditar(null)}
-              className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1"
+              className="absolute top-2 right-2 inline-flex size-[44px] items-center justify-center rounded-s text-texto-secundario hover:text-texto-principal"
+              aria-label="Cerrar"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-fuerte text-texto-titulo mb-4">
+            <h3
+              id="titulo-formulario-psicologo"
+              className="pr-[44px] text-h2 font-fuerte text-texto-titulo mb-4"
+            >
               Editar Datos del Terapeuta
             </h3>
 
@@ -414,10 +472,14 @@ export function GestorPsicologos({
               className="space-y-4 text-caption"
             >
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="psicologo-nombre"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Nombre completo
                 </label>
                 <input
+                  id="psicologo-nombre"
                   type="text"
                   required
                   value={editNombre}
@@ -427,10 +489,14 @@ export function GestorPsicologos({
               </div>
 
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="psicologo-area"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Área clínica
                 </label>
                 <select
+                  id="psicologo-area"
                   value={editArea}
                   onChange={(e) => setEditArea(e.target.value as Area)}
                   className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
@@ -440,7 +506,7 @@ export function GestorPsicologos({
                 </select>
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-borde-suave">
+              <div className="flex flex-wrap justify-end gap-2 border-t border-borde-suave pt-3 [&>button]:min-h-[44px]">
                 <button
                   type="button"
                   onClick={() => setPsicologoAEditar(null)}

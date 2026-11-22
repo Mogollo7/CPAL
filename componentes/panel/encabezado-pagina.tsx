@@ -16,14 +16,16 @@ export function EncabezadoPagina({
       <p className="text-caption text-texto-secundario mb-4">
         Panel / {titulo === "Horario habitual" ? "Disponibilidad" : titulo}
       </p>
-      <Titulo nivel="h1" tamano="bloque">
+      <Titulo nivel="h1" tamano="h1" className="titulo-panel wrap-break-word">
         {titulo}
       </Titulo>
       {descripcion && (
-        <p className="mt-2 text-texto-secundario">{descripcion}</p>
+        <p className="mt-2 max-w-[70ch] text-pretty text-texto-secundario">
+          {descripcion}
+        </p>
       )}
       {pestana && (
-        <nav aria-label="Perfil y cuenta" className="flex gap-2 mt-5">
+        <nav aria-label="Perfil y cuenta" className="mt-5 flex flex-wrap gap-2">
           <Link
             href="/panel/psicologo/perfil"
             className={claseBoton(

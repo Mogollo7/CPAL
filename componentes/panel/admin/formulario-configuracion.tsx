@@ -147,23 +147,30 @@ export function FormularioConfiguracion({
               onClick={() =>
                 manejarCambio("autoAutorizar", !config.autoAutorizar)
               }
-              className={`relative inline-flex h-6 w-[44px] shrink-0 cursor-pointer rounded-pildora border-2 border-transparent transition-colors duration-200 ease-in-out focus-visible:outline-2 focus-visible:outline-morado-600 ${
-                config.autoAutorizar ? "bg-accion-fondo" : "bg-borde-suave"
-              }`}
+              className="inline-flex size-[44px] shrink-0 cursor-pointer items-center rounded-pildora focus-visible:outline-2 focus-visible:outline-morado-600"
               role="switch"
               aria-label="Autorizar automáticamente todas las citas"
               aria-checked={config.autoAutorizar}
             >
               <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-circulo bg-blanco  ring-0 transition duration-200 ease-in-out ${
-                  config.autoAutorizar ? "translate-x-5" : "translate-x-0"
+                aria-hidden="true"
+                className={`flex h-[24px] w-full items-center rounded-pildora p-[2px] transition-colors ${
+                  config.autoAutorizar ? "bg-accion-fondo" : "bg-borde-suave"
                 }`}
-              />
+              >
+                <span
+                  className={`size-[20px] rounded-circulo bg-blanco transition-transform ${
+                    config.autoAutorizar
+                      ? "translate-x-[20px]"
+                      : "translate-x-0"
+                  }`}
+                />
+              </span>
             </button>
           </div>
 
           {/* Plazos de Antelación y Vencimiento */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,16rem),1fr))] gap-4">
             <div>
               <label
                 htmlFor="config-anticipacionMinHoras"
@@ -284,7 +291,7 @@ export function FormularioConfiguracion({
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] gap-4">
             <div>
               <label
                 htmlFor="config-maxCitasActivas"
@@ -428,7 +435,7 @@ export function FormularioConfiguracion({
           <button
             type="submit"
             disabled={guardando}
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-m bg-accion-fondo text-accion-texto font-fuerte text-caption hover:bg-accion-fondo-activo transition-all  cursor-pointer disabled:opacity-50"
+            className="inline-flex min-h-[44px] items-center gap-2 px-6 py-3 rounded-m bg-accion-fondo text-accion-texto font-fuerte text-caption hover:bg-accion-fondo-activo transition-all  cursor-pointer disabled:opacity-50"
           >
             <Save className="w-4 h-4" />
             <span>

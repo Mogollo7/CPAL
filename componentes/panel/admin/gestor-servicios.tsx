@@ -86,7 +86,7 @@ export function GestorServicios({
           >
             <fieldset
               disabled={guardando}
-              className="grid gap-4 sm:grid-cols-2"
+              className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] gap-4"
             >
               <label className="space-y-1">
                 Nombre{" "}

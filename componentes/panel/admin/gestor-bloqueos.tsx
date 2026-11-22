@@ -158,8 +158,8 @@ export function GestorBloqueos({
       )}
 
       {/* SECCIÓN 1: BLOQUEOS GENERALES DEL CENTRO (RF-ADM-09) */}
-      <div className="p-6 rounded-m bg-fondo-superficie border border-borde-suave  space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pb-4 border-b border-borde-suave">
+      <div className="space-y-5 rounded-m border border-borde-suave bg-fondo-superficie p-4 sm:p-6">
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-borde-suave pb-4">
           <div>
             <h3 className="text-h2 font-fuerte text-texto-titulo flex items-center gap-2">
               <CalendarOff className="w-5 h-5 text-morado-600" />
@@ -174,7 +174,7 @@ export function GestorBloqueos({
           <button
             type="button"
             onClick={() => setModalCrear(true)}
-            className="inline-flex items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
+            className="inline-flex min-h-[44px] items-center gap-2 px-5 py-[10px] rounded-m bg-accion-fondo text-accion-texto text-caption font-fuerte hover:bg-accion-fondo-activo transition-all  cursor-pointer"
           >
             <Plus className="w-4 h-4" />
             <span>Bloquear periodo</span>
@@ -186,7 +186,7 @@ export function GestorBloqueos({
           {bloqueos.map((b) => (
             <div
               key={b.id}
-              className="p-4 rounded-m bg-fondo-suave/60 border border-borde-suave flex items-center justify-between text-caption hover:border-morado-300 transition-all"
+              className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2 rounded-m border border-borde-suave bg-fondo-suave/60 p-3 text-caption transition-colors hover:border-morado-300"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2 font-fuerte text-texto-titulo">
@@ -206,7 +206,7 @@ export function GestorBloqueos({
               <button
                 type="button"
                 onClick={() => manejarEliminarBloqueo(b.id)}
-                className="p-2 text-error-texto hover:bg-error-fondo/60 rounded-s transition-colors cursor-pointer"
+                className="inline-flex size-[44px] items-center justify-center rounded-s text-error-texto transition-colors hover:bg-error-fondo/60"
                 title="Eliminar este bloqueo"
               >
                 <Trash2 className="w-4 h-4" />
@@ -225,7 +225,7 @@ export function GestorBloqueos({
       </div>
 
       {/* SECCIÓN 2: FESTIVOS NACIONALES AUTOMÁTICOS (RF-ADM-13) */}
-      <div className="p-6 rounded-m bg-fondo-superficie border border-borde-suave  space-y-6">
+      <div className="space-y-5 rounded-m border border-borde-suave bg-fondo-superficie p-4 sm:p-6">
         <div className="flex items-center justify-between pb-4 border-b border-borde-suave">
           <div className="flex items-center gap-[10px]">
             <Flag className="w-5 h-5 text-amarillo-700" />
@@ -255,7 +255,7 @@ export function GestorBloqueos({
         </div>
 
         {/* Grilla de Días Festivos del Año */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(min(100%,14rem),1fr))] gap-3">
           {festivos.map((f, i) => (
             <div
               key={i}
@@ -281,17 +281,22 @@ export function GestorBloqueos({
           className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
           role="dialog"
           aria-modal="true"
+          aria-labelledby="titulo-formulario-bloqueo"
         >
-          <div className="w-full max-w-md bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
+          <div className="relative max-h-[calc(100dvh-2rem)] w-full max-w-md overflow-y-auto rounded-m border border-borde-suave bg-fondo-superficie p-4 shadow-flotante sm:p-6">
             <button
               type="button"
               onClick={() => setModalCrear(false)}
-              className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1"
+              className="absolute top-2 right-2 inline-flex size-[44px] items-center justify-center rounded-s text-texto-secundario hover:text-texto-principal"
+              aria-label="Cerrar"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-fuerte text-texto-titulo mb-1">
+            <h3
+              id="titulo-formulario-bloqueo"
+              className="pr-[44px] text-h2 font-fuerte text-texto-titulo mb-1"
+            >
               Bloquear Periodo General
             </h3>
             <p className="text-caption text-texto-secundario mb-4 text-caption">
@@ -304,46 +309,58 @@ export function GestorBloqueos({
               className="space-y-4 text-caption"
             >
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="bloqueo-desde"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Desde (Fecha y hora)
                 </label>
                 <input
+                  id="bloqueo-desde"
                   type="datetime-local"
                   required
                   value={desde}
                   onChange={(e) => setDesde(e.target.value)}
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="bloqueo-hasta"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Hasta (Fecha y hora)
                 </label>
                 <input
+                  id="bloqueo-hasta"
                   type="datetime-local"
                   required
                   value={hasta}
                   onChange={(e) => setHasta(e.target.value)}
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
               <div>
-                <label className="block font-medio text-texto-principal mb-1">
+                <label
+                  htmlFor="bloqueo-motivo"
+                  className="block font-medio text-texto-principal mb-1"
+                >
                   Motivo institucional (opcional)
                 </label>
                 <input
+                  id="bloqueo-motivo"
                   type="text"
                   maxLength={200}
                   placeholder="Ej. Vacaciones colectivas de fin de año"
                   value={motivo}
                   onChange={(e) => setMotivo(e.target.value)}
-                  className="w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
+                  className="w-full min-w-0 max-w-full p-[10px] rounded-m border border-borde-control bg-fondo-superficie text-caption focus-visible:outline-morado-600"
                 />
               </div>
 
-              <div className="flex justify-end gap-2 pt-3 border-t border-borde-suave">
+              <div className="flex flex-wrap justify-end gap-2 border-t border-borde-suave pt-3 [&>button]:min-h-[44px]">
                 <button
                   type="button"
                   onClick={() => setModalCrear(false)}

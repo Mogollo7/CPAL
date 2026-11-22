@@ -72,7 +72,7 @@ export function TablaCitas({
           return (
             <li
               key={cita.id}
-              className="col-span-4 min-w-0 rounded-m border border-borde-suave bg-fondo-superficie p-4 wrap-anywhere @min-[34rem]:col-span-2"
+              className="col-span-4 min-w-0 rounded-m border border-borde-suave bg-fondo-superficie p-4 wrap-break-word @min-[34rem]:col-span-2"
             >
               <p className="text-caption text-texto-secundario">
                 {cita.codigo}
