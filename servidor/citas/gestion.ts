@@ -18,6 +18,7 @@ import {
   insertarCita,
   personaDe,
   registrarCreacion,
+  transaccionDeCita,
 } from "./crear";
 import { decidir, transicionar } from "./estados";
 
@@ -152,7 +153,7 @@ export async function reprogramarCita(
 
   // E03 §4: una sola transacción. Si algo falla, la cita original queda exactamente como estaba.
   try {
-    const nueva = await bd.$transaction(async (tx) => {
+    const nueva = await transaccionDeCita(async (tx) => {
       const t = await transicionar(
         tx,
         original,
