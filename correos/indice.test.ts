@@ -61,6 +61,8 @@ describe("registro de plantillas (E06)", () => {
     );
     expect(a.adjuntos?.[0].nombre).toBe("cita.ics");
     expect(a.html).toContain("calendar.google.com");
+    expect(a.html).toContain("outlook.office.com");
+    expect(a.html).toContain("outlook.live.com");
     expect(a.texto).toContain(
       "Ver mi cita: https://pruebas.ejemplo.test/cita/",
     );

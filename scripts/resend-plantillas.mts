@@ -11,6 +11,7 @@ const { values } = parseArgs({ options: { seco: { type: "boolean" } } });
 const { plantillas, renderizar } = await import("../correos/indice");
 const { aPlantilla } = await import("../correos/plantilla-resend");
 const { mapaVariables } = await import("../correos/variables");
+const { transformarImagenesACid } = await import("../servidor/externos/resend");
 
 const llave = (process.env.RESEND_API_KEYS ?? "").split(",")[0]?.trim();
 if (!values.seco && !llave) throw new Error("Falta RESEND_API_KEYS en el .env");
@@ -26,7 +27,7 @@ for (const [nombre, mapa] of Object.entries(mapaVariables)) {
   ).variables(ejemplo);
   if (!vars) continue;
   const c = renderizar(n, ejemplo);
-  const html = aPlantilla(c.html, vars);
+  const html = aPlantilla(transformarImagenesACid(c.html).html, vars);
   const campos = {
     name: nombre,
     subject: c.asunto,

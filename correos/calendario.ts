@@ -75,11 +75,17 @@ export const enlaceGoogleCalendar = (e: EventoCalendario) =>
     location: e.lugar,
   });
 
-export const enlaceOutlookWeb = (e: EventoCalendario) =>
-  "https://outlook.live.com/calendar/0/deeplink/compose?" +
+export const enlaceOutlookWeb = (
+  e: EventoCalendario,
+  cuenta: "institucional" | "personal" = "institucional",
+) =>
+  (cuenta === "institucional"
+    ? "https://outlook.office.com/calendar/deeplink/compose?"
+    : "https://outlook.live.com/calendar/0/deeplink/compose?") +
   new URLSearchParams({
     path: "/calendar/action/compose",
     rru: "addevent",
+    allday: "false",
     subject: e.titulo,
     startdt: e.inicio.toISOString(),
     enddt: e.fin.toISOString(),
@@ -91,5 +97,6 @@ export const enlaceOutlookWeb = (e: EventoCalendario) =>
 export const adjuntoIcs = (e: EventoCalendario) => ({
   nombre: "cita.ics",
   contenido: generarIcs(e),
-  tipo: "text/calendar; charset=utf-8; method=PUBLISH",
+  // Outlook distingue los archivos .ics adjuntos de las invitaciones iMIP.
+  tipo: "application/octet-stream",
 });

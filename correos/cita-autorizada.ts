@@ -52,7 +52,8 @@ export function render(d: Datos) {
       archivoCalendario: true,
       enlaces: [
         { texto: "Google Calendar", url: enlaceGoogleCalendar(ev) },
-        { texto: "Outlook", url: enlaceOutlookWeb(ev) },
+        { texto: "Outlook institucional", url: enlaceOutlookWeb(ev) },
+        { texto: "Outlook personal", url: enlaceOutlookWeb(ev, "personal") },
       ],
       boton: { texto: "Ver mi cita", ruta: d.rutaGestion },
     }),

@@ -2,6 +2,8 @@
 // Rotación: RESEND_API_KEYS="re_principal,re_respaldo,..." (por prioridad). Si la llave activa responde
 // 429 / cuota diaria agotada, se marca agotada y se reintenta al instante con la siguiente.
 // Para añadir otra cuenta: agregar su llave al final de la lista en .env y reiniciar. Nada más.
+import { readFile } from "node:fs/promises";
+import { join } from "node:path";
 import { Resend } from "resend";
 import { registrar } from "../registro";
 
@@ -15,6 +17,54 @@ export type Correo = {
   plantilla?: { id: string; variables: Record<string, string> }; // plantilla publicada en Resend (alias = nombre); si falla, se envía el html propio
   llave?: string; // llave del trabajo: Resend la usa para no enviar dos veces el mismo correo (idempotencia)
 };
+
+const IMAGENES_CORREO = new Set([
+  "logo-capl.png",
+  "clave-sobre.png",
+  "gato-acompanamiento.png",
+  "gato-aprobacion.png",
+  "gato-calendario.png",
+  "gato-recordatorio.png",
+  "gato-reprogramacion.png",
+  "gato-saludo.png",
+  "gato-soporte.png",
+  "seguridad-escudo.png",
+]);
+
+const idImagen = (nombre: string) => `capl-${nombre.replace(".", "-")}`;
+
+/**
+ * Sustituimos las imágenes del HTML por CID y las enviamos como adjuntos
+ * inline. Así el buzón no depende de que URL_SITIO o el túnel estén
+ * disponibles después de la entrega. La misma transformación se usa al
+ * publicar las plantillas de Resend.
+ */
+export function transformarImagenesACid(html: string) {
+  const nombres = new Set<string>();
+  const htmlCid = html.replace(
+    /(<img\b[^>]*?\s+src\s*=\s*["'])(?:https?:\/\/[^/"']+\/|\/)?correos\/([a-z0-9-]+\.png)(["'])/gi,
+    (todo, inicio: string, nombre: string, fin: string) => {
+      const normalizado = nombre.toLowerCase();
+      if (!IMAGENES_CORREO.has(normalizado)) return todo;
+      nombres.add(normalizado);
+      return `${inicio}cid:${idImagen(normalizado)}${fin}`;
+    },
+  );
+  return { html: htmlCid, nombres: [...nombres] };
+}
+
+export async function incrustarImagenes(html: string) {
+  const transformado = transformarImagenesACid(html);
+  const adjuntos = await Promise.all(
+    transformado.nombres.map(async (nombre) => ({
+      filename: nombre,
+      content: await readFile(join(process.cwd(), "public", "correos", nombre)),
+      contentType: "image/png",
+      contentId: idImagen(nombre),
+    })),
+  );
+  return { html: transformado.html, adjuntos };
+}
 export type ErrorEnvio = {
   statusCode?: number | null;
   name?: string;
@@ -43,6 +93,7 @@ const llaves = () =>
     .filter(Boolean);
 
 const enviarConResend: Enviar = async (llave, c) => {
+  const inline = await incrustarImagenes(c.html);
   const { error } = await new Resend(llave).emails.send(
     {
       from: process.env.CORREO_REMITENTE || "CAPL <onboarding@resend.dev>",
@@ -51,12 +102,15 @@ const enviarConResend: Enviar = async (llave, c) => {
       subject: c.asunto,
       ...(c.plantilla
         ? { template: { id: c.plantilla.id, variables: c.plantilla.variables } }
-        : { html: c.html, text: c.texto }),
-      attachments: c.adjuntos?.map((a) => ({
-        filename: a.nombre,
-        content: Buffer.from(a.contenido),
-        contentType: a.tipo,
-      })),
+        : { html: inline.html, text: c.texto }),
+      attachments: [
+        ...(c.adjuntos ?? []).map((a) => ({
+          filename: a.nombre,
+          content: Buffer.from(a.contenido),
+          contentType: a.tipo,
+        })),
+        ...inline.adjuntos,
+      ],
       tags: c.trabajoId ? [{ name: "trabajo", value: c.trabajoId }] : undefined,
     },
     c.llave ? { idempotencyKey: c.llave } : undefined,
