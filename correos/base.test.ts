@@ -40,6 +40,16 @@ describe("plantilla base de correo (E06)", () => {
     const q = plantillaBase({ asunto: "Tu código", parrafos: ["123456"] });
     expect(q.html).not.toContain("border-radius:9999px");
   });
+  it("usa la URL absoluta de la ilustración", () => {
+    const correo = plantillaBase({
+      asunto: "Hola",
+      parrafos: [],
+      ilustracion: "gato-saludo",
+    });
+    expect(correo.html).toContain(
+      'src="https://pruebas.ejemplo.test/correos/gato-saludo.png"',
+    );
+  });
   it("escapa HTML: un nombre malicioso llega como texto, no como código", () => {
     const sucio = plantillaBase({
       asunto: "x",
@@ -47,7 +57,7 @@ describe("plantilla base de correo (E06)", () => {
       boton: { texto: "<b>", ruta: '/"onmouseover="x' },
     });
     expect(sucio.html).not.toContain("<script>");
-    expect(sucio.html).not.toContain("<img");
+    expect(sucio.html).not.toContain("<img src=x");
     expect(sucio.html).not.toContain('"onmouseover="x'); // no rompe el atributo href
     expect(esc(`<&>"'`)).toBe("&lt;&amp;&gt;&quot;&#39;");
   });

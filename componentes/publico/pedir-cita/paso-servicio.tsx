@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 import {
   EncabezadoPaso,
   Navegacion,

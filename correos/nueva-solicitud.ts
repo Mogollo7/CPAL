@@ -1,4 +1,4 @@
-import { plantillaBase } from "./base";
+import { plantillaBase, fechaCorreo } from "./base";
 import { RUTAS } from "./centro";
 import { formatoFechaHora } from "../servidor/fechas";
 
@@ -14,13 +14,24 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-calendario",
+    tono: "#efeefb",
+    disposicion: "fila",
     asunto: "Nueva solicitud de cita por revisar",
+    titulo: "Una solicitud por revisar",
+    ...(d.venceEn
+      ? { fecha: fechaCorreo(d.venceEn, "Responder antes de") }
+      : {}),
+    datos: [
+      { rotulo: "Servicio", valor: d.servicio },
+      { rotulo: "Profesional", valor: d.psicologo },
+      { rotulo: "Horario solicitado", valor: formatoFechaHora(d.inicio) },
+    ],
+    pie_datos: `Solicitud ${d.codigo}`,
     parrafos: [
-      `Hay una solicitud nueva: ${d.codigo}.`,
-      `${d.servicio} · ${formatoFechaHora(d.inicio)} · con ${d.psicologo}`,
-      ...(d.venceEn
-        ? [`Responder antes de: ${formatoFechaHora(d.venceEn)}.`]
-        : []),
+      d.venceEn
+        ? "Revisa los datos y responde antes de que venza el plazo."
+        : "Revisa los datos de la solicitud y responde desde el panel.",
     ],
     boton: { texto: "Revisar en el panel", ruta: RUTAS.panelCita(d.citaId) },
   });

@@ -1,6 +1,5 @@
-import { plantillaBase } from "./base";
+import { plantillaBase, fechaCorreo } from "./base";
 import { centro } from "./centro";
-import { formatoFechaHora } from "../servidor/fechas";
 
 // No está en E06: se añadió para que administración no mueva una cita sin que la persona se entere (RF-ADM-05).
 export type Datos = {
@@ -15,14 +14,22 @@ export type Datos = {
 export function render(d: Datos) {
   const minutos = Math.round((d.fin.getTime() - d.inicio.getTime()) / 60_000);
   return plantillaBase({
+    ilustracion: "gato-reprogramacion",
+    tono: "#e6f4ee",
+    disposicion: "fila",
     asunto: "Cambiamos el horario de tu cita",
+    titulo: "Tu cita cambió de horario",
+    fecha: fechaCorreo(d.inicio, "Nuevo horario", minutos),
+    datos: [
+      { rotulo: "Lugar", valor: centro().direccion },
+      { rotulo: "Profesional", valor: d.psicologo },
+    ],
     parrafos: [
-      `Hola, ${d.nombre}. El CAPL cambió tu cita. Estos son los datos nuevos:`,
-      `${formatoFechaHora(d.inicio)} · ${minutos} minutos · con ${d.psicologo}`,
-      `Dónde: casa amarilla del CAPL, ${centro().direccion}.`,
-      d.autorizada
-        ? "Tu cita sigue autorizada. Si ese horario no te sirve, puedes cambiarlo o cancelar desde el botón."
-        : "Tu solicitud sigue en revisión; te escribiremos cuando esté autorizada. Si ese horario no te sirve, puedes cambiarlo o cancelar desde el botón.",
+      `Hola, ${d.nombre}. El CAPL cambió el horario de tu cita. ${
+        d.autorizada
+          ? "Tu cita sigue autorizada. Si ese horario no te sirve, puedes cambiarlo o cancelar desde el botón."
+          : "Tu solicitud sigue en revisión; te escribiremos cuando esté autorizada. Si ese horario no te sirve, puedes cambiarlo o cancelar desde el botón."
+      }`,
     ],
     boton: { texto: "Ver mi cita", ruta: d.rutaGestion },
   });

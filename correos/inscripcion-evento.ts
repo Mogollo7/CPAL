@@ -26,6 +26,9 @@ export function render(d: Datos) {
   };
   return {
     ...plantillaBase({
+      ilustracion: "gato-saludo",
+      tono: "#efeefb",
+      disposicion: "centrada",
       asunto: `Tu inscripción a ${d.evento}`,
       parrafos: [
         `Hola, ${d.nombre}. Quedaste inscrito/a en ${d.evento}.`,

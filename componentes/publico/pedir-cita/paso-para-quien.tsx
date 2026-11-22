@@ -1,6 +1,6 @@
 import { Baby, User, Users, type LucideIcon } from "lucide-react";
-import { Campo } from "@/componentes/ui/campo";
-import { cn } from "@/componentes/ui/cn";
+import { Campo } from "@/componentes/moleculas/campo";
+import { cn } from "@/componentes/cn";
 import {
   EncabezadoPaso,
   Navegacion,

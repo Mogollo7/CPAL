@@ -2,17 +2,10 @@
 
 import { useState, useTransition } from "react";
 import Link from "next/link";
-import {
-  Lock,
-  Mail,
-  ShieldCheck,
-  Eye,
-  EyeOff,
-  AlertCircle,
-  KeyRound,
-  ArrowRight,
-  RefreshCw,
-} from "lucide-react";
+import { AlertCircle, Eye, EyeOff, RefreshCw, ShieldCheck } from "lucide-react";
+import { Titulo } from "@/componentes/atomos/titulo";
+import { claseBoton } from "@/componentes/atomos/boton";
+import { Campo } from "@/componentes/moleculas/campo";
 import {
   ingresarAccion,
   verificarCodigoAccion,
@@ -25,6 +18,9 @@ export default function PaginaIngresar() {
   const [error, setError] = useState<string | null>(null);
   const [mensajeReenvio, setMensajeReenvio] = useState<string | null>(null);
   const [pendiente, iniciarTransicion] = useTransition();
+  const [correo, setCorreo] = useState("");
+  const [clave, setClave] = useState("");
+  const [codigo, setCodigo] = useState("");
 
   // Paso 1: Enviar correo y contraseña
   const manejarIngreso = (formData: FormData) => {
@@ -74,141 +70,125 @@ export default function PaginaIngresar() {
   };
 
   return (
-    <div className="w-full max-w-md bg-fondo-superficie rounded-l border border-borde-suave shadow-flotante p-6 sm:p-8">
-      {/* Encabezado de la tarjeta */}
-      <div className="text-center mb-6">
-        <div className="w-12 h-12 rounded-m bg-accion-suave-fondo text-accion-fondo flex items-center justify-center mx-auto mb-3">
-          {paso2FA ? (
-            <ShieldCheck className="w-6 h-6" />
-          ) : (
-            <Lock className="w-6 h-6" />
-          )}
+    <div className="reticula-capl w-full max-w-[34rem] rounded-l bg-fondo-superficie p-4 shadow-flotante sm:p-6">
+      <div className="col-span-4 min-w-0">
+        <div className="mb-5">
+          <Titulo nivel="h1" tamano="seccion">
+            {paso2FA ? "Segundo paso de seguridad" : "Ingresar a la plataforma"}
+          </Titulo>
+          <p className="mt-2 max-w-[65ch] text-p text-texto-secundario">
+            {paso2FA
+              ? "Introduce el código de 6 dígitos enviado a tu correo institucional."
+              : "Ingresa tus credenciales autorizadas del CAPL."}
+          </p>
         </div>
-        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          {paso2FA ? "Segundo paso de seguridad" : "Ingresar a la plataforma"}
-        </h2>
-        <p className="text-p text-texto-secundario mt-1 text-sm">
-          {paso2FA
-            ? "Introduce el código de 6 dígitos enviado a tu correo institucional."
-            : "Ingresa tus credenciales autorizadas del CAPL."}
-        </p>
-      </div>
 
-      {/* Alerta de error */}
-      {error && (
-        <div
-          role="alert"
-          className="mb-5 p-3.5 rounded-m bg-error-fondo/70 border border-error-texto/20 flex items-start gap-2.5 text-error-texto text-caption font-weight-medio"
-        >
-          <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
-          <span>{error}</span>
-        </div>
-      )}
-
-      {/* Alerta de reenvío */}
-      {mensajeReenvio && (
-        <div
-          role="status"
-          className="mb-5 p-3.5 rounded-m bg-exito-fondo/70 border border-exito-texto/20 flex items-start gap-2.5 text-exito-texto text-caption font-weight-medio"
-        >
-          <ShieldCheck className="w-4 h-4 shrink-0 mt-0.5" />
-          <span>{mensajeReenvio}</span>
-        </div>
-      )}
-
-      {/* FORMULARIO PASO 1: Correo y Clave */}
-      {!paso2FA ? (
-        <form action={manejarIngreso} className="space-y-4">
-          <div>
-            <label
-              htmlFor="correo"
-              className="block text-caption font-weight-medio text-texto-principal mb-1.5"
-            >
-              Correo institucional
-            </label>
-            <div className="relative">
-              <input
-                id="correo"
-                name="correo"
-                type="email"
-                required
-                placeholder="ejemplo@unisalle.edu.co"
-                autoComplete="email"
-                className="w-full pl-10 pr-4 py-2.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-p focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
-              />
-              <Mail
-                className="w-4 h-4 text-texto-secundario absolute left-3.5 top-3"
-                aria-hidden="true"
-              />
-            </div>
+        {/* Alerta de error */}
+        {error && (
+          <div
+            role="alert"
+            className="mb-4 p-4 rounded-m bg-error-fondo border border-error-texto/20 flex items-start gap-2 text-error-texto text-caption font-medio"
+          >
+            <AlertCircle className="size-[16px] shrink-0 mt-0.5" />
+            <span>{error}</span>
           </div>
+        )}
 
-          <div>
-            <div className="flex items-center justify-between mb-1.5">
-              <label
-                htmlFor="clave"
-                className="block text-caption font-weight-medio text-texto-principal"
-              >
-                Contraseña
-              </label>
-              <Link
-                href="/recuperar-clave"
-                className="text-caption text-texto-enlace font-weight-medio hover:underline"
-              >
-                ¿Olvidaste tu contraseña?
-              </Link>
-            </div>
+        {/* Alerta de reenvío */}
+        {mensajeReenvio && (
+          <div
+            role="status"
+            className="mb-4 p-4 rounded-m bg-exito-fondo border border-exito-texto/20 flex items-start gap-2 text-exito-texto text-caption font-medio"
+          >
+            <ShieldCheck className="size-[16px] shrink-0 mt-0.5" />
+            <span>{mensajeReenvio}</span>
+          </div>
+        )}
+
+        {/* FORMULARIO PASO 1: Correo y Clave */}
+        {!paso2FA ? (
+          <form action={manejarIngreso} className="space-y-4">
+            <Campo
+              id="correo"
+              name="correo"
+              type="email"
+              required
+              etiqueta="Correo institucional"
+              placeholder="ejemplo@unisalle.edu.co"
+              autoComplete="email"
+              valor={correo}
+              alCambiar={setCorreo}
+            />
+
             <div className="relative">
-              <input
+              <Campo
                 id="clave"
                 name="clave"
                 type={mostrarClave ? "text" : "password"}
                 required
+                etiqueta="Contraseña"
                 placeholder="••••••••••••"
                 autoComplete="current-password"
-                className="w-full pl-10 pr-10 py-2.5 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-p focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
-              />
-              <KeyRound
-                className="w-4 h-4 text-texto-secundario absolute left-3.5 top-3"
-                aria-hidden="true"
+                valor={clave}
+                alCambiar={setClave}
               />
               <button
                 type="button"
                 onClick={() => setMostrarClave(!mostrarClave)}
-                className="absolute right-3 top-2.5 text-texto-secundario hover:text-texto-principal p-0.5 rounded-s"
+                className="absolute right-1 top-[25px] flex size-[48px] items-center justify-center text-texto-secundario hover:text-texto-principal"
                 aria-label={
                   mostrarClave ? "Ocultar contraseña" : "Ver contraseña"
                 }
               >
                 {mostrarClave ? (
-                  <EyeOff className="w-4 h-4" />
+                  <EyeOff className="size-[18px]" />
                 ) : (
-                  <Eye className="w-4 h-4" />
+                  <Eye className="size-[18px]" />
                 )}
               </button>
             </div>
-          </div>
 
-          <button
-            type="submit"
-            disabled={pendiente}
-            className="w-full mt-2 flex items-center justify-center gap-2 py-3 px-4 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-p hover:bg-accion-fondo-activo transition-all shadow-xs disabled:opacity-50 cursor-pointer"
-          >
-            <span>{pendiente ? "Verificando..." : "Ingresar"}</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
-      ) : (
-        /* FORMULARIO PASO 2: Código 2FA */
-        <form action={manejarVerificarCodigo} className="space-y-5">
-          <div>
-            <label
-              htmlFor="codigo"
-              className="block text-caption font-weight-medio text-texto-principal mb-2 text-center"
+            <div className="flex items-center justify-between gap-2">
+              <label className="inline-flex items-center gap-2 text-caption text-texto-secundario cursor-pointer">
+                <input
+                  id="recordar"
+                  name="recordar"
+                  type="checkbox"
+                  className="size-[16px] rounded-s border border-borde text-accion-fondo focus-visible:outline-3 focus-visible:outline-foco"
+                />
+                <span>Recordarme</span>
+              </label>
+              <Link
+                href="/recuperar-clave"
+                className="text-caption font-medio text-texto-enlace hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+
+            <button
+              type="submit"
+              disabled={pendiente}
+              className={claseBoton("principal", "w-full")}
             >
-              Código de verificación (6 dígitos)
-            </label>
-            <input
+              <span>{pendiente ? "Verificando..." : "Ingresar"}</span>
+            </button>
+
+            <div className="mt-5 bg-fondo-suave rounded-m p-4 text-caption text-texto-secundario">
+              <p className="font-medio text-texto-principal">
+                ¿Aún no tienes cuenta?
+              </p>
+              <p className="mt-1">
+                El acceso está reservado al equipo administrativo y terapéutico
+                del CAPL. Si formas parte del equipo y necesitas una cuenta,
+                comunícate con la coordinación.
+              </p>
+            </div>
+          </form>
+        ) : (
+          /* FORMULARIO PASO 2: Código 2FA */
+          <form action={manejarVerificarCodigo} className="space-y-4">
+            <Campo
               id="codigo"
               name="codigo"
               type="text"
@@ -217,65 +197,63 @@ export default function PaginaIngresar() {
               maxLength={6}
               required
               autoFocus
+              etiqueta="Código de verificación (6 dígitos)"
               placeholder="000000"
-              className="w-full text-center text-h1 tracking-[0.5em] font-weight-fuerte py-3 px-4 rounded-m border border-borde-control bg-fondo-suave text-texto-titulo placeholder:text-texto-secundario/30 focus-visible:outline-2 focus-visible:outline-morado-600 transition-colors"
+              valor={codigo}
+              alCambiar={setCodigo}
             />
-          </div>
 
-          {/* Casilla Recordar dispositivo */}
-          <div className="flex items-start gap-2.5">
-            <input
-              id="recordar"
-              name="recordar"
-              type="checkbox"
-              defaultChecked
-              className="w-4 h-4 mt-0.5 rounded-s border-borde-control text-morado-600 focus:ring-morado-500"
-            />
-            <label
-              htmlFor="recordar"
-              className="text-caption text-texto-secundario cursor-pointer leading-tight"
-            >
-              Recordar este dispositivo por 30 días en este navegador
+            {/* Casilla Recordar dispositivo */}
+            <label className="flex items-start gap-2 text-caption text-texto-secundario cursor-pointer">
+              <input
+                id="recordar"
+                name="recordar"
+                type="checkbox"
+                defaultChecked
+                className="size-[16px] mt-0.5 rounded-s border border-borde text-accion-fondo focus-visible:outline-3 focus-visible:outline-foco"
+              />
+              <span>
+                Recordar este dispositivo por 30 días en este navegador
+              </span>
             </label>
-          </div>
 
-          <button
-            type="submit"
-            disabled={pendiente}
-            className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-m bg-accion-fondo text-accion-texto font-weight-fuerte text-p hover:bg-accion-fondo-activo transition-all shadow-xs disabled:opacity-50 cursor-pointer"
-          >
-            <span>
-              {pendiente ? "Confirmando código..." : "Verificar y entrar"}
-            </span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-
-          {/* Acciones secundarias 2FA */}
-          <div className="pt-3 border-t border-borde-suave flex flex-col gap-2 text-center">
             <button
-              type="button"
-              onClick={manejarReenviar}
+              type="submit"
               disabled={pendiente}
-              className="inline-flex items-center justify-center gap-1.5 text-caption font-weight-medio text-texto-enlace hover:underline disabled:opacity-50 cursor-pointer"
+              className={claseBoton("principal", "w-full")}
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              <span>¿No recibiste el código? Reenviar</span>
+              <span>
+                {pendiente ? "Confirmando código..." : "Verificar y entrar"}
+              </span>
             </button>
 
-            <button
-              type="button"
-              onClick={() => {
-                setPaso2FA(false);
-                setError(null);
-                setMensajeReenvio(null);
-              }}
-              className="text-caption text-texto-secundario hover:text-texto-principal"
-            >
-              Volver a ingresar con otro correo
-            </button>
-          </div>
-        </form>
-      )}
+            {/* Acciones secundarias 2FA */}
+            <div className="flex flex-col items-center gap-2 pt-3 border-t border-borde-suave text-center">
+              <button
+                type="button"
+                onClick={manejarReenviar}
+                disabled={pendiente}
+                className="inline-flex items-center gap-1.5 text-caption font-medio text-texto-enlace hover:underline disabled:opacity-50 cursor-pointer"
+              >
+                <RefreshCw className="size-[14px]" />
+                <span>¿No recibiste el código? Reenviar</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => {
+                  setPaso2FA(false);
+                  setError(null);
+                  setMensajeReenvio(null);
+                }}
+                className="text-caption text-texto-secundario hover:text-texto-principal"
+              >
+                Volver a ingresar con otro correo
+              </button>
+            </div>
+          </form>
+        )}
+      </div>
     </div>
   );
 }

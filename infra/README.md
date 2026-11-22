@@ -11,6 +11,27 @@ Dueño: Sebas (infraestructura).
 
 `npm run tunel` — usa **tu propio** túnel y token (`CLOUDFLARE_TUNNEL_TOKEN` en `.env`); nunca compartas ni reutilices el token de un túnel que ya sirve otras aplicaciones.
 
+## El sitio completo en este equipo (Docker)
+
+`infra/compose.pc.yml`: base de datos, migraciones, app y, si quieres, el túnel; todo en contenedores.
+
+| Comando                  | Hace                                                                  |
+| ------------------------ | --------------------------------------------------------------------- |
+| `npm run pc:subir`       | construye y arranca; la app queda en `http://localhost:3000`          |
+| `npm run pc:subir:tunel` | lo mismo + el túnel de Cloudflare propio                              |
+| `npm run pc:parar`       | apaga todo (los datos quedan en los volúmenes `datos_db`, `archivos`) |
+| `npm run pc:logs`        | últimas líneas de la app                                              |
+
+- El puerto de este equipo es `3000`; cámbialo con `PUERTO_APP` en `.env`.
+- Para publicarlo en un dominio hace falta un túnel **propio** (un token nuevo en `.env › CLOUDFLARE_TUNNEL_TOKEN`) cuyo
+  «Public hostname» sea `tu-dominio → HTTP → app:3000`. Si el dominio ya apunta a otro túnel, se mueve ese hostname al nuevo.
+- La base queda en `127.0.0.1:5434` (solo este equipo). Datos de ejemplo (`prisma/semilla.ts`; si ya hay, no duplica):
+  `$env:DATABASE_URL="postgresql://capl_app:app_local@localhost:5434/capl"; npx tsx prisma/semilla.ts`
+- Cuentas de ejemplo (clave de todas: `clave-de-prueba-capl`): `admin@ejemplo.test` (administración) y
+  `psicologo1@ejemplo.test` … `psicologo3@ejemplo.test` (psicología). La administración pide un código de 6 dígitos al
+  ingresar; con `CORREO_MODO=consola` no sale ningún correo, así que en local se fija el código a mano en la base.
+- `URL_SITIO` en `.env` debe ser la dirección pública (los correos arman enlaces e imágenes con ella).
+
 ## Servicios programados (fase 1: Node sin Docker, systemd)
 
 Dos temporizadores; todo se instala una sola vez en el servidor (nada se ejecuta desde este repositorio).

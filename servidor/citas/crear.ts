@@ -9,7 +9,7 @@ import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import { auditar } from "../auditoria";
 import { bd } from "../bd";
 import { diaSemana, fechaBogota, inicioDelDia } from "../fechas";
-import type { Cita } from "../generado/client";
+import type { Cita, Prisma } from "../generado/client";
 import { limitar } from "../limites";
 import { redTruncada, registrar } from "../registro";
 import { cifrar } from "./cifrado";
@@ -66,6 +66,20 @@ const codigoPg = (e: unknown) =>
 export const esCruce = (e: unknown) => codigoPg(e) === "23P01";
 const esCodigoRepetido = (e: unknown) =>
   (e as { code?: string })?.code === "P2002";
+
+// PostgreSQL puede cancelar una de dos escrituras simultáneas sobre el mismo cupo.
+// Reintentar toda la transacción vuelve a consultar los datos que la otra ya confirmó.
+export async function transaccionDeCita<T>(
+  ejecutar: (tx: Prisma.TransactionClient) => Promise<T>,
+): Promise<T> {
+  for (let intento = 1; ; intento++) {
+    try {
+      return await bd.$transaction(ejecutar);
+    } catch (e) {
+      if ((e as { code?: string })?.code !== "P2034" || intento >= 3) throw e;
+    }
+  }
+}
 
 const ALFABETO = "ABCDEFGHJKMNPQRSTUVWXYZ23456789"; // sin 0/O/1/I/L: se dicta por teléfono
 const codigoLegible = () =>
@@ -276,7 +290,7 @@ export async function crearCita(
     consentimientoEn: ahora,
     consentimientoVersion: config.versionPolitica,
   };
-  const creada = await bd.$transaction(async (tx) => {
+  const creada = await transaccionDeCita(async (tx) => {
     // 5. Límite de citas activas por persona (mismo correo o mismo documento). El candado por persona dura lo que
     //    la transacción: dos envíos simultáneos de la misma persona se atienden uno tras otro y el segundo ya ve la
     //    cita del primero. En orden fijo para que dos transacciones no se bloqueen entre sí.

@@ -6,6 +6,7 @@ const MIN = 60_000;
 export const LIMITES = {
   pedirCita: { max: 5, ventanaMs: HORA }, // por dirección de red
   inscribirseEvento: { max: 5, ventanaMs: HORA }, // por dirección de red
+  consultarCita: { max: 5, ventanaMs: HORA }, // por dirección de red
   solicitarEnlace: { max: 3, ventanaMs: HORA }, // por correo
   consultarCupos: { max: 60, ventanaMs: MIN }, // por dirección de red
   reenviarCodigo: { max: 3, ventanaMs: HORA }, // por usuario (S02)

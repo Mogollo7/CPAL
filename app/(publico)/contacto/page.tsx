@@ -1,228 +1,191 @@
-import React from "react";
 import type { Metadata } from "next";
-import Link from "next/link";
-import {
-  MapPin,
-  Mail,
-  Phone,
-  Clock,
-  MessageCircle,
-  ExternalLink,
-  AlertTriangle,
-  LifeBuoy,
-} from "lucide-react";
+import Image from "next/image";
+import { BotonEnlace, claseBoton } from "@/componentes/atomos/boton";
+import { FondoGrano } from "@/componentes/atomos/fondo-grano";
+import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
+import { Seccion } from "@/componentes/atomos/seccion";
+import { Titulo } from "@/componentes/atomos/titulo";
+import { CarruselPerfiles } from "@/componentes/organismos/carrusel-perfiles";
+import { EncabezadoSeccion } from "@/componentes/moleculas/encabezado-seccion";
+import p1 from "@/contenido/ilustraciones/perfiles/perfil-1.webp";
+import p2 from "@/contenido/ilustraciones/perfiles/perfil-2.webp";
+import p3 from "@/contenido/ilustraciones/perfiles/perfil-3.webp";
+import p4 from "@/contenido/ilustraciones/perfiles/perfil-4.webp";
+import p5 from "@/contenido/ilustraciones/perfiles/perfil-5.webp";
+import p6 from "@/contenido/ilustraciones/perfiles/perfil-6.webp";
+import p7 from "@/contenido/ilustraciones/perfiles/perfil-7.webp";
+import canales from "@/contenido/ilustraciones/contacto-canales.webp";
+import chateando from "@/contenido/ilustraciones/cierre-chateando.webp";
 
 export const metadata: Metadata = {
-  title: "Contacto y Ubicación · Casa Amarilla Unilasallista · CAPL",
+  title: "Contacto · CAPL",
   description:
-    "Comunícate con el Centro de Atención Psicológica Lasallista. Ubicación en Caldas (Antioquia), correo institucional, WhatsApp y horarios de atención.",
+    "WhatsApp, correo, horario y cómo llegar a la casa amarilla del CAPL en Caldas (Antioquia).",
 };
+
+const WHATSAPP = "https://wa.me/573102096266";
+const CORREO = "mailto:capl@unilasallista.edu.co";
+const OSM = "https://www.openstreetmap.org";
+const MAPA = `${OSM}/?mlat=6.09968&mlon=-75.63854#map=18/6.09968/-75.63854`;
+const MAPA_EMBEBIDO = `${OSM}/export/embed.html?bbox=-75.641%2C6.098%2C-75.636%2C6.102&layer=mapnik&marker=6.09968%2C-75.63854`;
+
+const PERFILES = [p1, p2, p3, p4, p5, p6, p7];
+
+const DATOS = [
+  ["Dirección", "Carrera 51 # 118 Sur – 57, Caldas (Antioquia)"],
+  ["Horario", "De lunes a viernes · 8:00 a. m. a 5:00 p. m."],
+  ["Correo", "capl@unilasallista.edu.co"],
+] as const;
+
+const TARJETA = "space-y-4 rounded-l bg-blanco/80 p-5";
 
 export default function ContactoPage() {
   return (
-    <div className="py-8 sm:py-12 px-4 sm:px-6 lg:px-8 space-y-12">
-      <div className="mx-auto max-w-[1000px] space-y-10">
-        {/* Cabecera */}
-        <header className="border-b border-borde-suave pb-6 space-y-3">
-          <nav
-            aria-label="Navegación secundaria"
-            className="text-caption text-texto-secundario"
+    <>
+      <section
+        aria-labelledby="titulo-pagina"
+        className="escena-inicial relative isolate flex flex-col justify-center overflow-hidden px-borde pt-cabecera pb-bloque max-[380px]:pt-3"
+      >
+        <FondoGrano tono="lavanda" fundido="abajo" />
+        <EncabezadoSeccion
+          nivel="h1"
+          id="titulo-pagina"
+          titulo="Contacta con nosotros"
+          bajada="Estamos para resolver tus dudas. Respondemos en horario de atención."
+          centrado
+          className="mx-auto max-w-[38rem] max-[380px]:space-y-3"
+        />
+        <CarruselPerfiles imagenes={PERFILES} />
+        <div className="relative mx-auto flex max-w-[34rem] flex-col items-center gap-3 pb-4 text-center">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 43 47"
+            className="w-5 fill-estrella sm:w-[43px]"
           >
-            <Link
-              href="/"
-              className="text-texto-enlace hover:underline focus-visible:outline-3 focus-visible:outline-foco rounded-s"
-            >
-              Inicio
-            </Link>{" "}
-            / <span aria-current="page">Contacto</span>
-          </nav>
-
-          <span className="text-caption font-medio uppercase tracking-wider text-morado-700">
-            Canales de comunicación institucional
-          </span>
-          <h1 className="text-h1 font-fuerte text-texto-titulo tracking-tight">
-            Canales de Contacto y Ubicación
-          </h1>
-          <p className="text-p text-texto-secundario max-w-[65ch] leading-texto">
-            Estamos atentos a responder tus dudas sobre citas, talleres,
-            certificaciones y convenios institucionales.
+            <path d="M21.5 0l5.6 16.2L43 17.9 30.6 28.4 34.3 47 21.5 37.4 8.7 47l3.7-18.6L0 17.9l15.9-1.7Z" />
+          </svg>
+          <Titulo tamano="bloque">Contáctanos</Titulo>
+          <p className="text-p leading-texto text-texto-titulo">
+            Estamos aquí para escucharte y acompañarte.
           </p>
-        </header>
-
-        {/* Recordatorio de NO urgencias */}
-        <div
-          role="alert"
-          className="rounded-m bg-aviso-fondo border-l-4 border-amarillo-700 p-5 shadow-xs flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4"
-        >
-          <div className="flex items-start gap-3">
-            <AlertTriangle
-              className="w-5 h-5 text-amarillo-700 shrink-0 mt-0.5"
-              aria-hidden="true"
-            />
-            <div>
-              <p className="font-fuerte text-p text-tinta">
-                ¿Necesitas atención por una emergencia o crisis inmediata?
-              </p>
-              <p className="text-caption text-tinta-suave">
-                El canal de contacto atiende en horario hábil. Para emergencias
-                24/7 utiliza las líneas oficiales.
-              </p>
-            </div>
-          </div>
-          <Link
-            href="/ayuda-inmediata"
-            className="min-h-[44px] px-4 py-2 rounded-m bg-ayuda-fondo text-ayuda-texto hover:bg-amarillo-300 font-medio text-caption inline-flex items-center gap-2 shrink-0 transition-colors duration-mov-rapido focus-visible:outline-3 focus-visible:outline-foco"
+          <BotonEnlace
+            href="/pedir-cita"
+            tipo="ayuda"
+            className="mt-2 font-medio"
           >
-            <LifeBuoy className="w-4 h-4 text-tinta" aria-hidden="true" />
-            <span>Ver líneas de emergencia</span>
-          </Link>
+            Pedir cita
+          </BotonEnlace>
         </div>
+      </section>
 
-        {/* Grid de canales de atención */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Tarjeta 1: Ubicación Física */}
-          <article className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 space-y-4 shadow-xs">
-            <div className="flex items-center gap-3 text-morado-700">
-              <div className="p-3 bg-morado-50 rounded-circulo">
-                <MapPin
-                  className="w-6 h-6 text-morado-600"
-                  aria-hidden="true"
-                />
-              </div>
-              <h2 className="text-h2 font-fuerte text-texto-titulo">
-                Sede física
-              </h2>
-            </div>
-
-            <p className="text-p text-texto-principal leading-texto">
-              <strong>Campus Unilasallista — &quot;Casa Amarilla&quot;</strong>
-              <br />
-              Carrera 51 # 118 Sur – 57, Caldas, Antioquia, Colombia.
-            </p>
-
-            <p className="text-caption text-tinta-suave italic">
-              * Dirección física de referencia institucional sujeta a validación
-              final de nomenclatura por la universidad.
-            </p>
-
-            <div className="pt-2">
-              <a
-                href="https://maps.google.com/?q=Unilasallista+Corporación+Universitaria+Caldas+Antioquia"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="min-h-[48px] px-5 py-2.5 rounded-m border border-borde-suave bg-fondo-suave hover:bg-morado-100 text-texto-principal font-medio text-p inline-flex items-center gap-2 transition-colors duration-mov-rapido focus-visible:outline-3 focus-visible:outline-foco"
-              >
-                <span>Ver ubicación en Google Maps</span>
-                <ExternalLink
-                  className="w-4 h-4 text-texto-secundario"
-                  aria-hidden="true"
-                />
-              </a>
-            </div>
-          </article>
-
-          {/* Tarjeta 2: Correo y Conmutador */}
-          <article className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 space-y-4 shadow-xs">
-            <div className="flex items-center gap-3 text-morado-700">
-              <div className="p-3 bg-morado-50 rounded-circulo">
-                <Mail className="w-6 h-6 text-morado-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-h2 font-fuerte text-texto-titulo">
-                Correo institucional
-              </h2>
-            </div>
-
-            <p className="text-p text-texto-principal leading-texto">
-              Escríbenos para consultas administrativas, talleres a grupos o
-              convenios académicos:
-            </p>
-
-            <div>
-              <a
-                href="mailto:capl@unilasallista.edu.co"
-                className="text-h2 font-fuerte text-texto-enlace hover:underline break-all focus-visible:outline-3 focus-visible:outline-foco rounded-s"
-              >
-                capl@unilasallista.edu.co
-              </a>
-            </div>
-
-            <div className="pt-2 border-t border-morado-50 flex items-center gap-2 text-p text-texto-principal">
-              <Phone
-                className="w-5 h-5 text-morado-600 shrink-0"
-                aria-hidden="true"
-              />
-              <span>Conmutador: (604) 320 19 99</span>
-            </div>
-          </article>
-
-          {/* Tarjeta 3: WhatsApp institucional */}
-          <article className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 space-y-4 shadow-xs">
-            <div className="flex items-center gap-3 text-morado-700">
-              <div className="p-3 bg-morado-50 rounded-circulo">
-                <MessageCircle
-                  className="w-6 h-6 text-morado-600"
-                  aria-hidden="true"
-                />
-              </div>
-              <h2 className="text-h2 font-fuerte text-texto-titulo">
-                WhatsApp del CAPL
-              </h2>
-            </div>
-
-            <p className="text-p text-texto-principal leading-texto">
-              Línea móvil de orientación y recepción de inquietudes para
-              consultantes.
-            </p>
-
-            <div className="space-y-2">
-              <div className="inline-block p-4 rounded-m bg-morado-50 border border-morado-100 text-caption text-tinta-suave">
-                <strong>Estado:</strong> Número oficial de WhatsApp en proceso
-                de asignación y verificación institucional por el CAPL.
-              </div>
-
-              <div>
-                <a
-                  href="https://wa.me/573000000000"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="min-h-[48px] px-5 py-2.5 rounded-m bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo font-medio text-p inline-flex items-center gap-2 transition-colors duration-mov-rapido focus-visible:outline-3 focus-visible:outline-foco shadow-sm"
-                >
-                  <MessageCircle className="w-5 h-5" aria-hidden="true" />
-                  <span>Contactar por WhatsApp (En verificación)</span>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          {/* Tarjeta 4: Horarios de atención */}
-          <article className="rounded-l border border-borde-suave bg-fondo-superficie p-6 sm:p-8 space-y-4 shadow-xs">
-            <div className="flex items-center gap-3 text-morado-700">
-              <div className="p-3 bg-morado-50 rounded-circulo">
-                <Clock className="w-6 h-6 text-morado-600" aria-hidden="true" />
-              </div>
-              <h2 className="text-h2 font-fuerte text-texto-titulo">
-                Horarios de atención
-              </h2>
-            </div>
-
-            <ul className="space-y-2 text-p text-texto-principal">
-              <li className="flex items-start justify-between gap-2 border-b border-morado-50 pb-2">
-                <span className="font-medio">Lunes a viernes:</span>
-                <span>8:00 a. m. – 5:00 p. m.</span>
-              </li>
-              <li className="flex items-start justify-between gap-2 border-b border-morado-50 pb-2 text-texto-secundario">
-                <span>Fines de semana y festivos:</span>
-                <span>Cerrado</span>
-              </li>
-            </ul>
-
-            <p className="text-caption text-tinta-suave italic">
-              * La atención de sesiones de psicología y neuropsicología depende
-              de los cupos agendados previamente.
-            </p>
-          </article>
+      {/* Canales de contacto */}
+      <section
+        aria-labelledby="titulo-canales"
+        className="reticula-capl fila-editorial mx-auto max-w-[62rem] items-center px-borde"
+      >
+        <div className="col-span-4 min-w-0 space-y-3 wrap-anywhere md:col-span-2">
+          <h2
+            id="titulo-canales"
+            className="font-titulo text-tarjeta font-fuerte text-texto-titulo"
+          >
+            También puedes escribirnos
+          </h2>
+          <p className="text-h2 text-texto-titulo">
+            Escríbenos por WhatsApp o envíanos un correo.
+          </p>
+          <a
+            href={WHATSAPP}
+            target="_blank"
+            rel="noreferrer"
+            className="block text-h2 font-medio text-texto-titulo hover:underline"
+          >
+            WhatsApp · 310 209 6266
+          </a>
+          <a
+            href={CORREO}
+            className="block text-h2 font-medio text-texto-titulo hover:underline"
+          >
+            capl@unilasallista.edu.co
+          </a>
         </div>
-      </div>
-    </div>
+        <Image
+          src={canales}
+          alt=""
+          sizes="(min-width: 480px) 391px, calc(100vw - 32px)"
+          className="col-span-4 mx-auto h-auto w-full max-w-[391px] md:col-span-2"
+        />
+      </section>
+
+      {/* Datos del centro y cómo llegar */}
+      <Seccion
+        aria-label="Datos del centro"
+        className="mx-auto grid max-w-[1280px] items-start gap-[26px] md:grid-cols-2"
+      >
+        <div className={TARJETA}>
+          <h2 className="font-titulo text-h2 font-fuerte text-texto-titulo">
+            Datos del centro
+          </h2>
+          <dl className="space-y-4">
+            {DATOS.map(([dt, dd]) => (
+              <div key={dt}>
+                <dt className="text-caption font-medio text-texto-secundario">
+                  {dt}
+                </dt>
+                <dd className="text-p wrap-anywhere">{dd}</dd>
+              </div>
+            ))}
+          </dl>
+          <div className="flex flex-wrap gap-3">
+            <a
+              href={WHATSAPP}
+              target="_blank"
+              rel="noreferrer"
+              className={claseBoton("suave")}
+            >
+              Escribir por WhatsApp
+            </a>
+            <a href={CORREO} className={claseBoton("borde")}>
+              Enviar un correo
+            </a>
+          </div>
+        </div>
+        <div className={TARJETA}>
+          <h2 className="font-titulo text-h2 font-fuerte text-texto-titulo">
+            Cómo llegar
+          </h2>
+          <p className="text-texto-secundario">
+            Entra por la portería principal de Unilasallista y sigue hacia la
+            casa amarilla, junto al parqueadero.
+          </p>
+          <a
+            href={MAPA}
+            target="_blank"
+            rel="noreferrer"
+            className={claseBoton("suave")}
+          >
+            Abrir en el mapa
+          </a>
+          <p className="text-caption text-texto-secundario">
+            El mapa señala el campus de Unilasallista.
+          </p>
+          <iframe
+            src={MAPA_EMBEBIDO}
+            title="Mapa del campus de Unilasallista en Caldas, Antioquia"
+            loading="lazy"
+            className="h-[300px] w-full rounded-m border border-borde-suave"
+          />
+          <a
+            href={`${OSM}/copyright`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-block text-caption text-texto-enlace underline"
+          >
+            © Colaboradores de OpenStreetMap
+          </a>
+        </div>
+      </Seccion>
+
+      <IlustracionSobrePie src={chateando} ancho={506} izquierda={397} />
+    </>
   );
 }

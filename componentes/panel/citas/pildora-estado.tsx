@@ -1,5 +1,5 @@
 import type { EstadoCita } from "@/contratos/cita";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 interface PildoraEstadoProps {
   estado: EstadoCita;

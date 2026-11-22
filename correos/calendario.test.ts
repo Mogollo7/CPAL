@@ -1,5 +1,6 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
+  adjuntoIcs,
   enlaceGoogleCalendar,
   enlaceOutlookWeb,
   generarIcs,
@@ -31,6 +32,13 @@ describe("archivo .ics y enlaces de calendario (T-324)", () => {
     expect(ics.startsWith("BEGIN:VCALENDAR\r\n")).toBe(true);
     expect(ics.endsWith("END:VCALENDAR\r\n")).toBe(true);
   });
+  it("entrega un archivo .ics importable como adjunto independiente", () => {
+    expect(adjuntoIcs(ev)).toMatchObject({
+      nombre: "cita.ics",
+      tipo: "application/octet-stream",
+    });
+    expect(adjuntoIcs(ev).contenido).toContain("METHOD:PUBLISH\r\n");
+  });
   it("ninguna línea supera 75 octetos", () => {
     const ics = generarIcs({ ...ev, descripcion: "x".repeat(300) });
     for (const l of ics.split("\r\n"))
@@ -43,6 +51,11 @@ describe("archivo .ics y enlaces de calendario (T-324)", () => {
     );
     expect(g.searchParams.get("location")).toBe(ev.lugar);
     const o = new URL(enlaceOutlookWeb(ev));
+    expect(o.hostname).toBe("outlook.office.com");
+    expect(o.pathname).toBe("/calendar/deeplink/compose");
+    expect(new URL(enlaceOutlookWeb(ev, "personal")).hostname).toBe(
+      "outlook.live.com",
+    );
     expect(o.searchParams.get("startdt")).toBe("2026-11-24T19:30:00.000Z");
   });
 });

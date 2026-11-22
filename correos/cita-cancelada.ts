@@ -11,15 +11,23 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-acompanamiento",
+    tono: "#fbeee6",
+    disposicion: "centrada",
     asunto: "Tu cita fue cancelada",
+    titulo: "Tu cita quedó cancelada",
     parrafos: [
-      d.canceladaPor === "persona"
-        ? `Hola, ${d.nombre}. Cancelaste tu cita del ${formatoFechaHora(d.inicio)}.`
-        : `Hola, ${d.nombre}. El CAPL canceló tu cita del ${formatoFechaHora(d.inicio)} y lo sentimos.`,
-      ...(d.canceladaPor === "capl" && d.motivo
-        ? [`Mensaje del equipo: ${d.motivo}`]
-        : []),
-      "Cuando quieras, puedes pedir otra cita.",
+      [
+        d.canceladaPor === "persona"
+          ? `Hola, ${d.nombre}. Cancelaste tu cita del ${formatoFechaHora(d.inicio)}.`
+          : `Hola, ${d.nombre}. El CAPL canceló tu cita del ${formatoFechaHora(d.inicio)} y lo sentimos.`,
+        d.canceladaPor === "capl" && d.motivo
+          ? `Mensaje del equipo: ${d.motivo}`
+          : "",
+        "Cuando quieras, puedes pedir otra cita.",
+      ]
+        .filter(Boolean)
+        .join(" "),
     ],
     boton: { texto: "Pedir otra cita", ruta: RUTAS.pedirCita },
   });

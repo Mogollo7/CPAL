@@ -1,8 +1,15 @@
 "use client";
 
-import { useState, useTransition, type FormEvent } from "react";
+import {
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  useTransition,
+  type FormEvent,
+} from "react";
 import { X, AlertCircle } from "lucide-react";
-import { cn } from "@/componentes/ui/cn";
+import { cn } from "@/componentes/cn";
 
 interface ModalAccionCitaProps {
   abierto: boolean;
@@ -30,8 +37,22 @@ export function ModalAccionCita({
   const [motivo, setMotivo] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [pendiente, iniciarTransicion] = useTransition();
+  const dialogo = useRef<HTMLDialogElement>(null);
+  const tituloId = useId();
+  const descripcionId = useId();
+  const motivoId = useId();
 
-  if (!abierto) return null;
+  useEffect(() => {
+    const elemento = dialogo.current;
+    if (abierto && elemento && !elemento.open) elemento.showModal();
+    if (!abierto && elemento?.open) elemento.close();
+  }, [abierto]);
+
+  function cerrar() {
+    setMotivo("");
+    setError(null);
+    alCerrar();
+  }
 
   const manejarEnvio = (e: FormEvent) => {
     e.preventDefault();
@@ -47,7 +68,7 @@ export function ModalAccionCita({
       if (!res.ok) {
         setError(res.mensaje || "Ocurrió un error al procesar la acción.");
       } else {
-        alCerrar();
+        cerrar();
       }
     });
   };
@@ -60,15 +81,20 @@ export function ModalAccionCita({
         : "bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo";
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-morado-900/40 backdrop-blur-xs animate-in fade-in duration-200"
-      role="dialog"
-      aria-modal="true"
+    <dialog
+      ref={dialogo}
+      aria-labelledby={tituloId}
+      aria-describedby={descripcionId}
+      onCancel={(evento) => {
+        evento.preventDefault();
+        if (!pendiente) cerrar();
+      }}
+      className="m-auto w-[min(92vw,512px)] bg-transparent text-texto-principal backdrop:bg-morado-900/40"
     >
-      <div className="w-full max-w-lg bg-fondo-superficie rounded-l border border-borde-suave shadow-flotante p-6 relative">
+      <div className="w-full max-w-lg bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative">
         <button
           type="button"
-          onClick={alCerrar}
+          onClick={cerrar}
           disabled={pendiente}
           className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1 rounded-s"
           aria-label="Cerrar modal"
@@ -76,19 +102,25 @@ export function ModalAccionCita({
           <X className="w-5 h-5" />
         </button>
 
-        <h3 className="text-h2 font-weight-fuerte text-texto-titulo mb-2">
+        <h3
+          id={tituloId}
+          className="text-h2 font-fuerte text-texto-titulo mb-2"
+        >
           {titulo}
         </h3>
-        <p className="text-p text-texto-secundario text-sm mb-4 leading-relaxed">
+        <p
+          id={descripcionId}
+          className="text-p text-texto-secundario text-caption mb-4 leading-relaxed"
+        >
           {descripcion}
         </p>
 
         {error && (
           <div
             role="alert"
-            className="mb-4 p-3 rounded-m bg-error-fondo text-error-texto border border-coral-700/20 text-caption font-weight-medio flex items-start gap-2"
+            className="mb-4 p-3 rounded-m bg-error-fondo text-error-texto border border-coral-700/20 text-caption font-medio flex items-start gap-2"
           >
-            <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
+            <AlertCircle className="w-4 h-4 shrink-0 mt-[2px]" />
             <span>{error}</span>
           </div>
         )}
@@ -97,13 +129,13 @@ export function ModalAccionCita({
           {requiereMotivo && (
             <div>
               <label
-                htmlFor="modal-motivo"
-                className="block text-caption font-weight-medio text-texto-principal mb-1.5"
+                htmlFor={motivoId}
+                className="block text-caption font-medio text-texto-principal mb-[6px]"
               >
                 Motivo <span className="text-coral-700">*</span>
               </label>
               <textarea
-                id="modal-motivo"
+                id={motivoId}
                 required
                 minLength={3}
                 maxLength={300}
@@ -113,7 +145,7 @@ export function ModalAccionCita({
                 placeholder={placeholderMotivo}
                 className="w-full p-3 rounded-m border border-borde-control bg-fondo-superficie text-texto-principal placeholder:text-texto-secundario/50 text-caption focus-visible:outline-2 focus-visible:outline-morado-600 resize-none"
               />
-              <span className="block text-[11px] text-texto-secundario text-right mt-1">
+              <span className="block text-caption text-texto-secundario text-right mt-1">
                 {motivo.length}/300 caracteres
               </span>
             </div>
@@ -122,9 +154,9 @@ export function ModalAccionCita({
           <div className="flex items-center justify-end gap-3 pt-3 border-t border-borde-suave">
             <button
               type="button"
-              onClick={alCerrar}
+              onClick={cerrar}
               disabled={pendiente}
-              className="px-4 py-2 rounded-m border border-borde-control text-caption font-weight-medio text-texto-principal hover:bg-fondo-suave cursor-pointer"
+              className="px-4 py-2 rounded-m border border-borde-control text-caption font-medio text-texto-principal hover:bg-fondo-suave cursor-pointer"
             >
               Cancelar
             </button>
@@ -133,7 +165,7 @@ export function ModalAccionCita({
               type="submit"
               disabled={pendiente}
               className={cn(
-                "px-5 py-2 rounded-m text-caption font-weight-fuerte shadow-xs cursor-pointer disabled:opacity-50 transition-all",
+                "px-5 py-2 rounded-m text-caption font-fuerte  cursor-pointer disabled:opacity-50 transition-all",
                 estiloBotonConfirmar,
               )}
             >
@@ -142,6 +174,6 @@ export function ModalAccionCita({
           </div>
         </form>
       </div>
-    </div>
+    </dialog>
   );
 }

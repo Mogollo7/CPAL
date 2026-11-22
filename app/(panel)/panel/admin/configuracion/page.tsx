@@ -1,24 +1,27 @@
+import { EncabezadoPagina } from "@/componentes/panel/encabezado-pagina";
+import { connection } from "next/server";
 import { datosDePagina } from "@/servidor/pagina";
 import { obtenerConfiguracionAccion } from "@/servidor/acciones";
-import { FormularioConfiguracion } from "@/componentes/panel/admin/formulario-configuracion";
+import { AccesoConfiguracion } from "@/componentes/panel/admin/acceso-configuracion";
+
+export const instant = false;
 
 export default async function PaginaAdminConfiguracion() {
-  const configuracion = datosDePagina(await obtenerConfiguracionAccion());
+  await connection();
+  const resultado = await obtenerConfiguracionAccion();
+  const requiereConfirmacion =
+    !resultado.ok && resultado.codigo === "CONFIRMACION_REQUERIDA";
 
   return (
     <div className="space-y-6">
-      <div className="pb-2">
-        <h2 className="text-h1 font-weight-fuerte text-texto-titulo tracking-tight">
-          Configuración y Reglas del Centro
-        </h2>
-        <p className="text-p text-texto-secundario mt-1 text-sm">
-          Ajusta las políticas de antelación, límites de cupos,
-          auto-autorización y dominios institucionales sin necesidad de
-          redesplegar.
-        </p>
-      </div>
+      <EncabezadoPagina
+        titulo="Configuración del centro"
+        descripcion="Ajusta las reglas de atención y acceso del centro."
+      />
 
-      <FormularioConfiguracion configuracionInicial={configuracion} />
+      <AccesoConfiguracion
+        inicial={requiereConfirmacion ? undefined : datosDePagina(resultado)}
+      />
     </div>
   );
 }

@@ -8,7 +8,7 @@
     "start": "next start",
     "lint": "eslint && prettier --check .",
     "tipos": "tsc --noEmit",
-    "pruebas": "vitest run --no-file-parallelism",
+    "pruebas": "vitest run --no-file-parallelism --exclude=e2e/**",
     "correos": "tsx correos/vista-previa.ts",
     "bd:subir": "docker compose --env-file .env -f infra/compose.yml up -d --wait db",
     "bd:migrar": "prisma migrate deploy",
@@ -16,14 +16,19 @@
     "bd:semilla:produccion": "tsx prisma/semilla-produccion.ts",
     "psicologos:cargar": "tsx scripts/cargar-psicologos.ts",
     "bd:reiniciar": "prisma migrate reset --force",
-    "pruebas:e2e": "echo 'pendiente: playwright'",
+    "pruebas:e2e": "playwright test",
     "postinstall": "prisma generate",
+    "pc:subir": "docker compose --env-file .env -f infra/compose.pc.yml up -d --build",
+    "pc:subir:tunel": "docker compose --env-file .env -f infra/compose.pc.yml --profile tunel up -d --build",
+    "pc:parar": "docker compose --env-file .env -f infra/compose.pc.yml --profile tunel down",
+    "pc:logs": "docker compose --env-file .env -f infra/compose.pc.yml logs --tail 50 app",
     "tunel": "docker compose --env-file .env -f infra/compose.yml --profile tunel up -d tunel",
     "tunel:parar": "docker compose --env-file .env -f infra/compose.yml --profile tunel stop tunel",
     "tunel:logs": "docker logs --tail 30 capl-tunel",
     "guardar": "node scripts/guardar.mjs local",
     "subir": "node scripts/guardar.mjs subir",
-    "admin:crear": "tsx scripts/admin-crear.mts"
+    "admin:crear": "tsx scripts/admin-crear.mts",
+    "resend:plantillas": "tsx scripts/resend-plantillas.mts"
   },
   "dependencies": {
     "@node-rs/argon2": "2.2.2",
@@ -41,6 +46,7 @@
     "zod": "^4.6.7"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.1",
     "@tailwindcss/turbopack": "4.3.3",
     "@types/node": "^24.19.2",
     "@types/pg": "^8.23.1",

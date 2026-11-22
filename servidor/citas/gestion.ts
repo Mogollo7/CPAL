@@ -9,6 +9,7 @@ import {
 import { fallo, ok, type Resultado } from "../../contratos/resultado";
 import { bd } from "../bd";
 import { registrar, type Evento } from "../registro";
+import { cifrar } from "./cifrado";
 import { despachar } from "./correos";
 import { enlaceDeCita, idDeToken } from "./enlace";
 import { cuposDeServicio, leerConfig } from "./datos";
@@ -17,6 +18,7 @@ import {
   insertarCita,
   personaDe,
   registrarCreacion,
+  transaccionDeCita,
 } from "./crear";
 import { decidir, transicionar } from "./estados";
 
@@ -76,7 +78,7 @@ export async function verCita(
 
 export async function cancelarCita(
   token: string,
-  { ahora = new Date() }: { ahora?: Date } = {},
+  { ahora = new Date(), motivo }: { ahora?: Date; motivo?: string } = {},
 ): Promise<Resultado<{ estado: EstadoCita }>> {
   const c = await citaDeToken(token);
   if (!c) return INVALIDO;
@@ -85,6 +87,12 @@ export async function cancelarCita(
     transicionar(tx, c, "cancelar", { tipo: "PERSONA" }, { ahora, config }),
   );
   if (!r.ok) return r;
+  const texto = motivo?.trim().slice(0, 200); // opcional; cifrado como el motivo de la cita (S03)
+  if (texto)
+    await bd.cita.update({
+      where: { id: c.id },
+      data: { motivoCancelacion: cifrar(texto) },
+    });
   log(r.datos.log, c.id);
   await despachar();
   return ok({ estado: r.datos.estado });
@@ -145,7 +153,7 @@ export async function reprogramarCita(
 
   // E03 §4: una sola transacción. Si algo falla, la cita original queda exactamente como estaba.
   try {
-    const nueva = await bd.$transaction(async (tx) => {
+    const nueva = await transaccionDeCita(async (tx) => {
       const t = await transicionar(
         tx,
         original,

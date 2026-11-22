@@ -42,3 +42,7 @@ servidor/generado/
 # Herramientas locales de agentes
 .playwright-mcp/
 results.sarif
+
+# Playwright
+test-results/
+playwright-report/

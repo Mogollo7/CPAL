@@ -21,17 +21,23 @@ export default async function LayoutPanel({
     rol === "ADMIN" ? "Administrador CAPL" : "Psicólogo(a) CAPL";
 
   return (
-    <div className="min-h-screen bg-fondo-pagina text-texto-principal flex">
+    <div className="flex min-h-screen flex-col bg-fondo-pagina text-texto-principal">
       {/* Barra lateral fija (260px) */}
       <BarraLateral rol={rol} usuarioNombre={usuarioNombre} />
 
       {/* Contenedor principal con margen izquierdo para compensar la barra lateral fija */}
       <div className="flex-1 flex flex-col min-w-0 lg:pl-[260px]">
         {/* Cabecera superior */}
-        <CabeceraPanel usuarioNombre={usuarioNombre} rol={rol} />
+        {rol === "ADMIN" && (
+          <CabeceraPanel
+            usuarioNombre={usuarioNombre}
+            rol={rol}
+            className="hidden lg:flex"
+          />
+        )}
 
         {/* Área de contenido de las pantallas del panel */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 max-w-7xl w-full mx-auto">
+        <main className="mx-auto w-full min-w-0 flex-1 @container/panel px-borde pt-bloque pb-seccion wrap-break-word lg:pt-5">
           {children}
         </main>
       </div>

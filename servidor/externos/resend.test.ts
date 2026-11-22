@@ -1,5 +1,5 @@
 import { beforeEach, describe, expect, it, vi } from "vitest";
-import { _reiniciarAgotadas, enviarCorreo } from "./resend";
+import { _reiniciarAgotadas, enviarCorreo, incrustarImagenes } from "./resend";
 
 const c = { para: "a@b.co", asunto: "x", html: "<p>x</p>", texto: "x" };
 
@@ -58,5 +58,46 @@ describe("rotación de llaves Resend", () => {
         { ok: false, permanente: false },
       );
     }
+  });
+});
+
+describe("plantillas de Resend", () => {
+  const conPlantilla = {
+    ...c,
+    plantilla: { id: "cita-vencida", variables: { NOMBRE: "Ana" } },
+  };
+  it("con plantilla publicada se envía con ella", async () => {
+    const vistos: unknown[] = [];
+    const r = await enviarCorreo(conPlantilla, async (_l, x) => {
+      vistos.push(x.plantilla);
+      return null;
+    });
+    expect(r).toEqual({ ok: true, llaveUsada: 0 });
+    expect(vistos).toEqual([conPlantilla.plantilla]);
+  });
+  it("plantilla sin publicar (404/422) → el correo sale con el html propio, sin perderse ni gastar otra llave", async () => {
+    const vistos: unknown[] = [];
+    const r = await enviarCorreo(conPlantilla, async (_l, x) => {
+      vistos.push(x.plantilla);
+      return x.plantilla ? { statusCode: 404, name: "not_found" } : null;
+    });
+    expect(r).toEqual({ ok: true, llaveUsada: 0 });
+    expect(vistos).toEqual([conPlantilla.plantilla, undefined]);
+  });
+});
+
+describe("imágenes inline", () => {
+  it("convierte las imágenes del CAPL a CID y conserva el resto del HTML", async () => {
+    const r = await incrustarImagenes(
+      '<img src="https://capl.juanlabs.me/correos/logo-capl.png"><img src="/correos/gato-aprobacion.png"><img src="/correos/logo-capl.png"><img data-src="/correos/gato-saludo.png" src="https://otro.test/imagen.png">',
+    );
+    expect(r.html).toContain('src="cid:capl-logo-capl-png"');
+    expect(r.html).toContain('src="cid:capl-gato-aprobacion-png"');
+    expect(r.html).toContain('data-src="/correos/gato-saludo.png"');
+    expect(r.html).toContain("https://otro.test/imagen.png");
+    expect(r.adjuntos.map((a) => a.contentId)).toEqual([
+      "capl-logo-capl-png",
+      "capl-gato-aprobacion-png",
+    ]);
   });
 });

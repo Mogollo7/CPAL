@@ -1,4 +1,6 @@
 import type { ReactNode } from "react";
+import Link from "next/link";
+import { claseBoton } from "@/componentes/atomos/boton";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import type { PARA_QUIEN } from "@/contratos/cita";
 import type { ServicioPublico } from "@/contratos/servicio";
@@ -44,20 +46,28 @@ export function EncabezadoPaso({
   children: ReactNode;
 }) {
   return (
-    <div className="border-b border-borde-suave pb-4">
-      <span className="text-caption font-medio uppercase tracking-wider text-morado-700">
+    <div className="space-y-3">
+      <span className="sr-only">
         Paso {paso} de {TOTAL_PASOS}
       </span>
-      <h2 className="text-h1 font-fuerte text-texto-titulo mt-1">{titulo}</h2>
-      <p className="text-p text-texto-secundario mt-1">{children}</p>
+      <h2 className="font-titulo text-seccion font-fuerte text-texto-titulo">
+        {titulo}
+      </h2>
+      <div className="flex flex-wrap items-baseline justify-between gap-3">
+        <p className="text-h2 text-texto-secundario">{children}</p>
+        <Link
+          href="/ayuda-inmediata"
+          className="font-medio text-texto-enlace hover:underline"
+        >
+          ¿Necesitas ayuda inmediata?
+        </Link>
+      </div>
     </div>
   );
 }
 
-const CLASE_ATRAS =
-  "min-h-[48px] px-6 py-2.5 rounded-m border border-borde-suave bg-fondo-superficie hover:bg-morado-50 text-texto-principal font-medio text-p inline-flex items-center gap-2 focus-visible:outline-3 focus-visible:outline-foco";
-export const CLASE_PRINCIPAL =
-  "min-h-[48px] px-8 py-3 rounded-m bg-accion-fondo text-accion-texto hover:bg-accion-fondo-activo disabled:opacity-50 font-medio text-p inline-flex items-center gap-2 shadow-sm focus-visible:outline-3 focus-visible:outline-foco transition-colors";
+const CLASE_ATRAS = claseBoton("borde");
+export const CLASE_PRINCIPAL = claseBoton("principal", "min-w-[125px]");
 
 /** Atrás / Continuar al pie de cada paso. Sin `alVolver` (paso 1) solo se muestra Continuar. */
 export function Navegacion({
@@ -72,7 +82,7 @@ export function Navegacion({
   texto: string;
 }) {
   return (
-    <div className="pt-4 flex items-center justify-between gap-4 border-t border-borde-suave">
+    <div className="flex items-center justify-between gap-4 pt-5">
       {alVolver ? <BotonAtras alVolver={alVolver} /> : <span />}
       <button
         type="button"

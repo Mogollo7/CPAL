@@ -2,7 +2,10 @@
 // datos personales se leen AL ENVIAR y nunca viajan en `Trabajo.datos`. Devuelve null cuando ya no hay nada que enviar
 // (cita anonimizada, cancelada entretanto, enlace usado…): el trabajo se da por hecho.
 import { bd } from "../bd";
+import type { InformeEstado } from "../../contratos/informe-estado";
 import { renderizar, type NombrePlantilla } from "../../correos/indice";
+import { paraEnvio } from "../../correos/plantilla-resend";
+import { mapaVariables } from "../../correos/variables";
 import { rutaCita } from "./enlaces";
 import type { Correo } from "../externos/resend";
 
@@ -30,6 +33,8 @@ export type Payloads = {
   "aviso-ingreso": { usuarioId: string; navegador: string; cuando?: string };
   "aviso-acceso-emergencia": { usuarioId: string; nuevoAdminId: string };
   "cita-reasignada": { citaId: string };
+  "estado-servidor": { informe: InformeEstado };
+  "enlace-cita": { citaId: string };
 };
 
 type Cargado = { para: string; datos: unknown } | null;
@@ -182,6 +187,19 @@ const cargadores: {
             },
           },
     ),
+  "enlace-cita": (p) =>
+    conCita(p, (c) => {
+      const s = delSolicitante(c);
+      if (!s || !["PENDIENTE", "AUTORIZADA"].includes(c.estado)) return null;
+      return {
+        para: s.para,
+        datos: {
+          nombre: s.nombre,
+          inicio: c.inicio,
+          rutaGestion: rutaCita(c.id),
+        },
+      };
+    }),
   recordatorio: (p) =>
     conCita(p, (c) => {
       const s = delSolicitante(c);
@@ -255,6 +273,11 @@ const cargadores: {
       },
     };
   },
+  // Informe diario: solo cifras (ya vienen en el payload); va al correo de administración.
+  "estado-servidor": async (p) => {
+    const para = (await config()).correoAdministracion;
+    return para ? { para, datos: p.informe } : null;
+  },
   "cita-reasignada": (p) =>
     conCita(p, (c) => {
       const s = delSolicitante(c);
@@ -317,5 +340,20 @@ export async function prepararCorreo<N extends NombrePlantilla>(
     plantilla,
     cargado.datos,
   );
-  return { para: cargado.para, asunto, html, texto, adjuntos };
+  // Plantilla publicada en Resend (alias = nombre) cuando existen sus variables y estos datos toman la rama de la plantilla;
+  // CORREO_PLANTILLAS=propias la desactiva y se envía siempre el html de la app.
+  const mapa = mapaVariables[plantilla] as
+    { variables: (d: unknown) => Record<string, string> | null } | undefined;
+  const vars =
+    process.env.CORREO_PLANTILLAS === "propias"
+      ? null
+      : (mapa?.variables(cargado.datos) ?? null);
+  return {
+    para: cargado.para,
+    asunto,
+    html,
+    texto,
+    adjuntos,
+    plantilla: vars ? { id: plantilla, variables: paraEnvio(vars) } : undefined,
+  };
 }

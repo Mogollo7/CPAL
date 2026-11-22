@@ -28,7 +28,7 @@ Volver a [[00-Inicio]]. Responsables (A/B/C) definidos en [[06-Division-del-Trab
 | ID | Requisito | Pri | Resp | Fase |
 |----|-----------|-----|------|------|
 | RF-EMG-01 | Página que explica los **tipos de emergencia por código de color** (Dorado, Fucsia, Blanco/Púrpura, Rosa): qué situación es, señales para reconocerla, qué hacer y qué NO hacer | M | A | 1 |
-| RF-EMG-02 | Directorio de **líneas de ayuda inmediata** (123, 106, 444 44 48, 155, 141) con botón directo de llamada `tel:` | M | A | 1 |
+| RF-EMG-02 | Directorio de **líneas de ayuda inmediata** (123, 106, 155, 141) con botón directo de llamada `tel:` | M | A | 1 |
 | RF-EMG-03 | **Orientador "¿Qué me está pasando?"**: 3–4 preguntas sencillas que guían a la persona a la tarjeta y línea adecuada en segundos (no diagnostica; siempre muestra el 123 arriba) | M | A | 1 |
 | RF-EMG-04 | **Botón fijo "Necesito ayuda ahora"** visible en todo el sitio y en el formulario de cita | M | A | 1 |
 | RF-EMG-05 | El contenido completo (códigos, líneas y textos) vive en **`contenido/emergencias.json`** con fecha de última revisión visible, editable sin tocar código | M | A | 1 |
