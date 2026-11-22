@@ -8,8 +8,8 @@ export function LogoCapl({ fondo = "claro" }: { fondo?: "claro" | "oscuro" }) {
     <Image
       src={fondo === "claro" ? logoClaro : logoOscuro}
       alt="CAPL · Unilasallista"
-      className="h-[60px] w-auto"
-      sizes="147px"
+      className="h-[3rem] w-auto sm:h-[3.75rem]"
+      sizes="(max-width: 599px) 118px, 147px"
       priority={fondo === "claro"}
     />
   );

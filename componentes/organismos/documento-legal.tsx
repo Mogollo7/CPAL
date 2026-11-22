@@ -28,7 +28,7 @@ export function DocumentoLegal({
           className="mx-auto max-w-[1030px]"
         />
       </div>
-      <div className="mx-auto grid max-w-[1030px] gap-bloque px-4 py-bloque md:grid-cols-[264px_742px]">
+      <div className="mx-auto grid max-w-[1030px] gap-bloque px-borde py-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,3fr)]">
         <nav
           aria-label="Índice"
           className="h-fit space-y-4 md:sticky md:top-[110px]"

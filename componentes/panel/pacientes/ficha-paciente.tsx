@@ -30,7 +30,7 @@ export function FichaPaciente({ ficha }: { ficha: Ficha }) {
         <ul className="divide-y divide-borde-suave">
           {ficha.historial.map((c) => (
             <li key={c.id} className="py-4 flex flex-wrap items-start gap-4">
-              <div className="flex-1 min-w-[220px]">
+              <div className="min-w-0 flex-1 wrap-anywhere">
                 <p className="text-p font-medio text-texto-titulo">
                   {fechaHora(c.inicio)}
                 </p>

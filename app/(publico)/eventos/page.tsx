@@ -37,7 +37,7 @@ function Destacado({ evento }: { evento: EventoDetalle }) {
   return (
     <section
       aria-labelledby="titulo-destacado"
-      className="relative isolate grid items-center gap-bloque px-4 py-cabecera sm:px-borde md:min-h-[670px] md:grid-cols-[490px_525px] md:justify-between md:px-[90px]"
+      className="relative isolate grid items-center gap-bloque px-4 py-cabecera sm:px-borde md:min-h-[670px] md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] md:px-borde"
     >
       <FondoGrano tono="menta" fundido="abajo" />
       <div className="space-y-5">
@@ -62,7 +62,7 @@ function Destacado({ evento }: { evento: EventoDetalle }) {
             alt=""
             fill
             priority
-            sizes="525px"
+            sizes="(min-width: 1200px) 525px, (min-width: 900px) 43vw, (min-width: 600px) 525px, calc(100vw - 32px)"
             className="object-cover"
           />
         )}
@@ -99,7 +99,7 @@ async function Agenda({ searchParams }: PaginaProps = {}) {
       {primero && <Destacado evento={primero} />}
       {!primero && (
         // Sin eventos (o sin ninguno de ese tipo) no hay destacado: la página conserva su h1.
-        <header className="px-4 pt-cabecera sm:px-borde md:px-[90px]">
+        <header className="px-4 pt-cabecera sm:px-borde md:px-borde">
           <Titulo nivel="h1" tamano="pagina">
             Eventos y talleres
           </Titulo>

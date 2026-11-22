@@ -71,10 +71,10 @@ export default function ComoFunciona() {
       {/* Portada · casa amarilla */}
       <section
         aria-labelledby="titulo-pagina"
-        className="relative isolate overflow-hidden pt-[90px]"
+        className="escena-inicial relative isolate grid content-center gap-bloque overflow-hidden py-bloque"
       >
         <FondoGrano tono="lavanda" fundido="abajo" />
-        <div className="mx-auto max-w-[800px] space-y-5 px-4 text-center">
+        <div className="mx-auto max-w-[40rem] space-y-4 px-borde text-center">
           <Titulo nivel="h1" tamano="pagina" id="titulo-pagina">
             un espacio para escucharte
           </Titulo>
@@ -86,21 +86,22 @@ export default function ComoFunciona() {
         <Image
           src={casaAmarilla}
           alt="La casa amarilla del CAPL"
-          sizes="100vw"
-          className="-mt-[60px] w-full"
+          sizes="(min-width: 1200px) 1120px, 100vw"
+          className="mx-auto h-auto max-h-[min(58svh,32rem)] w-full max-w-[70rem] object-contain"
         />
       </section>
 
       {/* Habilitación · Ministerio de Salud */}
       <Seccion
         aria-labelledby="titulo-habilitacion"
-        className="mx-auto grid max-w-[1130px] items-center gap-bloque md:grid-cols-[500px_1fr]"
+        ritmo="editorial"
+        className="mx-auto grid max-w-[1130px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1.23fr)]"
       >
-        <div className="space-y-5">
+        <div className="mx-auto max-w-[52ch] space-y-5 max-md:text-center">
           <Titulo id="titulo-habilitacion" tamano="bloque">
             un espacio habilitado para cuidarte
           </Titulo>
-          <p className="text-h2 leading-titulo text-texto-secundario">
+          <p className="text-p leading-texto text-texto-secundario">
             El CAPL está habilitado por el Ministerio de Salud y Protección
             Social con el número único DHS803177. Inició su atención el 29 de
             julio de 2019.
@@ -109,7 +110,7 @@ export default function ComoFunciona() {
         <Image
           src={habilitacion}
           alt=""
-          sizes="613px"
+          sizes="(min-width: 1280px) 613px, (min-width: 900px) 48vw, (min-width: 650px) 613px, calc(100vw - 32px)"
           className="w-full max-w-[613px]"
         />
       </Seccion>
@@ -117,7 +118,8 @@ export default function ComoFunciona() {
       {/* Lo esencial · información rápida */}
       <Seccion
         aria-label="Lo esencial"
-        className="mx-auto grid max-w-[1112px] items-center gap-bloque md:grid-cols-[510px_1fr]"
+        ritmo="editorial"
+        className="mx-auto grid max-w-[1112px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1.18fr)]"
       >
         <div className="space-y-bloque">
           <p className="text-h2 leading-titulo text-texto-secundario">
@@ -145,7 +147,7 @@ export default function ComoFunciona() {
         <Image
           src={fotoEstudiante}
           alt="Estudiante en la casa amarilla del CAPL"
-          sizes="483px"
+          sizes="(min-width: 1100px) 483px, (min-width: 900px) 44vw, (min-width: 540px) 483px, calc(100vw - 32px)"
           quality={95}
           className="aspect-[483/432] w-full max-w-[483px] rounded-l object-cover"
         />
@@ -154,7 +156,7 @@ export default function ComoFunciona() {
       {/* Únetenos · estudia Psicología */}
       <section
         aria-labelledby="titulo-unete"
-        className="px-4 pt-[62px] text-center"
+        className="bloque-editorial grid content-start justify-items-center gap-bloque px-borde text-center max-md:min-h-[min(90svh,48rem)]"
       >
         <EncabezadoSeccion
           id="titulo-unete"
@@ -163,26 +165,26 @@ export default function ComoFunciona() {
           centrado
           className="mx-auto max-w-[900px]"
         />
-        <div className="relative mx-auto mt-5 max-w-[1000px]">
-          <Image src={comunidad} alt="" sizes="1000px" className="w-full" />
-          <a
-            href="https://www.unilasallista.edu.co/carreras_profesionales/estudia-psicologia-en-medellin/"
-            target="_blank"
-            rel="noreferrer"
-            className={claseBoton(
-              "principal",
-              "absolute left-1/2 top-[6px] w-[172px] -translate-x-1/2 text-destacado",
-            )}
-          >
-            Únetenos
-          </a>
-        </div>
+        <Image
+          src={comunidad}
+          alt=""
+          sizes="(min-width: 900px) 900px, 94vw"
+          className="h-auto w-full max-w-[56rem]"
+        />
+        <a
+          href="https://www.unilasallista.edu.co/carreras_profesionales/estudia-psicologia-en-medellin/"
+          target="_blank"
+          rel="noreferrer"
+          className={claseBoton("principal", "min-w-[10rem]")}
+        >
+          Únetenos
+        </a>
       </section>
 
       {/* Formación con supervisión */}
       <section
         aria-labelledby="titulo-formacion"
-        className="relative mx-auto h-[928px] max-w-[1280px] overflow-hidden max-md:h-auto max-md:py-seccion"
+        className="bloque-editorial relative isolate mx-auto grid max-w-[1280px] content-center overflow-hidden md:min-h-[min(78svh,47rem)]"
       >
         {PARTICULAS.map(([src, x, y, t], i) => (
           <Image
@@ -190,16 +192,16 @@ export default function ComoFunciona() {
             src={src}
             alt=""
             sizes="44px"
-            className="absolute max-md:hidden"
+            className="pointer-events-none absolute -z-10 max-md:hidden"
             style={{
               left: `${(x / 1280) * 100}%`,
-              top: y,
+              top: `${(y / 928) * 100}%`,
               width: t,
               height: t,
             }}
           />
         ))}
-        <div className="flex flex-col items-center gap-bloque px-4 text-center md:pt-[280px]">
+        <div className="flex flex-col items-center gap-bloque px-borde text-center">
           <Titulo
             id="titulo-formacion"
             tamano="bloque"

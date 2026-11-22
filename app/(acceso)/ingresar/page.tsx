@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, Eye, EyeOff, RefreshCw, ShieldCheck } from "lucide-react";
 import { Titulo } from "@/componentes/atomos/titulo";
@@ -12,8 +11,6 @@ import {
   verificarCodigoAccion,
   reenviarCodigoAccion,
 } from "@/servidor/cuentas/acciones";
-import accesoIngresar from "@/contenido/ilustraciones/acceso-ingresar.webp";
-import accesoCodigo from "@/contenido/ilustraciones/acceso-codigo.webp";
 
 export default function PaginaIngresar() {
   const [paso2FA, setPaso2FA] = useState(false);
@@ -73,14 +70,13 @@ export default function PaginaIngresar() {
   };
 
   return (
-    <div className="w-full max-w-[1080px] bg-fondo-superficie rounded-xl shadow-flotante p-5 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-      {/* Columna izquierda: formulario e información */}
-      <div className="flex flex-col justify-center p-6 w-full max-w-[464px] mx-auto">
+    <div className="reticula-capl w-full max-w-[34rem] rounded-l bg-fondo-superficie p-4 shadow-flotante sm:p-6">
+      <div className="col-span-4 min-w-0">
         <div className="mb-5">
           <Titulo nivel="h1" tamano="seccion">
             {paso2FA ? "Segundo paso de seguridad" : "Ingresar a la plataforma"}
           </Titulo>
-          <p className="text-h2 text-texto-secundario mt-2">
+          <p className="mt-2 max-w-[65ch] text-p text-texto-secundario">
             {paso2FA
               ? "Introduce el código de 6 dígitos enviado a tu correo institucional."
               : "Ingresa tus credenciales autorizadas del CAPL."}
@@ -257,17 +253,6 @@ export default function PaginaIngresar() {
             </div>
           </form>
         )}
-      </div>
-
-      {/* Columna derecha: panel lavanda con la ilustración centrada */}
-      <div className="flex items-center justify-center bg-morado-100 rounded-l p-5">
-        <Image
-          src={paso2FA ? accesoCodigo : accesoIngresar}
-          alt=""
-          sizes="486px"
-          priority
-          className="w-full max-w-[420px] h-auto object-contain"
-        />
       </div>
     </div>
   );

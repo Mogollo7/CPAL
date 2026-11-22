@@ -17,7 +17,7 @@ export function TarjetaPerfil({
   tono?: number;
 }) {
   return (
-    <article className="flex w-[328px] shrink-0 snap-start flex-col gap-5 rounded-[24px] bg-blanco p-4 shadow-flotante">
+    <article className="flex h-full min-w-0 flex-col gap-4 rounded-l bg-blanco p-4 shadow-flotante wrap-anywhere">
       <div
         className={cn(
           "relative aspect-[296/330] overflow-hidden rounded-m",
@@ -29,7 +29,7 @@ export function TarjetaPerfil({
             src={fotoUrl}
             alt=""
             fill
-            sizes="296px"
+            sizes="(min-width: 1200px) 22vw, (min-width: 600px) 42vw, calc(100vw - 64px)"
             className="object-cover"
           />
         )}

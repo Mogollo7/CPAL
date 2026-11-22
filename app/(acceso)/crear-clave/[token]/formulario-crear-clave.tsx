@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, CheckCircle2, Eye, EyeOff } from "lucide-react";
 import { Titulo } from "@/componentes/atomos/titulo";
@@ -11,7 +10,6 @@ import {
   crearClaveAccion,
   solicitarEnlaceAccion,
 } from "@/servidor/cuentas/acciones";
-import accesoCrearClave from "@/contenido/ilustraciones/acceso-crear-clave.webp";
 
 interface FormularioCrearClaveProps {
   token: string;
@@ -56,9 +54,8 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
   };
 
   return (
-    <div className="w-full max-w-[1080px] bg-fondo-superficie rounded-xl shadow-flotante p-5 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-      {/* Columna izquierda: formulario e información */}
-      <div className="flex flex-col justify-center p-6 w-full max-w-[464px] mx-auto">
+    <div className="reticula-capl w-full max-w-[34rem] rounded-l bg-fondo-superficie p-4 shadow-flotante sm:p-6">
+      <div className="col-span-4 min-w-0">
         {enlaceVencido ? (
           <>
             <div className="mb-5">
@@ -211,17 +208,6 @@ export function FormularioCrearClave({ token }: FormularioCrearClaveProps) {
             </form>
           </>
         )}
-      </div>
-
-      {/* Columna derecha: panel lavanda con la ilustración centrada */}
-      <div className="flex items-center justify-center bg-morado-100 rounded-l p-5">
-        <Image
-          src={accesoCrearClave}
-          alt=""
-          sizes="486px"
-          priority
-          className="w-full max-w-[420px] h-auto object-contain"
-        />
       </div>
     </div>
   );

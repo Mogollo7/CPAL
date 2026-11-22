@@ -29,10 +29,10 @@ export default function AyudaInmediataPage() {
       {/* Cabecera · llamar a emergencias */}
       <section
         aria-labelledby="titulo-pagina"
-        className="relative isolate grid items-center gap-bloque px-4 py-cabecera sm:px-borde md:min-h-[671px] md:grid-cols-[612px_523px] md:justify-between md:px-[102px]"
+        className="reticula-capl relative isolate items-center px-borde py-cabecera"
       >
         <FondoGrano tono="lavanda" fundido="abajo" />
-        <div className="space-y-5">
+        <div className="col-span-4 min-w-0 space-y-4 md:col-span-2">
           <Titulo nivel="h1" tamano="hero" id="titulo-pagina">
             Si estás en peligro
             <br />
@@ -50,15 +50,15 @@ export default function AyudaInmediataPage() {
           src={telefono}
           alt=""
           priority
-          sizes="523px"
-          className="mx-auto w-full max-w-[523px]"
+          sizes="(min-width: 1200px) 523px, (min-width: 900px) 43vw, (min-width: 600px) 523px, calc(100vw - 32px)"
+          className="col-span-4 mx-auto h-auto w-full max-w-[523px] md:col-span-2"
         />
       </section>
 
       {/* Orientador · qué está pasando + respirar */}
       <Seccion
         aria-label="Orientador"
-        className="mx-auto grid max-w-[1280px] gap-bloque md:grid-cols-[1fr_456px] md:px-[102px]"
+        className="mx-auto grid max-w-[1280px] gap-bloque md:grid-cols-[minmax(0,1.618fr)_minmax(0,1fr)]"
       >
         <OrientadorCrisis />
         <aside
@@ -75,7 +75,7 @@ export default function AyudaInmediataPage() {
             src={respiracion}
             alt=""
             sizes="242px"
-            className="mx-auto w-[242px]"
+            className="mx-auto h-auto w-full max-w-[242px]"
           />
           <a
             href="#anclaje"
@@ -89,7 +89,7 @@ export default function AyudaInmediataPage() {
       {/* Qué hacer en cada caso */}
       <Seccion
         aria-labelledby="titulo-casos"
-        className="mx-auto max-w-[1280px] space-y-bloque md:px-[102px]"
+        className="mx-auto max-w-[1280px] space-y-bloque md:px-borde"
       >
         <EncabezadoSeccion
           id="titulo-casos"
@@ -128,7 +128,7 @@ export default function AyudaInmediataPage() {
       <Seccion
         id="directorio-lineas"
         aria-labelledby="titulo-lineas"
-        className="mx-auto max-w-[1280px] space-y-bloque md:px-[102px]"
+        className="mx-auto max-w-[1280px] space-y-bloque md:px-borde"
       >
         <EncabezadoSeccion
           id="titulo-lineas"
@@ -141,7 +141,7 @@ export default function AyudaInmediataPage() {
               key={l.telefono}
               className="flex flex-wrap items-center gap-5 rounded-m bg-blanco p-4 shadow-flotante"
             >
-              <span className="flex h-[52px] min-w-[76px] items-center justify-center rounded-s bg-fondo-suave px-2 font-titulo text-subtitulo font-fuerte text-texto-titulo">
+              <span className="flex min-h-[52px] min-w-[76px] items-center justify-center rounded-s bg-fondo-suave px-2 font-titulo text-subtitulo font-fuerte text-texto-titulo">
                 {l.telefono}
               </span>
               <div className="min-w-0 flex-1">

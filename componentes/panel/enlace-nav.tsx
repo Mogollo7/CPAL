@@ -32,9 +32,9 @@ export function EnlaceNav({
       href={href}
       onClick={onClick}
       className={cn(
-        "group flex items-center justify-between gap-3 px-3 py-2 rounded-s text-p font-medio transition-all duration-200",
+        "group flex min-h-[48px] items-center justify-between gap-3 rounded-s px-3 py-2 text-p font-medio transition-colors duration-200",
         activo
-          ? "bg-accion-suave-fondo text-accion-suave-texto font-medio"
+          ? "bg-accion-suave-fondo font-fuerte text-accion-suave-texto underline"
           : "text-texto-principal hover:text-texto-titulo hover:bg-fondo-suave",
       )}
       aria-current={activo ? "page" : undefined}
@@ -42,7 +42,7 @@ export function EnlaceNav({
       <div className="flex items-center gap-3">
         <Icono
           className={cn(
-            "w-[18px] h-[18px] transition-transform duration-200 group-hover:scale-105",
+            "size-[18px] shrink-0",
             activo
               ? "text-accion-fondo"
               : "text-texto-secundario group-hover:text-texto-titulo",

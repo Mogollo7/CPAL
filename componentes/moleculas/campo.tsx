@@ -2,7 +2,7 @@ import type { InputHTMLAttributes } from "react";
 import { cn } from "../cn";
 
 export const CLASE_CONTROL =
-  "w-full min-h-[48px] px-4 rounded-m border border-borde bg-blanco text-texto-principal focus-visible:outline-3 focus-visible:outline-foco";
+  "w-full min-w-0 min-h-[48px] px-4 rounded-m border border-borde bg-blanco text-p text-texto-principal focus-visible:outline-3 focus-visible:outline-foco";
 
 type CampoProps = Omit<InputHTMLAttributes<HTMLInputElement>, "onChange"> & {
   id: string;
@@ -26,7 +26,7 @@ export function Campo({
     <div className={className}>
       <label
         htmlFor={id}
-        className="block text-caption font-medio text-texto-principal mb-1"
+        className="mb-1 block text-p font-medio text-texto-principal"
       >
         {etiqueta}
       </label>
@@ -40,7 +40,7 @@ export function Campo({
         {...resto}
       />
       {error && (
-        <p id={`${id}-error`} className="text-caption text-error-texto mt-1">
+        <p id={`${id}-error`} className="mt-1 text-p text-error-texto">
           {error}
         </p>
       )}

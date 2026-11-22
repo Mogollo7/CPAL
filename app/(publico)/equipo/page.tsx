@@ -32,23 +32,16 @@ async function Perfiles() {
       </p>
     );
   return (
-    <>
-      {/* Carrusel nativo: desplazamiento horizontal con imán (scroll-snap), teclado y lector sin JavaScript. */}
-      <ul
-        aria-label="Equipo en formación"
-        tabIndex={0}
-        className="-mx-4 flex snap-x gap-[32px] overflow-x-auto px-4 pb-5 sm:-mx-borde sm:px-borde md:mx-0 md:px-0"
-      >
-        {equipo.map((p, i) => (
-          <li key={p.id}>
-            <TarjetaPerfil nombre={p.nombre} fotoUrl={p.fotoUrl} tono={i} />
-          </li>
-        ))}
-      </ul>
-      <p className="font-medio text-destacado text-accion-fondo">
-        Desliza para conocer al equipo →
-      </p>
-    </>
+    <ul aria-label="Equipo en formación" className="reticula-capl">
+      {equipo.map((p, i) => (
+        <li
+          key={p.id}
+          className="col-span-4 min-w-0 sm:col-span-2 lg:col-span-1"
+        >
+          <TarjetaPerfil nombre={p.nombre} fotoUrl={p.fotoUrl} tono={i} />
+        </li>
+      ))}
+    </ul>
   );
 }
 
@@ -67,7 +60,7 @@ export default function EquipoPage() {
           fill
           priority
           sizes="100vw"
-          className="-top-[150px]! object-cover [mask-image:linear-gradient(#000_86%,#000000f0_90%,#000000a6_94%,#0000002b_98%,#0000)]"
+          className="object-cover object-center [mask-image:linear-gradient(#000_86%,#000000f0_90%,#000000a6_94%,#0000002b_98%,#0000)] md:-top-[150px]!"
         />
         <Titulo
           nivel="h1"
@@ -82,7 +75,7 @@ export default function EquipoPage() {
       {/* Equipo · presentación */}
       <Seccion
         aria-labelledby="titulo-presentacion"
-        className="z-10 mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[490px_550px] md:justify-between"
+        className="z-10 mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
       >
         <div className="space-y-5">
           <Titulo id="titulo-presentacion">
@@ -97,7 +90,7 @@ export default function EquipoPage() {
         <Image
           src={equipoDiverso}
           alt=""
-          sizes="550px"
+          sizes="(min-width: 1200px) 550px, (min-width: 900px) 45vw, (min-width: 600px) 550px, calc(100vw - 32px)"
           className="mx-auto w-full max-w-[550px]"
         />
       </Seccion>
@@ -106,7 +99,7 @@ export default function EquipoPage() {
       <Seccion
         ritmo="entrada"
         aria-labelledby="titulo-equipo"
-        className="space-y-bloque md:px-[100px]"
+        className="space-y-bloque"
       >
         <FondoGrano tono="lavanda-claro" fundido="ambos" />
         <EncabezadoSeccion

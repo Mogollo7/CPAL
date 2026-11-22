@@ -32,7 +32,7 @@ export function ConsultarCita() {
       <label htmlFor="codigo-cita" className="block text-h2 font-medio">
         Consultar mi cita
       </label>
-      <div className="flex w-fit gap-2 rounded-s bg-blanco p-1">
+      <div className="flex max-w-full flex-wrap gap-2 rounded-s bg-blanco p-1">
         <input
           id="codigo-cita"
           name="codigo"
@@ -41,12 +41,12 @@ export function ConsultarCita() {
           autoCapitalize="characters"
           autoComplete="off"
           required
-          className="w-[96px] rounded-s px-2 text-p uppercase text-texto-principal placeholder:text-texto-secundario"
+          className="min-h-[44px] w-full min-w-0 flex-[1_1_7rem] rounded-s px-2 text-p uppercase text-texto-principal placeholder:text-texto-secundario"
         />
         <button
           type="submit"
           disabled={enviando}
-          className="min-h-[35px] rounded-s bg-morado-100 px-4 text-p font-medio text-accion-fondo hover:bg-morado-300/50 disabled:opacity-60"
+          className="min-h-[44px] max-w-full rounded-s bg-morado-100 px-3 text-p font-medio wrap-anywhere text-accion-fondo hover:bg-morado-300/50 disabled:opacity-60"
         >
           {enviando ? "Enviando…" : "Consultar"}
         </button>

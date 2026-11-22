@@ -7,8 +7,6 @@ import ilustracionPedir from "@/contenido/ilustraciones/paso-pedir-cita.webp";
 import ilustracionConfirmar from "@/contenido/ilustraciones/paso-confirmacion.webp";
 import casaAmarilla from "@/contenido/ilustraciones/casa-amarilla.webp";
 
-// Cómo funciona en 3 pasos (Inicio): dos filas ilustradas seguidas (FilaIlustrada) y el tercer paso como
-// sección de transición al estilo Duolingo: 140 de aire, título de 64 y el fondo lavanda que nace de la nada.
 export function PasosCita({
   titulo = "pedir ayuda puede ser sencillo",
   bajada = "Tres pasos, sin filas y sin costo.",
@@ -19,13 +17,18 @@ export function PasosCita({
   return (
     <section
       aria-labelledby="titulo-pasos"
-      className="relative isolate overflow-hidden pt-seccion"
+      className="relative isolate overflow-hidden pt-[clamp(4.25rem,14svh,9rem)]"
     >
-      <div className="mx-auto max-w-[988px] px-4 sm:px-borde md:px-0">
-        <EncabezadoSeccion id="titulo-pasos" titulo={titulo} bajada={bajada} />
+      <div className="mx-auto max-w-[40rem] px-borde">
+        <EncabezadoSeccion
+          id="titulo-pasos"
+          titulo={titulo}
+          bajada={bajada}
+          centrado
+        />
       </div>
 
-      <ol className="mt-cabecera px-4 sm:px-borde">
+      <ol className="px-borde">
         <li>
           <FilaIlustrada
             nivel="h3"
@@ -41,14 +44,14 @@ export function PasosCita({
             titulo="confirmamos tu espacio"
             texto="Revisamos tu solicitud y te escribimos al correo en máximo 48 horas."
             ilustracion={ilustracionConfirmar}
-            claseIlustracion="-rotate-[10.5deg]"
+            claseIlustracion="lg:-rotate-[10.5deg]"
           />
         </li>
       </ol>
 
-      <div className="relative isolate pt-entrada">
+      <div className="bloque-editorial relative isolate">
         <FondoGrano tono="lavanda" fundido="ambos" />
-        <div className="mx-auto max-w-[660px] px-4 text-center">
+        <div className="mx-auto max-w-[40rem] px-borde text-center">
           <Titulo tamano="hero">asiste a tu sesión</Titulo>
           <p className="mt-[24px] text-h2 leading-titulo text-texto-secundario">
             Te esperamos en la casa amarilla, en Caldas, en el horario
@@ -58,8 +61,8 @@ export function PasosCita({
         <Image
           src={casaAmarilla}
           alt="La casa amarilla del CAPL en Caldas, Antioquia"
-          sizes="100vw"
-          className="-mt-5 w-full"
+          sizes="(min-width: 1200px) 1120px, 100vw"
+          className="mx-auto mt-bloque h-auto w-full max-w-[70rem]"
         />
       </div>
     </section>

@@ -177,6 +177,27 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
     });
   };
 
+  const accionesEvento = (ev: EventoDetalle) => (
+    <div className="flex flex-wrap gap-2">
+      <button
+        type="button"
+        onClick={() => abrirEdicion(ev)}
+        className="min-h-[44px] rounded-s border border-borde-suave px-3 text-p font-medio text-texto-enlace hover:bg-fondo-suave"
+      >
+        Editar
+      </button>
+      <label className="relative inline-flex min-h-[44px] cursor-pointer items-center rounded-s border border-borde-suave px-3 text-p font-medio text-texto-enlace hover:bg-fondo-suave focus-within:outline-2 focus-within:outline-foco">
+        {ev.imagenUrl ? "Cambiar afiche" : "Subir afiche"}
+        <input
+          type="file"
+          accept="image/jpeg,image/png,image/webp"
+          onChange={(e) => manejarSubirImagen(ev.id, e)}
+          className="sr-only"
+        />
+      </label>
+    </div>
+  );
+
   return (
     <div className="space-y-6 w-full">
       {/* Notificación */}
@@ -210,14 +231,45 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
         </button>
       </div>
 
-      <div className="rounded-m bg-fondo-superficie border border-borde-suave p-4 sm:p-5">
+      <div className="@container min-w-0 rounded-m border border-borde-suave bg-fondo-superficie p-4 sm:p-5">
         <h2 className="font-titulo font-fuerte text-subtitulo text-texto-titulo">
           Cartelera del centro
         </h2>
         <p className="text-texto-secundario mb-5">
           Selecciona un evento para revisar la publicación.
         </p>
-        <div className="overflow-x-auto">
+        <ul
+          aria-label="Eventos del centro"
+          className="reticula-capl @min-[45rem]:hidden"
+        >
+          {eventos.map((ev) => (
+            <li
+              key={ev.id}
+              className="col-span-4 min-w-0 space-y-3 rounded-m border border-borde-suave p-4 wrap-anywhere @min-[34rem]:col-span-2"
+            >
+              <h3 className="text-h2 font-fuerte">{ev.titulo}</h3>
+              <p>{ev.descripcion}</p>
+              <p className="text-texto-secundario">
+                {formatearFechaBogota(ev.inicio)} · {ev.lugar}
+              </p>
+              <p className="font-medio">
+                {ev.publicado ? "Publicado" : "Borrador"}
+              </p>
+              {ev.enlace && (
+                <a
+                  href={ev.enlace}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex min-h-[44px] items-center text-texto-enlace underline"
+                >
+                  Abrir enlace del evento
+                </a>
+              )}
+              {accionesEvento(ev)}
+            </li>
+          ))}
+        </ul>
+        <div className="hidden overflow-x-auto @min-[45rem]:block">
           <table className="w-full min-w-[700px] text-left text-caption">
             <thead className="bg-fondo-suave text-texto-secundario">
               <tr>
@@ -263,24 +315,7 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
                       {ev.publicado ? "Publicado" : "Borrador"}
                     </span>
                   </td>
-                  <td className="p-3">
-                    <button
-                      type="button"
-                      onClick={() => abrirEdicion(ev)}
-                      className="text-texto-enlace hover:underline"
-                    >
-                      Editar
-                    </button>
-                    <label className="block cursor-pointer text-texto-enlace hover:underline">
-                      {ev.imagenUrl ? "Cambiar afiche" : "Subir afiche"}
-                      <input
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        onChange={(e) => manejarSubirImagen(ev.id, e)}
-                        className="sr-only"
-                      />
-                    </label>
-                  </td>
+                  <td className="p-3">{accionesEvento(ev)}</td>
                 </tr>
               ))}
             </tbody>
@@ -295,19 +330,20 @@ export function GestorEventos({ eventosIniciales }: GestorEventosProps) {
           role="dialog"
           aria-modal="true"
         >
-          <div className="w-full max-w-lg bg-fondo-superficie rounded-m border border-borde-suave shadow-flotante p-6 relative max-h-[90vh] overflow-y-auto">
+          <div className="relative max-h-[90dvh] w-full max-w-lg overflow-y-auto rounded-m border border-borde-suave bg-fondo-superficie p-4 shadow-flotante sm:p-6">
             <button
               type="button"
               onClick={() => {
                 setModalCrear(false);
                 setEventoAEditar(null);
               }}
-              className="absolute top-4 right-4 text-texto-secundario hover:text-texto-principal p-1"
+              aria-label="Cerrar formulario de evento"
+              className="absolute top-2 right-2 grid size-[44px] place-items-center rounded-s text-texto-secundario hover:bg-fondo-suave"
             >
               <X className="w-5 h-5" />
             </button>
 
-            <h3 className="text-h2 font-fuerte text-texto-titulo mb-4">
+            <h3 className="mb-4 pr-[3rem] text-h2 font-fuerte text-texto-titulo">
               {eventoAEditar ? "Editar Evento" : "Crear Nuevo Evento"}
             </h3>
 

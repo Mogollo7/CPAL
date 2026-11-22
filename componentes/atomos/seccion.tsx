@@ -7,7 +7,9 @@ export function Seccion({
   ritmo = "seccion",
   className,
   ...props
-}: ComponentProps<"section"> & { ritmo?: "seccion" | "cabecera" | "entrada" }) {
+}: ComponentProps<"section"> & {
+  ritmo?: "seccion" | "cabecera" | "entrada" | "editorial";
+}) {
   return (
     <section
       className={cn(
@@ -17,6 +19,7 @@ export function Seccion({
         // Duolingo: la sección que trae un fondo nuevo respira 140 arriba.
         ritmo === "entrada" &&
           "pt-seccion pb-cabecera md:pt-entrada md:pb-seccion",
+        ritmo === "editorial" && "fila-editorial",
         className,
       )}
       {...props}

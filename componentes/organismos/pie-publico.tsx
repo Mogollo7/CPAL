@@ -25,7 +25,7 @@ const CONTACTO = [
 ] as const;
 
 const TITULO_COLUMNA = "text-h2 font-medio";
-const ENLACE = "rounded-s hover:underline underline-offset-4";
+const ENLACE = "rounded-s wrap-anywhere hover:underline underline-offset-4";
 
 // Figma · Organismos/Pie de página: curva morada de 102 sobre la página y cuatro columnas (42 · 335 · 600 · 885).
 export async function PiePublico() {
@@ -39,8 +39,8 @@ export async function PiePublico() {
       >
         <path d="M0 51.6C235-6.4 403-10.4 646 14.6c274 29 413 32 634-6V103H0Z" />
       </svg>
-      <div className="bg-morado-600 px-4 pb-bloque pt-5 sm:px-borde">
-        <div className="mx-auto grid max-w-[1196px] gap-bloque md:grid-cols-[1.25fr_1fr_1fr_1.3fr] md:justify-items-start">
+      <div className="bg-morado-600 px-borde pt-5 pb-[7rem]">
+        <div className="reticula-capl mx-auto max-w-[1196px] [&>*]:col-span-4 [&>*]:min-w-0 sm:[&>*]:col-span-2 lg:[&>*]:col-span-1">
           <div className="space-y-4">
             <LogoCapl fondo="oscuro" />
             <p>

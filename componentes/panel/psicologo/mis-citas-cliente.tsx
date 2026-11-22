@@ -37,6 +37,33 @@ function formatearFechaBogota(isoString: string): {
   }
 }
 
+function ContactoCita({ cita }: { cita: CitaLista }) {
+  return (
+    <div className="flex flex-col items-start gap-2">
+      {cita.solicitanteTelefono && (
+        <a
+          href={`tel:${cita.solicitanteTelefono}`}
+          className="inline-flex min-h-[44px] max-w-full items-center gap-2 text-p wrap-anywhere text-texto-enlace hover:underline"
+          title="Llamar al paciente"
+        >
+          <Phone className="size-[14px] shrink-0" />
+          {cita.solicitanteTelefono}
+        </a>
+      )}
+      {cita.solicitanteCorreo && (
+        <a
+          href={`mailto:${cita.solicitanteCorreo}`}
+          className="inline-flex min-h-[44px] max-w-full items-center gap-2 text-p wrap-anywhere text-texto-enlace hover:underline"
+          title="Enviar correo institucional"
+        >
+          <Mail className="size-[14px] shrink-0" />
+          <span>{cita.solicitanteCorreo}</span>
+        </a>
+      )}
+    </div>
+  );
+}
+
 export function MisCitasCliente({ citasIniciales }: MisCitasClienteProps) {
   const [pestaña, setPestaña] = useState<"proximas" | "pendientes" | "pasadas">(
     "proximas",
@@ -143,87 +170,99 @@ export function MisCitasCliente({ citasIniciales }: MisCitasClienteProps) {
         </div>
 
         {/* Citas asignadas */}
-        <div className="overflow-x-auto">
+        <div className="@container">
           {citasFiltradas.length > 0 && (
-            <table className="w-full min-w-[800px] text-left text-p">
-              <thead className="bg-fondo-suave text-caption text-texto-secundario">
-                <tr>
-                  <th scope="col" className="px-4 py-3 font-medio">
-                    Fecha y hora
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-medio">
-                    Paciente
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-medio">
-                    Servicio
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-medio">
-                    Estado
-                  </th>
-                  <th scope="col" className="px-4 py-3 font-medio">
-                    Contacto
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {citasFiltradas.map((cita) => {
-                  const { fecha, hora } = formatearFechaBogota(cita.inicio);
-                  const nombrePaciente =
-                    cita.pacienteNombre || cita.solicitanteNombre;
-                  return (
-                    <tr
-                      key={cita.id}
-                      className="border-b border-borde-suave last:border-0"
-                    >
-                      <td className="px-4 py-4">
-                        <span className="block font-fuerte">{hora}</span>
-                        <span className="text-caption capitalize text-texto-secundario">
-                          {fecha}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4">
-                        <span className="block font-medio">
-                          {nombrePaciente}
-                        </span>
-                        <span className="text-caption text-texto-secundario">
-                          {cita.codigo}
-                        </span>
-                      </td>
-                      <td className="px-4 py-4 text-texto-secundario">
-                        {cita.servicio}
-                      </td>
-                      <td className="px-4 py-4">
-                        <PildoraEstado estado={cita.estado} />
-                      </td>
-                      <td className="px-4 py-4">
-                        <div className="flex flex-col items-start gap-2">
-                          {cita.solicitanteTelefono && (
-                            <a
-                              href={`tel:${cita.solicitanteTelefono}`}
-                              className="inline-flex items-center gap-2 text-caption text-texto-enlace hover:underline"
-                              title="Llamar al paciente"
-                            >
-                              <Phone className="w-[14px] h-[14px]" />
-                              {cita.solicitanteTelefono}
-                            </a>
-                          )}
-                          {cita.solicitanteCorreo && (
-                            <a
-                              href={`mailto:${cita.solicitanteCorreo}`}
-                              className="inline-flex items-center gap-2 text-caption text-texto-enlace hover:underline"
-                              title="Enviar correo institucional"
-                            >
-                              <Mail className="w-[14px] h-[14px]" />
-                              <span>{cita.solicitanteCorreo}</span>
-                            </a>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
+            <ul
+              className="reticula-capl @min-[50rem]:hidden"
+              aria-label="Citas asignadas"
+            >
+              {citasFiltradas.map((cita) => {
+                const { fecha, hora } = formatearFechaBogota(cita.inicio);
+                return (
+                  <li
+                    key={cita.id}
+                    className="col-span-4 min-w-0 rounded-m border border-borde-suave p-4 wrap-anywhere @min-[34rem]:col-span-2"
+                  >
+                    <p className="text-caption text-texto-secundario">
+                      {cita.codigo}
+                    </p>
+                    <h3 className="text-h2 font-fuerte">
+                      {cita.pacienteNombre || cita.solicitanteNombre}
+                    </h3>
+                    <p className="mt-2">{cita.servicio}</p>
+                    <p className="mb-2 text-texto-secundario">
+                      {fecha} · {hora}
+                    </p>
+                    <PildoraEstado estado={cita.estado} />
+                    <div className="mt-2">
+                      <ContactoCita cita={cita} />
+                    </div>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+          {citasFiltradas.length > 0 && (
+            <div className="hidden overflow-x-auto @min-[50rem]:block">
+              <table className="w-full min-w-[800px] text-left text-p">
+                <thead className="bg-fondo-suave text-caption text-texto-secundario">
+                  <tr>
+                    <th scope="col" className="px-4 py-3 font-medio">
+                      Fecha y hora
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-medio">
+                      Paciente
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-medio">
+                      Servicio
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-medio">
+                      Estado
+                    </th>
+                    <th scope="col" className="px-4 py-3 font-medio">
+                      Contacto
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {citasFiltradas.map((cita) => {
+                    const { fecha, hora } = formatearFechaBogota(cita.inicio);
+                    const nombrePaciente =
+                      cita.pacienteNombre || cita.solicitanteNombre;
+                    return (
+                      <tr
+                        key={cita.id}
+                        className="border-b border-borde-suave last:border-0"
+                      >
+                        <td className="px-4 py-4">
+                          <span className="block font-fuerte">{hora}</span>
+                          <span className="text-caption capitalize text-texto-secundario">
+                            {fecha}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4">
+                          <span className="block font-medio">
+                            {nombrePaciente}
+                          </span>
+                          <span className="text-caption text-texto-secundario">
+                            {cita.codigo}
+                          </span>
+                        </td>
+                        <td className="px-4 py-4 text-texto-secundario">
+                          {cita.servicio}
+                        </td>
+                        <td className="px-4 py-4">
+                          <PildoraEstado estado={cita.estado} />
+                        </td>
+                        <td className="px-4 py-4">
+                          <ContactoCita cita={cita} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
           )}
 
           {citasFiltradas.length === 0 && (

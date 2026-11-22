@@ -44,47 +44,46 @@ export default function ContactoPage() {
     <>
       <section
         aria-labelledby="titulo-pagina"
-        className="relative isolate px-4 pt-cabecera sm:px-borde"
+        className="escena-inicial relative isolate flex flex-col justify-center overflow-hidden px-borde pt-cabecera pb-bloque max-[380px]:pt-3"
       >
-        <FondoGrano tono="lavanda" fundido="abajo" className="h-[840px]" />
+        <FondoGrano tono="lavanda" fundido="abajo" />
         <EncabezadoSeccion
           nivel="h1"
           id="titulo-pagina"
           titulo="Contacta con nosotros"
           bajada="Estamos para resolver tus dudas. Respondemos en horario de atención."
+          centrado
+          className="mx-auto max-w-[38rem] max-[380px]:space-y-3"
         />
         <CarruselPerfiles imagenes={PERFILES} />
-      </section>
-
-      {/* Contáctanos */}
-      <section
-        aria-labelledby="titulo-contactanos"
-        className="flex flex-col items-center gap-5 px-4 py-cabecera text-center"
-      >
-        <svg
-          aria-hidden="true"
-          viewBox="0 0 43 47"
-          className="w-[43px] fill-estrella"
-        >
-          <path d="M21.5 0l5.6 16.2L43 17.9 30.6 28.4 34.3 47 21.5 37.4 8.7 47l3.7-18.6L0 17.9l15.9-1.7Z" />
-        </svg>
-        <Titulo id="titulo-contactanos" tamano="bloque">
-          Contáctanos
-        </Titulo>
-        <p className="text-h2 text-texto-titulo">
-          Estamos aquí para escucharte y acompañarte.
-        </p>
-        <BotonEnlace href="/pedir-cita" tipo="ayuda" className="font-medio">
-          Pedir cita
-        </BotonEnlace>
+        <div className="relative mx-auto flex max-w-[34rem] flex-col items-center gap-3 pb-4 text-center">
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 43 47"
+            className="w-5 fill-estrella sm:w-[43px]"
+          >
+            <path d="M21.5 0l5.6 16.2L43 17.9 30.6 28.4 34.3 47 21.5 37.4 8.7 47l3.7-18.6L0 17.9l15.9-1.7Z" />
+          </svg>
+          <Titulo tamano="bloque">Contáctanos</Titulo>
+          <p className="text-p leading-texto text-texto-titulo">
+            Estamos aquí para escucharte y acompañarte.
+          </p>
+          <BotonEnlace
+            href="/pedir-cita"
+            tipo="ayuda"
+            className="mt-2 font-medio"
+          >
+            Pedir cita
+          </BotonEnlace>
+        </div>
       </section>
 
       {/* Canales de contacto */}
       <section
         aria-labelledby="titulo-canales"
-        className="mx-auto grid max-w-[856px] items-center gap-bloque px-4 py-bloque md:grid-cols-[460px_1fr]"
+        className="reticula-capl fila-editorial mx-auto max-w-[62rem] items-center px-borde"
       >
-        <div className="space-y-3">
+        <div className="col-span-4 min-w-0 space-y-3 wrap-anywhere md:col-span-2">
           <h2
             id="titulo-canales"
             className="font-titulo text-tarjeta font-fuerte text-texto-titulo"
@@ -112,8 +111,8 @@ export default function ContactoPage() {
         <Image
           src={canales}
           alt=""
-          sizes="391px"
-          className="mx-auto w-full max-w-[391px]"
+          sizes="(min-width: 480px) 391px, calc(100vw - 32px)"
+          className="col-span-4 mx-auto h-auto w-full max-w-[391px] md:col-span-2"
         />
       </section>
 
@@ -132,7 +131,7 @@ export default function ContactoPage() {
                 <dt className="text-caption font-medio text-texto-secundario">
                   {dt}
                 </dt>
-                <dd className="text-h2">{dd}</dd>
+                <dd className="text-p wrap-anywhere">{dd}</dd>
               </div>
             ))}
           </dl>

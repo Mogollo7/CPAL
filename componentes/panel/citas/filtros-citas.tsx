@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Form from "next/form";
-import { Download } from "lucide-react";
+import { ChevronDown, Download } from "lucide-react";
 import { Boton, BotonEnlace } from "@/componentes/atomos/boton";
 import { CLASE_CONTROL } from "@/componentes/moleculas/campo";
 import { useConfirmacion } from "@/componentes/panel/confirmar-clave";
@@ -107,56 +107,73 @@ export function FiltrosCitas({
           {error}
         </p>
       )}
-      <p className="text-caption text-texto-secundario">
-        Aplica los filtros para actualizar la tabla y el archivo CSV.
-      </p>
-      <Form
-        action={RUTA_CITAS}
-        key={enlaceBandeja(consulta)}
-        className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"
+      <details
+        className="group rounded-m border border-borde-suave bg-fondo-superficie px-4"
+        open={Boolean(
+          consulta.busqueda ||
+          consulta.fecha ||
+          consulta.psicologoId ||
+          consulta.servicioId,
+        )}
       >
-        <input type="hidden" name="estado" value={consulta.estado} />
-        <label className="space-y-1 text-caption">
-          Buscar citas
-          <input
-            type="search"
-            name="busqueda"
-            defaultValue={consulta.busqueda}
-            maxLength={80}
-            placeholder="Código, nombre, correo o documento"
-            className={CLASE_CONTROL}
+        <summary className="flex min-h-[48px] cursor-pointer list-none items-center justify-between gap-3 rounded-s py-2 font-fuerte text-texto-enlace [&::-webkit-details-marker]:hidden">
+          Filtros de citas
+          <ChevronDown
+            aria-hidden="true"
+            className="size-5 shrink-0 group-open:rotate-180"
           />
-        </label>
-        <label className="space-y-1 text-caption">
-          Fecha (hora de Bogotá)
-          <input
-            type="date"
-            name="fecha"
-            defaultValue={consulta.fecha}
-            className={CLASE_CONTROL}
+        </summary>
+        <p className="mb-3 text-p text-texto-secundario">
+          Aplica los filtros para actualizar los resultados y el archivo CSV.
+        </p>
+        <Form
+          action={RUTA_CITAS}
+          key={enlaceBandeja(consulta)}
+          className="reticula-capl gap-3 pb-4 [&>label]:col-span-4 [&>label]:min-w-0 sm:[&>label]:col-span-2 lg:[&>label]:col-span-1"
+        >
+          <input type="hidden" name="estado" value={consulta.estado} />
+          <label className="space-y-1 text-caption">
+            Buscar citas
+            <input
+              type="search"
+              name="busqueda"
+              defaultValue={consulta.busqueda}
+              maxLength={80}
+              placeholder="Código, nombre, correo o documento"
+              className={CLASE_CONTROL}
+            />
+          </label>
+          <label className="space-y-1 text-caption">
+            Fecha (hora de Bogotá)
+            <input
+              type="date"
+              name="fecha"
+              defaultValue={consulta.fecha}
+              className={CLASE_CONTROL}
+            />
+          </label>
+          <FiltroSelect
+            nombre="psicologoId"
+            etiqueta="Profesional"
+            todos="Todos los profesionales"
+            valor={consulta.psicologoId}
+            opciones={profesionales}
           />
-        </label>
-        <FiltroSelect
-          nombre="psicologoId"
-          etiqueta="Profesional"
-          todos="Todos los profesionales"
-          valor={consulta.psicologoId}
-          opciones={profesionales}
-        />
-        <FiltroSelect
-          nombre="servicioId"
-          etiqueta="Servicio"
-          todos="Todos los servicios"
-          valor={consulta.servicioId}
-          opciones={servicios}
-        />
-        <div className="flex flex-wrap gap-2 sm:col-span-2">
-          <Boton type="submit">Aplicar filtros</Boton>
-          <BotonEnlace tipo="borde" href={RUTA_CITAS}>
-            Limpiar filtros
-          </BotonEnlace>
-        </div>
-      </Form>
+          <FiltroSelect
+            nombre="servicioId"
+            etiqueta="Servicio"
+            todos="Todos los servicios"
+            valor={consulta.servicioId}
+            opciones={servicios}
+          />
+          <div className="col-span-4 flex flex-wrap gap-2">
+            <Boton type="submit">Aplicar filtros</Boton>
+            <BotonEnlace tipo="borde" href={RUTA_CITAS}>
+              Limpiar filtros
+            </BotonEnlace>
+          </div>
+        </Form>
+      </details>
     </div>
   );
 }

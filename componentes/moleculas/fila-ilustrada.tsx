@@ -2,9 +2,7 @@ import Image, { type StaticImageData } from "next/image";
 import { Titulo } from "../atomos/titulo";
 import { cn } from "../cn";
 
-// Fila de contenido al estilo de duolingo.com: alto mínimo 530, texto de 503 y la ilustración de hasta 530
-// separados 101, título 48 y 24 entre título y texto. Las filas van seguidas, sin margen entre ellas, y se
-// alternan (texto a la izquierda / a la derecha).
+// La imagen y el texto comparten una fila en escritorio y tienen espacio propio en móvil.
 export function FilaIlustrada({
   titulo,
   texto,
@@ -21,18 +19,28 @@ export function FilaIlustrada({
   claseIlustracion?: string;
 }) {
   return (
-    <article className="mx-auto grid max-w-[988px] items-center gap-bloque md:min-h-[530px] md:grid-cols-[minmax(0,503px)_minmax(0,1fr)] md:gap-fila">
-      <div className={cn("space-y-[24px]", invertida && "md:order-last")}>
+    <article className="reticula-capl fila-editorial mx-auto max-w-[988px] items-center gap-y-5 md:gap-x-[clamp(1rem,4.5vw,4.5rem)]">
+      <div
+        className={cn(
+          "col-span-4 min-w-0 space-y-4 max-md:text-center md:col-span-2",
+          invertida && "md:order-last",
+        )}
+      >
         <Titulo nivel={nivel} tamano="bloque">
           {titulo}
         </Titulo>
-        <p className="text-destacado text-texto-secundario">{texto}</p>
+        <p className="max-w-[52ch] text-p leading-texto text-texto-secundario max-md:mx-auto">
+          {texto}
+        </p>
       </div>
       <Image
         src={ilustracion}
         alt=""
-        sizes="(min-width: 900px) 384px, 100vw"
-        className={cn("mx-auto w-full max-w-[420px]", claseIlustracion)}
+        sizes="(min-width: 1100px) 420px, (min-width: 900px) 44vw, (min-width: 480px) 420px, calc(100vw - 32px)"
+        className={cn(
+          "col-span-4 mx-auto h-auto w-full max-w-[420px] md:col-span-2",
+          claseIlustracion,
+        )}
       />
     </article>
   );

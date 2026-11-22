@@ -91,18 +91,18 @@
   --font-sans:
     var(--fuente-titulo), system-ui, sans-serif; /* Nunito en todo (Figma) */
   --font-titulo: var(--fuente-titulo), system-ui, sans-serif;
-  --text-portada: clamp(3.5rem, 8.6vw, 6.875rem);
+  --text-portada: clamp(2.75rem, 1.15rem + 7vw, 6.854rem);
   --text-portada--letter-spacing: -0.03em;
   --text-portada--line-height: 1.18;
   /* Duolingo: títulos de sección y de fila a 48; los de transición (hero) a 64. Fuentes del Figma. */
-  --text-seccion: clamp(2rem, 3.75vw, 3rem);
-  --text-seccion--line-height: 1.2;
-  --text-hero: clamp(2.5rem, 5vw, 4rem);
-  --text-hero--line-height: 1.15;
-  --text-titulo-pagina: 3rem;
-  --text-titulo-pagina--line-height: 1.2;
-  --text-bloque: 3rem;
-  --text-bloque--line-height: 1.2;
+  --text-seccion: clamp(2rem, 1.65rem + 1.5vw, 2.618rem);
+  --text-seccion--line-height: 1.272;
+  --text-hero: clamp(2rem, 1.45rem + 2.7vw, 4.236rem);
+  --text-hero--line-height: 1.272;
+  --text-titulo-pagina: var(--text-seccion);
+  --text-titulo-pagina--line-height: 1.272;
+  --text-bloque: var(--text-seccion);
+  --text-bloque--line-height: 1.272;
   --text-tarjeta: 1.25rem;
   --text-subtitulo: 1.25rem;
   --text-tarjeta--line-height: 1.2;
@@ -131,13 +131,13 @@
   /* Ritmo de página (medido en Figma desktop):
      sección = 110 arriba/abajo · cabecera de página = 68 · entre bloques = 42 · borde lateral = 42.
      Anchos: lectura 920 (FAQ, textos), contenido 1196 (1280 − 2 × 42). */
-  --spacing-seccion: 96px; /* Duolingo: 96 arriba y abajo de cada bloque de filas */
-  --spacing-entrada: 140px; /* Duolingo: aire extra sobre una sección de transición (título de 64) */
-  --spacing-fila: 101px; /* Duolingo: separación entre texto e ilustración en una fila */
+  --spacing-seccion: clamp(2.618rem, 1.5rem + 5vw, 6rem);
+  --spacing-entrada: clamp(4.236rem, 2.5rem + 6vw, 8.75rem);
+  --spacing-fila: clamp(1.618rem, 1rem + 4vw, 6.3125rem);
   --spacing-sangria-grano: 340px; /* el degradado empieza a aparecer 340 px antes de la sección */
-  --spacing-cabecera: var(--spacing-7);
-  --spacing-bloque: var(--spacing-6);
-  --spacing-borde: var(--spacing-6);
+  --spacing-cabecera: clamp(2.618rem, 2rem + 3vw, 4.236rem);
+  --spacing-bloque: clamp(1.618rem, 1.2rem + 1.8vw, 2.618rem);
+  --spacing-borde: clamp(1rem, 0.65rem + 2vw, 2.618rem);
   --container-lectura: 920px;
   --container-contenido: 1196px;
   --spacing-encabezado: 88px;
@@ -159,10 +159,30 @@
   --mov-medio: 260ms;
   --mov-lento: 420ms;
 
-  /* ── Quiebres: base 320 · sm 600 · md 900 · lg 1200. Retícula 4 / 8 / 12 columnas ── */
+  /* ── Quiebres: base 320 · sm 600 · md 900 · lg 1200. Retícula de cuatro guías ── */
   --breakpoint-sm: 600px;
   --breakpoint-md: 900px;
   --breakpoint-lg: 1200px;
+}
+
+@utility reticula-capl {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--spacing-bloque);
+}
+
+@utility escena-inicial {
+  min-block-size: clamp(27rem, calc(100svh - var(--spacing-encabezado)), 60rem);
+}
+
+@utility bloque-editorial {
+  padding-block: clamp(3rem, 8svh, 6rem);
+}
+
+@utility fila-editorial {
+  align-content: center;
+  min-block-size: clamp(29rem, 72svh, 43rem);
+  padding-block: clamp(2.75rem, 7svh, 5rem);
 }
 
 body {

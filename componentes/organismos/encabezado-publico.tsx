@@ -2,61 +2,82 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Menu } from "lucide-react";
+import { useId, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { LogoCapl } from "../atomos/logo-capl";
 import { BotonEnlace } from "../atomos/boton";
 import { cn } from "../cn";
 import { ENLACES_PUBLICOS } from "./navegacion";
 
-// Figma · Organismos/Encabezado público: 88 de alto, velo crema 92 % con desenfoque 18, borde inferior lavanda.
 export function EncabezadoPublico() {
   const ruta = usePathname();
-  const enlaces = ENLACES_PUBLICOS.map((e) => (
-    <Link
-      key={e.ruta}
-      href={e.ruta}
-      aria-current={ruta.startsWith(e.ruta) ? "page" : undefined}
-      className="rounded-s py-2 text-p font-medio text-texto-principal hover:text-texto-enlace aria-[current=page]:text-texto-enlace"
-    >
-      {e.nombre}
-    </Link>
-  ));
+  const id = useId();
+  const disparador = useRef<HTMLButtonElement>(null);
+  const [rutaAbierta, setRutaAbierta] = useState<string | null>(null);
+  const abierto = rutaAbierta === ruta;
+  const cerrar = () => setRutaAbierta(null);
 
   return (
-    <header className="sticky top-0 z-40 flex h-encabezado items-center justify-between border-b border-borde-suave bg-crema/92 px-4 backdrop-blur-[18px] sm:px-borde">
+    <header
+      className="sticky top-0 z-40 flex min-h-[4.25rem] flex-wrap items-center justify-between gap-3 border-b border-borde-suave bg-crema px-borde py-2 lg:min-h-encabezado lg:flex-nowrap"
+      onKeyDown={(evento) => {
+        if (evento.key === "Escape" && abierto) {
+          cerrar();
+          disparador.current?.focus();
+        }
+      }}
+      onBlur={(evento) => {
+        if (!evento.currentTarget.contains(evento.relatedTarget)) cerrar();
+      }}
+    >
       <Link href="/" aria-label="CAPL · inicio" className="rounded-s">
         <LogoCapl />
       </Link>
-
-      <nav aria-label="Principal" className="hidden items-center gap-5 md:flex">
-        {enlaces}
-      </nav>
-
-      <div className="flex items-center gap-3">
-        <BotonEnlace href="/pedir-cita" className="hidden sm:inline-flex">
+      <button
+        ref={disparador}
+        type="button"
+        aria-expanded={abierto}
+        aria-controls={id}
+        onClick={() => setRutaAbierta(abierto ? null : ruta)}
+        className="inline-flex min-h-[48px] shrink-0 items-center gap-2 rounded-s px-3 font-medio text-texto-enlace hover:bg-fondo-suave lg:hidden"
+      >
+        {abierto ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+        Menú
+      </button>
+      <nav
+        id={id}
+        aria-label="Principal"
+        className={cn(
+          "max-h-[calc(100dvh-10rem)] min-w-0 basis-full overflow-y-auto border-t border-borde-suave pt-2 pb-3 lg:flex lg:max-h-none lg:basis-auto lg:items-center lg:gap-5 lg:overflow-visible lg:border-0 lg:p-0",
+          abierto ? "block" : "hidden",
+        )}
+      >
+        <ul className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
+          {ENLACES_PUBLICOS.map(({ ruta: href, nombre }) => (
+            <li key={href}>
+              <Link
+                href={href}
+                onClick={cerrar}
+                aria-current={
+                  ruta === href || ruta.startsWith(`${href}/`)
+                    ? "page"
+                    : undefined
+                }
+                className="flex min-h-[48px] items-center rounded-s px-3 py-2 text-p font-medio text-texto-principal hover:bg-fondo-suave aria-[current=page]:bg-fondo-suave aria-[current=page]:text-texto-enlace aria-[current=page]:underline lg:px-2"
+              >
+                {nombre}
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <BotonEnlace
+          href="/pedir-cita"
+          onClick={cerrar}
+          className="mt-3 w-full lg:mt-0 lg:w-auto"
+        >
           Pedir mi cita
         </BotonEnlace>
-        {/* Móvil: menú nativo sin estado propio; se cierra al navegar porque cambia la ruta. */}
-        <details key={ruta} className="relative md:hidden">
-          <summary
-            aria-label="Abrir menú"
-            className="flex min-h-[48px] min-w-[48px] cursor-pointer list-none items-center justify-center rounded-m [&::-webkit-details-marker]:hidden"
-          >
-            <Menu className="size-[24px]" aria-hidden="true" />
-          </summary>
-          <nav
-            aria-label="Principal"
-            className={cn(
-              "absolute right-0 top-full mt-3 flex w-[256px] flex-col gap-1 rounded-l border border-borde-suave bg-fondo-superficie p-4 shadow-flotante",
-            )}
-          >
-            {enlaces}
-            <BotonEnlace href="/pedir-cita" className="mt-3">
-              Pedir mi cita
-            </BotonEnlace>
-          </nav>
-        </details>
-      </div>
+      </nav>
     </header>
   );
 }

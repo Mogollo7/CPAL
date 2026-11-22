@@ -1,14 +1,12 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { AlertCircle, ArrowLeft, CheckCircle2 } from "lucide-react";
 import { Titulo } from "@/componentes/atomos/titulo";
 import { claseBoton } from "@/componentes/atomos/boton";
 import { Campo } from "@/componentes/moleculas/campo";
 import { solicitarEnlaceAccion } from "@/servidor/cuentas/acciones";
-import accesoRecuperar from "@/contenido/ilustraciones/acceso-recuperar.webp";
 
 export default function PaginaRecuperarClave() {
   const [enviado, setEnviado] = useState(false);
@@ -29,9 +27,8 @@ export default function PaginaRecuperarClave() {
   };
 
   return (
-    <div className="w-full max-w-[1080px] bg-fondo-superficie rounded-xl shadow-flotante p-5 grid grid-cols-1 md:grid-cols-2 gap-5 items-stretch">
-      {/* Columna izquierda: formulario e información */}
-      <div className="flex flex-col justify-center p-6 w-full max-w-[464px] mx-auto">
+    <div className="reticula-capl w-full max-w-[34rem] rounded-l bg-fondo-superficie p-4 shadow-flotante sm:p-6">
+      <div className="col-span-4 min-w-0">
         <div className="mb-5">
           <Titulo nivel="h1" tamano="seccion">
             Recuperar contraseña
@@ -111,17 +108,6 @@ export default function PaginaRecuperarClave() {
             </div>
           </form>
         )}
-      </div>
-
-      {/* Columna derecha: panel lavanda con la ilustración centrada */}
-      <div className="flex items-center justify-center bg-morado-100 rounded-l p-5">
-        <Image
-          src={accesoRecuperar}
-          alt=""
-          sizes="486px"
-          priority
-          className="w-full max-w-[420px] h-auto object-contain"
-        />
       </div>
     </div>
   );

@@ -252,42 +252,40 @@ export function GestorHorario({
         </div>
       )}
 
-      <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-4">
-        <TarjetaPanel>
+      <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
+        <TarjetaPanel className="hidden min-w-0 md:block">
           <Titulo tamano="tarjeta" className="text-subtitulo">
             Horario semanal
           </Titulo>
           <p className="text-caption text-texto-secundario mb-4">
             Hora de Bogotá
           </p>
-          <div className="overflow-x-auto">
-            <div className="grid grid-cols-5 min-w-[500px] border-l border-borde-suave">
-              {DIAS_SEMANA.map((dia) => (
-                <div
-                  key={dia.num}
-                  className="border-r border-borde-suave min-h-[300px]"
-                >
-                  <p className="font-medio text-texto-titulo px-2 pb-2">
-                    {dia.nombre}
-                  </p>
-                  <div className="border-t border-borde-suave p-1 space-y-1">
-                    {bloques
-                      .filter((b) => b.diaSemana === dia.num)
-                      .map((b) => (
-                        <div
-                          key={b.id}
-                          className="rounded-s bg-menta-100 p-2 text-caption text-petroleo-700"
-                        >
-                          <strong>
-                            {minutosAHora(b.inicioMin)}–{minutosAHora(b.finMin)}
-                          </strong>
-                          <span className="block">Disponible</span>
-                        </div>
-                      ))}
-                  </div>
+          <div className="grid grid-cols-5 border-l border-borde-suave">
+            {DIAS_SEMANA.map((dia) => (
+              <div
+                key={dia.num}
+                className="min-w-0 border-r border-borde-suave"
+              >
+                <p className="font-medio text-texto-titulo px-2 pb-2">
+                  {dia.nombre}
+                </p>
+                <div className="border-t border-borde-suave p-1 space-y-1">
+                  {bloques
+                    .filter((b) => b.diaSemana === dia.num)
+                    .map((b) => (
+                      <div
+                        key={b.id}
+                        className="rounded-s bg-menta-100 p-2 text-caption text-petroleo-700"
+                      >
+                        <strong>
+                          {minutosAHora(b.inicioMin)}–{minutosAHora(b.finMin)}
+                        </strong>
+                        <span className="block">Disponible</span>
+                      </div>
+                    ))}
                 </div>
-              ))}
-            </div>
+              </div>
+            ))}
           </div>
         </TarjetaPanel>
         <TarjetaPanel>
@@ -339,14 +337,14 @@ export function GestorHorario({
         </div>
 
         {/* Columnas por día de la semana (Lunes a Viernes) */}
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
+        <div className="reticula-capl gap-4">
           {DIAS_SEMANA.map((dia) => {
             const bloquesDia = bloques.filter((b) => b.diaSemana === dia.num);
 
             return (
               <div
                 key={dia.num}
-                className="p-3 rounded-m bg-fondo-suave/60 border border-borde-suave flex flex-col justify-between min-h-[220px]"
+                className="col-span-4 flex min-w-0 flex-col justify-between rounded-m border border-borde-suave bg-fondo-suave/60 p-3 sm:col-span-2 min-[1600px]:col-span-1"
               >
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-borde-suave/60">
@@ -366,7 +364,7 @@ export function GestorHorario({
                         key={bloque.id}
                         className="p-2 rounded-s bg-fondo-superficie border border-borde-suave shadow-2xs space-y-2"
                       >
-                        <div className="flex items-center gap-2 text-caption">
+                        <div className="grid grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] items-center gap-1 text-caption">
                           <input
                             type="time"
                             value={minutosAHora(bloque.inicioMin)}

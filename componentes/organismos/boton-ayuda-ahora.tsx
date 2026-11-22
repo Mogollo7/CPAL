@@ -8,7 +8,7 @@ export function BotonAyudaAhora() {
     <BotonEnlace
       href="/ayuda-inmediata"
       tipo="ayuda"
-      className="fixed bottom-4 right-4 z-50 py-5 sm:bottom-[34px] sm:right-[34px]"
+      className="fixed right-4 bottom-[max(1rem,env(safe-area-inset-bottom))] z-50 max-w-[calc(100%-2rem)] px-4 py-2 lg:right-[34px] lg:bottom-[34px] lg:px-5 lg:py-5"
     >
       <LifeBuoy className="size-[22px]" aria-hidden="true" />
       Necesito ayuda ahora

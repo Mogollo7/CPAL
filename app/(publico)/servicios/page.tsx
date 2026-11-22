@@ -76,7 +76,7 @@ export default function ServiciosPage() {
               <Image
                 src={ILUSTRACIONES[s.slug] ?? formacion}
                 alt=""
-                sizes="(min-width: 900px) 384px, 100vw"
+                sizes="(min-width: 900px) 384px, (min-width: 480px) 420px, calc(100vw - 32px)"
                 className="mx-auto w-full max-w-[420px]"
               />
             </article>
@@ -87,12 +87,12 @@ export default function ServiciosPage() {
       {/* ¿No sabes qué elegir? · orientación */}
       <section
         aria-labelledby="titulo-orientacion"
-        className="mt-[120px] grid items-center gap-bloque bg-petroleo-700 px-4 py-seccion text-blanco sm:px-borde md:min-h-[800px] md:grid-cols-[522px_470px] md:justify-center md:gap-[64px]"
+        className="mt-[120px] grid items-center gap-bloque bg-petroleo-700 px-4 py-seccion text-blanco sm:px-borde md:min-h-[800px] md:grid-cols-[minmax(0,522px)_minmax(0,470px)] md:justify-center"
       >
         <Image
           src={acompanamiento}
           alt=""
-          sizes="522px"
+          sizes="(min-width: 1200px) 522px, (min-width: 900px) 44vw, (min-width: 600px) 522px, calc(100vw - 32px)"
           className="mx-auto w-full max-w-[522px]"
         />
         <div className="space-y-5">

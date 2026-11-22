@@ -31,7 +31,7 @@ export function Titulo({
     <Etiqueta
       id={id}
       className={cn(
-        "font-titulo font-fuerte text-texto-titulo text-balance",
+        "font-titulo font-fuerte text-texto-titulo text-balance wrap-anywhere",
         TAMANOS[tamano],
         className,
       )}

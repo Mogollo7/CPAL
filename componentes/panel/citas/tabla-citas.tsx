@@ -62,9 +62,47 @@ export function TablaCitas({
   }
 
   return (
-    <div className="mt-5">
+    <div className="@container mt-5">
+      <ul
+        aria-label="Resultados de citas"
+        className="reticula-capl @min-[48rem]:hidden"
+      >
+        {citas.map((cita) => {
+          const { fecha, hora } = formatearFechaBogota(cita.inicio);
+          return (
+            <li
+              key={cita.id}
+              className="col-span-4 min-w-0 rounded-m border border-borde-suave bg-fondo-superficie p-4 wrap-anywhere @min-[34rem]:col-span-2"
+            >
+              <p className="text-caption text-texto-secundario">
+                {cita.codigo}
+              </p>
+              <h2 className="text-h2 font-fuerte">
+                {cita.pacienteNombre || cita.solicitanteNombre}
+              </h2>
+              <p className="mt-2 text-p">{cita.servicio}</p>
+              <p className="text-p text-texto-secundario">
+                {cita.psicologoNombre || "Por asignar"}
+              </p>
+              <p className="mt-2 text-p font-medio">
+                {fecha} · {hora}
+              </p>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
+                <PildoraEstado estado={cita.estado} />
+                <BotonEnlace
+                  tipo="borde"
+                  aria-label={`Ver cita ${cita.codigo}`}
+                  href={`${RUTA_CITAS}/${cita.id}`}
+                >
+                  Ver detalle
+                </BotonEnlace>
+              </div>
+            </li>
+          );
+        })}
+      </ul>
       <div
-        className="overflow-x-auto"
+        className="hidden overflow-x-auto @min-[48rem]:block"
         tabIndex={0}
         role="region"
         aria-label="Resultados de citas"

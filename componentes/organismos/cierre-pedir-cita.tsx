@@ -47,7 +47,7 @@ export function CierrePedirCita({
       className="relative z-10 -mb-[103px] pt-[80px]"
     >
       <Llamado titulo={titulo} bajada={bajada} />
-      <div className="relative mt-[93px] h-[500px] w-full">
+      <div className="relative mt-bloque min-h-[clamp(15rem,42vw,31.25rem)] w-full px-borde">
         <svg
           aria-hidden="true"
           viewBox="0 0 1280 500"
@@ -59,8 +59,8 @@ export function CierrePedirCita({
         <Image
           src={ilustracion}
           alt=""
-          sizes="440px"
-          className="relative mx-auto -mt-5 w-[440px]"
+          sizes="(min-width: 500px) 440px, calc(100vw - 32px)"
+          className="relative mx-auto h-auto w-full max-w-[440px]"
         />
       </div>
     </section>
