@@ -1,5 +1,6 @@
 // Puertas de entrada para quien necesita enviar un correo de E06: encolar (lo normal) o enviar ya (código de ingreso).
 import { bd } from "../bd";
+import { cifrar } from "../citas/cifrado";
 import { encolar, llaveCorreo } from "../cola";
 import { enviarCorreo, type ResultadoEnvio } from "../externos/resend";
 import { prepararCorreo, type Payloads } from "./preparar";
@@ -21,7 +22,11 @@ export function encolarPlantilla<N extends NombrePlantilla>(
     {
       tipo: "CORREO",
       llave: llaveCorreo(plantilla, entidad, opciones.version),
-      datos: { plantilla, ...p },
+      datos: {
+        plantilla,
+        ...p,
+        ...(typeof p.token === "string" && { token: cifrar(p.token) }),
+      },
       citaId: typeof p.citaId === "string" ? p.citaId : undefined,
     },
     cliente,

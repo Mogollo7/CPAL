@@ -16,10 +16,12 @@ import { listarPsicologosDeServicio, obtenerCupos } from "./citas/cupos";
 import * as citasGestion from "./citas/gestion";
 import * as correoPanel from "./correo/panel";
 import { exigirClaveReciente, obtenerSesion } from "./cuentas/sesionActual";
+import { exigirSuperusuario } from "./cuentas/superusuario";
 import * as eventos from "./eventos/eventos";
 import { exigir, type Sesion } from "./permisos";
 import * as perfil from "./psicologos/perfil";
 import * as psicologos from "./psicologos/psicologos";
+import { limpiarCuentasDePrueba } from "./psicologos/cuentasDePrueba";
 
 /** Acción sensible: administrador con contraseña confirmada hace menos de 10 minutos; si no, `CONFIRMACION_REQUERIDA`. */
 async function sensible<T>(
@@ -107,20 +109,64 @@ export const listarPsicologosAccion = async () =>
   psicologos.listarPsicologos(await obtenerSesion());
 export const verPsicologoAccion = async (id: string) =>
   psicologos.verPsicologo(await obtenerSesion(), id);
-export const crearPsicologoAccion = async (entrada: unknown) =>
-  psicologos.crearPsicologo(await obtenerSesion(), entrada);
+export const crearPsicologoAccion = async (
+  entrada: unknown,
+  prueba?: boolean,
+) =>
+  prueba === true
+    ? sensible((s) => psicologos.crearPsicologo(s, entrada, true))
+    : psicologos.crearPsicologo(await obtenerSesion(), entrada);
 export const actualizarPsicologoAccion = async (entrada: unknown) =>
   psicologos.actualizarPsicologo(await obtenerSesion(), entrada);
-export const reenviarInvitacionAccion = async (id: string) =>
-  psicologos.reenviarInvitacion(await obtenerSesion(), id);
-export const listarAdministradoresAccion = async () =>
-  psicologos.listarAdministradores(await obtenerSesion());
+async function puedeGestionarAdministradores(s: Sesion | null) {
+  return (await exigirSuperusuario(s)).ok;
+}
+export const reenviarInvitacionAccion = async (id: string) => {
+  const s = await obtenerSesion();
+  return psicologos.reenviarInvitacion(
+    s,
+    id,
+    await puedeGestionarAdministradores(s),
+  );
+};
+export const listarAdministradoresAccion = async () => {
+  const permiso = await exigirSuperusuario(await obtenerSesion());
+  return permiso.ok ? psicologos.listarAdministradores(permiso.datos) : permiso;
+};
 /** Sensible: crear administradores. */
-export const crearAdministradorAccion = async (entrada: unknown) =>
-  sensible((s) => psicologos.crearAdministrador(s, entrada));
+export const crearAdministradorAccion = async (
+  entrada: unknown,
+  prueba?: boolean,
+) =>
+  sensible(async (s) => {
+    if (!(await puedeGestionarAdministradores(s)))
+      return fallo(
+        "SIN_PERMISO",
+        "Solo el superusuario puede crear administradores.",
+      );
+    return psicologos.crearAdministrador(s, entrada, prueba === true);
+  });
 /** Sensible: activar o desactivar a un psicólogo o a un administrador (`{ id, activo }`). */
 export const cambiarActivoAccion = async (entrada: unknown) =>
-  sensible((s) => psicologos.cambiarActivo(s, entrada));
+  sensible(async (s) =>
+    psicologos.cambiarActivo(
+      s,
+      entrada,
+      await puedeGestionarAdministradores(s),
+    ),
+  );
+
+export const limpiarCuentasDePruebaAccion = async (id?: string) =>
+  sensible((s) => {
+    if (
+      id !== undefined &&
+      (typeof id !== "string" || !id.trim() || id.length > 100)
+    )
+      return Promise.resolve(
+        fallo("VALIDACION", "Selecciona una cuenta válida."),
+      );
+    return limpiarCuentasDePrueba(s, id);
+  });
 
 // --- Administración: centro -----------------------------------------------------------------------------------
 

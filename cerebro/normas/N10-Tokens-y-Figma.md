@@ -89,7 +89,7 @@ Todo vive en **una sola página** porque Figma solo enlaza prototipos dentro de 
 | Sección | Contenido |
 |---------|-----------|
 | 0 · Biblioteca CAPL | Columnas **Átomos** (Botón 5 tipos × 4 estados, Ilustración con prompt, Píldora de estado, Píldora de hora, Avatar, Etiqueta, Casilla, Interruptor) → **Moléculas** (Campo de texto, Aviso, Opción en tarjeta, Indicador de pasos, Acordeón, tarjetas de paso, servicio, evento, psicólogo y flotante, Fila de cita, botón de ayuda) → **Organismos** (Encabezado público y móvil, Pie, Hero carrusel, Barra lateral del panel) → **Plantillas** (página pública, formulario de cita, panel) |
-| 1 · Sitio público | Inicio, Cómo funciona, Servicios, Equipo, Eventos, Detalle de evento, Ayuda inmediata, Preguntas frecuentes, Contacto + popups Cookies, Privacidad, Inscripción lista, Respiración |
+| 1 · Sitio público | Inicio, Cómo funciona, Servicios, Equipo, Eventos, Detalle de evento, Ayuda inmediata, Contacto + popups Cookies, Privacidad, Inscripción lista, Respiración |
 | 2 · Pedir cita y Mi cita | Pasos 1–5, Confirmación, `/cita/[token]`, cita cancelada + popup Cancelar cita |
 | 3 · Acceso y panel del psicólogo | Ingresar, Código de verificación, Recuperar y Crear contraseña, Mis citas, Mi horario, Mi perfil, Mi cuenta + popup Bloquear horario |
 | 4 · Panel de administración | Bandeja, Detalle de cita, Calendario, Psicólogos (lista, nuevo, detalle), Eventos (lista, editor), Fechas bloqueadas, Servicios, Configuración + popups Autorizar, Rechazar, Desactivar |

@@ -12,6 +12,7 @@ dist/
 # Entorno y secretos (CERO SECRETOS)
 .env
 .env*.local
+.env.respaldo
 *.pem
 
 # Registros y depuración
@@ -32,6 +33,7 @@ SKILL.md
 # Archivos de subida locales de prueba
 public/archivos/
 datos/archivos/
+datos/buzon/
 
 *.tsbuildinfo
 next-env.d.ts
@@ -42,3 +44,4 @@ servidor/generado/
 # Herramientas locales de agentes
 .playwright-mcp/
 results.sarif
+.playwright-cli/

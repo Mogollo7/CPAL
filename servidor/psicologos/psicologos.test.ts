@@ -1,5 +1,7 @@
 // Contra la BD local; se omite sin DATABASE_URL (CI). Usa datos propios (correos "t205-…") y los borra al final.
-import { afterAll, beforeAll, describe, expect, it } from "vitest";
+import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
+import { descifrar } from "../citas/cifrado";
+import { hashToken } from "../cuentas/enlaces";
 
 try {
   process.loadEnvFile();
@@ -154,7 +156,10 @@ describe.skipIf(!process.env.DATABASE_URL)(
       expect(t!.datos).toMatchObject({
         plantilla: "invitacion",
         tokenId: enlace.id,
+        token: expect.stringMatching(/^v\d+\./),
       });
+      const guardado = t!.datos as { token: string };
+      expect(hashToken(descifrar(guardado.token))).toBe(enlace.tokenHash);
       expect(
         await bd.auditoria.count({
           where: {
@@ -337,6 +342,43 @@ describe.skipIf(!process.env.DATABASE_URL)(
       expect(await ops.verPsicologo(admin, admin.usuarioId)).toMatchObject({
         codigo: "NO_ENCONTRADO",
       }); // un admin no es psicólogo
+    });
+
+    it("solo el superusuario puede borrar cuentas marcadas y conserva las demás", async () => {
+      const { limpiarCuentasDePrueba } = await import("./cuentasDePrueba");
+      vi.stubEnv("ENTORNO", "local");
+      vi.stubEnv("SUPERUSUARIO_CORREO", `t205-admin@${DOM}`);
+      try {
+        const r = await ops.crearPsicologo(admin, nuevo("eliminable"), true);
+        if (r.ok) creados.push(r.datos.id);
+        expect(r).toMatchObject({ ok: true, datos: { estado: "INVITADO" } });
+        if (!r.ok) return;
+
+        expect(await limpiarCuentasDePrueba(psi, r.datos.id)).toMatchObject({
+          codigo: "SIN_PERMISO",
+        });
+        expect(
+          await limpiarCuentasDePrueba(admin, psi.usuarioId),
+        ).toMatchObject({ codigo: "NO_ENCONTRADO" });
+        const token = await bd.tokenAcceso.findFirstOrThrow({
+          where: { usuarioId: r.datos.id },
+        });
+        expect(await limpiarCuentasDePrueba(admin, r.datos.id)).toEqual({
+          ok: true,
+          datos: { eliminadas: 1, conCitas: 0 },
+        });
+        expect(await bd.usuario.count({ where: { id: psi.usuarioId } })).toBe(
+          1,
+        );
+        expect(await bd.usuario.count({ where: { id: r.datos.id } })).toBe(0);
+        expect(
+          await bd.trabajo.count({
+            where: { llave: `correo:invitacion:${token.id}:1` },
+          }),
+        ).toBe(0);
+      } finally {
+        vi.unstubAllEnvs();
+      }
     });
   },
 );

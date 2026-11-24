@@ -29,6 +29,7 @@ jobs:
       DATABASE_URL: postgresql://capl_app:app_local@localhost:5433/capl
       DATABASE_URL_MIGRADOR: postgresql://capl_migrador:migrador_local@localhost:5433/capl
       AUTH_SECRET: solo-para-la-ci-no-es-un-secreto-real-0123456789
+      CLAVE_CIFRADO: "1:AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
       URL_SITIO: http://localhost:3000
       CORREO_MODO: consola
       CORREO_RESPUESTA: citas@ejemplo.test

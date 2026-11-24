@@ -15,8 +15,14 @@ import { auditar } from "../auditoria";
 import { bd } from "../bd";
 import { configuracionActual, dominioPermitido } from "../centro/configuracion";
 import { esDuplicado, validar } from "../centro/validar";
+import {
+  correoSuperusuario,
+  exigirSuperusuario,
+  permiteCuentasDePrueba,
+} from "../cuentas/superusuario";
 import { exigir, exigirOtroAdminActivo, type Sesion } from "../permisos";
 import { enviarInvitacion } from "./invitacion";
+import { ALTA_CUENTA_PRUEBA } from "./cuentasDePrueba";
 
 type Fila = {
   id: string;
@@ -68,7 +74,18 @@ async function altaInvitada(
   sesion: { usuarioId: string },
   rol: "ADMIN" | "PSICOLOGO",
   a: Alta,
+  prueba = false,
 ): Promise<Resultado<UsuarioResumen>> {
+  if (a.correo === correoSuperusuario())
+    return fallo(
+      "CORREO_EN_USO",
+      "Ese correo está reservado para el superusuario.",
+    );
+  if (prueba && !permiteCuentasDePrueba())
+    return fallo(
+      "SIN_PERMISO",
+      "Las cuentas de prueba se habilitan en entornos de desarrollo y pruebas.",
+    );
   const c = await revisarCorreo(a.correo);
   if (!c.ok) return c;
   try {
@@ -92,6 +109,16 @@ async function altaInvitada(
         },
         tx,
       );
+      if (prueba)
+        await auditar(
+          {
+            usuarioId: sesion.usuarioId,
+            accion: ALTA_CUENTA_PRUEBA,
+            entidad: "Usuario",
+            entidadId: fila.id,
+          },
+          tx,
+        );
       return fila;
     });
     return ok(resumen(u));
@@ -107,24 +134,25 @@ async function altaInvitada(
 export async function crearPsicologo(
   sesion: Sesion | null | undefined,
   entrada: unknown,
+  prueba = false,
 ): Promise<Resultado<UsuarioResumen>> {
-  const p = exigir(sesion, "ADMIN");
+  const p = prueba ? await exigirSuperusuario(sesion) : exigir(sesion, "ADMIN");
   if (!p.ok) return p;
   const v = validar(crearPsicologoSchema, entrada);
   if (!v.ok) return v;
-  return altaInvitada(p.datos, "PSICOLOGO", v.datos);
+  return altaInvitada(p.datos, "PSICOLOGO", v.datos, prueba);
 }
 
 export async function crearAdministrador(
   sesion: Sesion | null | undefined,
   entrada: unknown,
+  prueba = false,
 ): Promise<Resultado<UsuarioResumen>> {
-  const p = exigir(sesion, "ADMIN");
+  const p = prueba ? await exigirSuperusuario(sesion) : exigir(sesion, "ADMIN");
   if (!p.ok) return p;
-  // ponytail: S02 pide además exigirConfirmacionReciente() (acción sensible); se conecta con T-217.
   const v = validar(crearAdministradorSchema, entrada);
   if (!v.ok) return v;
-  return altaInvitada(p.datos, "ADMIN", v.datos);
+  return altaInvitada(p.datos, "ADMIN", v.datos, prueba);
 }
 
 async function listar(
@@ -220,6 +248,7 @@ export async function actualizarPsicologo(
 export async function cambiarActivo(
   sesion: Sesion | null | undefined,
   entrada: unknown,
+  gestionarAdministradores = true,
 ): Promise<Resultado<UsuarioResumen>> {
   const p = exigir(sesion, "ADMIN");
   if (!p.ok) return p;
@@ -230,10 +259,17 @@ export async function cambiarActivo(
   return bd.$transaction(async (tx) => {
     const objetivo = await tx.usuario.findUnique({
       where: { id },
-      select: { rol: true },
+      select: { rol: true, correo: true },
     });
     if (!objetivo)
       return fallo("NO_ENCONTRADO", "No encontramos a esa persona.");
+    if (objetivo.correo === correoSuperusuario())
+      return fallo("SIN_PERMISO", "La cuenta de superusuario está protegida.");
+    if (objetivo.rol === "ADMIN" && !gestionarAdministradores)
+      return fallo(
+        "SIN_PERMISO",
+        "Solo el superusuario puede cambiar el estado de un administrador.",
+      );
     if (!activo) {
       if (objetivo.rol === "ADMIN") {
         const otro = await exigirOtroAdminActivo(id, tx);
@@ -258,7 +294,7 @@ export async function cambiarActivo(
     }
     const u = await tx.usuario.update({
       where: { id },
-      data: { activo },
+      data: activo ? { activo } : { activo, sesionesDesde: new Date() },
       include: INCLUIR,
     });
     await auditar(
@@ -279,6 +315,7 @@ export async function cambiarActivo(
 export async function reenviarInvitacion(
   sesion: Sesion | null | undefined,
   id: unknown,
+  gestionarAdministradores = true,
 ): Promise<Resultado<{ ok: true }>> {
   const p = exigir(sesion, "ADMIN");
   if (!p.ok) return p;
@@ -288,6 +325,13 @@ export async function reenviarInvitacion(
     const u = await tx.usuario.findUnique({ where: { id: v.datos } });
     if (!u || !u.activo)
       return fallo("NO_ENCONTRADO", "No encontramos a esa persona.");
+    if (u.correo === correoSuperusuario())
+      return fallo("SIN_PERMISO", "La cuenta de superusuario está protegida.");
+    if (u.rol === "ADMIN" && !gestionarAdministradores)
+      return fallo(
+        "SIN_PERMISO",
+        "Solo el superusuario puede reenviar la invitación de un administrador.",
+      );
     if (u.claveHash)
       return fallo("TRANSICION_INVALIDA", "Esa persona ya creó su contraseña.");
     await enviarInvitacion(u, tx);

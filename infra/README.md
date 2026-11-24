@@ -96,8 +96,7 @@ Primera vez en el servidor:
 1. Instalar Docker, crear el usuario de despliegue (grupo `docker`) y clonar el repositorio en `/srv/capl-pruebas`.
 2. Crear `infra/.env` a partir de `.env.example` con `ENTORNO=pruebas`, `DOMINIO`, `POSTGRES_PASSWORD`, `AUTH_SECRET`, `CLAVE_CIFRADO`, `CRON_SECRET`, las llaves de Resend y las dos URL de base de datos apuntando a `db:5432`.
 3. Si el paquete de GitHub es privado: `docker login ghcr.io` con un token de solo lectura de paquetes.
-4. `docker compose -p capl-pruebas -f compose.produccion.yml up -d db` y **cambiar las claves de desarrollo** de los roles:
-   `docker compose -p capl-pruebas -f compose.produccion.yml exec db psql -U capl -c "ALTER ROLE capl_app PASSWORD '…'; ALTER ROLE capl_migrador PASSWORD '…';"` (las mismas que en las URL de `infra/.env`).
+4. Para un volumen nuevo, configura `CAPL_APP_PASSWORD` y `CAPL_MIGRADOR_PASSWORD` con dos secretos distintos que coincidan con las respectivas URL de PostgreSQL. Arranca la base con `docker compose -p capl-pruebas -f compose.produccion.yml up -d db`. En volúmenes existentes, rota por separado las credenciales que se hayan inicializado con valores de desarrollo.
 5. En GitHub, crear los secretos `SSH_HOST`, `SSH_USER` y `SSH_KEY`, y lanzar el flujo «Desplegar a pruebas».
 6. Apuntar el DNS de `DOMINIO` al servidor: Caddy pide el certificado solo.
 

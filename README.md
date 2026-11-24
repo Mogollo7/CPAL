@@ -21,7 +21,15 @@ Comprobaciones: `npm run lint`, `npm run tipos`, `npm run pruebas`, `npm run bui
 
 La semilla crea usuarios de **ejemplo** (ningún dato real). Contraseña de prueba de todos: `clave-de-prueba-capl`.
 Psicólogos: `psicologo1@ejemplo.test` … `psicologo4@ejemplo.test` (el 4 está inactivo).
-El administrador (`admin@ejemplo.test`, o el de `ADMIN_INICIAL_CORREO`) pide segundo paso, que llega en T-217.
+El administrador (`admin@ejemplo.test`, o el de `ADMIN_INICIAL_CORREO`) pide un código de verificación al entrar en un dispositivo nuevo.
+
+### Gestión de cuentas de prueba
+
+Entra por `/ingresar` y abre **Equipo**. En local, el administrador inicial es el superusuario por defecto. Para designar otro, configura `SUPERUSUARIO_CORREO` con el correo de un administrador existente y reinicia la app. En otros entornos, la designación es explícita.
+
+Con `ENTORNO=local`, `CORREO_MODO=consola` y `CORREO_BUZON_LOCAL=./datos/buzon` los códigos de verificación se guardan en archivos de texto del buzón local. Después de crear una cuenta, ejecuta `npm run correos:procesar-local` para guardar el correo de invitación y abrir su enlace. Para probar otra cuenta mientras conservas tu sesión, abre ese enlace en otro perfil del navegador o en una ventana privada.
+
+Marca **Cuenta de prueba** al crear las cuentas que quieras poder borrar. El superusuario puede eliminarlas individualmente o usar **Limpiar cuentas de prueba** en entornos local y de pruebas. Las cuentas de ejemplo, las cuentas sin esa marca y las cuentas con citas quedan fuera de la limpieza. Para retirar el acceso conservando el historial, usa **Desactivar**.
 
 ## Carpetas y dueños
 

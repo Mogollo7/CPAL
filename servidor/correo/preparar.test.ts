@@ -18,7 +18,7 @@ describe.skipIf(!process.env.DATABASE_URL)(
     beforeAll(async () => {
       vi.spyOn(process.stdout, "write").mockImplementation(() => true);
       process.env.URL_SITIO = "https://pruebas.ejemplo.test";
-      process.env.AUTH_SECRET = "secreto-de-prueba";
+      process.env.AUTH_SECRET = "secreto-de-prueba-largo-para-correos";
       ({ bd } = await import("../bd"));
       preparar = await import("./preparar");
       enviar = await import("./enviar");

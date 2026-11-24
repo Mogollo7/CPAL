@@ -6,7 +6,7 @@ export const enlaceFaqSchema = z.object({
   url: z.string().min(1),
 });
 
-// Pregunta frecuente individual (acordeón en /preguntas-frecuentes, RF-PUB-04)
+// Pregunta frecuente individual (acordeón en Inicio y Servicios, RF-PUB-04)
 export const preguntaFaqSchema = z.object({
   id: z.string().min(1),
   categoria: z.string().min(1),

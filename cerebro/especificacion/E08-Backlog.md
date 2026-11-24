@@ -54,7 +54,7 @@ Las letras son **áreas de trabajo**. El reparto por persona (13-nov-2026) está
 | T-102 | Inicio | A | T-101 | RF-PUB-01; mockup 360 y 1280 |
 | T-103 | Cómo funciona | A | T-101 | RF-PUB-02 |
 | T-104 | Servicios, desde `contenido/servicios.json` | A | T-101 | RF-PUB-03; "Pedir cita" lleva el servicio preseleccionado |
-| T-105 | Preguntas frecuentes | A | T-101 | RF-PUB-04; el acordeón funciona con teclado |
+| T-105 | Preguntas frecuentes (bloque con acordeón en Inicio y Servicios, sin ruta propia) | A | T-101 | RF-PUB-04; el acordeón funciona con teclado |
 | T-106 | Contacto y redes | A | T-101 | RF-PUB-05, 06; teléfono y correo tocables |
 | T-107 | Privacidad y términos | A | T-101 | RF-PUB-09; texto marcado como borrador hasta aprobación |
 | T-108 | `contenido/emergencias.json` con su esquema; página de ayuda inmediata (`/ayuda-inmediata`): tarjetas por código de color (Dorado, Fucsia, Blanco, Rosa), qué hacer / qué no hacer, y directorio de líneas con botón `tel:` | A | T-101 | RF-EMG-01, 02, 04, 05; la página abre incluso con la base de datos detenida; muestra fecha de última revisión |

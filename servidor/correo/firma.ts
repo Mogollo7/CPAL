@@ -17,12 +17,15 @@ export function firmaValida(
   if (!Number.isFinite(marca) || Math.abs(ahora / 1000 - marca) > TOLERANCIA_S)
     return false; // demasiado vieja (o del futuro)
   const clave = Buffer.from(secreto.replace(/^whsec_/, ""), "base64");
+  if (clave.length === 0) return false;
   const esperada = createHmac("sha256", clave)
     .update(`${c.id}.${c.marca}.${cuerpo}`)
     .digest();
   // La cabecera puede traer varias firmas: "v1,abc v1,def".
   return c.firma.split(" ").some((f) => {
-    const dada = Buffer.from(f.split(",")[1] ?? "", "base64");
+    const [version, firma] = f.split(",");
+    if (version !== "v1" || !firma) return false;
+    const dada = Buffer.from(firma, "base64");
     return dada.length === esperada.length && timingSafeEqual(dada, esperada);
   });
 }

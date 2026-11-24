@@ -12,10 +12,12 @@ services:
       POSTGRES_USER: capl
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Falta POSTGRES_PASSWORD en infra/.env}
       POSTGRES_DB: capl
+      CAPL_APP_PASSWORD: ${CAPL_APP_PASSWORD:-}
+      CAPL_MIGRADOR_PASSWORD: ${CAPL_MIGRADOR_PASSWORD:-}
     volumes:
       - datos_db:/var/lib/postgresql/data
-      # Crea capl_app y capl_migrador con claves de desarrollo: CAMBIARLAS tras el primer arranque (infra/README.md).
-      - ./bd/init.sql:/docker-entrypoint-initdb.d/00-roles.sql:ro
+      - ./bd/init-produccion.sh:/docker-entrypoint-initdb.d/00-roles.sh:ro
+      - ./bd/init.sql:/opt/capl/permisos.sql:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U capl"]
       interval: 5s
@@ -28,7 +30,8 @@ services:
     restart: "no"
     depends_on:
       db: { condition: service_healthy }
-    env_file: [.env]
+    environment:
+      DATABASE_URL_MIGRADOR: ${DATABASE_URL_MIGRADOR:?Falta DATABASE_URL_MIGRADOR}
 
   app:
     image: ghcr.io/mogollo7/cpal:${VERSION:-pruebas}
@@ -36,8 +39,23 @@ services:
     depends_on:
       db: { condition: service_healthy }
       migrar: { condition: service_completed_successfully }
-    env_file: [.env]
     environment:
+      DATABASE_URL: ${DATABASE_URL:?Falta DATABASE_URL}
+      ENTORNO: ${ENTORNO:?Falta ENTORNO}
+      AUTH_SECRET: ${AUTH_SECRET:?Falta AUTH_SECRET}
+      CLAVE_CIFRADO: ${CLAVE_CIFRADO:?Falta CLAVE_CIFRADO}
+      URL_SITIO: ${URL_SITIO:?Falta URL_SITIO}
+      CRON_SECRET: ${CRON_SECRET:?Falta CRON_SECRET}
+      SUPERUSUARIO_CORREO: ${SUPERUSUARIO_CORREO:-}
+      RESEND_API_KEYS: ${RESEND_API_KEYS:-}
+      RESEND_WEBHOOK_SECRET: ${RESEND_WEBHOOK_SECRET:-}
+      CORREO_REMITENTE: ${CORREO_REMITENTE:-}
+      CORREO_RESPUESTA: ${CORREO_RESPUESTA:-}
+      CORREO_REDIRIGIR_A: ${CORREO_REDIRIGIR_A:-}
+      CORREO_MODO: ${CORREO_MODO:-consola}
+      CAPL_DIRECCION: ${CAPL_DIRECCION:-}
+      CAPL_TELEFONO: ${CAPL_TELEFONO:-}
+      MEDICION: ${MEDICION:-no}
       RUTA_ARCHIVOS: /archivos
     volumes:
       - archivos:/archivos

@@ -1,10 +1,12 @@
 // Avisos de entrega de Resend (S04, T-332). Firma inválida → 401. Firma válida → siempre 200 (Resend no reintenta por nuestros errores de datos).
 import { firmaValida } from "@/servidor/correo/firma";
+import { textoLimitado } from "@/servidor/cuerpoLimitado";
 import { procesarAviso } from "@/servidor/correo/webhook";
 import { conRegistro, registrar } from "@/servidor/registro";
 
 export const POST = conRegistro(async (req) => {
-  const cuerpo = await req.text();
+  const cuerpo = await textoLimitado(req, 256 * 1024);
+  if (cuerpo === null) return new Response(null, { status: 413 });
   const id = req.headers.get("svix-id") ?? "";
   const ok = firmaValida(
     {

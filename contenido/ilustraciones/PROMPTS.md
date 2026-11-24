@@ -15,23 +15,33 @@ El agente o la persona que genere las ilustraciones debe leer primero estas norm
 | Láminas de referencia                                     | https://github.com/Mogollo7/CPAL/tree/dev/sebas/cerebro/normas/referencias-ilustracion                |
 | Muestras ya generadas                                     | https://github.com/Mogollo7/CPAL/tree/dev/sebas/contenido/ilustraciones/muestras-generadas            |
 
-## Bloque de estilo (pégalo antes de cada prompt)
+## Método para conservar el estilo (obligatorio)
+
+El estilo lo fija una **imagen ancla**, no las palabras: `contenido/ilustraciones/comunidad-unetenos.png`. No se reemplaza ni se retoca.
+
+1. **Se genera solo con el script:** `python scripts/ilustrar.py --nombre <nombre> --formato "<formato>" "<sujeto>"`. Adjunta el ancla, pega el «Bloque de estilo» de abajo (única fuente del texto), pide fondo verde croma y entrega un PNG transparente `<nombre>-vN.png` sin pisar versiones. Usa el CLI de Codex con la sesión de ChatGPT (modelo `gpt-6.1-terra`, sin cobro por imagen; cuenta contra el cupo del plan). Requiere Python con Pillow y numpy.
+2. **El prompt de cada pieza describe solo el sujeto:** qué se dibuja y sobre qué se apoya. Nunca repite ni cambia el estilo.
+3. **Revisión contra el ancla, lado a lado:** grano y textura visibles · paleta del bloque, sin negro puro · trazo fino marrón, no contorno negro · sombras con un tono más oscuro del mismo color · rostros expresivos con mejillas rosadas · sin palabras (números solo si se piden) · bordes limpios sobre `#1B2C65` (pie), crema y `#4850C0` (ola de Inicio).
+4. **Si falla una pieza**, se regenera ajustando solo el sujeto. **Si falla el estilo en varias**, se corrige el bloque o el ancla, no cada prompt.
+5. **La versión aceptada** se anota en el catálogo y se sube a Figma como relleno del rectángulo `Ilustración · …`. Para producción se convierte a WebP con transparencia (calidad 82: la prueba del calendario pasó de 1,8 MB a 120 KB).
+
+La paleta de las ilustraciones (la del ancla) no es la de los tokens de la interfaz (N02): la interfaz usa tokens, las ilustraciones usan el bloque.
+
+## Bloque de estilo (lo lee `scripts/ilustrar.py`; el estilo real lo fija la imagen ancla)
 
 ```
-Ilustración vectorial plana editorial (flat editorial), baja fatiga visual, sensación de hogar y calma.
-Bloques de color planos con CUERPO (tonos medios y saturación media, no pastel pálido ni lavado), SIN contornos ni líneas duras (estilo flat illustration): los bordes los define solo el cambio de color; pliegues y rasgos con formas planas de un tono más oscuro del mismo color, nunca líneas negras ni de tinta.
-Paleta (usa los tonos medios para figuras, ropa y objetos; los claros solo para fondos): lavanda #A9AEEB y morado #4850C0, aguamarina #8FE0E8 y salvia #6FB89A, amarillo miel #FFE066 y #FFCB05; claros de fondo #E6E8FA, #D9F6F9, #FFF5CC, fondo crema (#FFFBF5).
-Proporción: 60 % aire/fondo crema, 30 % lavanda y aguamarina, 10 % miel y trazo.
-Personas: hombros relajados, ropa cómoda de casa, ojos en arco sereno, mejillas circulares, sombra limpia bajo el mentón, piel en gama cálida y diversa.
-Contención libre: sobre manchas orgánicas suaves, alfombra o sillón; sin marcos rígidos.
-SIN: negro puro, degradados, 3D, texto dentro de la imagen, cerebros, nubes negras, pastillas, batas, personas llorando o encogidas, colores neón.
-Fondo transparente o crema plano. Sin grano dentro del archivo (la textura de papel la pone el CSS).
+Ilustración editorial digital con técnica de gouache sobre papel: bloques de color con grano fino y textura de papel visible en todas las superficies, formas redondeadas y orgánicas, calidez y calma, baja fatiga visual, sensación de hogar.
+Volumen con manchas planas de un tono más oscuro del mismo color (pliegues, sombra bajo el mentón, cara en sombra de los objetos) y un trazo muy fino y suave en un tono oscuro cálido del mismo color; nunca negro puro.
+Paleta (tomada de la ancla): ciruela #703858 y morado #975789, lavanda #C288B1, verde azulado #3F625F y gris azulado #869595, mostaza #FA9F5C y naranja #E06733 como acento, amarillo miel #FBC98D, cremas y pieles cálidas #FBDEC1 y #F5D0AD, marrón oscuro #3B2325 para cabello y trazo.
+Personas: proporciones naturales, rostros grandes y expresivos con sonrisa cálida, mejillas rosadas suaves, cabello de mechones planos, ropa cómoda con pliegues de manchas oscuras, piel en gama cálida y diversa, detalles pequeños (aretes, gafas, reloj, zapatillas) con el mismo trazo suave.
+Objetos y plantas: mismo grano, bordes redondeados y la misma regla de un tono más oscuro para la sombra.
+SIN: negro puro, degradados lisos, 3D, brillos, neón, palabras o texto (los números solo si el sujeto los pide), cerebros, nubes negras, pastillas, batas, personas llorando o encogidas.
 ```
 
 ## Entrega
 
-- Formato SVG (WebP/PNG solo en prototipos), con `viewBox`, sin ancho ni alto fijos.
-- Peso: viñeta < 30 KB, escena < 80 KB.
+- Formato: PNG transparente del script en prototipos y WebP con transparencia en producción (el grano va dentro del archivo, no se puede pasar a SVG sin perder el estilo del ancla).
+- Peso en producción: viñeta o recorte pequeño < 150 KB, escena < 300 KB (sirve la versión a 1000 px de ancho).
 - Carpeta: `contenido/ilustraciones/` con el nombre exacto de la tabla.
 - Proporción: escena 1,618 : 1 (o 16 : 9) · viñeta 1 : 1.
 
@@ -123,6 +133,30 @@ Láminas: https://github.com/Mogollo7/CPAL/tree/dev/sebas/cerebro/normas/referen
 | ILU-23  | `ilu-vineta-neuropsicologia.svg`   | Viñeta | Servicio · Neuropsicología               | Libro abierto, hojas redondas y una lámpara cálida. Sin cerebros.                                                                                                                 |
 | ILU-24  | `ilu-vineta-respiracion.svg`       | Viñeta | Ayuda inmediata · Respira conmigo        | Círculo de hojas salvia que se abre y se cierra; persona sentada en un cojín. Pensada para animarse con anime.js (escala 4 s / 6 s).                                              |
 | ILU-25  | `ilu-vineta-error-calmo.svg`       | Viñeta | Algo falló                               | Planta en maceta con una hoja caída y una regadera cerca, tono sereno.                                                                                                            |
+
+## Imagen dinámica del pie
+
+Cada página muestra en el pie una ilustración **distinta**: un recorte transparente «sentado» sobre el borde superior del pie, igual que la persona del cierre de Inicio se asoma sobre la ola. Da vida sin mover nada y evita la sensación de plantilla repetida.
+
+| Regla          | Valor                                                                                                                     |
+| -------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Posición       | A la derecha, a 42 px del borde. Su base (repisa, suelo o maceta) entra 14 px en el pie y nada tapa las columnas de texto |
+| Tamaño         | 230 px de alto (unos 400 px de ancho en 4:3). En móvil, 150 px de alto y centrada                                         |
+| Fondo detrás   | Debe verse bien sobre crema, sobre `#4850C0` (ola de Inicio) y sobre el pie `#1B2C65`; se revisa en los tres              |
+| Una por página | No repite la ilustración del cierre de esa misma página                                                                   |
+| Accesibilidad  | Decorativa: texto alternativo vacío y sin foco                                                                            |
+
+Mapa propuesto (a validar):
+
+| Página                                    | Ilustración del pie                                                       | Estado                                               |
+| ----------------------------------------- | ------------------------------------------------------------------------- | ---------------------------------------------------- |
+| Eventos · Pedir cita · Mi cita            | **ILU-26** `pie-calendario`: calendario de mesa, taza y planta            | Generada (`pie-calendario-v1.png`), probada en Figma |
+| Inicio                                    | Casa amarilla con un ave en el tejado (ILU-14)                            | Pendiente                                            |
+| Cómo funciona                             | Camino de hojas hacia la puerta                                           | Pendiente                                            |
+| Servicios                                 | Libros, birrete y lámpara cálida                                          | Pendiente                                            |
+| Equipo                                    | Dos tazas tibias y dos cojines                                            | Pendiente                                            |
+| Contacto                                  | Buzón junto a un árbol                                                    | Pendiente                                            |
+| Ayuda inmediata, legales, errores y panel | Ninguna: son pantallas de crisis, de lectura o de trabajo, sin decoración | —                                                    |
 
 ## Animación (opcional)
 

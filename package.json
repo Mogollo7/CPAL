@@ -2,6 +2,11 @@
   "name": "capl",
   "version": "0.1.0",
   "private": true,
+  "overrides": {
+    "@prisma/config": {
+      "effect": "3.22.5"
+    }
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -10,6 +15,7 @@
     "tipos": "tsc --noEmit",
     "pruebas": "vitest run --no-file-parallelism",
     "correos": "tsx correos/vista-previa.ts",
+    "correos:procesar-local": "node --env-file=.env --import tsx scripts/procesar-correos-locales.ts",
     "bd:subir": "docker compose --env-file .env -f infra/compose.yml up -d --wait db",
     "bd:migrar": "prisma migrate deploy",
     "bd:semilla": "prisma db seed",
