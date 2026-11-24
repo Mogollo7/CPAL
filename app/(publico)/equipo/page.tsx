@@ -1,3 +1,4 @@
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import Image from "next/image";
@@ -98,7 +99,7 @@ export default function EquipoPage() {
             docentes supervisores.
           </p>
         </div>
-        <Image
+        <ImagenEditorial
           src={equipoDiverso}
           alt=""
           sizes="(min-width: 1200px) 550px, (min-width: 900px) 45vw, (min-width: 600px) 550px, calc(100vw - 32px)"

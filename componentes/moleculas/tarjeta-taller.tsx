@@ -20,7 +20,7 @@ export function TarjetaTaller({
   return (
     <Link
       href={href}
-      className="capl-imagen-taller group flex aspect-[350/420] flex-col justify-between rounded-l p-5 text-blanco transition-transform duration-(--mov-medio) ease-entrada hover:-translate-y-1"
+      className="capl-imagen-taller group flex aspect-[350/420] flex-col justify-between rounded-l p-5 text-blanco transition-transform duration-(--mov-medio) ease-entrada motion-safe:hover:-translate-y-1"
       data-tinte={tinte === "morado" ? undefined : tinte}
     >
       {imagen && (

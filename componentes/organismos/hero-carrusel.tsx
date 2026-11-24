@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import Image, { type StaticImageData } from "next/image";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
+import { useMovimientoReducido } from "@/componentes/publico/movimiento-reducido";
 import { BotonEnlace } from "../atomos/boton";
 import { cn } from "../cn";
 
@@ -24,7 +25,7 @@ export function HeroCarrusel({
   diapositivas: Diapositiva[];
 }) {
   const [actual, setActual] = useState(0);
-  const movimientoReducido = useReducedMotion();
+  const movimientoReducido = useMovimientoReducido();
   const ir = (paso: number) =>
     setActual((a) => (a + paso + diapositivas.length) % diapositivas.length);
   const d = diapositivas[actual];

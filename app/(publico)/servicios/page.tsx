@@ -1,5 +1,6 @@
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import type { Metadata } from "next";
-import Image, { type StaticImageData } from "next/image";
+import type { StaticImageData } from "next/image";
 import { BotonEnlace } from "@/componentes/atomos/boton";
 import { FondoGrano } from "@/componentes/atomos/fondo-grano";
 import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
@@ -73,7 +74,7 @@ export default function ServiciosPage() {
                   {s.descripcion}
                 </p>
               </div>
-              <Image
+              <ImagenEditorial
                 src={ILUSTRACIONES[s.slug] ?? formacion}
                 alt=""
                 sizes="(min-width: 900px) 384px, (min-width: 480px) 420px, calc(100vw - 32px)"
@@ -89,7 +90,7 @@ export default function ServiciosPage() {
         aria-labelledby="titulo-orientacion"
         className="mt-[120px] grid items-center gap-bloque bg-petroleo-700 px-4 py-seccion text-blanco sm:px-borde md:min-h-[800px] md:grid-cols-[minmax(0,522px)_minmax(0,470px)] md:justify-center md:gap-[64px]"
       >
-        <Image
+        <ImagenEditorial
           src={acompanamiento}
           alt=""
           sizes="(min-width: 1200px) 522px, (min-width: 900px) 44vw, (min-width: 600px) 522px, calc(100vw - 32px)"

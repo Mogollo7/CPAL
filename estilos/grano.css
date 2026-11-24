@@ -99,15 +99,17 @@
 @keyframes caplPulsoRespiracion {
   0%,
   100% {
-    opacity: 0.55;
+    opacity: 1;
   }
   50% {
-    opacity: 0.95;
+    opacity: 0.76;
   }
 }
 
-.capl-pulso-respiracion {
-  animation: caplPulsoRespiracion 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+@media (prefers-reduced-motion: no-preference) {
+  .capl-pulso-respiracion {
+    animation: caplPulsoRespiracion 3s ease-in-out 1;
+  }
 }
 
 /* --------------------------------------------------------------------------
@@ -120,17 +122,11 @@
   }
 }
 
-.capl-marquesina {
-  animation: caplMarquesina 70s linear infinite;
-}
-
-/* Es decorativa (aria-hidden) y lo pidió el diseño: con «reducir movimiento» no se detiene, va a la mitad de velocidad. */
-@media (prefers-reduced-motion: reduce) {
+@media (prefers-reduced-motion: no-preference) {
   .capl-marquesina {
-    animation: caplMarquesina 140s linear infinite !important;
+    animation: caplMarquesina 70s linear infinite paused;
   }
-}
-
-.capl-marquesina:hover {
-  animation-play-state: paused;
+  .capl-retratos:has(input:checked) .capl-marquesina {
+    animation-play-state: running;
+  }
 }

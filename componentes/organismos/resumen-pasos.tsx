@@ -1,3 +1,4 @@
+import { PasoEditorial } from "@/componentes/publico/imagen-editorial";
 import { BotonEnlace } from "../atomos/boton";
 import { Titulo } from "../atomos/titulo";
 
@@ -18,7 +19,7 @@ export function ResumenPasos() {
       <Titulo id="titulo-resumen">¿Cómo pido mi cita?</Titulo>
       <ol className="mt-bloque space-y-[60px] border-l-2 border-morado-300 pl-bloque">
         {PASOS.map(([titulo, texto]) => (
-          <li key={titulo} className="relative space-y-2">
+          <PasoEditorial key={titulo}>
             <span
               aria-hidden="true"
               className="absolute top-[6px] -left-[52px] size-[18px] rounded-circulo bg-accion-fondo"
@@ -27,7 +28,7 @@ export function ResumenPasos() {
               {titulo}
             </h3>
             <p className="text-h2 text-texto-secundario">{texto}</p>
-          </li>
+          </PasoEditorial>
         ))}
       </ol>
       <BotonEnlace href="/pedir-cita" className="mt-bloque">

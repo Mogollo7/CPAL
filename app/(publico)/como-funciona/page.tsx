@@ -1,3 +1,4 @@
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import type { Metadata } from "next";
 import Image from "next/image";
 import { BotonEnlace, claseBoton } from "@/componentes/atomos/boton";
@@ -107,7 +108,7 @@ export default function ComoFunciona() {
             julio de 2019.
           </p>
         </div>
-        <Image
+        <ImagenEditorial
           src={habilitacion}
           alt=""
           sizes="(min-width: 1280px) 613px, (min-width: 900px) 48vw, (min-width: 650px) 613px, calc(100vw - 32px)"
@@ -166,7 +167,7 @@ export default function ComoFunciona() {
           className="mx-auto max-w-[900px]"
         />
         <div className="contents md:relative md:block md:w-full md:max-w-[1000px]">
-          <Image
+          <ImagenEditorial
             src={comunidad}
             alt=""
             sizes="(min-width: 1032px) 1000px, 94vw"
@@ -214,7 +215,7 @@ export default function ComoFunciona() {
           >
             atención y formación con supervisión
           </Titulo>
-          <Image
+          <ImagenEditorial
             src={formacion}
             alt=""
             sizes="541px"
