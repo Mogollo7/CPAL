@@ -1,7 +1,10 @@
 "use client";
 
 import { useActionState, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import accesoIngresar from "@/contenido/ilustraciones/acceso-ingresar.webp";
+import accesoCodigo from "@/contenido/ilustraciones/acceso-codigo.webp";
 import {
   crearClaveAccion,
   ingresarAccion,
@@ -88,39 +91,60 @@ export function Acceso() {
     },
     null,
   );
-  if (paso) return <FormularioCodigo volver={() => setPaso(false)} />;
   return (
-    <>
-      <form action={ingresar} className="grid gap-4">
-        <Campo
-          etiqueta="Correo"
-          name="correo"
-          type="email"
-          autoComplete="username"
-          maxLength={120}
-          required
+    <div className="grid items-stretch gap-4 md:grid-cols-2">
+      <div className="grid min-w-0 content-center gap-4 md:p-6">
+        <h1 className="text-h1 font-fuerte text-texto-titulo">
+          {paso ? "Segundo paso de seguridad" : "Ingresar al panel"}
+        </h1>
+        {paso ? (
+          <FormularioCodigo volver={() => setPaso(false)} />
+        ) : (
+          <>
+            <form action={ingresar} className="grid gap-4">
+              <Campo
+                etiqueta="Correo"
+                name="correo"
+                type="email"
+                autoComplete="username"
+                maxLength={120}
+                required
+              />
+              <Campo
+                etiqueta="Contraseña"
+                name="clave"
+                type="password"
+                autoComplete="current-password"
+                maxLength={200}
+                required
+              />
+              {resultado &&
+                !resultado.ok &&
+                resultado.codigo !== "CODIGO_REQUERIDO" && (
+                  <Aviso error>{resultado.mensaje}</Aviso>
+                )}
+              <Boton disabled={pendiente}>
+                {pendiente ? "Ingresando…" : "Ingresar"}
+              </Boton>
+            </form>
+            <Link
+              href="/recuperar-clave"
+              className="text-texto-enlace underline"
+            >
+              Olvidé mi contraseña
+            </Link>
+          </>
+        )}
+      </div>
+      <div className="ilustracion-ingreso hidden items-center justify-center rounded-l bg-morado-100 p-5 md:flex">
+        <Image
+          src={paso ? accesoCodigo : accesoIngresar}
+          alt=""
+          sizes="(min-width: 1080px) 420px, (min-width: 900px) 40vw, 0px"
+          className="h-auto w-full max-w-[420px] object-contain"
         />
-        <Campo
-          etiqueta="Contraseña"
-          name="clave"
-          type="password"
-          autoComplete="current-password"
-          maxLength={200}
-          required
-        />
-        {resultado &&
-          !resultado.ok &&
-          resultado.codigo !== "CODIGO_REQUERIDO" && (
-            <Aviso error>{resultado.mensaje}</Aviso>
-          )}
-        <Boton disabled={pendiente}>
-          {pendiente ? "Ingresando…" : "Ingresar"}
-        </Boton>
-      </form>
-      <Link href="/recuperar-clave" className="text-texto-enlace underline">
-        Olvidé mi contraseña
-      </Link>
-    </>
+      </div>
+    </div>
   );
 }
 
