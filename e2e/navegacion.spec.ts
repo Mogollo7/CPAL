@@ -49,6 +49,18 @@ test("las llamadas de Ayuda inmediata quedan accesibles a 320 px", async ({
   }
 });
 
+test("la portada de escritorio cabe al activar las dos columnas del sitio", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 900, height: 900 });
+  await page.goto("/");
+  const portada = page.getByRole("region", { name: "Bienvenida" });
+  await expect(portada).toBeVisible();
+  const caja = await portada.boundingBox();
+  expect(caja!.x).toBeGreaterThanOrEqual(0);
+  expect(caja!.x + caja!.width).toBeLessThanOrEqual(900);
+});
+
 for (const ruta of RUTAS) {
   test(`${ruta}: carga, un h1 y sin desborde horizontal en móvil`, async ({
     page,

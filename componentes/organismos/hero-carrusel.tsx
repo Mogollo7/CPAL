@@ -33,7 +33,7 @@ export function HeroCarrusel({
     <section
       aria-roledescription="carrusel"
       aria-label="Bienvenida"
-      className="max-md:escena-inicial relative isolate grid grid-rows-[auto_1fr_auto] justify-items-center gap-4 overflow-hidden rounded-b-xl px-borde pt-bloque pb-[5.5rem] md:flex md:aspect-video md:min-h-[712px] md:max-h-[960px] md:flex-col md:items-center md:gap-0 md:px-4 md:pt-[182px] md:pb-5"
+      className="max-md:escena-inicial relative isolate grid w-full grid-rows-[auto_1fr_auto] justify-items-center gap-4 overflow-hidden rounded-b-xl px-borde pt-bloque pb-[5.5rem] md:flex md:aspect-video md:min-h-[712px] md:max-h-[960px] md:flex-col md:items-center md:gap-0 md:px-4 md:pt-[182px] md:pb-5"
     >
       <div className="relative aspect-video w-full max-w-[30rem] self-end overflow-hidden rounded-l md:absolute md:inset-0 md:-z-10 md:aspect-auto md:h-full md:max-w-none md:rounded-none">
         <AnimatePresence initial={false}>
