@@ -16,6 +16,8 @@ import * as codigoIngreso from "./codigo-ingreso";
 import * as avisoIngreso from "./aviso-ingreso";
 import * as avisoAccesoEmergencia from "./aviso-acceso-emergencia";
 import * as citaReasignada from "./cita-reasignada";
+import * as estadoServidor from "./estado-servidor";
+import * as enlaceCita from "./enlace-cita";
 
 export const plantillas = {
   "solicitud-recibida": solicitudRecibida,
@@ -35,6 +37,10 @@ export const plantillas = {
   // Fuera de E06 (añadidas después):
   "aviso-acceso-emergencia": avisoAccesoEmergencia,
   "cita-reasignada": citaReasignada,
+  // Informe interno para administración (sin línea de ayuda inmediata):
+  "estado-servidor": estadoServidor,
+  // Consulta de cita por código (pie del sitio): envía el enlace privado al correo de la cita:
+  "enlace-cita": enlaceCita,
 };
 
 export type NombrePlantilla = keyof typeof plantillas;

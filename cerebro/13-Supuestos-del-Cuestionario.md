@@ -26,7 +26,7 @@ El código del servidor se completó el 16-nov-2026 **sin esperar** las respuest
 
 ## Lo que NO se supuso y bloquea publicar
 
-- **P-03 y P-04 · Emergencias.** `contenido/emergencias.json` y `contenido/orientador.json` van enteros con `porConfirmar: true`. Los teléfonos son solo los que ya estaban en los requisitos (123, 106, 155, 141, 444 44 48); los textos de «qué hacer / qué no hacer» son redacción del equipo. **No se publica sin aprobación del CAPL y sin llamar a cada número.**
+- **P-03 y P-04 · Emergencias.** `contenido/emergencias.json` y `contenido/orientador.json` van enteros con `porConfirmar: true`. Los teléfonos son solo los que ya estaban en los requisitos (123, 106, 155, 141); los textos de «qué hacer / qué no hacer» son redacción del equipo. **No se publica sin aprobación del CAPL y sin llamar a cada número.**
 - **P-05 · Contenido del sitio.** Las descripciones de los servicios y las preguntas frecuentes son redacción del equipo a partir de los nombres documentados.
 - **P-13 · Menores.** El formulario exige acudiente si es menor, pero los requisitos legales y el texto de consentimiento están sin validar.
 - **Textos legales.** `contenido/legal/privacidad.md` y `terminos.md` son borradores con marcadores `[POR CONFIRMAR]`.

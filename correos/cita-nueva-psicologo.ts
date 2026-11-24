@@ -1,6 +1,5 @@
-import { plantillaBase } from "./base";
+import { plantillaBase, fechaCorreo } from "./base";
 import { RUTAS } from "./centro";
-import { formatoFechaHora } from "../servidor/fechas";
 
 // Sin datos del paciente: se consultan en el panel.
 export type Datos = {
@@ -12,11 +11,16 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-calendario",
+    tono: "#efeefb",
+    disposicion: "fila",
     asunto: "Tienes una nueva cita",
+    titulo: "Tienes una cita nueva",
+    fecha: fechaCorreo(d.inicio, "Sesión asignada"),
+    datos: [{ rotulo: "Servicio", valor: d.servicio }],
+    pie_datos: `Solicitud ${d.codigo}`,
     parrafos: [
-      `Hola, ${d.nombrePsicologo}. Se autorizó una nueva cita en tu agenda.`,
-      `${d.servicio} · ${formatoFechaHora(d.inicio)} · código ${d.codigo}`,
-      "Los datos de la persona están en el panel.",
+      `Hola, ${d.nombrePsicologo}. Se autorizó una nueva cita en tu agenda. Los datos de la persona están en el panel.`,
     ],
     boton: { texto: "Ver mi agenda", ruta: RUTAS.agenda },
   });

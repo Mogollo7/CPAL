@@ -23,6 +23,7 @@ describe.skipIf(!process.env.DATABASE_URL)(
     const dia = 86_400_000;
     const evento = (titulo: string, desdeHoy: number, extra = {}) => ({
       titulo,
+      tipo: "TALLER",
       descripcion: "Descripción",
       inicio: new Date(Date.now() + desdeHoy * dia).toISOString(),
       lugar: "Bloque 3",

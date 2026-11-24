@@ -16,6 +16,12 @@ vi.mock("../cola", async (original) => ({
   })),
 }));
 
+// El informe diario encola un correo real tras las 08:00 (Bogotá); la cola es compartida con cola.test y lo procesaría.
+vi.mock("../informes/estado", async (original) => ({
+  ...(await original<typeof import("../informes/estado")>()),
+  encolarInformeDiario: vi.fn(async () => false),
+}));
+
 describe.skipIf(!process.env.DATABASE_URL)(
   "tarea programada (T-321, T-322, T-323, T-328)",
   () => {

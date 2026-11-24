@@ -68,6 +68,7 @@ describe.skipIf(!process.env.DATABASE_URL)(
         "puedeCancelar",
         "puedeReprogramar",
         "servicio",
+        "servicioId",
       ]);
       expect(JSON.stringify(r.datos)).not.toContain(fila.pacienteDocumento!);
     });

@@ -7,11 +7,18 @@ export type Datos = { nombre: string; inicio: Date; motivo?: string | null };
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-acompanamiento",
+    tono: "#fbeee6",
+    disposicion: "centrada",
     asunto: "No pudimos confirmar tu cita",
     parrafos: [
-      `Hola, ${d.nombre}. No pudimos confirmar tu cita del ${formatoFechaHora(d.inicio)} y lo sentimos.`,
-      ...(d.motivo ? [`Mensaje del equipo: ${d.motivo}`] : []),
-      "Puedes elegir otro horario cuando quieras.",
+      [
+        `Hola, ${d.nombre}. No pudimos confirmar tu cita del ${formatoFechaHora(d.inicio)}.`,
+        d.motivo ? `Mensaje del equipo: ${d.motivo}` : "",
+        "Puedes elegir otro horario cuando quieras.",
+      ]
+        .filter(Boolean)
+        .join(" "),
     ],
     boton: { texto: "Elegir otro horario", ruta: RUTAS.pedirCita },
   });

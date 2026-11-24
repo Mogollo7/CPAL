@@ -73,6 +73,7 @@ export const citaPublicaSchema = z.object({
   codigo: z.string(),
   estado: z.enum(ESTADOS_CITA),
   servicio: z.string(),
+  servicioId: z.string(), // para pedir cupos al reprogramar
   psicologoNombre: z.string(),
   inicio: z.string(),
   fin: z.string(),

@@ -27,8 +27,10 @@ beforeEach(() => {
 });
 
 describe("registro de plantillas (E06)", () => {
-  it("tiene exactamente las plantillas de E06 más las dos añadidas", () => {
-    expect([...NOMBRES].sort()).toEqual([...E06].sort());
+  it("tiene exactamente las plantillas de E06 más las añadidas", () => {
+    expect([...NOMBRES].sort()).toEqual(
+      [...E06, "estado-servidor", "enlace-cita"].sort(),
+    );
     expect(esPlantilla("recordatorio")).toBe(true);
     expect(esPlantilla("otra")).toBe(false);
   });
@@ -59,6 +61,8 @@ describe("registro de plantillas (E06)", () => {
     );
     expect(a.adjuntos?.[0].nombre).toBe("cita.ics");
     expect(a.html).toContain("calendar.google.com");
+    expect(a.html).toContain("outlook.office.com");
+    expect(a.html).toContain("outlook.live.com");
     expect(a.texto).toContain(
       "Ver mi cita: https://pruebas.ejemplo.test/cita/",
     );

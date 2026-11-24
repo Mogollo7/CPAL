@@ -46,23 +46,25 @@ export async function correosDeCita(citaId: string) {
   };
 }
 
-/** Trabajos en FALLIDO (cualquier tipo) para el aviso del inicio del panel. Sin datos ni detalles técnicos. */
 export async function trabajosFallidos() {
   const filas = await bd.trabajo.findMany({
-    where: { estado: "FALLIDO" },
+    where: { tipo: "CORREO", estado: "FALLIDO" },
     orderBy: { creadoEn: "desc" },
     take: 100,
     select: {
       id: true,
-      tipo: true,
       llave: true,
-      citaId: true,
       intentos: true,
-      ultimoError: true,
       creadoEn: true,
     },
   });
-  return { cantidad: filas.length, trabajos: filas };
+  return {
+    cantidad: filas.length,
+    trabajos: filas.map(({ llave, ...fila }) => ({
+      ...fila,
+      plantilla: plantillaDe(llave),
+    })),
+  };
 }
 
 /** Devuelve un trabajo FALLIDO a la cola para que la próxima vuelta lo intente de nuevo. */
@@ -72,7 +74,7 @@ export async function reintentarTrabajo(
 ): Promise<{ ok: boolean }> {
   return bd.$transaction(async (tx) => {
     const r = await tx.trabajo.updateMany({
-      where: { id: trabajoId, estado: "FALLIDO" },
+      where: { id: trabajoId, tipo: "CORREO", estado: "FALLIDO" },
       data: {
         estado: "PENDIENTE",
         intentos: 0,

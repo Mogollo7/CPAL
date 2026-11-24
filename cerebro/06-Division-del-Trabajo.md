@@ -12,7 +12,7 @@ Volver a [[00-Inicio]].
 |---|---|:---:|:---:|---|---|
 | **Sebas** (Tú) | **Líder Técnico & Diseño Total:**<br>Arquitectura, base de datos, motor de cupos, 2FA admin, Resend con rotación, infraestructura, monitoreo y **Diseño UI/UX completo en Figma**. | **8.8 / 10**<br>*(La más difícil de todas)* | **55 %** | `estilos/`, `contratos/`, `prisma/`, `servidor/`, `app/api/`, `correos/`, `infra/`, `.github/` | `dev/sebas` |
 | **Brand** | **Frontend Paneles & Gestión:**<br>Bandeja de citas de administración, acciones de autorizar/rechazar con modal, pantalla de login + modal 2FA, horario del psicólogo y creación de eventos. | **6.0 / 10**<br>*(La más difícil entre los dos)* | **25 %** | `app/(panel)/`, `componentes/panel/` | `dev/brand` |
-| **César** | **Frontend Sitio Público & Emergencias:**<br>Páginas públicas (Inicio, Servicios, Cómo funciona, Contacto), Guía de emergencias completa (`/ayuda-inmediata`), formulario de citas y cartelera de eventos. | **5.8 / 10**<br>*(La más fácil y directa)* | **20 %** | `app/(publico)/`, `componentes/ui/`, `contenido/` | `dev/cesar` |
+| **César** | **Frontend Sitio Público & Emergencias:**<br>Páginas públicas (Inicio, Servicios, Cómo funciona, Contacto), Guía de emergencias completa (`/ayuda-inmediata`), formulario de citas y cartelera de eventos. | **5.8 / 10**<br>*(La más fácil y directa)* | **20 %** | `app/(publico)/`, `componentes/publico/`, `componentes/ui/`, `contenido/` | `dev/cesar` |
 | **Gemini** | **Colaborador IA · Neurodiseño & Aseguramiento Técnico:**<br>Diseño de confort y relax del usuario, tokens de baja fatiga visual, textura de papel cálido, revisión de normas de bienestar, coherencia entre ramas y soporte técnico continuo. | **—** | **Transversal** | `cerebro/normas/`, soporte integral en todas las carpetas | `Todas` (co-autor en commits) |
 
 ---
@@ -73,7 +73,7 @@ Volver a [[00-Inicio]].
 Cada persona es **dueña de carpetas completas**:
 - **Sebas:** `servidor/`, `app/api/`, `prisma/`, `contratos/`, `correos/`, `infra/`, `estilos/`
 - **Brand:** `app/(panel)/`, `componentes/panel/`
-- **César:** `app/(publico)/`, `componentes/ui/`, `contenido/`
+- **César:** `app/(publico)/`, `componentes/publico/`, `componentes/ui/` (piezas genéricas que también usa el panel), `contenido/`
 
 **Cero conflictos de Git:** Nadie edita archivos en las carpetas de otro. Lo único que se comparte son los tipos en `contratos/`, que Sebas mantiene y versiona.
 
