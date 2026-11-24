@@ -16,11 +16,8 @@ export function CarruselPerfiles({
   imagenes: StaticImageData[];
 }) {
   return (
-    <div
-      aria-hidden="true"
-      className="-mx-borde my-bloque overflow-hidden md:mb-0 md:pb-cabecera max-[380px]:my-2"
-    >
-      <ul className="capl-marquesina flex w-max">
+    <div className="capl-retratos -mx-borde my-bloque overflow-hidden md:mb-0 md:pb-cabecera max-[380px]:my-2">
+      <ul aria-hidden="true" className="capl-marquesina flex w-max">
         {Array.from({ length: REPETICIONES }, (_, r) =>
           imagenes.map((src, i) => (
             <li
@@ -37,13 +34,17 @@ export function CarruselPerfiles({
                 src={src}
                 alt=""
                 sizes="(max-width: 379px) 144px, (min-width: 600px) 288px, 48vw"
-                loading={r < 2 ? "eager" : "lazy"}
+                loading={r === 0 && i < 3 ? "eager" : "lazy"}
                 className="relative mx-auto w-full max-w-[288px]"
               />
             </li>
           )),
         )}
       </ul>
+      <label className="mx-auto mt-3 flex min-h-[44px] w-fit cursor-pointer items-center gap-2 rounded-s px-3 text-caption font-medio text-texto-enlace motion-reduce:hidden">
+        <input type="checkbox" />
+        Animar los retratos
+      </label>
     </div>
   );
 }

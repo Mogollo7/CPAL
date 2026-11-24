@@ -1,0 +1,29 @@
+@keyframes capl-entrada-ruta {
+  from {
+    opacity: 0.92;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes capl-entrada-paso {
+  from {
+    opacity: 0.86;
+    translate: 0 var(--entrada-y, 0px);
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .capl-entrada-ruta {
+    animation: capl-entrada-ruta var(--mov-rapido) var(--ease-entrada);
+  }
+  .capl-entrada-paso {
+    animation: capl-entrada-paso var(--paso-duracion, var(--mov-medio))
+      var(--ease-entrada) var(--paso-retraso, 0s);
+  }
+}

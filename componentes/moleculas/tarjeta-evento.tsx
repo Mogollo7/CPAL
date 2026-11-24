@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import Link from "next/link";
 import { cn } from "../cn";
 
@@ -26,7 +26,7 @@ export function TarjetaEvento({
   return (
     <Link
       href={href}
-      className="group flex h-full flex-col gap-4 rounded-[22px] bg-blanco p-[14px] shadow-flotante transition-transform duration-(--mov-medio) ease-entrada hover:-translate-y-1"
+      className="group flex h-full flex-col gap-4 rounded-[22px] bg-blanco p-[14px] shadow-flotante transition-transform duration-(--mov-medio) ease-entrada motion-safe:hover:-translate-y-1"
     >
       <div
         className={cn(
@@ -35,7 +35,7 @@ export function TarjetaEvento({
         )}
       >
         {imagenUrl && (
-          <Image
+          <ImagenEditorial
             src={imagenUrl}
             alt=""
             fill

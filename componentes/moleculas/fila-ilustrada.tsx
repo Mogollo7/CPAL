@@ -1,4 +1,5 @@
-import Image, { type StaticImageData } from "next/image";
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
+import type { StaticImageData } from "next/image";
 import { Titulo } from "../atomos/titulo";
 import { cn } from "../cn";
 
@@ -33,7 +34,7 @@ export function FilaIlustrada({
           {texto}
         </p>
       </div>
-      <Image
+      <ImagenEditorial
         src={ilustracion}
         alt=""
         sizes="(min-width: 1100px) 420px, (min-width: 900px) 44vw, (min-width: 480px) 420px, calc(100vw - 32px)"

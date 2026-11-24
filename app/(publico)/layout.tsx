@@ -1,4 +1,6 @@
-import type { ReactNode } from "react";
+import { Suspense, type ReactNode } from "react";
+import { TransicionRuta } from "@/componentes/publico/transicion-ruta";
+import "./movimiento.css";
 import { EncabezadoPublico } from "@/componentes/organismos/encabezado-publico";
 import { PiePublico } from "@/componentes/organismos/pie-publico";
 import { BotonAyudaAhora } from "@/componentes/organismos/boton-ayuda-ahora";
@@ -19,6 +21,9 @@ export default function PlantillaPublica({
         Saltar al contenido principal
       </a>
       <EncabezadoPublico />
+      <Suspense fallback={null}>
+        <TransicionRuta />
+      </Suspense>
       <main id="contenido-principal" className="flex-1">
         {children}
       </main>

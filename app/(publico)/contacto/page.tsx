@@ -1,5 +1,5 @@
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import type { Metadata } from "next";
-import Image from "next/image";
 import { BotonEnlace, claseBoton } from "@/componentes/atomos/boton";
 import { FondoGrano } from "@/componentes/atomos/fondo-grano";
 import { IlustracionSobrePie } from "@/componentes/atomos/ilustracion-sobre-pie";
@@ -107,7 +107,7 @@ export default function ContactoPage() {
             capl@unilasallista.edu.co
           </a>
         </div>
-        <Image
+        <ImagenEditorial
           src={canales}
           alt=""
           sizes="(min-width: 480px) 391px, calc(100vw - 32px)"

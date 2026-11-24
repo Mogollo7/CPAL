@@ -139,7 +139,7 @@ export function OrientadorCrisis({
 
       {/* 2. Preguntas interactivas o Recomendación final */}
       {!recomendacionFinal && preguntaActual && (
-        <TransicionSuave key={preguntaActual.id} direccion="arriba">
+        <TransicionSuave key={preguntaActual.id} direccion="ninguna">
           <div className="space-y-4">
             <fieldset>
               <legend className="text-h2 font-medio text-texto-titulo mb-2">
@@ -214,7 +214,7 @@ export function OrientadorCrisis({
 
       {/* 3. Tarjeta de Recomendación Final */}
       {recomendacionFinal && (
-        <TransicionSuave key={recomendacionFinal.id} direccion="arriba">
+        <TransicionSuave key={recomendacionFinal.id} direccion="ninguna">
           <div className="rounded-m bg-crema border border-morado-300 p-6 sm:p-8 space-y-6">
             <div className="border-b border-morado-100 pb-4">
               <span className="inline-block text-caption font-medio text-morado-700 bg-morado-100 px-3 py-1 rounded-pildora mb-2">

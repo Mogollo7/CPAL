@@ -121,15 +121,15 @@ export function EjercicioAnclaje({
         aria-label="Progreso del ejercicio de anclaje"
       >
         <div
-          className="h-full bg-morado-600 transition-all duration-mov-medio ease-entrada rounded-pildora"
-          style={{ width: `${((pasoActual + 1) / totalEtapas) * 100}%` }}
+          className="h-full origin-left rounded-pildora bg-morado-600 motion-safe:transition-transform motion-safe:duration-(--mov-medio) ease-entrada"
+          style={{ transform: `scaleX(${(pasoActual + 1) / totalEtapas})` }}
         />
       </div>
 
       {/* Contenido dinámico paso a paso con transición suave */}
       <div className="min-h-[220px] flex flex-col justify-center">
         {pasoActual === 0 && (
-          <TransicionSuave key="paso-0" direccion="arriba">
+          <TransicionSuave key="paso-0" direccion="ninguna">
             <div className="rounded-m bg-morado-50 p-6 border border-morado-100 flex flex-col sm:flex-row items-start gap-4">
               <div className="p-3 bg-blanco rounded-circulo shadow-sm shrink-0">
                 <Wind className="w-8 h-8 text-morado-600" aria-hidden="true" />
@@ -153,7 +153,7 @@ export function EjercicioAnclaje({
         {pasoSensorial && (
           <TransicionSuave
             key={`paso-${pasoSensorial.numero}`}
-            direccion="arriba"
+            direccion="ninguna"
           >
             <div className="rounded-m bg-crema p-6 sm:p-8 border border-borde-suave flex flex-col sm:flex-row items-start gap-5">
               <div className="p-4 bg-blanco rounded-l shadow-sm shrink-0 flex items-center justify-center">
@@ -175,7 +175,7 @@ export function EjercicioAnclaje({
         )}
 
         {pasoActual === 6 && (
-          <TransicionSuave key="paso-cierre" direccion="arriba">
+          <TransicionSuave key="paso-cierre" direccion="ninguna">
             <div className="rounded-m bg-agua-100 p-6 sm:p-8 border border-agua-300">
               <div className="flex items-center gap-3 mb-3">
                 <CheckCircle2

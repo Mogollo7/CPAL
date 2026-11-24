@@ -1,4 +1,4 @@
-import Image from "next/image";
+import { ImagenEditorial } from "@/componentes/publico/imagen-editorial";
 import { FilaIlustrada } from "../moleculas/fila-ilustrada";
 import { FondoGrano } from "../atomos/fondo-grano";
 import { Titulo } from "../atomos/titulo";
@@ -58,7 +58,7 @@ export function PasosCita({
             confirmado.
           </p>
         </div>
-        <Image
+        <ImagenEditorial
           src={casaAmarilla}
           alt="La casa amarilla del CAPL en Caldas, Antioquia"
           sizes="100vw"
