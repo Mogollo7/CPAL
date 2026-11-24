@@ -32,7 +32,7 @@ export function CabeceraPanel({
       type="button"
       onClick={manejarCerrarSesion}
       disabled={pendiente}
-      className="inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-s px-2 text-caption font-fuerte text-error-texto hover:bg-error-fondo disabled:opacity-50"
+      className="inline-flex min-h-[44px] max-w-full items-center gap-2 rounded-s px-2 text-caption font-fuerte text-error-texto hover:bg-error-fondo disabled:opacity-50 lg:rounded-m lg:border lg:border-error-texto/20 lg:bg-error-fondo/40 lg:px-3"
     >
       <LogOut className="size-4 shrink-0" aria-hidden="true" />
       {pendiente ? "Cerrando…" : "Cerrar sesión"}
@@ -44,7 +44,7 @@ export function CabeceraPanel({
   return (
     <header
       className={cn(
-        "sticky top-0 z-30 flex min-h-[64px] flex-wrap items-center justify-between gap-3 border-b border-borde-suave bg-fondo-superficie px-borde py-2",
+        "sticky top-0 z-30 flex min-h-[64px] flex-wrap items-center justify-between gap-3 border-b border-borde-suave bg-fondo-superficie px-borde py-2 lg:bg-fondo-superficie/90 lg:px-5 lg:backdrop-blur-xs",
         className,
       )}
     >

@@ -17,18 +17,18 @@ export function PasosCita({
   return (
     <section
       aria-labelledby="titulo-pasos"
-      className="relative isolate overflow-hidden pt-[clamp(4.25rem,14svh,9rem)]"
+      className="relative isolate overflow-hidden pt-[clamp(4.25rem,14svh,9rem)] md:pt-seccion"
     >
-      <div className="mx-auto max-w-[40rem] px-borde">
+      <div className="mx-auto max-w-[40rem] px-borde md:max-w-[988px] md:px-0">
         <EncabezadoSeccion
           id="titulo-pasos"
           titulo={titulo}
           bajada={bajada}
-          centrado
+          className="max-md:text-center"
         />
       </div>
 
-      <ol className="px-borde">
+      <ol className="px-borde md:mt-cabecera">
         <li>
           <FilaIlustrada
             nivel="h3"
@@ -49,9 +49,9 @@ export function PasosCita({
         </li>
       </ol>
 
-      <div className="bloque-editorial relative isolate">
+      <div className="max-md:bloque-editorial relative isolate md:pt-entrada">
         <FondoGrano tono="lavanda" fundido="ambos" />
-        <div className="mx-auto max-w-[40rem] px-borde text-center">
+        <div className="mx-auto max-w-[40rem] px-borde text-center md:max-w-[660px] md:px-4">
           <Titulo tamano="hero">asiste a tu sesión</Titulo>
           <p className="mt-[24px] text-h2 leading-titulo text-texto-secundario">
             Te esperamos en la casa amarilla, en Caldas, en el horario
@@ -61,8 +61,8 @@ export function PasosCita({
         <Image
           src={casaAmarilla}
           alt="La casa amarilla del CAPL en Caldas, Antioquia"
-          sizes="(min-width: 1200px) 1120px, 100vw"
-          className="mx-auto mt-bloque h-auto w-full max-w-[70rem]"
+          sizes="100vw"
+          className="mx-auto mt-bloque h-auto w-full max-w-[70rem] md:-mt-5 md:max-w-none"
         />
       </div>
     </section>

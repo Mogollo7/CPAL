@@ -19,7 +19,7 @@ export function EncabezadoPublico() {
 
   return (
     <header
-      className="sticky top-0 z-40 flex min-h-[4.25rem] flex-wrap items-center justify-between gap-3 border-b border-borde-suave bg-crema px-borde py-2 lg:min-h-encabezado lg:flex-nowrap"
+      className="sticky top-0 z-40 flex min-h-[4.25rem] flex-wrap items-center justify-between gap-3 border-b border-borde-suave bg-crema px-borde py-2 lg:min-h-encabezado lg:flex-nowrap lg:bg-crema/92 lg:backdrop-blur-[18px]"
       onKeyDown={(evento) => {
         if (evento.key === "Escape" && abierto) {
           cerrar();
@@ -48,11 +48,11 @@ export function EncabezadoPublico() {
         id={id}
         aria-label="Principal"
         className={cn(
-          "max-h-[calc(100dvh-10rem)] min-w-0 basis-full overflow-y-auto border-t border-borde-suave pt-2 pb-3 lg:flex lg:max-h-none lg:basis-auto lg:items-center lg:gap-5 lg:overflow-visible lg:border-0 lg:p-0",
+          "max-h-[calc(100dvh-10rem)] min-w-0 basis-full overflow-y-auto border-t border-borde-suave pt-2 pb-3 lg:flex lg:max-h-none lg:flex-1 lg:basis-auto lg:justify-between lg:items-center lg:gap-5 lg:overflow-visible lg:border-0 lg:p-0",
           abierto ? "block" : "hidden",
         )}
       >
-        <ul className="flex flex-col lg:flex-row lg:items-center lg:gap-4">
+        <ul className="flex flex-col lg:mx-auto lg:flex-row lg:items-center lg:gap-5">
           {ENLACES_PUBLICOS.map(({ ruta: href, nombre }) => (
             <li key={href}>
               <Link
@@ -63,7 +63,7 @@ export function EncabezadoPublico() {
                     ? "page"
                     : undefined
                 }
-                className="flex min-h-[48px] items-center rounded-s px-3 py-2 text-p font-medio text-texto-principal hover:bg-fondo-suave aria-[current=page]:bg-fondo-suave aria-[current=page]:text-texto-enlace aria-[current=page]:underline lg:px-2"
+                className="flex min-h-[48px] items-center rounded-s px-3 py-2 text-p font-medio text-texto-principal hover:bg-fondo-suave aria-[current=page]:bg-fondo-suave aria-[current=page]:text-texto-enlace aria-[current=page]:underline lg:px-0"
               >
                 {nombre}
               </Link>

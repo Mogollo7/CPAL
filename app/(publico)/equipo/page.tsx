@@ -32,16 +32,27 @@ async function Perfiles() {
       </p>
     );
   return (
-    <ul aria-label="Equipo en formación" className="reticula-capl">
-      {equipo.map((p, i) => (
-        <li
-          key={p.id}
-          className="col-span-4 min-w-0 sm:col-span-2 lg:col-span-1"
-        >
-          <TarjetaPerfil nombre={p.nombre} fotoUrl={p.fotoUrl} tono={i} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul
+        aria-label="Equipo en formación"
+        tabIndex={0}
+        className="max-md:reticula-capl md:flex md:max-w-full md:snap-x md:gap-[32px] md:overflow-x-auto md:pb-5"
+      >
+        {equipo.map((p, i) => (
+          <li
+            key={p.id}
+            className="col-span-4 min-w-0 sm:col-span-2 md:w-[328px] md:shrink-0 md:snap-start"
+          >
+            <TarjetaPerfil nombre={p.nombre} fotoUrl={p.fotoUrl} tono={i} />
+          </li>
+        ))}
+      </ul>
+      {equipo.length > 3 && (
+        <p className="hidden font-medio text-destacado text-accion-fondo md:block">
+          Desliza para conocer al equipo →
+        </p>
+      )}
+    </>
   );
 }
 
@@ -75,7 +86,7 @@ export default function EquipoPage() {
       {/* Equipo · presentación */}
       <Seccion
         aria-labelledby="titulo-presentacion"
-        className="z-10 mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1fr)]"
+        className="z-10 mx-auto grid max-w-[1180px] items-center gap-bloque md:grid-cols-[minmax(0,490px)_minmax(0,550px)] md:justify-between"
       >
         <div className="space-y-5">
           <Titulo id="titulo-presentacion">
@@ -99,7 +110,7 @@ export default function EquipoPage() {
       <Seccion
         ritmo="entrada"
         aria-labelledby="titulo-equipo"
-        className="space-y-bloque"
+        className="space-y-bloque lg:px-[100px]"
       >
         <FondoGrano tono="lavanda-claro" fundido="ambos" />
         <EncabezadoSeccion

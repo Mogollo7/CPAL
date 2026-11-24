@@ -45,6 +45,7 @@ export function BarraLateral({
 
   const enlacesAdmin = [
     { href: "/panel/admin/citas", label: "Citas", icono: CalendarCheck },
+    { href: "/panel/admin/equipo", label: "Equipo", icono: Users },
     { href: "/panel/admin/calendario", label: "Calendario", icono: Calendar },
     { href: "/panel/admin/psicologos", label: "Psicólogos", icono: Users },
     {
@@ -188,7 +189,7 @@ export function BarraLateral({
           {contenido(true)}
         </div>
       </dialog>
-      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] flex-col border-r border-borde-suave bg-fondo-superficie lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-40 hidden w-[260px] flex-col rounded-m border border-borde-suave bg-fondo-superficie lg:flex">
         {contenido(false)}
       </aside>
     </>

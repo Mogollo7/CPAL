@@ -26,7 +26,7 @@ export function Campo({
     <div className={className}>
       <label
         htmlFor={id}
-        className="mb-1 block text-p font-medio text-texto-principal"
+        className="mb-1 block text-p font-medio md:text-caption text-texto-principal"
       >
         {etiqueta}
       </label>
@@ -40,7 +40,10 @@ export function Campo({
         {...resto}
       />
       {error && (
-        <p id={`${id}-error`} className="mt-1 text-p text-error-texto">
+        <p
+          id={`${id}-error`}
+          className="mt-1 text-p text-error-texto md:text-caption"
+        >
           {error}
         </p>
       )}

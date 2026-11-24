@@ -87,7 +87,7 @@ export default function ServiciosPage() {
       {/* ¿No sabes qué elegir? · orientación */}
       <section
         aria-labelledby="titulo-orientacion"
-        className="mt-[120px] grid items-center gap-bloque bg-petroleo-700 px-4 py-seccion text-blanco sm:px-borde md:min-h-[800px] md:grid-cols-[minmax(0,522px)_minmax(0,470px)] md:justify-center"
+        className="mt-[120px] grid items-center gap-bloque bg-petroleo-700 px-4 py-seccion text-blanco sm:px-borde md:min-h-[800px] md:grid-cols-[minmax(0,522px)_minmax(0,470px)] md:justify-center md:gap-[64px]"
       >
         <Image
           src={acompanamiento}

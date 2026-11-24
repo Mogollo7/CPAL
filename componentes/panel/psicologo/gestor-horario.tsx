@@ -264,7 +264,7 @@ export function GestorHorario({
             {DIAS_SEMANA.map((dia) => (
               <div
                 key={dia.num}
-                className="min-w-0 border-r border-borde-suave"
+                className="min-w-0 border-r border-borde-suave md:min-h-[300px]"
               >
                 <p className="font-medio text-texto-titulo px-2 pb-2">
                   {dia.nombre}
@@ -337,14 +337,14 @@ export function GestorHorario({
         </div>
 
         {/* Columnas por día de la semana (Lunes a Viernes) */}
-        <div className="reticula-capl gap-4">
+        <div className="reticula-capl gap-4 @min-[80rem]/panel:grid-cols-5">
           {DIAS_SEMANA.map((dia) => {
             const bloquesDia = bloques.filter((b) => b.diaSemana === dia.num);
 
             return (
               <div
                 key={dia.num}
-                className="col-span-4 flex min-w-0 flex-col justify-between rounded-m border border-borde-suave bg-fondo-suave/60 p-3 sm:col-span-2 min-[1600px]:col-span-1"
+                className="col-span-4 flex min-w-0 flex-col justify-between rounded-m border border-borde-suave bg-fondo-suave/60 p-3 sm:col-span-2 @min-[80rem]/panel:col-span-1 @min-[80rem]/panel:min-h-[220px]"
               >
                 <div>
                   <div className="flex items-center justify-between pb-2 border-b border-borde-suave/60">
