@@ -17,7 +17,7 @@ export function TarjetaPerfil({
   tono?: number;
 }) {
   return (
-    <article className="flex h-full min-w-0 flex-col gap-4 rounded-l bg-blanco p-4 shadow-flotante wrap-anywhere">
+    <article className="flex h-full min-w-0 flex-col gap-4 rounded-l bg-blanco p-4 shadow-flotante wrap-anywhere md:gap-5 md:rounded-[24px]">
       <div
         className={cn(
           "relative aspect-[296/330] overflow-hidden rounded-m",

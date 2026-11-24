@@ -8,7 +8,7 @@ async function CabeceraPanel() {
   const sesion = await paginaProtegida(["ADMIN", "PSICOLOGO"]);
   const admin = sesion.rol === "ADMIN";
   return (
-    <header className="border-b border-borde-suave bg-fondo-superficie">
+    <header className="border-b border-borde-suave bg-fondo-superficie lg:hidden">
       <div className="mx-auto flex w-full max-w-[1200px] flex-wrap items-center justify-between gap-3 px-4 py-3 sm:px-5">
         <Link href="/panel" className="font-fuerte text-texto-titulo">
           CAPL
@@ -43,11 +43,11 @@ export default function LayoutPanel({ children }: { children: ReactNode }) {
       <Suspense fallback={null}>
         <CabeceraPanel />
       </Suspense>
-      <main className="mx-auto grid w-full max-w-[1200px] gap-5 px-4 py-5 sm:px-5 sm:py-6">
+      <div className="mx-auto grid w-full min-w-0 max-w-[1200px] gap-5 px-4 py-5 sm:px-5 sm:py-6 lg:max-w-none lg:grid-cols-[minmax(0,1fr)] lg:p-0">
         <Suspense fallback={<p role="status">Cargando panel…</p>}>
           {children}
         </Suspense>
-      </main>
+      </div>
     </>
   );
 }

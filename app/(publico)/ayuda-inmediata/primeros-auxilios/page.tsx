@@ -79,7 +79,7 @@ export default function PrimerosAuxiliosPage() {
           aria-labelledby="titulo-acompanar"
           className="bg-agua-100 px-4 py-seccion sm:px-borde"
         >
-          <div className="mx-auto grid max-w-[1076px] items-center gap-bloque md:grid-cols-[minmax(0,1.23fr)_minmax(0,1fr)]">
+          <div className="mx-auto grid max-w-[1076px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,min(44%,455px))]">
             <div className="space-y-5">
               <h2
                 id="titulo-acompanar"

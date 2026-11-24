@@ -18,7 +18,7 @@ export function CabeceraIlustrada({
   return (
     <section
       aria-labelledby="titulo-pagina"
-      className="reticula-capl relative isolate items-center px-borde py-cabecera md:min-h-[32rem]"
+      className="max-md:reticula-capl relative grid isolate items-center px-borde py-cabecera md:min-h-[650px] md:grid-cols-[minmax(0,595px)_minmax(0,450px)] md:justify-center md:gap-[70px]"
     >
       <FondoGrano tono={tono} fundido="abajo" />
       <Image
@@ -26,9 +26,9 @@ export function CabeceraIlustrada({
         alt=""
         sizes="(min-width: 1200px) 525px, (min-width: 900px) 44vw, (min-width: 600px) 525px, calc(100vw - 32px)"
         priority
-        className="order-last col-span-4 mx-auto h-auto w-full max-w-[525px] md:order-none md:col-span-2"
+        className="order-last col-span-4 mx-auto h-auto w-full max-w-[525px] md:order-none md:col-span-1"
       />
-      <div className="col-span-4 min-w-0 space-y-4 md:col-span-2">
+      <div className="col-span-4 min-w-0 space-y-4 md:col-span-1 md:space-y-5">
         <Titulo id="titulo-pagina" nivel="h1" tamano="hero">
           {titulo}
         </Titulo>

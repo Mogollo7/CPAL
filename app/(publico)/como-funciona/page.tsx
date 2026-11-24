@@ -71,10 +71,10 @@ export default function ComoFunciona() {
       {/* Portada · casa amarilla */}
       <section
         aria-labelledby="titulo-pagina"
-        className="escena-inicial relative isolate grid content-center gap-bloque overflow-hidden py-bloque"
+        className="max-md:escena-inicial relative isolate grid content-center gap-bloque overflow-hidden py-bloque md:block md:pt-[90px] md:pb-0"
       >
         <FondoGrano tono="lavanda" fundido="abajo" />
-        <div className="mx-auto max-w-[40rem] space-y-4 px-borde text-center">
+        <div className="mx-auto max-w-[40rem] space-y-4 px-borde text-center md:max-w-[800px] md:space-y-5 md:px-4">
           <Titulo nivel="h1" tamano="pagina" id="titulo-pagina">
             un espacio para escucharte
           </Titulo>
@@ -86,8 +86,8 @@ export default function ComoFunciona() {
         <Image
           src={casaAmarilla}
           alt="La casa amarilla del CAPL"
-          sizes="(min-width: 1200px) 1120px, 100vw"
-          className="mx-auto h-auto max-h-[min(58svh,32rem)] w-full max-w-[70rem] object-contain"
+          sizes="100vw"
+          className="mx-auto h-auto max-h-[min(58svh,32rem)] w-full max-w-[70rem] object-contain md:-mt-[60px] md:max-h-none md:max-w-none"
         />
       </section>
 
@@ -95,13 +95,13 @@ export default function ComoFunciona() {
       <Seccion
         aria-labelledby="titulo-habilitacion"
         ritmo="editorial"
-        className="mx-auto grid max-w-[1130px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1.23fr)]"
+        className="mx-auto grid max-w-[1130px] items-center gap-bloque md:grid-cols-[minmax(0,500px)_minmax(0,1fr)]"
       >
-        <div className="mx-auto max-w-[52ch] space-y-5 max-md:text-center">
+        <div className="mx-auto max-w-[52ch] space-y-5 max-md:text-center md:max-w-none">
           <Titulo id="titulo-habilitacion" tamano="bloque">
             un espacio habilitado para cuidarte
           </Titulo>
-          <p className="text-p leading-texto text-texto-secundario">
+          <p className="text-p leading-texto text-texto-secundario md:text-h2 md:leading-titulo">
             El CAPL está habilitado por el Ministerio de Salud y Protección
             Social con el número único DHS803177. Inició su atención el 29 de
             julio de 2019.
@@ -119,7 +119,7 @@ export default function ComoFunciona() {
       <Seccion
         aria-label="Lo esencial"
         ritmo="editorial"
-        className="mx-auto grid max-w-[1112px] items-center gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,1.18fr)]"
+        className="mx-auto grid max-w-[1112px] items-center gap-bloque md:grid-cols-[minmax(0,510px)_minmax(0,1fr)]"
       >
         <div className="space-y-bloque">
           <p className="text-h2 leading-titulo text-texto-secundario">
@@ -156,7 +156,7 @@ export default function ComoFunciona() {
       {/* Únetenos · estudia Psicología */}
       <section
         aria-labelledby="titulo-unete"
-        className="bloque-editorial grid content-start justify-items-center gap-bloque px-borde text-center max-md:min-h-[min(90svh,48rem)]"
+        className="max-md:bloque-editorial grid content-start justify-items-center gap-bloque px-borde text-center max-md:min-h-[min(90svh,48rem)] md:gap-5 md:px-4 md:pt-[62px]"
       >
         <EncabezadoSeccion
           id="titulo-unete"
@@ -165,26 +165,31 @@ export default function ComoFunciona() {
           centrado
           className="mx-auto max-w-[900px]"
         />
-        <Image
-          src={comunidad}
-          alt=""
-          sizes="(min-width: 900px) 900px, 94vw"
-          className="h-auto w-full max-w-[56rem]"
-        />
-        <a
-          href="https://www.unilasallista.edu.co/carreras_profesionales/estudia-psicologia-en-medellin/"
-          target="_blank"
-          rel="noreferrer"
-          className={claseBoton("principal", "min-w-[10rem]")}
-        >
-          Únetenos
-        </a>
+        <div className="contents md:relative md:block md:w-full md:max-w-[1000px]">
+          <Image
+            src={comunidad}
+            alt=""
+            sizes="(min-width: 1032px) 1000px, 94vw"
+            className="h-auto w-full max-w-[56rem] md:max-w-none"
+          />
+          <a
+            href="https://www.unilasallista.edu.co/carreras_profesionales/estudia-psicologia-en-medellin/"
+            target="_blank"
+            rel="noreferrer"
+            className={claseBoton(
+              "principal",
+              "min-w-[10rem] md:absolute md:top-[6px] md:left-1/2 md:w-[172px] md:-translate-x-1/2 md:text-destacado",
+            )}
+          >
+            Únetenos
+          </a>
+        </div>
       </section>
 
       {/* Formación con supervisión */}
       <section
         aria-labelledby="titulo-formacion"
-        className="bloque-editorial relative isolate mx-auto grid max-w-[1280px] content-center overflow-hidden md:min-h-[min(78svh,47rem)]"
+        className="max-md:bloque-editorial relative isolate mx-auto grid max-w-[1280px] content-center overflow-hidden md:min-h-[928px] md:content-start md:pt-[280px]"
       >
         {PARTICULAS.map(([src, x, y, t], i) => (
           <Image

@@ -29,10 +29,10 @@ export default function AyudaInmediataPage() {
       {/* Cabecera · llamar a emergencias */}
       <section
         aria-labelledby="titulo-pagina"
-        className="reticula-capl relative isolate items-center px-borde py-cabecera"
+        className="max-md:reticula-capl relative isolate grid items-center gap-bloque px-borde py-cabecera md:min-h-[671px] md:grid-cols-[minmax(0,612px)_minmax(0,523px)] md:justify-between lg:px-[102px]"
       >
         <FondoGrano tono="lavanda" fundido="abajo" />
-        <div className="col-span-4 min-w-0 space-y-4 md:col-span-2">
+        <div className="col-span-4 min-w-0 space-y-4 md:col-span-1 md:space-y-5">
           <Titulo nivel="h1" tamano="hero" id="titulo-pagina">
             Si estás en peligro
             <br />
@@ -51,14 +51,14 @@ export default function AyudaInmediataPage() {
           alt=""
           priority
           sizes="(min-width: 1200px) 523px, (min-width: 900px) 43vw, (min-width: 600px) 523px, calc(100vw - 32px)"
-          className="col-span-4 mx-auto h-auto w-full max-w-[523px] md:col-span-2"
+          className="col-span-4 mx-auto h-auto w-full max-w-[523px] md:col-span-1"
         />
       </section>
 
       {/* Orientador · qué está pasando + respirar */}
       <Seccion
         aria-label="Orientador"
-        className="mx-auto grid max-w-[1280px] gap-bloque md:grid-cols-[minmax(0,1.618fr)_minmax(0,1fr)]"
+        className="mx-auto grid max-w-[1280px] gap-bloque md:grid-cols-[minmax(0,1fr)_minmax(0,42%)] lg:px-[102px]"
       >
         <OrientadorCrisis />
         <aside
@@ -89,7 +89,7 @@ export default function AyudaInmediataPage() {
       {/* Qué hacer en cada caso */}
       <Seccion
         aria-labelledby="titulo-casos"
-        className="mx-auto max-w-[1280px] space-y-bloque md:px-borde"
+        className="mx-auto max-w-[1280px] space-y-bloque lg:px-[102px]"
       >
         <EncabezadoSeccion
           id="titulo-casos"
@@ -128,7 +128,7 @@ export default function AyudaInmediataPage() {
       <Seccion
         id="directorio-lineas"
         aria-labelledby="titulo-lineas"
-        className="mx-auto max-w-[1280px] space-y-bloque md:px-borde"
+        className="mx-auto max-w-[1280px] space-y-bloque lg:px-[102px]"
       >
         <EncabezadoSeccion
           id="titulo-lineas"

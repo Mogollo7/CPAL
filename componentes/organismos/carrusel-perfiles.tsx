@@ -18,18 +18,18 @@ export function CarruselPerfiles({
   return (
     <div
       aria-hidden="true"
-      className="-mx-borde my-bloque overflow-hidden max-[380px]:my-2"
+      className="-mx-borde my-bloque overflow-hidden md:mb-0 md:pb-cabecera max-[380px]:my-2"
     >
       <ul className="capl-marquesina flex w-max">
         {Array.from({ length: REPETICIONES }, (_, r) =>
           imagenes.map((src, i) => (
             <li
               key={`${r}-${i}`}
-              className="relative mr-4 w-[clamp(10rem,48vw,20rem)] shrink-0 max-[380px]:w-[9rem] sm:mr-5"
+              className="relative mr-4 w-[clamp(10rem,48vw,20rem)] shrink-0 max-[380px]:w-[9rem] sm:mr-5 md:mr-[32px] md:w-[337px]"
             >
               <svg
                 viewBox="0 0 310 288"
-                className={`absolute inset-x-[7%] top-[10%] w-[86%] ${FORMAS[i % 3]}`}
+                className={`absolute inset-x-[7%] top-[10%] w-[86%] md:inset-x-[14px] md:top-[33px] md:w-auto ${FORMAS[i % 3]}`}
               >
                 <path d="M23.8 150C12.5 83.8 52.5 41.3 116.3 26.3c62.5-17.5 147.5 12.5 170 67.5 25 57.5-3.8 133.8-56.3 162.5-51.3 28.8-133.8 21.3-175-17.5C31.3 215 25 187.5 23.8 150Z" />
               </svg>

@@ -44,19 +44,18 @@ export default function ContactoPage() {
     <>
       <section
         aria-labelledby="titulo-pagina"
-        className="escena-inicial relative isolate flex flex-col justify-center overflow-hidden px-borde pt-cabecera pb-bloque max-[380px]:pt-3"
+        className="max-md:escena-inicial relative isolate flex flex-col justify-center overflow-hidden px-borde pt-cabecera pb-bloque max-[380px]:pt-3 md:block md:pb-0"
       >
-        <FondoGrano tono="lavanda" fundido="abajo" />
+        <FondoGrano tono="lavanda" fundido="abajo" className="md:h-[840px]" />
         <EncabezadoSeccion
           nivel="h1"
           id="titulo-pagina"
           titulo="Contacta con nosotros"
           bajada="Estamos para resolver tus dudas. Respondemos en horario de atención."
-          centrado
-          className="mx-auto max-w-[38rem] max-[380px]:space-y-3"
+          className="mx-auto max-w-[38rem] max-[380px]:space-y-3 max-md:text-center md:max-w-none"
         />
         <CarruselPerfiles imagenes={PERFILES} />
-        <div className="relative mx-auto flex max-w-[34rem] flex-col items-center gap-3 pb-4 text-center">
+        <div className="relative mx-auto flex max-w-[34rem] flex-col items-center gap-3 pb-4 text-center md:max-w-none md:gap-5 md:py-cabecera">
           <svg
             aria-hidden="true"
             viewBox="0 0 43 47"
@@ -65,13 +64,13 @@ export default function ContactoPage() {
             <path d="M21.5 0l5.6 16.2L43 17.9 30.6 28.4 34.3 47 21.5 37.4 8.7 47l3.7-18.6L0 17.9l15.9-1.7Z" />
           </svg>
           <Titulo tamano="bloque">Contáctanos</Titulo>
-          <p className="text-p leading-texto text-texto-titulo">
+          <p className="text-p leading-texto text-texto-titulo md:text-h2">
             Estamos aquí para escucharte y acompañarte.
           </p>
           <BotonEnlace
             href="/pedir-cita"
             tipo="ayuda"
-            className="mt-2 font-medio"
+            className="mt-2 font-medio md:mt-0"
           >
             Pedir cita
           </BotonEnlace>
@@ -81,9 +80,9 @@ export default function ContactoPage() {
       {/* Canales de contacto */}
       <section
         aria-labelledby="titulo-canales"
-        className="reticula-capl fila-editorial mx-auto max-w-[62rem] items-center px-borde"
+        className="max-md:reticula-capl max-md:fila-editorial grid mx-auto max-w-[62rem] items-center px-borde md:max-w-[856px] md:grid-cols-[minmax(0,460px)_minmax(0,1fr)] md:gap-bloque md:px-4 md:py-bloque"
       >
-        <div className="col-span-4 min-w-0 space-y-3 wrap-anywhere md:col-span-2">
+        <div className="col-span-4 min-w-0 space-y-3 wrap-anywhere md:col-span-1">
           <h2
             id="titulo-canales"
             className="font-titulo text-tarjeta font-fuerte text-texto-titulo"
@@ -112,7 +111,7 @@ export default function ContactoPage() {
           src={canales}
           alt=""
           sizes="(min-width: 480px) 391px, calc(100vw - 32px)"
-          className="col-span-4 mx-auto h-auto w-full max-w-[391px] md:col-span-2"
+          className="col-span-4 mx-auto h-auto w-full max-w-[391px] md:col-span-1"
         />
       </section>
 
@@ -131,7 +130,7 @@ export default function ContactoPage() {
                 <dt className="text-caption font-medio text-texto-secundario">
                   {dt}
                 </dt>
-                <dd className="text-p wrap-anywhere">{dd}</dd>
+                <dd className="text-p wrap-anywhere md:text-h2">{dd}</dd>
               </div>
             ))}
           </dl>

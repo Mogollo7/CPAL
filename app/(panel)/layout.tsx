@@ -37,7 +37,7 @@ export default async function LayoutPanel({
         )}
 
         {/* Área de contenido de las pantallas del panel */}
-        <main className="mx-auto w-full min-w-0 flex-1 @container/panel px-borde pt-bloque pb-seccion wrap-break-word lg:pt-5">
+        <main className="mx-auto w-full min-w-0 flex-1 @container/panel px-borde pt-bloque pb-seccion wrap-break-word lg:px-[32px] lg:pt-5 lg:pb-6">
           {children}
         </main>
       </div>

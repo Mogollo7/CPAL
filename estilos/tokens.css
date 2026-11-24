@@ -170,6 +170,27 @@
   font-size: clamp(1.618rem, 1.15rem + 2.4cqi, 2.618rem);
 }
 
+/* Composición original de escritorio; los tamaños fluidos se conservan por debajo de md. */
+@media (min-width: theme(--breakpoint-md)) {
+  :root {
+    --text-portada: clamp(3.5rem, 8.6vw, 6.875rem);
+    --text-seccion: clamp(2rem, 3.75vw, 3rem);
+    --text-seccion--line-height: 1.2;
+    --text-hero: clamp(2.5rem, 5vw, 4rem);
+    --text-hero--line-height: 1.15;
+    --text-titulo-pagina: 3rem;
+    --text-titulo-pagina--line-height: 1.2;
+    --text-bloque: 3rem;
+    --text-bloque--line-height: 1.2;
+    --spacing-seccion: 96px;
+    --spacing-entrada: 140px;
+    --spacing-fila: 101px;
+    --spacing-cabecera: var(--spacing-7);
+    --spacing-bloque: var(--spacing-6);
+    --spacing-borde: var(--spacing-6);
+  }
+}
+
 @utility reticula-capl {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
