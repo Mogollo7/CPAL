@@ -48,12 +48,19 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   poweredByHeader: false,
+  // Desfase de versiones: una pestaña abierta antes de un despliegue llama Server Actions que ya no existen
+  // («Failed to find Server Action») y el formulario muestra «No pudimos conectar». Con un id por despliegue,
+  // Next detecta el desfase y recarga la página completa. La imagen de Docker lo recibe con el SHA del commit.
+  deploymentId: process.env.NEXT_DEPLOYMENT_ID || undefined,
   // Imágenes: las fuentes viven en contenido/ como WebP (calidad 82, máx. 2560 px); next/image entrega
   // AVIF o WebP al tamaño de cada pantalla. Los anchos siguen la retícula de Figma (1280 y su doble).
   images: {
     formats: ["image/avif", "image/webp"],
     deviceSizes: [360, 640, 900, 1280, 1920, 2560],
     imageSizes: [64, 147, 220, 350, 440, 640],
+    // CDN: las fuentes son importaciones con hash (cambian de URL si cambia la imagen), así que la versión
+    // optimizada puede vivir 30 días en el navegador y en la caché de Cloudflare sin riesgo de quedar vieja.
+    minimumCacheTTL: 2592000,
   },
   // Salida mínima para la imagen de Docker (la activa el Dockerfile); `npm start` en local sigue igual.
   output: process.env.NEXT_OUTPUT === "standalone" ? "standalone" : undefined,

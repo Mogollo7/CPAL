@@ -14,7 +14,9 @@ FROM dependencias AS construccion
 COPY . .
 # Las páginas estáticas se generan aquí: la medición de uso se decide al construir (--build-arg MEDICION=si).
 ARG MEDICION=no
-ENV NEXT_OUTPUT=standalone NEXT_TELEMETRY_DISABLED=1 MEDICION=$MEDICION
+# Id del despliegue (SHA del commit) para que Next recargue las pestañas de una versión anterior. Vacío = sin protección.
+ARG NEXT_DEPLOYMENT_ID=
+ENV NEXT_OUTPUT=standalone NEXT_TELEMETRY_DISABLED=1 MEDICION=$MEDICION NEXT_DEPLOYMENT_ID=$NEXT_DEPLOYMENT_ID
 RUN npm run build
 
 # Aplica las migraciones con el usuario capl_migrador (DATABASE_URL_MIGRADOR) y termina.

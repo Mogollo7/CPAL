@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useMovimientoReducido } from "@/componentes/publico/movimiento-reducido";
 import { useSearchParams } from "next/navigation";
 import Image, { type StaticImageData } from "next/image";
 import { cn } from "@/componentes/cn";
@@ -183,6 +184,18 @@ function FlujoCita({
       return;
     }
   }, [recuperado, creada, datos, paso]);
+
+  // Al cambiar de paso, volver arriba: si no, el paso nuevo aparece con el desplazamiento del anterior (al fondo).
+  // La primera vez (borrador recuperado) se respeta la posición de llegada.
+  const pasoMostrado = useRef<number | null>(null);
+  const reducido = useMovimientoReducido();
+  useEffect(() => {
+    if (!recuperado) return;
+    if (pasoMostrado.current !== null && pasoMostrado.current !== paso) {
+      window.scrollTo({ top: 0, behavior: reducido ? "auto" : "smooth" });
+    }
+    pasoMostrado.current = paso;
+  }, [recuperado, paso, reducido]);
 
   const ir = (n: number) => {
     setError(null);

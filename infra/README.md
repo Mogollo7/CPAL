@@ -106,6 +106,20 @@ Prueba de alerta (obligatoria antes del lanzamiento): detener `capl-app` (o `doc
 
 Otros documentos de operación: `cerebro/operacion/` (manual, inventario de secretos, bitácora, lista de seguridad).
 
+## Despliegue continuo en la máquina de pruebas (sin SSH, detrás del túnel)
+
+`main` pasa la CI → `desplegar.yml` publica `ghcr.io/mogollo7/cpal:pruebas` → `infra/vigia.sh` lo detecta (cada 60 s), migra, cambia `capl-app` y comprueba `/api/salud`; si falla, vuelve a la versión anterior.
+
+```sh
+docker run -d --name capl-vigia --restart unless-stopped --network host \
+  -v /var/run/docker.sock:/var/run/docker.sock -v /home/sebas/CPAL:/capl:ro \
+  -e ENV_FILE=/capl/.env docker:27-cli sh /capl/infra/vigia.sh
+docker logs -f capl-vigia   # ver despliegues
+```
+
+Contenedores: `capl-db` (5433), `capl-app` (3000), `capl-tareas`, `capl-tunel` (red del host → `localhost:3000`), `capl-vigia`.
+CDN: en Cloudflare, regla de caché «Eligible for cache» para `/_next/static/*` y `/_next/image*` (respeta el `Cache-Control` de Next).
+
 ## Despliegue con Docker (fase 2 de E07)
 
 Archivos: `../Dockerfile` (imágenes `app` y `migrador`), `compose.produccion.yml` (base, migraciones, aplicación y proxy Caddy), `compose.servicios.yml` (tareas y respaldo), `Caddyfile`. El flujo `.github/workflows/desplegar.yml` publica las imágenes en `ghcr.io/mogollo7/cpal` y actualiza el servidor por SSH.
