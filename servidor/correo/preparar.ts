@@ -8,6 +8,7 @@ import { paraEnvio } from "../../correos/plantilla-resend";
 import { mapaVariables } from "../../correos/variables";
 import { rutaCita } from "./enlaces";
 import type { Correo } from "../externos/resend";
+import type { InformeEstado } from "../../contratos/informe-estado";
 
 export type DatosCorreo = Omit<Correo, "llave" | "trabajoId">;
 

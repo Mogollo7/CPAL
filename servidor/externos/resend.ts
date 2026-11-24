@@ -7,7 +7,6 @@ import { join } from "node:path";
 import { Resend } from "resend";
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
-import { join } from "node:path";
 import { registrar } from "../registro";
 
 export type Correo = {
