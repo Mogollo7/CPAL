@@ -14,7 +14,13 @@ export type Datos = {
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "gato-saludo",
+    tono: "#efeefb",
+    disposicion: "centrada",
     asunto: "Recibimos tu solicitud de cita",
+    titulo: d.reprogramada
+      ? "Tu solicitud ha sido enviada"
+      : "Tu solicitud de cita",
     parrafos: [
       d.reprogramada
         ? `Hola, ${d.nombre}. Recibimos el cambio de horario de tu cita y está en proceso de autorización.`

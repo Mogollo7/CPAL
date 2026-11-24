@@ -73,6 +73,7 @@ describe("contratos de psicólogo, centro y eventos", () => {
     ).toBe(true);
     const e = {
       titulo: "Taller",
+      tipo: "TALLER",
       descripcion: "x",
       inicio: "2026-12-01T10:00:00-05:00",
       lugar: "Virtual",

@@ -6,12 +6,21 @@ export type Datos = { nombre: string; nuevoNombre: string; cuando: Date };
 
 export const render = (d: Datos) =>
   plantillaBase({
+    ilustracion: "seguridad-escudo",
+    tono: "#eaf0fb",
+    disposicion: "fila",
     asunto: "Se creó un administrador por acceso de emergencia",
+    titulo: "Se creó una cuenta de administración",
+    datos: [{ rotulo: "Nueva cuenta administradora", valor: d.nuevoNombre }],
+    pie_datos: formatoFechaHora(d.cuando),
     parrafos: [
       `Hola, ${d.nombre}. Alguien con acceso al servidor creó una cuenta de administración del CAPL mediante el acceso de emergencia.`,
-      `${formatoFechaHora(d.cuando)} · cuenta nueva: ${d.nuevoNombre}`,
-      "Si lo esperabas, no tienes que hacer nada. Si no, desactiva esa cuenta desde el panel y avisa a quien administra el servidor.",
     ],
+    nota: {
+      titulo: "Si no esperabas este cambio",
+      texto:
+        "Desactiva esa cuenta desde el panel y avisa a quien administra el servidor.",
+    },
     boton: {
       texto: "Ver administradores",
       ruta: "/panel/admin/administradores",

@@ -24,3 +24,8 @@ export type ServicioGuardado = Omit<ServicioEntrada, "id" | "slug"> & {
   id: string;
   slug: string;
 };
+
+export type ServicioPublico = Pick<
+  ServicioGuardado,
+  "id" | "slug" | "nombre" | "descripcion" | "area"
+>;
