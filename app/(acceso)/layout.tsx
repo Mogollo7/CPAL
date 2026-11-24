@@ -6,7 +6,16 @@ export default function LayoutAcceso({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-dvh flex-col bg-fondo-pagina">
       <div className="hidden md:contents">
-        <EncabezadoPublico />
+        <Suspense
+          fallback={
+            <div
+              aria-hidden="true"
+              className="min-h-[4.25rem] lg:min-h-encabezado"
+            />
+          }
+        >
+          <EncabezadoPublico />
+        </Suspense>
       </div>
       <main className="relative isolate flex flex-1 items-center justify-center px-4 py-6 max-md:mx-auto max-md:w-full max-md:max-w-md md:px-borde md:py-seccion">
         <FondoGrano
