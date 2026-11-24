@@ -33,16 +33,21 @@ export async function crearClave(
   const enlace = await validarEnlace(datos.data.token, ahora);
   if (!enlace.ok) return enlace;
 
-  const u = await bd.usuario.findUniqueOrThrow({
+  const u = await bd.usuario.findUnique({
     where: { id: enlace.datos.usuarioId },
     select: { id: true, correo: true, rol: true },
   });
+  if (!u) return fallo("ENLACE_INVALIDO", "Este enlace no es válido.");
   const mala = errorDeClave(datos.data.clave, u.correo);
   if (mala) return fallo("VALIDACION", mala, { clave: mala });
 
   const claveHash = await hashClave(datos.data.clave);
   const hecho = await bd.$transaction(async (tx) => {
+    const vigentes = await tx.$queryRaw<{ id: string }[]>`
+      SELECT "id" FROM "Usuario" WHERE "id" = ${u.id} AND "activo" = true FOR UPDATE`;
+    if (!vigentes.length) return false;
     if (!(await consumirEnlace(enlace.datos.id, ahora, tx))) return false;
+    await tx.codigoAcceso.deleteMany({ where: { usuarioId: u.id } });
     // Cualquier otro enlace pendiente del usuario deja de servir; los dispositivos de confianza se olvidan (S02).
     await tx.tokenAcceso.updateMany({
       where: { usuarioId: u.id, usadoEn: null },
@@ -51,7 +56,12 @@ export async function crearClave(
     await tx.dispositivoConfiable.deleteMany({ where: { usuarioId: u.id } });
     await tx.usuario.update({
       where: { id: u.id },
-      data: { claveHash, ultimoIngreso: ahora, bloqueadaEn: null },
+      data: {
+        claveHash,
+        sesionesDesde: ahora,
+        ultimoIngreso: ahora,
+        bloqueadaEn: null,
+      },
     });
     return true;
   });
@@ -140,7 +150,15 @@ export async function cambiarClave(
 
   const claveHash = await hashClave(datos.data.claveNueva);
   await bd.$transaction(async (tx) => {
-    await tx.usuario.update({ where: { id: u.id }, data: { claveHash } });
+    await tx.usuario.update({
+      where: { id: u.id, claveHash: u.claveHash },
+      data: { claveHash, sesionesDesde: new Date() },
+    });
+    await tx.tokenAcceso.updateMany({
+      where: { usuarioId: u.id, usadoEn: null },
+      data: { usadoEn: new Date() },
+    });
+    await tx.codigoAcceso.deleteMany({ where: { usuarioId: u.id } });
     await tx.dispositivoConfiable.deleteMany({ where: { usuarioId: u.id } });
     if (u.rol === "ADMIN")
       await auditar(

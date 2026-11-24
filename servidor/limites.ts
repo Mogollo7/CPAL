@@ -18,6 +18,18 @@ export type Veredicto =
   { permitido: true } | { permitido: false; esperaSeg: number };
 
 const registro = new Map<string, number[]>(); // clave → instantes de los intentos dentro de la ventana
+const MAX_CLAVES = 25_000;
+let ultimaLimpieza = -Infinity;
+
+function liberarVencidos(ahora: number) {
+  if (ahora - ultimaLimpieza < MIN) return;
+  ultimaLimpieza = ahora;
+  for (const [clave, intentos] of registro) {
+    const accion = clave.slice(0, clave.indexOf(":")) as Accion;
+    if (intentos[intentos.length - 1] <= ahora - LIMITES[accion].ventanaMs)
+      registro.delete(clave);
+  }
+}
 
 /** Cuenta un intento de `accion` para `quien` (IP, correo…). Ventana deslizante. */
 export function limitar(
@@ -27,6 +39,9 @@ export function limitar(
 ): Veredicto {
   const { max, ventanaMs } = LIMITES[accion];
   const clave = `${accion}:${quien}`;
+  liberarVencidos(ahora);
+  if (!registro.has(clave) && registro.size >= MAX_CLAVES)
+    return { permitido: false, esperaSeg: 60 };
   const recientes = (registro.get(clave) ?? []).filter(
     (t) => t > ahora - ventanaMs,
   );
@@ -48,6 +63,9 @@ export function consultar(
   quien: string,
   ahora = Date.now(),
 ): Veredicto {
+  liberarVencidos(ahora);
+  if (!registro.has(`${accion}:${quien}`) && registro.size >= MAX_CLAVES)
+    return { permitido: false, esperaSeg: 60 };
   const { max, ventanaMs } = LIMITES[accion];
   const recientes = (registro.get(`${accion}:${quien}`) ?? []).filter(
     (t) => t > ahora - ventanaMs,
@@ -64,4 +82,7 @@ export function consultar(
 export const olvidar = (accion: Accion, quien: string) =>
   void registro.delete(`${accion}:${quien}`);
 
-export const _reiniciarLimites = () => registro.clear(); // solo para pruebas
+export const _reiniciarLimites = () => {
+  registro.clear();
+  ultimaLimpieza = -Infinity;
+};

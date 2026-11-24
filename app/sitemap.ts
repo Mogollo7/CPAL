@@ -8,7 +8,6 @@ const RUTAS = [
   "/equipo",
   "/eventos",
   "/ayuda-inmediata",
-  "/preguntas-frecuentes",
   "/contacto",
   "/pedir-cita",
   "/privacidad",

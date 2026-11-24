@@ -44,7 +44,6 @@ Volver a [[E00-Especificacion-Inicio]]. Concreta [[05-Arquitectura]].
 │  │  ├─ equipo/
 │  │  ├─ eventos/  └─ [slug]/
 │  │  ├─ ayuda-inmediata/
-│  │  ├─ preguntas-frecuentes/
 │  │  ├─ contacto/
 │  │  ├─ pedir-cita/  └─ confirmacion/
 │  │  ├─ cita/[token]/

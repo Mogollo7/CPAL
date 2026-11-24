@@ -42,7 +42,7 @@ Relacionado con: [[01-Contexto]], [[07-Protocolo-de-Equipo]] (§7 "Entornos y de
 El equipo de desarrollo hace entrega formal de los siguientes módulos y componentes verificados:
 
 1. **Sitio web público:**
-   - Portada informativa (`/`), catálogo de servicios (`/servicios`), preguntas frecuentes (`/preguntas-frecuentes`), contacto (`/contacto`) y directorio de profesionales (`/equipo`).
+   - Portada informativa (`/`), catálogo de servicios (`/servicios`), preguntas frecuentes (bloque dentro de Inicio y Servicios), contacto (`/contacto`) y directorio de profesionales (`/equipo`).
    - Guía de emergencias (`/ayuda-inmediata`) con orientador de crisis, líneas de atención directa y tarjetas de códigos de color.
 2. **Sistema de agendamiento en línea:**
    - Formulario de solicitud de citas en 5 pasos (`/pedir-cita`) con selección de horario en tiempo real y confirmación con código único.

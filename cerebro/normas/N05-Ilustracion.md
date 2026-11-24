@@ -5,6 +5,8 @@ Volver a [[N00-Normas-Inicio]].
 
 ## La idea, afinada
 
+> **Ancla vigente (17-nov-2026):** el estilo de referencia es `contenido/ilustraciones/comunidad-unetenos.png`: ilustración con grano propio y trazo marrón suave, entregada como PNG o WebP transparente. Donde esta norma diga «SVG», «línea `morado-900`» o «grano solo por CSS», manda el ancla y el método de `contenido/ilustraciones/PROMPTS.md`. **Pendiente reescribir esta norma** para que coincida.
+
 El estilo oficial del sitio es **ilustración vectorial plana editorial (*flat editorial*) de baja fatiga visual y acabado cálido de papel**, diseñada específicamente para recibir a una persona **cansada, estresada o con ansiedad** y hacerla sentir **cómoda, segura y en casa**.
 
 Combina **bloques de color planos y desaturados (tonos empolvados y cálidos)** con **líneas finas de acento en tinta ciruela (`morado-900`, nunca negro puro)** para definir rasgos amables, mechones de cabello, pliegues sencillos, mascotas y objetos cotidianos de confort, integrados bajo la micro-textura táctil de papel definida en [[N02-Color]].

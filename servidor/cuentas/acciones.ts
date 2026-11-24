@@ -11,7 +11,7 @@ import {
   solicitarEnlace,
 } from "./claves";
 import { COOKIE_CONFIRMACION, confirmarClave } from "./confirmacion";
-import { ingresar } from "./ingresar";
+import { ingresar, type SesionIniciada } from "./ingresar";
 import {
   COOKIE_DISPOSITIVO,
   COOKIE_PASO,
@@ -21,7 +21,7 @@ import {
 } from "./segundoPaso";
 import { COOKIE_SESION, leer, opcionesCookie } from "./sesion";
 import { obtenerSesion } from "./sesionActual";
-import type { Rol } from "../permisos";
+import { exigirSuperusuario } from "./superusuario";
 
 const INICIO = {
   ADMIN: "/panel/admin/citas",
@@ -36,10 +36,19 @@ const opcionesAuxiliar = (maxAge: number) => ({
   maxAge,
 });
 
-async function abrirSesion(token: string, rol: Rol): Promise<never> {
+async function abrirSesion({
+  token,
+  rol,
+  usuarioId,
+}: SesionIniciada): Promise<never> {
   const jar = await cookies();
   jar.set(COOKIE_SESION, token, opcionesCookie(rol));
   jar.delete(COOKIE_PASO);
+  if (
+    rol === "ADMIN" &&
+    (await exigirSuperusuario({ usuarioId, rol, activo: true })).ok
+  )
+    redirect("/panel/admin/equipo");
   redirect(INICIO[rol]);
 }
 
@@ -65,7 +74,7 @@ export async function ingresarAccion(
     }
     return r;
   }
-  return abrirSesion(r.datos.token, r.datos.rol);
+  return abrirSesion(r.datos);
 }
 
 /** Campos `codigo` (6 dígitos) y `recordar` (casilla "recordar este dispositivo"). */
@@ -90,7 +99,7 @@ export async function verificarCodigoAccion(
       r.datos.dispositivo.token,
       opcionesAuxiliar(r.datos.dispositivo.maxAgeS),
     );
-  return abrirSesion(r.datos.token, r.datos.rol);
+  return abrirSesion(r.datos);
 }
 
 export async function reenviarCodigoAccion(): Promise<Resultado<{ ok: true }>> {
@@ -108,7 +117,7 @@ export async function crearClaveAccion(
     confirmacion: formData.get("confirmacion"),
   });
   if (!r.ok) return r;
-  return abrirSesion(r.datos.token, r.datos.rol);
+  return abrirSesion(r.datos);
 }
 
 /** Campo `correo`. Responde igual exista o no la cuenta. */

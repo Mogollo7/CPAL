@@ -3,6 +3,9 @@
 // 429 / cuota diaria agotada, se marca agotada y se reintenta al instante con la siguiente.
 // Para añadir otra cuenta: agregar su llave al final de la lista en .env y reiniciar. Nada más.
 import { Resend } from "resend";
+import { randomUUID } from "node:crypto";
+import { mkdir, writeFile } from "node:fs/promises";
+import { join } from "node:path";
 import { registrar } from "../registro";
 
 export type Correo = {
@@ -69,6 +72,20 @@ export async function enviarCorreo(
 ): Promise<ResultadoEnvio> {
   const modo = process.env.CORREO_MODO ?? "consola";
   if (modo === "consola") {
+    const buzon =
+      process.env.ENTORNO === "local" && process.env.CORREO_BUZON_LOCAL;
+    if (buzon) {
+      try {
+        await mkdir(buzon, { recursive: true, mode: 0o700 });
+        await writeFile(
+          join(buzon, `${Date.now()}-${randomUUID()}.txt`),
+          `Para: ${c.para}\nAsunto: ${c.asunto}\n\n${c.texto}`,
+          { mode: 0o600, flag: "wx" },
+        );
+      } catch {
+        return { ok: false, permanente: false, error: "BUZON_LOCAL" };
+      }
+    }
     registrar("externo.llamada", {
       servicio: "correo-consola",
       operacion: "enviar",

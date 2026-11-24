@@ -5,7 +5,7 @@ import { randomBytes } from "node:crypto";
 try {
   process.loadEnvFile();
 } catch {}
-process.env.AUTH_SECRET ||= "secreto-de-prueba-de-citas";
+process.env.AUTH_SECRET ||= "secreto-de-prueba-de-citas-para-tests";
 process.env.CLAVE_CIFRADO ||= `1:${randomBytes(32).toString("base64")}`;
 
 export async function crearEscenario(etiqueta: string, cuantosPsicologos = 1) {

@@ -8,5 +8,5 @@ umask 077
 cabeceras="$(mktemp)"
 trap 'rm -f "$cabeceras"' EXIT
 printf 'Authorization: Bearer %s\n' "$CRON_SECRET" > "$cabeceras"
-exec curl --silent --show-error --fail --max-time 55 -X POST -H "@$cabeceras" \
+curl --silent --show-error --fail --max-time 55 -X POST -H "@$cabeceras" \
   "${APP_URL_INTERNA:-http://127.0.0.1:3000}/api/tareas"

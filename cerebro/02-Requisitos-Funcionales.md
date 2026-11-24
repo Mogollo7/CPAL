@@ -15,7 +15,7 @@ Volver a [[00-Inicio]]. Responsables (A/B/C) definidos en [[06-Division-del-Trab
 | RF-PUB-01 | Página de inicio: qué es el CAPL, a quién atiende, gratuidad, botón "Pedir cita" | M | A | 1 |
 | RF-PUB-02 | Página "Cómo funciona": pasos del proceso (pedir → autorización → asistir), qué llevar, cancelaciones | M | A | 1 |
 | RF-PUB-03 | Catálogo de servicios con descripción, a quién va dirigido y botón "Pedir cita" que preselecciona el servicio | M | A | 1 |
-| RF-PUB-04 | Preguntas frecuentes | M | A | 1 |
+| RF-PUB-04 | Preguntas frecuentes como bloque con acordeón dentro de Inicio y Servicios (sin página propia, decidido 17-nov-2026) | M | A | 1 |
 | RF-PUB-05 | Contacto: dirección con mapa, correo, WhatsApp (enlace `wa.me`), horarios | M | A | 1 |
 | RF-PUB-06 | Redes sociales del CAPL visibles en pie de página y contacto | M | A | 1 |
 | RF-PUB-07 | Directorio de psicólogos: foto, nombre, área, presentación (solo perfiles activos y publicados) | D | A | 2 |

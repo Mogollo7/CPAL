@@ -123,7 +123,16 @@ export async function verificarCodigo(
     orderBy: { creadoEn: "desc" },
   });
   if (!c) return fallo("CODIGO_INVALIDO", "El código venció. Pide uno nuevo.");
-  if (c.intentos >= MAX_INTENTOS_CODIGO)
+  const intento = await bd.codigoAcceso.updateMany({
+    where: {
+      id: c.id,
+      usadoEn: null,
+      venceEn: { gt: ahora },
+      intentos: { lt: MAX_INTENTOS_CODIGO },
+    },
+    data: { intentos: { increment: 1 } },
+  });
+  if (intento.count !== 1)
     return fallo(
       "DEMASIADOS_INTENTOS",
       "Demasiados intentos. Pide un código nuevo.",
@@ -132,10 +141,6 @@ export async function verificarCodigo(
   const esperado = Buffer.from(c.codigoHash, "hex");
   const recibido = Buffer.from(hashCodigo(usuarioId, datos.data.codigo), "hex");
   if (!timingSafeEqual(esperado, recibido)) {
-    await bd.codigoAcceso.update({
-      where: { id: c.id },
-      data: { intentos: { increment: 1 } },
-    });
     registrar("cuenta.codigo_fallido", {
       nivel: "aviso",
       rol: "admin",

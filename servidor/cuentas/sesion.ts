@@ -14,7 +14,13 @@ export const MAX_INACTIVIDAD_S: Record<Rol, number> = {
 };
 
 // exp e iat: segundos desde 1970. `iat` (cuándo se inició la sesión) permite cerrar todas las sesiones de una persona.
-export type Carga = { u: string; r: Rol; exp: number; iat?: number };
+export type Carga = {
+  u: string;
+  r: Rol;
+  exp: number;
+  iat?: number;
+  inicioMs?: number;
+};
 
 const b64 = (b: Buffer | string) => Buffer.from(b).toString("base64url");
 
@@ -32,12 +38,17 @@ const firma = (cuerpo: string, clave: string) =>
 
 export const ahoraS = () => Math.floor(Date.now() / 1000);
 
-export const nuevaCarga = (u: string, r: Rol, ahora = ahoraS()): Carga => ({
-  u,
-  r,
-  exp: ahora + MAX_INACTIVIDAD_S[r],
-  iat: ahora,
-});
+export const nuevaCarga = (u: string, r: Rol, segundos?: number): Carga => {
+  const inicioMs = segundos === undefined ? Date.now() : segundos * 1000;
+  const ahora = Math.floor(inicioMs / 1000);
+  return {
+    u,
+    r,
+    exp: ahora + MAX_INACTIVIDAD_S[r],
+    iat: ahora,
+    inicioMs,
+  };
+};
 
 export function firmar(carga: Carga, clave = secreto()): string {
   const cuerpo = b64(JSON.stringify(carga));

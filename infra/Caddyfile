@@ -6,6 +6,8 @@
 	reverse_proxy app:3000
 
 	# Las imágenes subidas las sirve la aplicación en /archivos/… con tipo fijo y sin ejecución (app/archivos).
+	@enlacesPrivados path /crear-clave/* /cita/*
+	log_skip @enlacesPrivados
 	log {
 		output stdout
 		format json

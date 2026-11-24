@@ -60,7 +60,7 @@ Reglas en [[07-Protocolo-de-Equipo]].
 - [ ] RF-PUB-01 Inicio
 - [ ] RF-PUB-02 Cómo funciona
 - [ ] RF-PUB-03 Servicios
-- [ ] RF-PUB-04 Preguntas frecuentes
+- [ ] RF-PUB-04 Preguntas frecuentes (bloque en Inicio y Servicios)
 - [ ] RF-PUB-05 Contacto
 - [ ] RF-PUB-06 Redes sociales
 - [ ] RF-PUB-08 Aviso "no somos urgencias"

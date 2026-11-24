@@ -3,11 +3,10 @@
 // SUPUESTO: derivación de la clave = HMAC(AUTH_SECRET, "enlace-cita"). Quien construya la pantalla `/cita/[enlace]`
 // debe usar `citaDeEnlace()` de aquí para que ambos lados coincidan.
 import { createHmac, timingSafeEqual } from "node:crypto";
+import { secreto } from "../cuentas/sesion";
 
 const clave = () =>
-  createHmac("sha256", process.env.AUTH_SECRET ?? "")
-    .update("enlace-cita")
-    .digest();
+  createHmac("sha256", secreto()).update("enlace-cita").digest();
 
 export const firmaCita = (citaId: string) =>
   createHmac("sha256", clave()).update(citaId).digest("base64url");

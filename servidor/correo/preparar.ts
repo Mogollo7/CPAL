@@ -2,6 +2,7 @@
 // datos personales se leen AL ENVIAR y nunca viajan en `Trabajo.datos`. Devuelve null cuando ya no hay nada que enviar
 // (cita anonimizada, cancelada entretanto, enlace usado…): el trabajo se da por hecho.
 import { bd } from "../bd";
+import { descifrar } from "../citas/cifrado";
 import { renderizar, type NombrePlantilla } from "../../correos/indice";
 import { rutaCita } from "./enlaces";
 import type { Correo } from "../externos/resend";
@@ -274,7 +275,7 @@ const cargadores: {
     }),
 };
 
-/** Invitación y recuperación: el token en claro viaja en el trabajo (en BD solo está su hash); `datos` se vacía al terminar. */
+/** Los trabajos antiguos contienen el token base64url. Los nuevos usan el sobre cifrado versionado. */
 async function cargarToken(p: {
   tokenId: string;
   token: string;
@@ -289,7 +290,7 @@ async function cargarToken(p: {
     datos: {
       nombre: t.usuario.nombre,
       rol: t.usuario.rol,
-      token: p.token,
+      token: /^v\d+\./.test(p.token) ? descifrar(p.token) : p.token,
       horas: Math.round(
         (t.venceEn.getTime() - t.creadoEn.getTime()) / 3_600_000,
       ),
