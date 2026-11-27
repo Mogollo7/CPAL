@@ -1,43 +1,81 @@
-# CAPL — Centro de Atención Psicológica La Salle
+<p align="center"><img src="docs/portada/portada_readme.png" alt="CAPL · Centro de Atención Psicológica Lasallista" width="100%"></p>
 
-Documentación y decisiones: carpeta [`cerebro/`](cerebro/00-Inicio.md). Reparto y protocolo del equipo: `cerebro/06` y `cerebro/07`.
+# CAPL
 
-## Levantar el proyecto (menos de 10 minutos)
+Plataforma web del **Centro de Atención Psicológica Lasallista**: permite **pedir cita en línea**, orienta ante una **emergencia emocional** y da a **administración y psicólogos** un panel para gestionar citas, horarios y eventos.
+
+Unilasallista Corporación Universitaria (Caldas, Antioquia) · Equipo: Sebas, Brand y César, con Gemini como colaborador IA.
+
+<p align="center"><a href="https://capl.juanlabs.me"><strong>🌐 Ver el sitio en vivo: capl.juanlabs.me</strong></a></p>
+
+## Documentación
+
+| Tema                                | Dónde está                                               |
+| ----------------------------------- | -------------------------------------------------------- |
+| Cómo usar la plataforma             | [Guía de uso](docs/guia-de-uso.md)                       |
+| Qué hace cada módulo                | [Capacidades](docs/capacidades.md)                       |
+| Stack, datos y estados de la cita   | [Arquitectura](docs/arquitectura.md)                     |
+| Contraseñas, permisos y privacidad  | [Seguridad](docs/seguridad.md)                           |
+| Código de ingreso de administración | [Segundo paso (2FA)](docs/autenticacion-2fa.md)          |
+| Plantillas de correo                | [Correos](docs/correos.md)                               |
+| Variables y entornos                | [Instalación y entornos](docs/instalacion-y-entornos.md) |
+| Respaldos, tareas y despliegue      | [Operación](docs/operacion.md)                           |
+| Comprobaciones                      | [Pruebas](docs/pruebas.md)                               |
+| Marca, ilustración y Figma          | [Diseño](docs/diseno.md)                                 |
+| Reparto y protocolo                 | [Equipo](docs/equipo.md)                                 |
+| Requisitos y decisiones completas   | [`cerebro/`](cerebro/00-Inicio.md)                       |
+
+## Inicio rápido
 
 Necesitas Node 24 (`.nvmrc`) y Docker.
 
 ```bash
-cp .env.example .env     # y rellena AUTH_SECRET (cadena aleatoria de 32+ caracteres)
+cp .env.example .env     # rellena AUTH_SECRET y CLAVE_CIFRADO
 npm install
-npm run bd:subir         # PostgreSQL local (Docker, puerto 5433)
+npm run bd:subir         # PostgreSQL local (puerto 5433)
 npm run bd:migrar
 npm run bd:semilla
 npm run dev              # http://localhost:3000
 ```
 
-Comprobaciones: `npm run lint`, `npm run tipos`, `npm run pruebas`, `npm run build`.
+Cuentas de ejemplo (contraseña `clave-de-prueba-capl`): `admin@ejemplo.test` y `psicologo1@ejemplo.test`. Cómo generar las claves y leer el código de ingreso en local: [Instalación](docs/instalacion-y-entornos.md).
 
-## Datos de ejemplo para desarrollo
+| Comando                                   | Qué hace                         |
+| ----------------------------------------- | -------------------------------- |
+| `npm run dev`                             | Servidor de desarrollo           |
+| `npm run lint` · `npm run tipos`          | Calidad y tipos                  |
+| `npm run pruebas` · `npm run pruebas:e2e` | Pruebas de lógica y de navegador |
+| `npm run build`                           | Compilación de producción        |
+| `npm run pc:subir`                        | Todo el sitio en Docker          |
 
-La semilla crea usuarios de **ejemplo** (ningún dato real). Contraseña de prueba de todos: `clave-de-prueba-capl`.
-Psicólogos: `psicologo1@ejemplo.test` … `psicologo4@ejemplo.test` (el 4 está inactivo).
-El administrador (`admin@ejemplo.test`, o el de `ADMIN_INICIAL_CORREO`) pide un código de verificación al entrar en un dispositivo nuevo.
+## Qué hace
 
-### Gestión de cuentas de prueba
+| Módulo          | Funcionalidad                                                                       |
+| --------------- | ----------------------------------------------------------------------------------- |
+| Citas           | Cupos reales, solicitud en cinco pasos y enlace privado para cancelar o reprogramar |
+| Ayuda inmediata | Orientador, líneas de ayuda y primeros auxilios emocionales                         |
+| Administración  | Autorizar citas y gestionar equipo, eventos, servicios y configuración              |
+| Psicología      | Perfil, horario, citas y pacientes propios                                          |
+| Correo          | Avisos automáticos con reintentos                                                   |
+| Seguridad       | argon2id, segundo paso para administración, límites de intentos y motivo cifrado    |
 
-Entra por `/ingresar` y abre **Equipo**. En local, el administrador inicial es el superusuario por defecto. Para designar otro, configura `SUPERUSUARIO_CORREO` con el correo de un administrador existente y reinicia la app. En otros entornos, la designación es explícita.
+## Arquitectura
 
-Con `ENTORNO=local`, `CORREO_MODO=consola` y `CORREO_BUZON_LOCAL=./datos/buzon` los códigos de verificación se guardan en archivos de texto del buzón local. Después de crear una cuenta, ejecuta `npm run correos:procesar-local` para guardar el correo de invitación y abrir su enlace. Para probar otra cuenta mientras conservas tu sesión, abre ese enlace en otro perfil del navegador o en una ventana privada.
+```
+app/          sitio público, acceso, panel y API (Next.js)
+componentes/  interfaz en niveles Atomic Design
+servidor/     reglas de negocio
+contratos/    validación compartida (Zod)
+correos/      plantillas de correo
+prisma/       modelo de datos (PostgreSQL)
+infra/        Docker, respaldos y tareas
+cerebro/      requisitos, especificación y normas
+```
 
-Marca **Cuenta de prueba** al crear las cuentas que quieras poder borrar. El superusuario puede eliminarlas individualmente o usar **Limpiar cuentas de prueba** en entornos local y de pruebas. Las cuentas de ejemplo, las cuentas sin esa marca y las cuentas con citas quedan fuera de la limpieza. Para retirar el acceso conservando el historial, usa **Desactivar**.
+## Correos
 
-## Carpetas y dueños
+|                                         Código de ingreso                                         |                                       Cita autorizada                                        |                                      Recordatorio                                      |
+| :-----------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------------: | :------------------------------------------------------------------------------------: |
+| <img src="docs/img/correos/codigo-ingreso.png" alt="Correo con el código de ingreso" width="260"> | <img src="docs/img/correos/cita-autorizada.png" alt="Correo de cita autorizada" width="260"> | <img src="docs/img/correos/recordatorio.png" alt="Correo de recordatorio" width="260"> |
 
-`servidor/`, `contratos/`, `prisma/`, `correos/`, `infra/`, `estilos/`: Sebas · `app/(panel)/`, `componentes/panel/`: Brand · `app/(publico)/`, `componentes/ui/`, `contenido/`: César · `cerebro/normas/`, neurodiseño de confort y relax: Sebas & Gemini (Colaborador IA).
-
-## Equipo y Colaboradores
-
-- **Sebas**: Líder técnico & diseño UI/UX completo en Figma (`dev/sebas`).
-- **Brand**: Frontend de paneles y gestión administrativa (`dev/brand`).
-- **César**: Frontend de sitio público y emergencias (`dev/cesar`).
-- **Gemini**: Colaborador IA — neurodiseño de confort, relax del usuario, textura táctil y aseguramiento técnico.
+[Ver las 18 plantillas](docs/correos.md)
