@@ -4,7 +4,7 @@
 
 Plataforma web del **Centro de Atención Psicológica Lasallista**: permite **pedir cita en línea**, orienta ante una **emergencia emocional** y da a **administración y psicólogos** un panel para gestionar citas, horarios y eventos.
 
-Unilasallista Corporación Universitaria (Caldas, Antioquia) · Equipo: Sebas, Brand y César, con Gemini como colaborador IA.
+Unilasallista Corporación Universitaria (Caldas, Antioquia).
 
 <p align="center"><a href="https://capl.juanlabs.me"><strong>🌐 Ver el sitio en vivo: capl.juanlabs.me</strong></a></p>
 
@@ -79,3 +79,11 @@ cerebro/      requisitos, especificación y normas
 | <img src="docs/img/correos/codigo-ingreso.png" alt="Correo con el código de ingreso" width="260"> | <img src="docs/img/correos/cita-autorizada.png" alt="Correo de cita autorizada" width="260"> | <img src="docs/img/correos/recordatorio.png" alt="Correo de recordatorio" width="260"> |
 
 [Ver las 18 plantillas](docs/correos.md)
+
+## Integrantes
+
+| Integrante                      | GitHub                                     | Rol                                   |
+| ------------------------------- | ------------------------------------------ | ------------------------------------- |
+| Juan Sebastián Martínez Galeano | [@Mogollo7](https://github.com/Mogollo7)   | Líder técnico y diseño UI/UX en Figma |
+| Samuel Usma (Brand)             | [@Brandsete](https://github.com/Brandsete) | Paneles y gestión                     |
+| César Ocampo Raigosa            | [@Cesar-csr](https://github.com/Cesar-csr) | Sitio público y emergencias           |

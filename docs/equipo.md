@@ -4,12 +4,12 @@
 
 <p align="center"><img src="img/doc-equipo.webp" alt="" width="70%"></p>
 
-| Integrante | Rol                                            | Carpetas                                                                                       | Rama        |
-| ---------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------- |
-| Sebas      | Líder técnico y diseño UI/UX en Figma          | `servidor/`, `contratos/`, `prisma/`, `correos/`, `infra/`, `estilos/`, `app/api/`, `.github/` | `dev/sebas` |
-| Brand      | Paneles y gestión                              | `app/(panel)/`, `componentes/panel/`                                                           | `dev/brand` |
-| César      | Sitio público y emergencias                    | `app/(publico)/`, `componentes/publico/`, `componentes/ui/`, `contenido/`                      | `dev/cesar` |
-| Gemini     | Colaborador IA: neurodiseño y revisión técnica | `cerebro/normas/` y apoyo transversal                                                          | —           |
+| Integrante                                                             | Rol                                            | Carpetas                                                                                       | Rama        |
+| ---------------------------------------------------------------------- | ---------------------------------------------- | ---------------------------------------------------------------------------------------------- | ----------- |
+| [Juan Sebastián Martínez Galeano](https://github.com/Mogollo7) (Sebas) | Líder técnico y diseño UI/UX en Figma          | `servidor/`, `contratos/`, `prisma/`, `correos/`, `infra/`, `estilos/`, `app/api/`, `.github/` | `dev/sebas` |
+| [Samuel Usma](https://github.com/Brandsete) (Brand)                    | Paneles y gestión                              | `app/(panel)/`, `componentes/panel/`                                                           | `dev/brand` |
+| [César Ocampo Raigosa](https://github.com/Cesar-csr)                   | Sitio público y emergencias                    | `app/(publico)/`, `componentes/publico/`, `componentes/ui/`, `contenido/`                      | `dev/cesar` |
+| Gemini                                                                 | Colaborador IA: neurodiseño y revisión técnica | `cerebro/normas/` y apoyo transversal                                                          | —           |
 
 ## Protocolo
 
